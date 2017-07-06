@@ -1,0 +1,46 @@
+{
+    "allowJs": true,
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "alwaysStrict":true,
+        "listEmittedFiles":true,
+        "noImplicitThis": false,
+        "strictNullChecks": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "skipLibCheck":true,
+        "pretty":true,
+        "noImplicitAny": false,
+        "declaration": false,
+        "removeComments": false,
+        "baseUrl": ".",
+        "allowJs": false,
+        "typeRoots":[
+            "./node_modules/@types",
+            "./types"
+        ]
+    },
+    "files": [
+        "uni.ts",
+        "server.ts"
+    ],
+    "include": [
+        "types/typings.d.ts",
+        "typings/index.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ],
+    "awesomeTypescriptLoaderOptions": {
+        "useCache": true,
+        "forkChecker": true,
+        "cacheDirectory": "node_modules/.atl-cache"
+    },
+    "compileOnSave": false,
+    "buildOnSave": false
+   }
