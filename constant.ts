@@ -6,4 +6,6 @@ export default {
     DEBUG           : true,
     /** 프로파일 활성 */
     PROFILE         : false,
+    /** 프로파일 활성 */
+    SERVERPORT      : 2017,
 };
