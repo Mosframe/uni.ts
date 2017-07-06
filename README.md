@@ -9,6 +9,19 @@ three.js + TypeScript + Unity3D
 > npm install
 ```
 
+# 빌드
+```
+> npm run build
+```
+
+# 실행
+- 서버 실행
+    ```
+    > npm run server
+    ```
+- 에디터 실행
+    http://localhost:2017/
+
 # 기여방법
 개발에 도움을 주실분들은 ceo.mosframe@gmail.com으로 의견주세요.
 
