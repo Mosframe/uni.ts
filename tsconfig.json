@@ -21,7 +21,7 @@
         "allowJs": false,
         "typeRoots":[
             "./node_modules/@types",
-            "./types"
+            "./source/@types"
         ]
     },
     "files": [

@@ -13,8 +13,8 @@
     "url": "https://github.com/mosframe/uni.ts.git"
   },
   "scripts": {
-    "server": "ts-node server.ts",
-    "build": "watchify uni.ts -p tsify -o build/js/uni.js -dv",
+    "server": "ts-node source/server.ts",
+    "build": "watchify source/uni.ts -p tsify -o build/js/uni.js -dv",
     "test": "ts-node tests.ts | faucet"
   },
   "dependencies": {

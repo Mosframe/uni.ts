@@ -1,0 +1,101 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "typescript-dotnet-es6@^4.9.6",
+        "scope": null,
+        "escapedName": "typescript-dotnet-es6",
+        "name": "typescript-dotnet-es6",
+        "rawSpec": "^4.9.6",
+        "spec": ">=4.9.6 <5.0.0",
+        "type": "range"
+      },
+      "C:\\works\\Node.js\\uni.ts"
+    ]
+  ],
+  "_from": "typescript-dotnet-es6@>=4.9.6 <5.0.0",
+  "_id": "typescript-dotnet-es6@4.9.6",
+  "_inCache": true,
+  "_location": "/typescript-dotnet-es6",
+  "_nodeVersion": "6.8.1",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/typescript-dotnet-es6-4.9.6.tgz_1496060011420_0.46573209343478084"
+  },
+  "_npmUser": {
+    "name": "electricessence",
+    "email": "npm@electrified.net"
+  },
+  "_npmVersion": "3.10.8",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "typescript-dotnet-es6@^4.9.6",
+    "scope": null,
+    "escapedName": "typescript-dotnet-es6",
+    "name": "typescript-dotnet-es6",
+    "rawSpec": "^4.9.6",
+    "spec": ">=4.9.6 <5.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/typescript-dotnet-es6/-/typescript-dotnet-es6-4.9.6.tgz",
+  "_shasum": "8d5606b64fd5a6749157a67fc921b38e8e226465",
+  "_shrinkwrap": null,
+  "_spec": "typescript-dotnet-es6@^4.9.6",
+  "_where": "C:\\works\\Node.js\\uni.ts",
+  "author": {
+    "name": "electricessence",
+    "email": "npm@electrified.net"
+  },
+  "browser": {
+    "child_process": false
+  },
+  "bugs": {
+    "url": "https://github.com/electricessence/TypeScript.NET/issues"
+  },
+  "dependencies": {},
+  "description": "A JavaScript-Friendly .NET Based TypeScript Library.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "8d5606b64fd5a6749157a67fc921b38e8e226465",
+    "tarball": "https://registry.npmjs.org/typescript-dotnet-es6/-/typescript-dotnet-es6-4.9.6.tgz"
+  },
+  "homepage": "https://github.com/electricessence/TypeScript.NET#readme",
+  "keywords": [
+    "JavaScript",
+    "TypeScript",
+    ".NET",
+    "dotnet",
+    "TypeScript.NET",
+    "LINQ",
+    "Regex",
+    "TypeValidator",
+    "Promise",
+    "Parallel",
+    "IDisposable",
+    "IEnumerable",
+    "ICollection",
+    "typescript-dotnet"
+  ],
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "electricessence",
+      "email": "npm@electrified.net"
+    }
+  ],
+  "name": "typescript-dotnet-es6",
+  "optionalDependencies": {},
+  "private": false,
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/electricessence/TypeScript.NET.git"
+  },
+  "scripts": {},
+  "version": "4.9.6"
+}
