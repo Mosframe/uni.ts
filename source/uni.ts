@@ -4,13 +4,18 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { Editor     }   from './UnitsEditor/Editor';
-import { Menubar    }   from './UnitsEditor/Menubar';
+import { Editor     }   from './Editor/Editor';
+import { Menubar    }   from './Editor/Menubar';
+import { Toolbar    }   from './Editor/Toolbar';
 
 
-// [ editor ]
+// [ Editor ]
 let editor = new Editor();
 
+// [ Menubar ]
 let menubar = new Menubar( editor );
+
+// [ Toolbar ]
+let toolbar = new Toolbar( editor );
 
 console.log( "hello world" );
