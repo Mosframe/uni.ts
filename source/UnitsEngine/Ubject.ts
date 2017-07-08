@@ -9,7 +9,24 @@ import {Util}       from '../UnitsEngine/Util';
  * @export
  * @class UObject
  */
-export class Ubject {
+export class Ubject extends Object {
+
+    // [ Public Static Variables ]
+
+    /**
+     * object has property
+     *
+     * @static
+     * @param {object} object
+     * @param {string} propertyName
+     * @returns {boolean}
+     * @memberof Ubject
+     */
+    static hasProperty ( object:object, propertyName:string ) : boolean {
+        if( !object ) return false;
+        return propertyName in object;
+        //return Reflect.defineProperty( object, propertyName, {} );
+    }
 
     // [ Public Variables ]
 
@@ -32,9 +49,14 @@ export class Ubject {
      * @memberof Ubject
      */
     constructor() {
+        super();
     }
 
     // [ Public Functions ]
+
+    hasProperty ( propertyName:string ) : boolean {
+        return Ubject.hasProperty( this,propertyName );
+    }
 
     /*
     GetInstanceID	Returns the instance id of the object.
