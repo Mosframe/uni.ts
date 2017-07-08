@@ -18,8 +18,8 @@ export class UISpan extends UIElement {
 
     // [ Constructors ]
 
-    constructor () {
-        super( document.createElement( 'span' ), 'Span' );
+    constructor ( className?:string ) {
+        super( document.createElement( 'span' ), className );
     }
 
     // [ Core ]

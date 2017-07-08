@@ -20,7 +20,7 @@ export class UIRow extends UIElement {
 
     constructor () {
 
-        super( document.createElement( 'div' ), 'Row' );
+        super( document.createElement( 'div' ), 'row' );
     }
 
     // [ Core ]

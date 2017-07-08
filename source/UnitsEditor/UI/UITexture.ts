@@ -74,7 +74,7 @@ export class UITexture  extends UIElement {
 
     constructor ( mapping?:THREE.Mapping ) {
 
-        super( document.createElement( 'span' ), 'Span' );
+        super( document.createElement( 'span' ), 'texture' );
 
         let scope = this;
 

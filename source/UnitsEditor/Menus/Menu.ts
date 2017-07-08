@@ -21,6 +21,6 @@ export class Menu extends UIPanel {
 
         super();
         this.setTitle( title );
-        this.setClass( 'Menu' );
+        this.setClass( 'menu' );
     }
 }

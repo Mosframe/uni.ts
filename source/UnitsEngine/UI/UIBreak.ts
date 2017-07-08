@@ -19,7 +19,8 @@ export class UIBreak extends UIElement {
     // [ Constructors ]
 
     constructor () {
-        super( document.createElement( 'br' ), 'Break' );
+        super( document.createElement( 'br' ), 'break' );
+        ;
     }
 
     // [ Core ]

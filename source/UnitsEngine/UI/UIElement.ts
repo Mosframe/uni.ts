@@ -117,7 +117,7 @@ export class UIElement {
 
     // [ Constructor ]
 
-    constructor ( element:HTMLElement|SVGSVGElement, className:string ) {
+    constructor ( element:HTMLElement|SVGSVGElement, className?:string ) {
         this._core = element;
         this._core.className = className;
     }

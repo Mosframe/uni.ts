@@ -25,7 +25,7 @@ export class UITextArea extends UIElement {
 
     constructor () {
 
-        super( document.createElement( 'textarea' ), 'TextArea' );
+        super( document.createElement( 'textarea' ), 'textarea' );
 
         this.core.style.padding     = '2px';
         this.core.spellcheck        = false;

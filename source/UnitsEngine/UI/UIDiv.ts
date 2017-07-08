@@ -18,9 +18,9 @@ export class UIDiv extends UIElement {
 
     // [ Constructor ]
 
-    constructor() {
+    constructor( className?:string ) {
 
-        super( document.createElement( 'div' ), 'Div' );
+        super( document.createElement( 'div' ), className );
     }
 
     // [ Core ]

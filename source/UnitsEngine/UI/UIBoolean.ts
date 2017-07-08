@@ -31,8 +31,7 @@ export class UIBoolean extends UISpan {
     // [ Constructor ]
 
     constructor ( boolean, text:string ) {
-        super();
-
+        super( 'boolean' );
         this.setMarginRight( '10px' );
         this._checkbox = new UICheckbox( boolean );
         this._text = new UIText( text ).setMarginLeft( '3px' );

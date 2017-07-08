@@ -60,8 +60,7 @@ export class UISelect extends UIElement {
 
     constructor () {
 
-        super( document.createElement( 'select' ), 'Select' );
-
+        super( document.createElement( 'select' ), 'select' );
         this.core.style.padding = '2px';
     }
 

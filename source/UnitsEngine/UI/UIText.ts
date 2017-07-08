@@ -25,7 +25,7 @@ export class UIText extends UIElement {
 
     constructor ( text:string='' ) {
 
-        super( document.createElement( 'span' ), 'Text' );
+        super( document.createElement( 'span' ), 'text' );
 
         this.core.style.cursor          = 'default';
         this.core.style.display         = 'inline-block';

@@ -27,7 +27,7 @@ export class UIColor extends UIElement {
 
     constructor () {
 
-        super( document.createElement( 'input' ), 'Color' );
+        super( document.createElement( 'input' ), 'color' );
 
         this.core.type          = 'color';
 

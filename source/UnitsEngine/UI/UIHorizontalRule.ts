@@ -20,7 +20,7 @@ export class UIHorizontalRule extends UIElement {
 
     constructor() {
 
-        super( document.createElement( 'hr' ), 'HorizontalRule' );
+        super( document.createElement( 'hr' ), 'hr' );
     }
 
     // [ Core ]

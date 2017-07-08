@@ -25,7 +25,7 @@ export class UIInput extends UIElement {
 
     constructor ( text?:string ) {
 
-        super( document.createElement( 'input' ), 'Input' );
+        super( document.createElement( 'input' ), 'input' );
 
         this.setPadding ( '2px' );
         this.setBorder  ( '1px solid transparent' );

@@ -61,7 +61,7 @@ export class UINumber extends UIElement {
 
     constructor ( number?:number ) {
 
-        super( document.createElement( 'input' ), 'Number' );
+        super( document.createElement( 'input' ), 'number' );
 
         this._value         = 0;
         this._min           =-Infinity;

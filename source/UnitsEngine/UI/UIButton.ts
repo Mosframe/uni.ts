@@ -24,7 +24,7 @@ export class UIButton extends UIElement {
     // [ Constructors ]
 
     constructor( value:string ) {
-        super( document.createElement( 'button' ), 'Button' );
+        super( document.createElement( 'button' ), 'button' );
         this.core.textContent = value;
     }
 

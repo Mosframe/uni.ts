@@ -21,7 +21,7 @@ input, textarea {
 	color: #444;
 }
 
-input.Number {
+input.number {
 	color: #08f!important;
 	font-size: 12px;
 	border: 0px;
@@ -159,17 +159,17 @@ select {
 		vertical-align: middle;
 	}
 
-	#sidebar .Panel {
+	#sidebar .panel {
 		color: #888;
 		padding: 10px;
 		border-top: 1px solid #ccc;
 	}
 
-	#sidebar .Panel.collapsed {
+	#sidebar .panel.collapsed {
 		margin-bottom: 0;
 	}
 
-	#sidebar .Row {
+	#sidebar .row {
 		min-height: 20px;
 		margin-bottom: 10px;
 	}
@@ -188,17 +188,17 @@ select {
 		vertical-align: middle;
 	}
 
-	#sidebar-1 .Panel {
+	#sidebar-1 .panel {
 		color: #888;
 		padding: 10px;
 		border-top: 1px solid #ccc;
 	}
 
-	#sidebar-1 .Panel.collapsed {
+	#sidebar-1 .panel.collapsed {
 		margin-bottom: 0;
 	}
 
-	#sidebar-1 .Row {
+	#sidebar-1 .row {
 		min-height: 20px;
 		margin-bottom: 10px;
 	}
@@ -217,17 +217,17 @@ select {
 		vertical-align: middle;
 	}
 
-	#sidebar-2 .Panel {
+	#sidebar-2 .panel {
 		color: #888;
 		padding: 10px;
 		border-top: 1px solid #ccc;
 	}
 
-	#sidebar-2 .Panel.collapsed {
+	#sidebar-2 .panel.collapsed {
 		margin-bottom: 0;
 	}
 
-	#sidebar-2 .Row {
+	#sidebar-2 .row {
 		min-height: 20px;
 		margin-bottom: 10px;
 	}
@@ -246,17 +246,17 @@ select {
 		vertical-align: middle;
 	}
 
-	#sidebar-3 .Panel {
+	#sidebar-3 .panel {
 		color: #888;
 		padding: 10px;
 		border-top: 1px solid #ccc;
 	}
 
-	#sidebar-3 .Panel.collapsed {
+	#sidebar-3 .panel.collapsed {
 		margin-bottom: 0;
 	}
 
-	#sidebar-3 .Row {
+	#sidebar-3 .row {
 		min-height: 20px;
 		margin-bottom: 10px;
 	}
@@ -291,7 +291,7 @@ select {
 		vertical-align: middle;
 	}
 
-	#toolbar .Panel {
+	#toolbar .panel {
 		padding: 4px;
 		color: #888;
 	}
@@ -300,7 +300,7 @@ select {
 		margin-right: 6px;
 	}
 
-.Outliner {
+.outliner {
 	color: #444;
 	background-color: #fff;
 	padding: 0;
@@ -312,16 +312,16 @@ select {
 	outline: none !important;
 }
 
-	.Outliner .option {
+	.outliner .option {
 		padding: 4px;
 		color: #666;
 		white-space: nowrap;
 	}
 
-	.Outliner .option:hover {
+	.outliner .option:hover {
 		background-color: rgba(0,0,0,0.02);
 	}
 
-	.Outliner .option.active {
+	.outliner .option.active {
 		background-color: rgba(0,0,0,0.04);
 	}

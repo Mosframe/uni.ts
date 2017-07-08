@@ -24,7 +24,7 @@ export class UIOutliner extends UIElement {
 
     constructor ( editor:IEditor ) {
 
-        super( document.createElement( 'div' ), 'Outliner' );
+        super( document.createElement( 'div' ), 'outliner' );
 
         this.core.tabIndex = 0;	// keyup event is ignored without setting tabIndex
 

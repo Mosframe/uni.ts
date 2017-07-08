@@ -20,7 +20,7 @@ export class UIPanel extends UIElement {
 
     constructor () {
 
-        super( document.createElement( 'div' ), 'Panel' );
+        super( document.createElement( 'div' ), 'panel' );
     }
 
     // [ Core ]

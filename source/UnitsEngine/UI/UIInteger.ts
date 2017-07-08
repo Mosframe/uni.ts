@@ -52,7 +52,7 @@ export class UIInteger extends UIElement {
 
     constructor ( number:number ) {
 
-        super( document.createElement( 'input' ), 'Number' );
+        super( document.createElement( 'input' ), 'integer' );
 
         this.min                =-Infinity;
         this.max                = Infinity;

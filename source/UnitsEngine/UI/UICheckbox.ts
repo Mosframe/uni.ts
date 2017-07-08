@@ -25,7 +25,7 @@ export class UICheckbox extends UIElement {
 
     constructor ( checked?:boolean ) {
 
-        super( document.createElement( 'input' ), 'Checkbox' );
+        super( document.createElement( 'input' ), 'checkbox' );
         this.core.type = 'checkbox';
         this.setValue( checked );
     }

@@ -35,7 +35,7 @@ export class UIModal extends UIElement {
 
     constructor( value?:string ) {
 
-        super( document.createElement( 'div' ), 'Modal' );
+        super( document.createElement( 'div' ), 'modal' );
 
         this.core.style.position          = 'absolute';
         this.core.style.width             = '100%';
