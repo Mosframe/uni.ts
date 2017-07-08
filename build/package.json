@@ -1,0 +1,22 @@
+{
+  "name": "uni.ts",
+  "version": "0.0.3",
+  "description": "HTML5 game maker",
+  "author": "mosframe",
+  "license": "ISC",
+  "main": "uni.js",
+  "engines": {
+    "node": ">= 7.7.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mosframe/uni.ts.git"
+  },
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "keywords":["mosframe","gameengine","units","uni.ts","unity","HTML5 game maker"]
+}

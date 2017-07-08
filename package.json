@@ -1,12 +1,12 @@
 {
   "name": "uni.ts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "HTML5 game maker",
   "author": "mosframe",
   "license": "ISC",
   "main": "uni.ts",
   "engines": {
-    "node": "7.7.x"
+    "node": ">= 7.7.x"
   },
   "repository": {
     "type": "git",
@@ -14,7 +14,9 @@
   },
   "scripts": {
     "server": "ts-node source/server.ts",
-    "build": "watchify source/uni.ts -p tsify -o build/js/uni.js -dv",
+    "watch": "watchify source/uni.ts -p tsify -o source/build/js/uni.js -dv",
+    "build": "watchify source/uni.ts -p tsify -o build/index.js -dv",
+    "install-test": "npm install -g build",
     "test": "ts-node tests.ts | faucet"
   },
   "dependencies": {
@@ -46,5 +48,12 @@
     "tsify": "^3.0.1",
     "typescript": "^2.4.1",
     "v8-profiler": "^5.7.0"
-  }
+  },
+  "keywords": [
+    "mosframe",
+    "gameengine",
+    "units",
+    "uni.ts",
+    "unity"
+  ]
 }

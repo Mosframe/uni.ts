@@ -15,10 +15,10 @@
         "skipLibCheck":true,
         "pretty":true,
         "noImplicitAny": false,
-        "declaration": false,
         "removeComments": false,
         "baseUrl": ".",
         "allowJs": false,
+        "declaration": true,
         "typeRoots":[
             "./node_modules/@types",
             "./source/@types"
