@@ -19,9 +19,9 @@ export class UIModal extends UIElement {
 
     // [ Public Functions ]
 
-    show ( content:Element ) {
+    show ( content?:UIElement ) {
         this._container.clear();
-        this._container.add( content );
+        if( content ) this._container.add( content );
         this.core.style.display = 'flex';
         return this;
     }
@@ -37,6 +37,7 @@ export class UIModal extends UIElement {
 
         super( document.createElement( 'div' ), 'modal' );
 
+        // [ Background ]
         this.core.style.position          = 'absolute';
         this.core.style.width             = '100%';
         this.core.style.height            = '100%';
@@ -45,6 +46,7 @@ export class UIModal extends UIElement {
         this.core.style.alignItems        = 'center';
         this.core.style.justifyContent    = 'center';
 
+        // [ Window ]
         this._container = new UIPanel();
         this._container.core.style.width             = '200px';
         this._container.core.style.padding           = '20px';
