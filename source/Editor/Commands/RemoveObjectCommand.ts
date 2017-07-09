@@ -28,14 +28,14 @@ export class RemoveObjectCommand extends Command {
      */
     execute () {
 		this.object.traverse( ( child:GL.Object3D ) => {
-			this._editor.removeHelper( child );
+			this._tool.removeHelper( child );
 		});
 
 		this._parent.remove( this.object );
-		this._editor.select( this._parent );
+		this._tool.select( this._parent );
 
-		this._editor.signals.objectRemoved.dispatch( this.object );
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.objectRemoved.dispatch( this.object );
+		this._tool.signals.sceneGraphChanged.dispatch();
     }
     /**
      * Undo
@@ -44,17 +44,17 @@ export class RemoveObjectCommand extends Command {
      */
 	undo () {
 		this.object.traverse( ( child:GL.Object3D ) => {
-            if( 'geometry' in child ) this._editor.addGeometry( child['geometry'] );
-            if( 'material' in child ) this._editor.addMaterial( child['material'] );
-			this._editor.addHelper( child );
+            if( 'geometry' in child ) this._tool.addGeometry( child['geometry'] );
+            if( 'material' in child ) this._tool.addMaterial( child['material'] );
+			this._tool.addHelper( child );
 		});
 
 		this._parent.children.splice( this._index, 0, this.object );
 		this.object.parent = this._parent;
-		this._editor.select( this.object );
+		this._tool.select( this.object );
 
-		this._editor.signals.objectAdded.dispatch( this.object );
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.objectAdded.dispatch( this.object );
+		this._tool.signals.sceneGraphChanged.dispatch();
 	}
     /**
      * to JSON
@@ -77,12 +77,12 @@ export class RemoveObjectCommand extends Command {
      */
 	fromJSON ( json:any ) {
 		super.fromJSON( json );
-		this._parent = this._editor.objectByUuid( json.parentUuid );
+		this._parent = this._tool.objectByUuid( json.parentUuid );
 		if ( this._parent === undefined ) {
-			this._parent = this._editor.scene;
+			this._parent = this._tool.scene;
 		}
 		this._index = json.index;
-		this.object = this._editor.objectByUuid( json.object.object.uuid );
+		this.object = this._tool.objectByUuid( json.object.object.uuid );
 		if ( this.object === undefined ) {
 			let loader = new GL.ObjectLoader();
 			this.object = loader.parse( json.object );

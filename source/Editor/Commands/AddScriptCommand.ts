@@ -29,12 +29,12 @@ export class AddScriptCommand extends Command {
 	 * @memberof AddScriptCommand
 	 */
     execute () {
-		if ( this._editor.scripts[ this.object.uuid ] === undefined ) {
-			this._editor.scripts[ this.object.uuid ] = [];
+		if ( this._tool.scripts[ this.object.uuid ] === undefined ) {
+			this._tool.scripts[ this.object.uuid ] = [];
 		}
 
-		this._editor.scripts[ this.object.uuid ].push( this.script );
-		this._editor.signals.scriptAdded.dispatch( this.script );
+		this._tool.scripts[ this.object.uuid ].push( this.script );
+		this._tool.signals.scriptAdded.dispatch( this.script );
     }
 	/**
 	 * Undo
@@ -43,12 +43,12 @@ export class AddScriptCommand extends Command {
 	 * @memberof AddScriptCommand
 	 */
 	undo () {
-		if ( this._editor.scripts[ this.object.uuid ] === undefined ) return;
-		let index = this._editor.scripts[ this.object.uuid ].indexOf( this.script );
+		if ( this._tool.scripts[ this.object.uuid ] === undefined ) return;
+		let index = this._tool.scripts[ this.object.uuid ].indexOf( this.script );
 		if ( index !== - 1 ) {
-			this._editor.scripts[ this.object.uuid ].splice( index, 1 );
+			this._tool.scripts[ this.object.uuid ].splice( index, 1 );
 		}
-		this._editor.signals.scriptRemoved.dispatch( this.script );
+		this._tool.signals.scriptRemoved.dispatch( this.script );
 	}
 	/**
 	 * to JSON
@@ -71,7 +71,7 @@ export class AddScriptCommand extends Command {
 	fromJSON ( json:any ) {
 		super.fromJSON( json );
 		this.script = json.script;
-		this.object = this._editor.objectByUuid( json.objectUuid );
+		this.object = this._tool.objectByUuid( json.objectUuid );
 	}
 
     // [ Constructor ]

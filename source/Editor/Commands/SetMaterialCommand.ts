@@ -27,12 +27,12 @@ export class SetMaterialCommand extends Command {
 
     execute () {
 		this.object.material = this._newMaterial;
-		this._editor.signals.materialChanged.dispatch( this._newMaterial );
+		this._tool.signals.materialChanged.dispatch( this._newMaterial );
     }
 
     undo () {
 		this.object.material = this._oldMaterial;
-		this._editor.signals.materialChanged.dispatch( this._oldMaterial );
+		this._tool.signals.materialChanged.dispatch( this._oldMaterial );
     }
 
     toJSON () : any {
@@ -46,7 +46,7 @@ export class SetMaterialCommand extends Command {
 	fromJSON ( json:any ) {
         super.fromJSON( json );
 
-		this.object         = this._editor.objectByUuid( json.objectUuid );
+		this.object         = this._tool.objectByUuid( json.objectUuid );
 		this._oldMaterial   = this._parseMaterial( json.oldMaterial );
 		this._newMaterial   = this._parseMaterial( json.newMaterial );
 	}

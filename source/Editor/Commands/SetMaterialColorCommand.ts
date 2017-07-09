@@ -24,12 +24,12 @@ export class SetMaterialColorCommand extends Command {
 
     execute () {
 		this.object.material[ this.attributeName ].setHex( this._newValue );
-		this._editor.signals.materialChanged.dispatch( this.object.material );
+		this._tool.signals.materialChanged.dispatch( this.object.material );
     }
 
     undo () {
 		this.object.material[ this.attributeName ].setHex( this._oldValue );
-		this._editor.signals.materialChanged.dispatch( this.object.material );
+		this._tool.signals.materialChanged.dispatch( this.object.material );
     }
 
     update ( cmd:SetMaterialColorCommand ) {
@@ -47,7 +47,7 @@ export class SetMaterialColorCommand extends Command {
 
 	fromJSON ( json:any ) {
         super.fromJSON( json );
-		this.object         = this._editor.objectByUuid( json.objectUuid );
+		this.object         = this._tool.objectByUuid( json.objectUuid );
 		this.attributeName  = json.attributeName;
 		this._oldValue      = json.oldValue;
 		this._newValue      = json.newValue;

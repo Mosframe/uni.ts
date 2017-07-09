@@ -14,7 +14,7 @@ import { UINumber                   }   from '../../Engine/UI/UINumber'         
 import { UIText                     }   from '../../Engine/UI/UIText'              ;
 import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { ITool                    }   from '../Interfaces'                            ;
+import { ITool                      }   from '../Interfaces'                            ;
 import { Menu                       }   from './Menu'                                   ;
 
 /**
@@ -26,7 +26,7 @@ import { Menu                       }   from './Menu'                           
  */
 export class ViewMenu extends Menu {
 
-    constructor( editor:ITool ) {
+    constructor( tool:ITool ) {
         super('view');
 
         let title = new UIPanel();
@@ -46,7 +46,7 @@ export class ViewMenu extends Menu {
         option.onClick( () => {
 
             if ( WebVR.isAvailable() ) {
-                editor.signals.enterVR.dispatch();
+                tool.signals.enterVR.dispatch();
             } else {
                 alert( 'WebVR not available' );
             }

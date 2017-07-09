@@ -28,13 +28,13 @@ export class SetMaterialMapCommand extends Command {
     execute () {
 		this.object.material[ this._mapName ] = this._newMap;
 		this.object.material.needsUpdate = true;
-		this._editor.signals.materialChanged.dispatch( this.object.material );
+		this._tool.signals.materialChanged.dispatch( this.object.material );
     }
 
     undo () {
 		this.object.material[ this._mapName ] = this._oldMap;
 		this.object.material.needsUpdate = true;
-		this._editor.signals.materialChanged.dispatch( this.object.material );
+		this._tool.signals.materialChanged.dispatch( this.object.material );
     }
 
     toJSON () : any {
@@ -48,7 +48,7 @@ export class SetMaterialMapCommand extends Command {
 
 	fromJSON ( json:any ) {
         super.fromJSON( json );
-		this.object     = this._editor.objectByUuid( json.objectUuid );
+		this.object     = this._tool.objectByUuid( json.objectUuid );
 		this._mapName   = json.mapName;
 		this._oldMap    = this._parseTexture( json.oldMap );
 		this._newMap    = this._parseTexture( json.newMap );

@@ -27,7 +27,7 @@ export class AddObjectCommand extends Command {
      * @memberof AddObjectCommand
      */
     execute () {
-        this._editor.addObject( this.object );
+        this._tool.addObject( this.object );
     }
     /**
      * Undo
@@ -35,8 +35,8 @@ export class AddObjectCommand extends Command {
      * @memberof AddObjectCommand
      */
 	undo () {
-		this._editor.removeObject( this.object );
-		this._editor.deselect();
+		this._tool.removeObject( this.object );
+		this._tool.deselect();
 	}
     /**
      * to JSON
@@ -57,7 +57,7 @@ export class AddObjectCommand extends Command {
      */
 	fromJSON ( json:any ) {
 		super.fromJSON( json );
-		this.object = this._editor.objectByUuid( json.object.object.uuid );
+		this.object = this._tool.objectByUuid( json.object.object.uuid );
 		if ( this.object === undefined ) {
 			let loader = new GL.ObjectLoader();
 			this.object = loader.parse( json.object );

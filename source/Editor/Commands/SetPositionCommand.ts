@@ -24,13 +24,13 @@ export class SetPositionCommand extends Command {
     execute () {
 		this.object.position.copy( this._newPosition );
 		this.object.updateMatrixWorld( true );
-		this._editor.signals.objectChanged.dispatch( this.object );
+		this._tool.signals.objectChanged.dispatch( this.object );
     }
 
     undo () {
 		this.object.position.copy( this._oldPosition );
 		this.object.updateMatrixWorld( true );
-		this._editor.signals.objectChanged.dispatch( this.object );
+		this._tool.signals.objectChanged.dispatch( this.object );
     }
 
 	update ( command:SetPositionCommand ) {
@@ -47,7 +47,7 @@ export class SetPositionCommand extends Command {
 
 	fromJSON ( json:any ) {
         super.fromJSON( json );
-		this.object         = this._editor.objectByUuid( json.objectUuid );
+		this.object         = this._tool.objectByUuid( json.objectUuid );
 		this._oldPosition   = new GL.Vector3().fromArray( json.oldPosition );
 		this._newPosition   = new GL.Vector3().fromArray( json.newPosition );
 	}

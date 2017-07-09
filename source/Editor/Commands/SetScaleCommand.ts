@@ -24,13 +24,13 @@ export class SetScaleCommand extends Command {
     execute () {
 		this.object.scale.copy( this._newScale );
 		this.object.updateMatrixWorld( true );
-		this._editor.signals.objectChanged.dispatch( this.object );
+		this._tool.signals.objectChanged.dispatch( this.object );
     }
 
     undo () {
 		this.object.scale.copy( this._oldScale );
 		this.object.updateMatrixWorld( true );
-		this._editor.signals.objectChanged.dispatch( this.object );
+		this._tool.signals.objectChanged.dispatch( this.object );
     }
 
 	update ( command:SetScaleCommand ) {
@@ -47,7 +47,7 @@ export class SetScaleCommand extends Command {
 
 	fromJSON ( json:any ) {
         super.fromJSON( json );
-		this.object     = this._editor.objectByUuid( json.objectUuid );
+		this.object     = this._tool.objectByUuid( json.objectUuid );
 		this._oldScale  = new GL.Vector3().fromArray( json.oldScale );
 		this._newScale  = new GL.Vector3().fromArray( json.newScale );
 	}

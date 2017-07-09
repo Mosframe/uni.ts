@@ -27,14 +27,14 @@ export class MultiCmdsCommand extends Command {
 	 * @memberof MultiCmdsCommand
 	 */
     execute () {
-		this._editor.signals.sceneGraphChanged.active = false;
+		this._tool.signals.sceneGraphChanged.active = false;
 
 		for ( let i = 0; i < this._cmdArray.length; i ++ ) {
 			this._cmdArray[ i ].execute();
 		}
 
-		this._editor.signals.sceneGraphChanged.active = true;
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.sceneGraphChanged.active = true;
+		this._tool.signals.sceneGraphChanged.dispatch();
     }
 	/**
 	 * Undo
@@ -42,14 +42,14 @@ export class MultiCmdsCommand extends Command {
 	 * @memberof MultiCmdsCommand
 	 */
 	undo () {
-		this._editor.signals.sceneGraphChanged.active = false;
+		this._tool.signals.sceneGraphChanged.active = false;
 
 		for ( let i = this._cmdArray.length - 1; i >= 0; i -- ) {
 			this._cmdArray[ i ].undo();
 		}
 
-		this._editor.signals.sceneGraphChanged.active = true;
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.sceneGraphChanged.active = true;
+		this._tool.signals.sceneGraphChanged.dispatch();
 	}
 	/**
 	 * to JSON

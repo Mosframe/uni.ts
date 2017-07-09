@@ -40,8 +40,8 @@ export class SetGeometryCommand extends Command {
 		this.object.geometry.dispose();
 		this.object.geometry = this._newGeometry;
 		this.object.geometry.computeBoundingSphere();
-		this._editor.signals.geometryChanged.dispatch( this.object );
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.geometryChanged.dispatch( this.object );
+		this._tool.signals.sceneGraphChanged.dispatch();
     }
     /**
      * Undo
@@ -52,8 +52,8 @@ export class SetGeometryCommand extends Command {
 		this.object.geometry.dispose();
 		this.object.geometry = this._oldGeometry;
 		this.object.geometry.computeBoundingSphere();
-		this._editor.signals.geometryChanged.dispatch( this.object );
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.geometryChanged.dispatch( this.object );
+		this._tool.signals.sceneGraphChanged.dispatch();
     }
     /**
      * Update
@@ -85,7 +85,7 @@ export class SetGeometryCommand extends Command {
      */
 	fromJSON ( json:any ) {
         super.fromJSON( json );
-		this.object         = this._editor.objectByUuid( json.objectUuid );
+		this.object         = this._tool.objectByUuid( json.objectUuid );
 		this._oldGeometry   = this._parseGeometry( json.oldGeometry );
 		this._newGeometry   = this._parseGeometry( json.newGeometry );
 	}

@@ -13,7 +13,7 @@ import { UINumber                   }   from '../../Engine/UI/UINumber'         
 import { UIText                     }   from '../../Engine/UI/UIText'              ;
 import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { ITool                    }   from '../Interfaces'                            ;
+import { ITool                      }   from '../Interfaces'                            ;
 import { OBJExporter                }   from '../Exporters/OBJExporter'                 ;
 import { STLExporter                }   from '../Exporters/STLExporter'                 ;
 import { Menu                       }   from './Menu'                                   ;
@@ -32,7 +32,7 @@ let NUMBER_PRECISION = 6;
  */
 export class FileMenu extends Menu {
 
-    constructor( editor:ITool ) {
+    constructor( tool:ITool ) {
         super('file');
 
         let title = new UIPanel();
@@ -51,7 +51,7 @@ export class FileMenu extends Menu {
         option.setTextContent( 'New' );
         option.onClick( () => {
             if ( confirm( 'Any unsaved data will be lost. Are you sure?' ) ) {
-                editor.clear();
+                tool.clear();
             }
         });
         options.add( option );
@@ -64,7 +64,7 @@ export class FileMenu extends Menu {
         fileInput.type = 'file';
         fileInput.addEventListener( 'change', ( event ) => {
 
-            if( fileInput.files ) editor.loader.loadFile( fileInput.files[ 0 ] );
+            if( fileInput.files ) tool.loader.loadFile( fileInput.files[ 0 ] );
         } );
 
         option = new UIRow();
@@ -88,7 +88,7 @@ export class FileMenu extends Menu {
         option.setTextContent( 'Export Geometry' );
         option.onClick( () => {
 
-            let object = editor.selected;
+            let object = tool.selected;
 
             if ( object === null ) {
                 alert( 'No object selected.' );
@@ -134,7 +134,7 @@ export class FileMenu extends Menu {
         option.setTextContent( 'Export Object' );
         option.onClick( () => {
 
-            let object = editor.selected;
+            let object = tool.selected;
 
             if ( object === null ) {
 
@@ -168,7 +168,7 @@ export class FileMenu extends Menu {
         option.setTextContent( 'Export Scene' );
         option.onClick( () => {
 
-            let output = editor.scene.toJSON();
+            let output = tool.scene.toJSON();
 
             try {
 
@@ -193,7 +193,7 @@ export class FileMenu extends Menu {
         option.setTextContent( 'Export OBJ' );
         option.onClick( () => {
 
-            let object = editor.selected;
+            let object = tool.selected;
 
             if ( object === null ) {
 
@@ -217,7 +217,7 @@ export class FileMenu extends Menu {
         option.onClick( () => {
 
             let exporter = new STLExporter();
-            saveString( exporter.parse( editor.scene ), 'model.stl' );
+            saveString( exporter.parse( tool.scene ), 'model.stl' );
         });
         options.add( option );
 
@@ -236,7 +236,7 @@ export class FileMenu extends Menu {
 
             //
 
-            let output = editor.toJSON();
+            let output = tool.toJSON();
             output.metadata.type = 'App';
             delete output.history;
 

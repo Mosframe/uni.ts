@@ -13,7 +13,7 @@ import { UINumber                   }   from '../../Engine/UI/UINumber'         
 import { UIText                     }   from '../../Engine/UI/UIText'              ;
 import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { ITool                    }   from '../Interfaces'                            ;
+import { ITool                      }   from '../Interfaces'                            ;
 import { Menu                       }   from './Menu'                                   ;
 
 
@@ -26,7 +26,7 @@ import { Menu                       }   from './Menu'                           
  */
 export class HelpMenu extends Menu {
 
-    constructor( editor:ITool ) {
+    constructor( tool:ITool ) {
         super('help');
 
         // [ Title ]
@@ -47,7 +47,7 @@ export class HelpMenu extends Menu {
             option.setTextContent( 'Source code (three.js)' );
             option.onClick( () => {
 
-                window.open( 'https://github.com/mrdoob/three.js/tree/master/editor', '_blank' )
+                window.open( 'https://github.com/mrdoob/three.js/tree/master/tool', '_blank' )
             });
             options.add( option );
         }
@@ -58,7 +58,7 @@ export class HelpMenu extends Menu {
             option.setTextContent( 'Source code (Unicon)' );
             option.onClick( () => {
 
-                window.open( 'https://github.com/mosframe/unicon/tree/master/server/unicon-editor', '_blank' )
+                window.open( 'https://github.com/mosframe/unicon/tree/master/server/unicon-tool', '_blank' )
             });
             options.add( option );
         }

@@ -13,7 +13,7 @@ import { UINumber                   }   from '../../Engine/UI/UINumber'         
 import { UIText                     }   from '../../Engine/UI/UIText'              ;
 import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { ITool                    }   from '../Interfaces'                            ;
+import { ITool                      }   from '../Interfaces'                            ;
 import { Menu                       }   from './Menu'                                   ;
 
 /**
@@ -25,28 +25,28 @@ import { Menu                       }   from './Menu'                           
  */
 export class StatusMenu extends Menu {
 
-    constructor( editor:ITool ) {
+    constructor( tool:ITool ) {
         super('status');
         this.setClass( 'menu right' );
 
-        let autosave = new UIBoolean( editor.config.getKey( 'autosave' ), 'autosave' );
+        let autosave = new UIBoolean( tool.config.getKey( 'autosave' ), 'autosave' );
         autosave.text.setColor( '#888' );
         autosave.onChange( () => {
 
             let value = autosave.getValue();
-            editor.config.setKey( 'autosave', value );
+            tool.config.setKey( 'autosave', value );
             if ( value ) {
-                editor.signals.sceneGraphChanged.dispatch();
+                tool.signals.sceneGraphChanged.dispatch();
             }
         });
         this.add( autosave );
 
-        editor.signals.savingStarted.add( () => {
+        tool.signals.savingStarted.add( () => {
 
             autosave.text.setTextDecoration( 'underline' );
         });
 
-        editor.signals.savingFinished.add( () => {
+        tool.signals.savingFinished.add( () => {
 
             autosave.text.setTextDecoration( 'none' );
         });

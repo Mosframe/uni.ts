@@ -52,7 +52,6 @@ export interface ITool {
 	camera          : THREE.Camera;
 	scene           : THREE.Scene;
 	sceneHelpers    : THREE.Scene;
-	object          : {[uuid:string]:THREE.Object3D};
 	geometries      : {[uuid:string]:THREE.Geometry|THREE.BufferGeometry};
 	materials       : {[uuid:string]:THREE.Material};
 	textures        : {[uuid:string]:THREE.Texture};

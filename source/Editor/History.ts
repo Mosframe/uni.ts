@@ -23,7 +23,7 @@ export class History {
 
     undos           : ICommand[];
     redos           : ICommand[];
-    editor          : ITool;
+    tool          	: ITool;
     lastCmdTime     : Date;
     idCounter       : number;
     historyDisabled : boolean;
@@ -74,7 +74,7 @@ export class History {
 		// clearing all the redo-commands
 
 		this.redos = [];
-		this.editor.signals.historyChanged.dispatch( cmd );
+		this.tool.signals.historyChanged.dispatch( cmd );
 	}
 
 	undo () : ICommand|undefined {
@@ -98,7 +98,7 @@ export class History {
 		if ( cmd ) {
 			cmd.undo();
 			this.redos.push( cmd );
-			this.editor.signals.historyChanged.dispatch( cmd );
+			this.tool.signals.historyChanged.dispatch( cmd );
 		}
 
 		return cmd;
@@ -123,7 +123,7 @@ export class History {
 		if( cmd ) {
 			cmd.execute();
 			this.undos.push( cmd );
-			this.editor.signals.historyChanged.dispatch( cmd );
+			this.tool.signals.historyChanged.dispatch( cmd );
 			return cmd;
 		}
 	}
@@ -186,14 +186,14 @@ export class History {
 		}
 
 		// Select the last executed undo-command
-		this.editor.signals.historyChanged.dispatch( this.undos[ this.undos.length - 1 ] );
+		this.tool.signals.historyChanged.dispatch( this.undos[ this.undos.length - 1 ] );
 	}
 
 	clear () {
 		this.undos = [];
 		this.redos = [];
 		this.idCounter = 0;
-		this.editor.signals.historyChanged.dispatch();
+		this.tool.signals.historyChanged.dispatch();
 	}
 
 	goToState ( id:number ) {
@@ -205,8 +205,8 @@ export class History {
 
 		}
 
-		this.editor.signals.sceneGraphChanged.active = false;
-		this.editor.signals.historyChanged.active = false;
+		this.tool.signals.sceneGraphChanged.active = false;
+		this.tool.signals.historyChanged.active = false;
 
 		let cmd = this.undos.length > 0 ? this.undos[ this.undos.length - 1 ] : undefined;	// next cmd to pop
 
@@ -230,11 +230,11 @@ export class History {
 			}
 		}
 
-		this.editor.signals.sceneGraphChanged.active = true;
-		this.editor.signals.historyChanged.active = true;
+		this.tool.signals.sceneGraphChanged.active = true;
+		this.tool.signals.historyChanged.active = true;
 
-		this.editor.signals.sceneGraphChanged.dispatch();
-		this.editor.signals.historyChanged.dispatch( cmd );
+		this.tool.signals.sceneGraphChanged.dispatch();
+		this.tool.signals.historyChanged.dispatch( cmd );
 
 	}
 
@@ -249,8 +249,8 @@ export class History {
 
 		this.goToState( - 1 );
 
-		this.editor.signals.sceneGraphChanged.active = false;
-		this.editor.signals.historyChanged.active = false;
+		this.tool.signals.sceneGraphChanged.active = false;
+		this.tool.signals.historyChanged.active = false;
 
 		let cmd = this.redo();
 		while ( cmd !== undefined ) {
@@ -264,8 +264,8 @@ export class History {
 
 		}
 
-		this.editor.signals.sceneGraphChanged.active = true;
-		this.editor.signals.historyChanged.active = true;
+		this.tool.signals.sceneGraphChanged.active = true;
+		this.tool.signals.historyChanged.active = true;
 
 		this.goToState( id );
 
@@ -273,24 +273,24 @@ export class History {
 
     // [ Constructors ]
 
-    constructor ( editor:ITool ) {
+    constructor ( tool:ITool ) {
 
-        this.editor             = editor;
+        this.tool             = tool;
         this.undos              = [];
         this.redos              = [];
         this.lastCmdTime        = new Date();
         this.idCounter          = 0;
         this.historyDisabled    = false;
-        this.config             = editor.config;
+        this.config             = tool.config;
 
-        //Set editor-reference in Command
-        let cmd = new Command( editor );
+        //Set tool-reference in Command
+        let cmd = new Command( tool );
 
         // signals
-        this.editor.signals.startPlayer.add( ()=> {
+        this.tool.signals.startPlayer.add( ()=> {
             this.historyDisabled = true;
         });
-        this.editor.signals.stopPlayer.add( ()=> {
+        this.tool.signals.stopPlayer.add( ()=> {
             this.historyDisabled = false;
         });
     }

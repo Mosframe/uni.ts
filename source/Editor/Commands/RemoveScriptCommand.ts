@@ -28,11 +28,11 @@ export class RemoveScriptCommand extends Command {
      * @memberof RemoveScriptCommand
      */
     execute () {
-		if ( this._editor.scripts[ this.object.uuid ] === undefined ) return;
+		if ( this._tool.scripts[ this.object.uuid ] === undefined ) return;
 		if ( this._index !== - 1 ) {
-			this._editor.scripts[ this.object.uuid ].splice( this._index, 1 );
+			this._tool.scripts[ this.object.uuid ].splice( this._index, 1 );
 		}
-        this._editor.signals.scriptRemoved.dispatch( this.script );
+        this._tool.signals.scriptRemoved.dispatch( this.script );
     }
     /**
      * Undo
@@ -40,11 +40,11 @@ export class RemoveScriptCommand extends Command {
      * @memberof RemoveScriptCommand
      */
 	undo () {
-		if ( this._editor.scripts[ this.object.uuid ] === undefined ) {
-			this._editor.scripts[ this.object.uuid ] = [];
+		if ( this._tool.scripts[ this.object.uuid ] === undefined ) {
+			this._tool.scripts[ this.object.uuid ] = [];
 		}
-		this._editor.scripts[ this.object.uuid ].splice( this._index, 0, this.script );
-		this._editor.signals.scriptAdded.dispatch( this.script );
+		this._tool.scripts[ this.object.uuid ].splice( this._index, 0, this.script );
+		this._tool.signals.scriptAdded.dispatch( this.script );
 	}
     /**
      * to JSON
@@ -69,7 +69,7 @@ export class RemoveScriptCommand extends Command {
 		super.fromJSON( json );
 		this.script     = json.script;
 		this._index     = json.index;
-		this.object     = this._editor.objectByUuid( json.objectUuid );
+		this.object     = this._tool.objectByUuid( json.objectUuid );
 	}
 
     // [ Constructor ]
@@ -88,7 +88,7 @@ export class RemoveScriptCommand extends Command {
         this.object = object;
         this.script = script;
         if ( object && script ) {
-    		this._index = this._editor.scripts[ this.object.uuid ].indexOf( this.script );
+    		this._index = this._tool.scripts[ this.object.uuid ].indexOf( this.script );
         }
     }
 

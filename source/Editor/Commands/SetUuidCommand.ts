@@ -23,14 +23,14 @@ export class SetUuidCommand extends Command {
 
     execute () {
 		this.object.uuid = this._newUuid;
-		this._editor.signals.objectChanged.dispatch( this.object );
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.objectChanged.dispatch( this.object );
+		this._tool.signals.sceneGraphChanged.dispatch();
     }
 
     undo () {
 		this.object.uuid = this._oldUuid;
-		this._editor.signals.objectChanged.dispatch( this.object );
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.objectChanged.dispatch( this.object );
+		this._tool.signals.sceneGraphChanged.dispatch();
     }
 
 	update ( cmd:SetUuidCommand ) {
@@ -48,9 +48,9 @@ export class SetUuidCommand extends Command {
         super.fromJSON( json );
 		this._oldUuid = json.oldUuid;
 		this._newUuid = json.newUuid;
-		this.object = this._editor.objectByUuid( json.oldUuid );
+		this.object = this._tool.objectByUuid( json.oldUuid );
 		if ( this.object === undefined ) {
-			this.object = this._editor.objectByUuid( json.newUuid );
+			this.object = this._tool.objectByUuid( json.newUuid );
 		}
 	}
 

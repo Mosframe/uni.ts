@@ -13,7 +13,7 @@ import { UINumber                   }   from '../../Engine/UI/UINumber'         
 import { UIText                     }   from '../../Engine/UI/UIText'              ;
 import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { ITool                    }   from '../Interfaces'                            ;
+import { ITool                      }   from '../Interfaces'                            ;
 import { AddObjectCommand           }   from '../Commands/AddObjectCommand'             ;
 import { RemoveObjectCommand        }   from '../Commands/RemoveObjectCommand'          ;
 import { SetMaterialValueCommand    }   from '../Commands/SetMaterialValueCommand'      ;
@@ -35,7 +35,7 @@ export class EditMenu extends Menu {
 
     // [ Constructor ]
 
-    constructor( editor:ITool ) {
+    constructor( tool:ITool ) {
         super('edit');
 
         let title = new UIPanel();
@@ -52,7 +52,7 @@ export class EditMenu extends Menu {
         let undo = new UIRow();
         undo.setClass( 'option' );
         undo.setTextContent( 'Undo (Ctrl+Z)' );
-        undo.onClick( () => { editor.undo(); });
+        undo.onClick( () => { tool.undo(); });
         options.add( undo );
 
         // [ Redo ]
@@ -60,7 +60,7 @@ export class EditMenu extends Menu {
         let redo = new UIRow();
         redo.setClass( 'option' );
         redo.setTextContent( 'Redo (Ctrl+Shift+Z)' );
-        redo.onClick( () => { editor.redo(); });
+        redo.onClick( () => { tool.redo(); });
         options.add( redo );
 
         // [ Clear History ]
@@ -70,14 +70,14 @@ export class EditMenu extends Menu {
             option.setTextContent( 'Clear History' );
             option.onClick( () => {
                 if ( confirm( 'The Undo/Redo History will be cleared. Are you sure?' ) ) {
-                    editor.history.clear();
+                    tool.history.clear();
                 }
             });
             options.add( option );
 
-            editor.signals.historyChanged.add( () => {
+            tool.signals.historyChanged.add( () => {
 
-                let history = editor.history;
+                let history = tool.history;
 
                 undo.setClass( 'option' );
                 redo.setClass( 'option' );
@@ -100,11 +100,11 @@ export class EditMenu extends Menu {
             option.setClass( 'option' );
             option.setTextContent( 'Clone' );
             option.onClick( () => {
-                let object = editor.selected;
+                let object = tool.selected;
                 if( object ) {
                     if ( object.parent === null ) return; // avoid cloning the camera or scene
                     object = object.clone();
-                    editor.execute( new AddObjectCommand( object ) );
+                    tool.execute( new AddObjectCommand( object ) );
                 }
             });
             options.add( option );
@@ -116,12 +116,12 @@ export class EditMenu extends Menu {
             option.setClass( 'option' );
             option.setTextContent( 'Delete (Del)' );
             option.onClick( () => {
-                let object = editor.selected;
+                let object = tool.selected;
                 if( object ) {
                     if ( confirm( 'Delete ' + object.name + '?' ) === false ) return;
                     let parent = object.parent;
                     if ( parent === undefined ) return; // avoid deleting the camera or scene
-                    editor.execute( new RemoveObjectCommand( object ) );
+                    tool.execute( new RemoveObjectCommand( object ) );
                 }
             });
             options.add( option );
@@ -134,7 +134,7 @@ export class EditMenu extends Menu {
             option.setTextContent( 'Minify Shaders' );
             option.onClick( () => {
 
-                let root                = editor.selected || editor.scene;
+                let root                = tool.selected || tool.scene;
                 let errors  : any       = [];
                 let path    : any       = [];
                 let cmds    : any       = [];
@@ -181,7 +181,7 @@ export class EditMenu extends Menu {
                 });
 
                 if ( nMaterialsChanged > 0 ) {
-                    editor.execute( new MultiCmdsCommand( cmds ), 'Minify Shaders' );
+                    tool.execute( new MultiCmdsCommand( cmds ), 'Minify Shaders' );
                 }
 
                 window.alert( nMaterialsChanged + " material(s) were changed.\n" + errors.join( "\n" ) );

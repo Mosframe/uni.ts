@@ -9,7 +9,7 @@ import { UITab              }   from '../Engine/UI/UITab';
 import { ITool              }   from './Interfaces';
 import { HierarchyWindow    }   from './HierarchyWindow';
 import { ProjectWindow      }   from './ProjectWindow';
-//import { SettingsWindow     }   from './Windows/Settings';
+import { SettingsWindow     }   from './SettingWindow';
 
 
 /**
@@ -29,7 +29,7 @@ export class RightSidebar1 extends UITab {
         // [ TAB ]
         this.attach ( new HierarchyWindow( tool ) );
         this.attach ( new ProjectWindow  ( tool ) );
-        //this.attach ( new SettingsWindow ( tool ) );
+        this.attach ( new SettingsWindow ( tool ) );
 
         // default tab
         this._select( 'hierarchy' );

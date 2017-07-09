@@ -11,19 +11,19 @@ import { Toolbar        }   from './Editor/Toolbar';
 import { RightSidebar1  }   from './Editor/RightSidebar1';
 
 
-// [ Editor ]
-let editor = new Tool();
+// [ Tool ]
+let tool = new Tool();
 
 // [ Viewport ]
-let viewport = new Viewport( editor );
+let viewport = new Viewport( tool );
 
 // [ Menubar ]
-let menubar = new Menubar( editor );
+let menubar = new Menubar( tool );
 
 // [ Toolbar ]
-let toolbar = new Toolbar( editor );
+let toolbar = new Toolbar( tool );
 
 // [ RightSidebar1 ]
-let rightSidebar1 = new RightSidebar1( editor );
+let rightSidebar1 = new RightSidebar1( tool );
 
 console.log( "load finished" );

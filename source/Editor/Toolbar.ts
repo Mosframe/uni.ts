@@ -20,11 +20,11 @@ import { ITool    }   from './Interfaces';
  */
 export class Toolbar  extends UIPanel {
 
-    constructor( editor:ITool ) {
+    constructor( tool:ITool ) {
 
         super();
 
-        let signals = editor.signals;
+        let signals = tool.signals;
 
         this.setId( 'toolbar' );
 

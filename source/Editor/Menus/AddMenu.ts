@@ -13,7 +13,7 @@ import { UINumber                   }   from '../../Engine/UI/UINumber'         
 import { UIText                     }   from '../../Engine/UI/UIText'              ;
 import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { ITool                    }   from '../Interfaces'                            ;
+import { ITool                      }   from '../Interfaces'                            ;
 import { AddObjectCommand           }   from '../Commands/AddObjectCommand'             ;
 import { RemoveObjectCommand        }   from '../Commands/RemoveObjectCommand'          ;
 import { SetMaterialValueCommand    }   from '../Commands/SetMaterialValueCommand'      ;
@@ -31,7 +31,7 @@ export class AddMenu extends Menu {
 
     // [ Constructor ]
 
-    constructor( editor:ITool ) {
+    constructor( tool:ITool ) {
         super('add');
 
         // [ Title ]
@@ -49,7 +49,7 @@ export class AddMenu extends Menu {
         let lightCount = 0;
         let cameraCount = 0;
 
-        editor.signals.editorCleared.add( () => {
+        tool.signals.editorCleared.add( () => {
 
             meshCount = 0;
             lightCount = 0;
@@ -65,7 +65,7 @@ export class AddMenu extends Menu {
 
                 let mesh = new GL.Group();
                 mesh.name = 'Group ' + ( ++ meshCount );
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
             });
             options.add( option );
         }
@@ -84,7 +84,7 @@ export class AddMenu extends Menu {
                 let mesh = new GL.Mesh( geometry, material );
                 mesh.name = 'Plane ' + ( ++ meshCount );
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             });
             options.add( option );
@@ -101,7 +101,7 @@ export class AddMenu extends Menu {
                 let mesh        = new GL.Mesh( geometry, new GL.MeshStandardMaterial() );
                 mesh.name = 'Box ' + ( ++ meshCount );
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             });
             options.add( option );
@@ -121,7 +121,7 @@ export class AddMenu extends Menu {
                 let mesh = new GL.Mesh( geometry, new GL.MeshStandardMaterial() );
                 mesh.name = 'Circle ' + ( ++ meshCount );
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             });
             options.add( option );
@@ -144,7 +144,7 @@ export class AddMenu extends Menu {
                 let mesh = new GL.Mesh( geometry, new GL.MeshStandardMaterial() );
                 mesh.name = 'Cylinder ' + ( ++ meshCount );
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             });
             options.add( option );
@@ -169,7 +169,7 @@ export class AddMenu extends Menu {
                 let mesh = new GL.Mesh( geometry, new GL.MeshStandardMaterial() );
                 mesh.name = 'Sphere ' + ( ++ meshCount );
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             });
             options.add( option );
@@ -189,7 +189,7 @@ export class AddMenu extends Menu {
                 let mesh = new GL.Mesh( geometry, new GL.MeshStandardMaterial() );
                 mesh.name = 'Icosahedron ' + ( ++ meshCount );
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             });
             options.add( option );
@@ -212,7 +212,7 @@ export class AddMenu extends Menu {
                 let mesh = new GL.Mesh( geometry, new GL.MeshStandardMaterial() );
                 mesh.name = 'Torus ' + ( ++ meshCount );
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             });
             options.add( option );
@@ -236,7 +236,7 @@ export class AddMenu extends Menu {
                 let mesh = new GL.Mesh( geometry, new GL.MeshStandardMaterial() );
                 mesh.name = 'TorusKnot ' + ( ++ meshCount );
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             });
             options.add( option );
@@ -264,8 +264,8 @@ export class AddMenu extends Menu {
                 let mesh = new GL.Mesh( geometry, material );
                 mesh.name = 'Teapot ' + ( ++ meshCount );
 
-                editor.addObject( mesh );
-                editor.select( mesh );
+                tool.addObject( mesh );
+                tool.select( mesh );
 
             });
             options.add( option );
@@ -300,7 +300,7 @@ export class AddMenu extends Menu {
                 let mesh = new GL.Mesh( geometry, new GL.MeshStandardMaterial( { side: GL.DoubleSide } ) );
                 mesh.name = 'Lathe ' + ( ++ meshCount );
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             });
             options.add( option );
@@ -316,7 +316,7 @@ export class AddMenu extends Menu {
                 let sprite = new GL.Sprite( new GL.SpriteMaterial() );
                 sprite.name = 'Sprite ' + ( ++ meshCount );
 
-                editor.execute( new AddObjectCommand( sprite ) );
+                tool.execute( new AddObjectCommand( sprite ) );
 
             });
             options.add( option );
@@ -338,7 +338,7 @@ export class AddMenu extends Menu {
                 let light = new GL.PointLight( color, intensity, distance );
                 light.name = 'PointLight ' + ( ++ lightCount );
 
-                editor.execute( new AddObjectCommand( light ) );
+                tool.execute( new AddObjectCommand( light ) );
 
             });
             options.add( option );
@@ -363,7 +363,7 @@ export class AddMenu extends Menu {
 
                 light.position.set( 5, 10, 7.5 );
 
-                editor.execute( new AddObjectCommand( light ) );
+                tool.execute( new AddObjectCommand( light ) );
 
             });
             options.add( option );
@@ -385,7 +385,7 @@ export class AddMenu extends Menu {
 
                 light.position.set( 5, 10, 7.5 );
 
-                editor.execute( new AddObjectCommand( light ) );
+                tool.execute( new AddObjectCommand( light ) );
 
             });
             options.add( option );
@@ -407,7 +407,7 @@ export class AddMenu extends Menu {
 
                 light.position.set( 0, 10, 0 );
 
-                editor.execute( new AddObjectCommand( light ) );
+                tool.execute( new AddObjectCommand( light ) );
 
             });
             options.add( option );
@@ -423,7 +423,7 @@ export class AddMenu extends Menu {
                 let color = 0x222222;
                 let light = new GL.AmbientLight( color );
                 light.name = 'AmbientLight ' + ( ++ lightCount );
-                editor.execute( new AddObjectCommand( light ) );
+                tool.execute( new AddObjectCommand( light ) );
 
             });
             options.add( option );
@@ -440,7 +440,7 @@ export class AddMenu extends Menu {
 
                 let camera = new GL.PerspectiveCamera( 50, 1, 1, 10000 );
                 camera.name = 'PerspectiveCamera ' + ( ++ cameraCount );
-                editor.execute( new AddObjectCommand( camera ) );
+                tool.execute( new AddObjectCommand( camera ) );
             });
             options.add( option );
         }

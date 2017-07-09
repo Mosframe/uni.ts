@@ -32,7 +32,7 @@ export class MoveObjectCommand extends Command {
             children.splice( this._newIndex, 0, this.object );
             this.object.parent = this._newParent;
         }
-        this._editor.signals.sceneGraphChanged.dispatch();
+        this._tool.signals.sceneGraphChanged.dispatch();
     }
     /**
      * Undo
@@ -46,7 +46,7 @@ export class MoveObjectCommand extends Command {
             children.splice( this._oldIndex, 0, this.object );
             this.object.parent = this._oldParent;
         }
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.sceneGraphChanged.dispatch();
 	}
     /**
      * to JSON
@@ -71,14 +71,14 @@ export class MoveObjectCommand extends Command {
      */
 	fromJSON ( json:any ) {
 		super.fromJSON( json );
-		this.object     = this._editor.objectByUuid( json.objectUuid );
-		this._oldParent  = this._editor.objectByUuid( json.oldParentUuid );
+		this.object     = this._tool.objectByUuid( json.objectUuid );
+		this._oldParent  = this._tool.objectByUuid( json.oldParentUuid );
 		if ( this._oldParent === undefined ) {
-			this._oldParent = this._editor.scene;
+			this._oldParent = this._tool.scene;
 		}
-		this._newParent = this._editor.objectByUuid( json.newParentUuid );
+		this._newParent = this._tool.objectByUuid( json.newParentUuid );
 		if ( this._newParent === undefined ) {
-			this._newParent = this._editor.scene;
+			this._newParent = this._tool.scene;
 		}
 		this._newIndex = json.newIndex;
 		this._oldIndex = json.oldIndex;

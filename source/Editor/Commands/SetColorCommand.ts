@@ -28,7 +28,7 @@ export class SetColorCommand extends Command {
      */
     execute () {
         this.object[ this.attributeName ].setHex( this._newValue );
-        this._editor.signals.objectChanged.dispatch( this.object );
+        this._tool.signals.objectChanged.dispatch( this.object );
     }
     /**
      * Undo
@@ -37,7 +37,7 @@ export class SetColorCommand extends Command {
      */
     undo () {
         this.object[ this.attributeName ].setHex( this._oldValue );
-        this._editor.signals.objectChanged.dispatch( this.object );
+        this._tool.signals.objectChanged.dispatch( this.object );
     }
     /**
      * Update
@@ -70,7 +70,7 @@ export class SetColorCommand extends Command {
      */
 	fromJSON ( json:any ) {
         super.fromJSON( json );
-		this.object = this._editor.objectByUuid( json.objectUuid );
+		this.object = this._tool.objectByUuid( json.objectUuid );
 		this.attributeName = json.attributeName;
 		this._oldValue = json.oldValue;
 		this._newValue = json.newValue;

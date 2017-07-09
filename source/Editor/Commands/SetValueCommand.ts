@@ -23,14 +23,14 @@ export class SetValueCommand extends Command {
 
     execute () {
 		this.object[ this.attributeName ] = this._newValue;
-		this._editor.signals.objectChanged.dispatch( this.object );
-		//this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.objectChanged.dispatch( this.object );
+		//this._tool.signals.sceneGraphChanged.dispatch();
     }
 
     undo () {
 		this.object[ this.attributeName ] = this._oldValue;
-		this._editor.signals.objectChanged.dispatch( this.object );
-		// this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.objectChanged.dispatch( this.object );
+		// this._tool.signals.sceneGraphChanged.dispatch();
     }
 
 	update ( cmd:SetValueCommand ) {
@@ -51,7 +51,7 @@ export class SetValueCommand extends Command {
 		this.attributeName  = json.attributeName;
 		this._oldValue      = json.oldValue;
 		this._newValue      = json.newValue;
-		this.object         = this._editor.objectByUuid( json.objectUuid );
+		this.object         = this._tool.objectByUuid( json.objectUuid );
 	}
 
     // [ Constructor ]

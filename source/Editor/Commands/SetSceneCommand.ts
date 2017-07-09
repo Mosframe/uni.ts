@@ -26,21 +26,21 @@ export class SetSceneCommand extends Command {
     // [ Public Functions ]
 
     execute () {
-		this._editor.signals.sceneGraphChanged.active = false;
+		this._tool.signals.sceneGraphChanged.active = false;
 		for ( let i = 0; i < this.cmdArray.length; i ++ ) {
 			this.cmdArray[ i ].execute();
 		}
-		this._editor.signals.sceneGraphChanged.active = true;
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.sceneGraphChanged.active = true;
+		this._tool.signals.sceneGraphChanged.dispatch();
     }
 
     undo () {
-		this._editor.signals.sceneGraphChanged.active = false;
+		this._tool.signals.sceneGraphChanged.active = false;
 		for ( let i = this.cmdArray.length - 1; i >= 0; i -- ) {
 			this.cmdArray[ i ].undo();
 		}
-		this._editor.signals.sceneGraphChanged.active = true;
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.sceneGraphChanged.active = true;
+		this._tool.signals.sceneGraphChanged.dispatch();
     }
 
 	update ( command:SetSceneCommand ) {
@@ -76,9 +76,9 @@ export class SetSceneCommand extends Command {
         this.name   = 'Set Scene';
 
         if ( scene !== undefined ) {
-            this.cmdArray.push( new SetUuidCommand( this._editor.scene, scene.uuid ) );
-            this.cmdArray.push( new SetValueCommand( this._editor.scene, 'name', scene.name ) );
-            this.cmdArray.push( new SetValueCommand( this._editor.scene, 'userData', JSON.parse( JSON.stringify( scene.userData ) ) ) );
+            this.cmdArray.push( new SetUuidCommand( this._tool.scene, scene.uuid ) );
+            this.cmdArray.push( new SetValueCommand( this._tool.scene, 'name', scene.name ) );
+            this.cmdArray.push( new SetValueCommand( this._tool.scene, 'userData', JSON.parse( JSON.stringify( scene.userData ) ) ) );
 
             while ( scene.children.length > 0 ) {
                 let child = scene.children.pop();

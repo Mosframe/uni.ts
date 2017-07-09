@@ -19,8 +19,8 @@ export class ProjectWindow extends UIWindow {
 
     // [ Constructor ]
 
-    constructor ( editor:ITool ) {
+    constructor ( tool:ITool ) {
 
-        super( 'project', new ProjectEditor( editor ) );
+        super( 'project', new ProjectEditor( tool ) );
     }
 }

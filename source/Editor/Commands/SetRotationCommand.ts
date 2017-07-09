@@ -24,13 +24,13 @@ export class SetRotationCommand extends Command {
     execute () {
 		this.object.rotation.copy( this._newRotation );
 		this.object.updateMatrixWorld( true );
-		this._editor.signals.objectChanged.dispatch( this.object );
+		this._tool.signals.objectChanged.dispatch( this.object );
     }
 
     undo () {
 		this.object.rotation.copy( this._oldRotation );
 		this.object.updateMatrixWorld( true );
-		this._editor.signals.objectChanged.dispatch( this.object );
+		this._tool.signals.objectChanged.dispatch( this.object );
     }
 
 	update ( command:SetRotationCommand ) {
@@ -47,7 +47,7 @@ export class SetRotationCommand extends Command {
 
 	fromJSON ( json:any ) {
         super.fromJSON( json );
-		this.object         = this._editor.objectByUuid( json.objectUuid );
+		this.object         = this._tool.objectByUuid( json.objectUuid );
 		this._oldRotation   = new GL.Euler().fromArray( json.oldRotation );
 		this._newRotation   = new GL.Euler().fromArray( json.newRotation );
 	}

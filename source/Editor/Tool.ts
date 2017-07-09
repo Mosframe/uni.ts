@@ -38,7 +38,6 @@ export class Tool implements ITool {
 	camera          : GL.Camera;
 	scene           : GL.Scene;
 	sceneHelpers    : GL.Scene;
-	object          : {[uuid:string]:GL.Object3D};
 	geometries      : {[uuid:string]:GL.Geometry|GL.BufferGeometry};
 	materials       : {[uuid:string]:GL.Material};
 	textures        : {[uuid:string]:GL.Texture};
@@ -430,7 +429,7 @@ export class Tool implements ITool {
         this.DEFAULT_CAMERA.lookAt( new GL.Vector3() );
 
         this.camera                 = this.DEFAULT_CAMERA.clone();
-        this.config                 = new Config( 'unicon-editor' );
+        this.config                 = new Config( 'uni.ts' );
         this.history                = new History( this );
         this.storage                = new Storage();
         this.loader                 = new Loader( this );
@@ -441,7 +440,6 @@ export class Tool implements ITool {
 
         this.sceneHelpers           = new GL.Scene();
 
-        this.object                 = {};
         this.geometries             = {};
         this.materials              = {};
         this.textures               = {};

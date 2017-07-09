@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as THREE from 'three';
+import * as GL from '../../Engine/Graphic';
 
 // TGA Constants
 const	TGA_TYPE_NO_DATA = 0;
@@ -35,11 +35,11 @@ export class TGALoader {
 
 	// [ Public Functions ]
 
-	load ( url:any, onLoad:any, onProgress:any, onError:any ) {
+	load ( url:any, onLoad:any, onProgress:any, onError:any ) : GL.Texture {
 
-		let texture = new THREE.Texture();
+		let texture = new GL.Texture();
 
-		let loader = new THREE.FileLoader( this._manager );
+		let loader = new GL.FileLoader( this._manager );
 		loader.setResponseType( 'arraybuffer' );
 
 		loader.load( url, ( buffer ) => {
@@ -62,7 +62,7 @@ export class TGALoader {
 	parse ( buffer ) {
 
 		if ( buffer.length < 19 )
-			console.error( 'THREE.TGALoader.parse: Not enough data to contain header.' );
+			console.error( 'GL.TGALoader.parse: Not enough data to contain header.' );
 
 		let content = new Uint8Array( buffer );
 		let offset = 0;
@@ -90,7 +90,7 @@ export class TGALoader {
 
 		if ( header.id_length + offset > buffer.length ) {
 
-			console.error( 'THREE.TGALoader.parse: No data' );
+			console.error( 'GL.TGALoader.parse: No data' );
 
 		}
 
@@ -159,7 +159,7 @@ export class TGALoader {
 			case TGA_TYPE_RLE_INDEXED:
 				if ( header.colormap_length > 256 || header.colormap_size !== 24 || header.colormap_type !== 1 ) {
 
-					console.error( 'THREE.TGALoader.parse.tgaCheckHeader: Invalid type colormap data for indexed type' );
+					console.error( 'GL.TGALoader.parse.tgaCheckHeader: Invalid type colormap data for indexed type' );
 
 				}
 				break;
@@ -171,25 +171,25 @@ export class TGALoader {
 			case TGA_TYPE_RLE_GREY:
 				if ( header.colormap_type ) {
 
-					console.error( 'THREE.TGALoader.parse.tgaCheckHeader: Invalid type colormap data for colormap type' );
+					console.error( 'GL.TGALoader.parse.tgaCheckHeader: Invalid type colormap data for colormap type' );
 
 				}
 				break;
 
 			// What the need of a file without data ?
 			case TGA_TYPE_NO_DATA:
-				console.error( 'THREE.TGALoader.parse.tgaCheckHeader: No data' );
+				console.error( 'GL.TGALoader.parse.tgaCheckHeader: No data' );
 
 			// Invalid type ?
 			default:
-				console.error( 'THREE.TGALoader.parse.tgaCheckHeader: Invalid type " ' + header.image_type + '"' );
+				console.error( 'GL.TGALoader.parse.tgaCheckHeader: Invalid type " ' + header.image_type + '"' );
 
 		}
 
 		// Check image width and height
 		if ( header.width <= 0 || header.height <= 0 ) {
 
-			console.error( 'THREE.TGALoader.parse.tgaCheckHeader: Invalid image size' );
+			console.error( 'GL.TGALoader.parse.tgaCheckHeader: Invalid image size' );
 
 		}
 
@@ -199,7 +199,7 @@ export class TGALoader {
 			header.pixel_size !== 24 &&
 			header.pixel_size !== 32 ) {
 
-			console.error( 'THREE.TGALoader.parse.tgaCheckHeader: Invalid pixel size "' + header.pixel_size + '"' );
+			console.error( 'GL.TGALoader.parse.tgaCheckHeader: Invalid pixel size "' + header.pixel_size + '"' );
 
 		}
 
@@ -482,7 +482,7 @@ export class TGALoader {
 					this.tgaGetImageDataGrey16bits( data, y_start, y_step, y_end, x_start, x_step, x_end, image );
 					break;
 				default:
-					console.error( 'THREE.TGALoader.parse.getTgaRGBA: not support this format' );
+					console.error( 'GL.TGALoader.parse.getTgaRGBA: not support this format' );
 					break;
 			}
 
@@ -506,7 +506,7 @@ export class TGALoader {
 					break;
 
 				default:
-					console.error( 'THREE.TGALoader.parse.getTgaRGBA: not support this format' );
+					console.error( 'GL.TGALoader.parse.getTgaRGBA: not support this format' );
 					break;
 			}
 		}
@@ -521,7 +521,7 @@ export class TGALoader {
 
 	constructor( manager?:any ) {
 
-		this._manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
+		this._manager = ( manager !== undefined ) ? manager : GL.DefaultLoadingManager;
 	}
 
     // [ Private Variables ]

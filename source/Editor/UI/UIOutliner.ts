@@ -108,7 +108,7 @@ export class UIOutliner extends UIElement {
 
             option.className = 'option';
 
-            let scene = scope._editor.scene;
+            let scene = scope._tool.scene;
             let object = scene.getObjectById( currentDrag['value'] );
 
             let area = event.offsetY / option.clientHeight;
@@ -143,7 +143,7 @@ export class UIOutliner extends UIElement {
 
             if ( newParentIsChild ) return;
 
-            this.editor.execute( new MoveObjectCommand( object, newParent, nextObject ) );
+            this.tool.execute( new MoveObjectCommand( object, newParent, nextObject ) );
 
             let changeEvent = document.createEvent( 'HTMLEvents' );
             changeEvent.initEvent( 'change', true, true );
@@ -220,13 +220,13 @@ export class UIOutliner extends UIElement {
 
     // [ Constructor ]
 
-    constructor ( editor:ITool ) {
+    constructor ( tool:ITool ) {
 
         super( document.createElement( 'div' ), 'outliner' );
 
         this.core.tabIndex = 0;	// keyup event is ignored without setting tabIndex
 
-        this._editor = editor;
+        this._tool = tool;
 
         // Prevent native scroll behavior
         this.onKeyDown( ( event:KeyboardEvent ) => {
@@ -267,8 +267,8 @@ export class UIOutliner extends UIElement {
 
     // [ Protected Variables ]
 
-    protected _editor          : ITool;
-    protected _selectedIndex   : number;
-    protected _selectedValue   : number;
-    protected _options         : HTMLDivElement[];
+    protected _tool             : ITool;
+    protected _selectedIndex    : number;
+    protected _selectedValue    : number;
+    protected _options          : HTMLDivElement[];
 }

@@ -13,7 +13,7 @@ import { UINumber                   }   from '../../Engine/UI/UINumber'         
 import { UIText                     }   from '../../Engine/UI/UIText'              ;
 import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { ITool                    }   from '../Interfaces'                            ;
+import { ITool                      }   from '../Interfaces'                            ;
 import { Menu                       }   from './Menu'                                   ;
 
 /**
@@ -25,10 +25,10 @@ import { Menu                       }   from './Menu'                           
  */
 export class PlayMenu extends Menu {
 
-    constructor( editor:ITool ) {
+    constructor( tool:ITool ) {
         super('play');
 
-        let signals     = editor.signals;
+        let signals     = tool.signals;
         let isPlaying   = false;
 
         let title = new UIPanel();

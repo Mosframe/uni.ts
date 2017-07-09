@@ -26,16 +26,16 @@ export class SetGeometryValueCommand extends Command {
 
     execute () {
 		this.object.geometry[ this.attributeName ] = this._newValue;
-		this._editor.signals.objectChanged.dispatch( this.object );
-		this._editor.signals.geometryChanged.dispatch();
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.objectChanged.dispatch( this.object );
+		this._tool.signals.geometryChanged.dispatch();
+		this._tool.signals.sceneGraphChanged.dispatch();
     }
 
     undo () {
 		this.object.geometry[ this.attributeName ] = this._oldValue;
-		this._editor.signals.objectChanged.dispatch( this.object );
-		this._editor.signals.geometryChanged.dispatch();
-		this._editor.signals.sceneGraphChanged.dispatch();
+		this._tool.signals.objectChanged.dispatch( this.object );
+		this._tool.signals.geometryChanged.dispatch();
+		this._tool.signals.sceneGraphChanged.dispatch();
     }
 
     toJSON () : any {
@@ -49,7 +49,7 @@ export class SetGeometryValueCommand extends Command {
 
 	fromJSON ( json:any ) {
         super.fromJSON( json );
-		this.object          = this._editor.objectByUuid( json.objectUuid );
+		this.object          = this._tool.objectByUuid( json.objectUuid );
 		this.attributeName   = json.attributeName;
 		this._oldValue       = json.oldValue;
 		this._newValue       = json.newValue;

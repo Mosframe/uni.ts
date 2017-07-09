@@ -45,7 +45,7 @@ export class Loader implements ILoader {
                 let loader = new THREE.TDSLoader();
                 let object = loader.parse( event.target.result );
 
-                editor.execute( new AddObjectCommand( object ) );
+                tool.execute( new AddObjectCommand( object ) );
 
             }, false );
             reader.readAsArrayBuffer( file );
@@ -59,7 +59,7 @@ export class Loader implements ILoader {
                 let loader = new THREE.AMFLoader();
                 let amfobject = loader.parse( event.target.result );
 
-                editor.execute( new AddObjectCommand( amfobject ) );
+                tool.execute( new AddObjectCommand( amfobject ) );
 
             }, false );
             reader.readAsArrayBuffer( file );
@@ -73,7 +73,7 @@ export class Loader implements ILoader {
                 let loader = new THREE.AWDLoader();
                 let scene = loader.parse( event.target.result );
 
-                editor.execute( new SetSceneCommand( scene ) );
+                tool.execute( new SetSceneCommand( scene ) );
 
             }, false );
             reader.readAsArrayBuffer( file );
@@ -90,7 +90,7 @@ export class Loader implements ILoader {
                 let loader = new THREE.BabylonLoader();
                 let scene = loader.parse( json );
 
-                editor.execute( new SetSceneCommand( scene ) );
+                tool.execute( new SetSceneCommand( scene ) );
 
             }, false );
             reader.readAsText( file );
@@ -112,7 +112,7 @@ export class Loader implements ILoader {
                 let mesh = new THREE.Mesh( geometry, material );
                 mesh.name = filename;
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             }, false );
             reader.readAsText( file );
@@ -139,7 +139,7 @@ export class Loader implements ILoader {
                     let mesh = new THREE.Mesh( geometry, material );
                     mesh.name = filename;
 
-                    editor.execute( new AddObjectCommand( mesh ) );
+                    tool.execute( new AddObjectCommand( mesh ) );
 
                 } );
 
@@ -159,7 +159,7 @@ export class Loader implements ILoader {
 
                 collada.scene.name = filename;
 
-                editor.execute( new AddObjectCommand( collada.scene ) );
+                tool.execute( new AddObjectCommand( collada.scene ) );
 
             }, false );
             reader.readAsText( file );
@@ -175,7 +175,7 @@ export class Loader implements ILoader {
                 let loader = new THREE.FBXLoader();
                 let object = loader.parse( contents );
 
-                editor.execute( new AddObjectCommand( object ) );
+                tool.execute( new AddObjectCommand( object ) );
 
             }, false );
             reader.readAsArrayBuffer( file );
@@ -193,7 +193,7 @@ export class Loader implements ILoader {
                 loader.parse( contents, function ( result ) {
 
                     result.scene.name = filename;
-                    editor.execute( new AddObjectCommand( result.scene ) );
+                    tool.execute( new AddObjectCommand( result.scene ) );
 
                 } );
 
@@ -263,7 +263,7 @@ export class Loader implements ILoader {
 
                 collada.scene.name = filename;
 
-                editor.execute( new AddObjectCommand( collada.scene ) );
+                tool.execute( new AddObjectCommand( collada.scene ) );
 
             }, false );
             reader.readAsArrayBuffer( file );
@@ -286,7 +286,7 @@ export class Loader implements ILoader {
                 mesh.mixer = new THREE.AnimationMixer( mesh );
                 mesh.name = filename;
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             }, false );
             reader.readAsArrayBuffer( file );
@@ -302,7 +302,7 @@ export class Loader implements ILoader {
                 let object = new THREE.OBJLoader().parse( contents );
                 object.name = filename;
 
-                editor.execute( new AddObjectCommand( object ) );
+                tool.execute( new AddObjectCommand( object ) );
 
             }, false );
             reader.readAsText( file );
@@ -319,7 +319,7 @@ export class Loader implements ILoader {
                 let loader = new THREE.PlayCanvasLoader();
                 let object = loader.parse( json );
 
-                editor.execute( new AddObjectCommand( object ) );
+                tool.execute( new AddObjectCommand( object ) );
 
             }, false );
             reader.readAsText( file );
@@ -341,7 +341,7 @@ export class Loader implements ILoader {
                 let mesh = new THREE.Mesh( geometry, material );
                 mesh.name = filename;
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             }, false );
             reader.readAsArrayBuffer( file );
@@ -363,7 +363,7 @@ export class Loader implements ILoader {
                 let mesh = new THREE.Mesh( geometry, material );
                 mesh.name = filename;
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             }, false );
 
@@ -390,7 +390,7 @@ export class Loader implements ILoader {
 //
 //                let mesh = new THREE.Mesh( geometry, material );
 //
-//                editor.execute( new AddObjectCommand( mesh ) );
+//                tool.execute( new AddObjectCommand( mesh ) );
 //
 //            }, false );
 //            reader.readAsBinaryString( file );
@@ -412,7 +412,7 @@ export class Loader implements ILoader {
                 let mesh = new THREE.Mesh( geometry, material );
                 mesh.name = filename;
 
-                editor.execute( new AddObjectCommand( mesh ) );
+                tool.execute( new AddObjectCommand( mesh ) );
 
             }, false );
             reader.readAsText( file );
@@ -427,7 +427,7 @@ export class Loader implements ILoader {
 
                 let result = new THREE.VRMLLoader().parse( contents );
 
-                editor.execute( new SetSceneCommand( result ) );
+                tool.execute( new SetSceneCommand( result ) );
 
             }, false );
             reader.readAsText( file );
@@ -446,14 +446,14 @@ export class Loader implements ILoader {
 
     // [ Constructor ]
 
-    constructor( editor:ITool ) {
+    constructor( tool:ITool ) {
 
-        this._editor        = editor;
-        this._signals       = editor.signals;
+        this._tool        = tool;
+        this._signals       = tool.signals;
         this._texturePath   = '';
     }
 
-    private _editor         : ITool;
+    private _tool         : ITool;
     private _signals        : ISignals;
     private _texturePath    : string;
 
@@ -481,7 +481,7 @@ export class Loader implements ILoader {
                 let loader  = new GL.BufferGeometryLoader();
                 let result  = loader.parse( data );
                 let mesh    = new GL.Mesh( result );
-                this._editor.execute( new AddObjectCommand( mesh ) );
+                this._tool.execute( new AddObjectCommand( mesh ) );
             }
             break;
 
@@ -515,7 +515,7 @@ export class Loader implements ILoader {
                 }
                 mesh.name = filename;
 
-                this._editor.execute( new AddObjectCommand( mesh ) );
+                this._tool.execute( new AddObjectCommand( mesh ) );
             }
             break;
 
@@ -527,16 +527,16 @@ export class Loader implements ILoader {
                 let result = loader.parse( data );
 
                 if ( result instanceof GL.Scene ) {
-                    this._editor.execute( new SetSceneCommand( result ) );
+                    this._tool.execute( new SetSceneCommand( result ) );
                 } else {
-                    this._editor.execute( new AddObjectCommand( result ) );
+                    this._tool.execute( new AddObjectCommand( result ) );
                 }
             }
             break;
 
         case 'app':
             {
-                this._editor.fromJSON( data );
+                this._tool.fromJSON( data );
             }
             break;
         }

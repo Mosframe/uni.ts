@@ -48,17 +48,17 @@ export class Command implements ICommand {
 
     toJSON  () : any {
         return {
-            type             : this.type,
-            id               : this.id,
-            name             : this.name,
+            type : this.type,
+            id   : this.id,
+            name : this.name,
         }
     }
 
     fromJSON ( json:any ) {
-        this.inMemory       = true;
-        this.type           = json.type;
-        this.id             = json.id;
-        this.name           = json.name;
+        this.inMemory = true;
+        this.type     = json.type;
+        this.id       = json.id;
+        this.name     = json.name;
     }
 
     update ( cmd:ICommand ) {
@@ -77,10 +77,10 @@ export class Command implements ICommand {
         if( editor !== undefined ) {
             Command.editor = editor;
         }
-        this._editor = Command.editor;
+        this._tool = Command.editor;
     }
 
     // [ Protected Variables ]
 
-	protected _editor           : ITool;
+	protected _tool : ITool;
 }

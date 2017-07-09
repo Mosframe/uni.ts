@@ -23,19 +23,19 @@ import { StatusMenu     }   from './Menus/StatusMenu';
  */
 export class Menubar extends UIPanel {
 
-    constructor ( editor:any ) {
+    constructor ( tool:any ) {
         super();
 
         this.setId( 'menubar' );
 
-        this.add( new FileMenu( editor ) );
-        this.add( new EditMenu( editor ) );
-        this.add( new AddMenu( editor ) );
-        this.add( new PlayMenu( editor ) );
-        // this.add( new Menubar.View( editor ) );
-        this.add( new ExamplesMenu( editor ) );
-        this.add( new HelpMenu( editor ) );
-        this.add( new StatusMenu( editor ) );
+        this.add( new FileMenu( tool ) );
+        this.add( new EditMenu( tool ) );
+        this.add( new AddMenu( tool ) );
+        this.add( new PlayMenu( tool ) );
+        // this.add( new Menubar.View( tool ) );
+        this.add( new ExamplesMenu( tool ) );
+        this.add( new HelpMenu( tool ) );
+        this.add( new StatusMenu( tool ) );
 
         document.body.appendChild( this.core );
     }

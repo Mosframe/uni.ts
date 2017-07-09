@@ -23,12 +23,12 @@ export class SetScriptValueCommand extends Command {
 
     execute () {
 		this.script[ this.attributeName ] = this._newValue;
-		this._editor.signals.scriptChanged.dispatch();
+		this._tool.signals.scriptChanged.dispatch();
     }
 
     undo () {
 		this.script[ this.attributeName ] = this._oldValue;
-		this._editor.signals.scriptChanged.dispatch();
+		this._tool.signals.scriptChanged.dispatch();
     }
 
 	update ( command:SetScriptValueCommand ) {
@@ -38,7 +38,7 @@ export class SetScriptValueCommand extends Command {
     toJSON () : any {
         let output = super.toJSON();
 		output.objectUuid       = this.object.uuid;
-		output.index            = this._editor.scripts[ this.object.uuid ].indexOf( this.script );
+		output.index            = this._tool.scripts[ this.object.uuid ].indexOf( this.script );
 		output.attributeName    = this.attributeName;
 		output.oldValue         = this._oldValue;
 		output.newValue         = this._newValue;
@@ -50,8 +50,8 @@ export class SetScriptValueCommand extends Command {
 		this._oldValue      = json.oldValue;
 		this._newValue      = json.newValue;
 		this.attributeName  = json.attributeName;
-		this.object         = this._editor.objectByUuid( json.objectUuid );
-		this.script         = this._editor.scripts[ json.objectUuid ][ json.index ];
+		this.object         = this._tool.objectByUuid( json.objectUuid );
+		this.script         = this._tool.scripts[ json.objectUuid ][ json.index ];
 	}
 
     // [ Constructor ]
