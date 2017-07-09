@@ -33,6 +33,8 @@ import { ISignals       }   from '../Interfaces';
  */
 export class ProjectEditor extends UIPanel {
 
+    // [ Constructor ]
+
     constructor( tool:ITool ) {
 
         super( 'project' );

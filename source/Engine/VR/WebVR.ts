@@ -51,15 +51,22 @@ export class WebVR {
 		} );
 	}
 
-	static getVRDisplay ( onDisplay ) {
+	static getVRDisplays ( onDisplays:Function ) {
 
-		if ( 'getVRDisplays' in navigator ) {
-
-			navigator.getVRDisplays()
-				.then( function ( displays ) {
-					onDisplay( displays[ 0 ] );
-				} );
+		if ( navigator.getVRDisplays ) {
+			navigator.getVRDisplays().then( ( displays:VRDisplay[] ) => {
+				onDisplays( displays );
+			}).catch( ()=>{
+                console.warn( 'GL.VRControls: Unable to get VR Displays' );
+			});
 		}
+	}
+
+	static getVRDisplay ( onDisplay:Function ) {
+
+		WebVR.getVRDisplays( (displays:VRDisplay[]) => {
+			onDisplay( displays[0] );
+		});
 	}
 
 	static getMessage () {

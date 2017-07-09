@@ -5,7 +5,7 @@
  */
 
 import { Tool           }   from './Editor/Tool';
-//import { Viewport       }   from './Editor/Viewport';
+import { Viewport       }   from './Editor/Viewport';
 import { Menubar        }   from './Editor/Menubar';
 import { Toolbar        }   from './Editor/Toolbar';
 import { RightSidebar1  }   from './Editor/RightSidebar1';
@@ -15,7 +15,7 @@ import { RightSidebar1  }   from './Editor/RightSidebar1';
 let editor = new Tool();
 
 // [ Viewport ]
-//let viewport = new Viewport( editor );
+let viewport = new Viewport( editor );
 
 // [ Menubar ]
 let menubar = new Menubar( editor );
@@ -26,4 +26,4 @@ let toolbar = new Toolbar( editor );
 // [ RightSidebar1 ]
 let rightSidebar1 = new RightSidebar1( editor );
 
-console.log( "hello world" );
+console.log( "load finished" );
