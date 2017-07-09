@@ -1,5 +1,5 @@
 /**
- * Editor.ts
+ * Tool.ts
  *
  * @author mrdoob ( http://mrdoob.com )
  * @author mosframe / https://github.com/mosframe
@@ -10,7 +10,7 @@ import * as GL         		from '../Engine/Graphic';
 import { Signal      	} 	from 'signals';
 import { 				} 	from './date';
 import { ICommand    	} 	from './interfaces';
-import { IEditor     	} 	from './interfaces';
+import { ITool     		} 	from './interfaces';
 import { ISignals    	} 	from './interfaces';
 import { Config      	} 	from './Config';
 import { History     	} 	from './History';
@@ -19,13 +19,13 @@ import { Storage     	} 	from './Storage';
 import { Command     	} 	from './Commands/Command';
 
 /**
- * Editor
+ * Tool
  *
  * @export
- * @class Editor
- * @implements {IEditor}
+ * @class Tool
+ * @implements {ITool}
  */
-export class Editor implements IEditor {
+export class Tool implements ITool {
 
     // [ Public Variables ]
 

@@ -5,11 +5,8 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import {Signal      } from 'signals';
-import {Debug       } from '../Engine/Debug';
-import {IStorage    } from './Interfaces';
-import {Config      } from './config';
-import {Editor      } from './editor';
+import { Debug      } from '../Engine/Debug';
+import { IStorage   } from './Interfaces';
 
 /**
  * Storage

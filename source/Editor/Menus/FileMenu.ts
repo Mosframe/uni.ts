@@ -13,7 +13,7 @@ import { UINumber                   }   from '../../Engine/UI/UINumber'         
 import { UIText                     }   from '../../Engine/UI/UIText'              ;
 import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { IEditor                    }   from '../Interfaces'                            ;
+import { ITool                    }   from '../Interfaces'                            ;
 import { OBJExporter                }   from '../Exporters/OBJExporter'                 ;
 import { STLExporter                }   from '../Exporters/STLExporter'                 ;
 import { Menu                       }   from './Menu'                                   ;
@@ -32,7 +32,7 @@ let NUMBER_PRECISION = 6;
  */
 export class FileMenu extends Menu {
 
-    constructor( editor:IEditor ) {
+    constructor( editor:ITool ) {
         super('file');
 
         let title = new UIPanel();

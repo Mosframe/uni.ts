@@ -13,7 +13,7 @@ import { UINumber                   }   from '../../Engine/UI/UINumber'         
 import { UIText                     }   from '../../Engine/UI/UIText'              ;
 import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { IEditor                    }   from '../Interfaces'                            ;
+import { ITool                    }   from '../Interfaces'                            ;
 import { AddObjectCommand           }   from '../Commands/AddObjectCommand'             ;
 import { RemoveObjectCommand        }   from '../Commands/RemoveObjectCommand'          ;
 import { SetMaterialValueCommand    }   from '../Commands/SetMaterialValueCommand'      ;
@@ -31,7 +31,7 @@ export class AddMenu extends Menu {
 
     // [ Constructor ]
 
-    constructor( editor:IEditor ) {
+    constructor( editor:ITool ) {
         super('add');
 
         // [ Title ]

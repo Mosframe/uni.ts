@@ -10,7 +10,7 @@ import { UIButton   }   from '../Engine/UI/UIButton';
 import { UINumber   }   from '../Engine/UI/UINumber';
 import { UIText     }   from '../Engine/UI/UIText';
 import { UIBoolean  }   from '../Engine/UI/UIBoolean';
-import { IEditor    }   from './Interfaces';
+import { ITool    }   from './Interfaces';
 
 /**
  * Toolbar
@@ -20,7 +20,7 @@ import { IEditor    }   from './Interfaces';
  */
 export class Toolbar  extends UIPanel {
 
-    constructor( editor:IEditor ) {
+    constructor( editor:ITool ) {
 
         super();
 

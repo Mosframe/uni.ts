@@ -5,14 +5,13 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL                              from '../Engine/Graphic';
-import { UNumber	                    }   from '../Engine/UNumber';
-import { ILoader                        }   from './Interfaces';
-import { IEditor                        }   from './Interfaces';
-import { ISignals                       }   from './Interfaces';
-import { Config                         }   from './Config';
-import { AddObjectCommand               }   from './Commands/AddObjectCommand';
-import { SetSceneCommand                }   from './Commands/SetSceneCommand';
+import * as GL                  from '../Engine/Graphic';
+import { UNumber	        }   from '../Engine/UNumber';
+import { ILoader            }   from './Interfaces';
+import { ITool              }   from './Interfaces';
+import { ISignals           }   from './Interfaces';
+import { AddObjectCommand   }   from './Commands/AddObjectCommand';
+import { SetSceneCommand    }   from './Commands/SetSceneCommand';
 
 /**
  * Loader
@@ -447,14 +446,14 @@ export class Loader implements ILoader {
 
     // [ Constructor ]
 
-    constructor( editor:IEditor ) {
+    constructor( editor:ITool ) {
 
         this._editor        = editor;
         this._signals       = editor.signals;
         this._texturePath   = '';
     }
 
-    private _editor         : IEditor;
+    private _editor         : ITool;
     private _signals        : ISignals;
     private _texturePath    : string;
 

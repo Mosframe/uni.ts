@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { IEditor    } from '../Interfaces';
+import { ITool    } from '../Interfaces';
 import { ICommand   } from '../Interfaces';
 import { Config     } from '../Config';
 
@@ -22,7 +22,7 @@ export class Command implements ICommand {
 
     // [ Public Static Variables ]
 
-    static editor   : IEditor;
+    static editor   : ITool;
 
     // [ Public Variables ]
 
@@ -67,7 +67,7 @@ export class Command implements ICommand {
 
     // [ Constructors ]
 
-    constructor( editor?:IEditor ) {
+    constructor( editor?:ITool ) {
         this.id         = - 1;
         this.inMemory   = false;
         this.updatable  = false;
@@ -82,5 +82,5 @@ export class Command implements ICommand {
 
     // [ Protected Variables ]
 
-	protected _editor           : IEditor;
+	protected _editor           : ITool;
 }

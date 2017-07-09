@@ -5,7 +5,7 @@
  */
 
 import { ICommand 	} from './Interfaces';
-import { IEditor  	} from './Interfaces';
+import { ITool  	} from './Interfaces';
 import { Config  	} from './Config';
 import { Command 	} from './Commands/Command';
 
@@ -23,7 +23,7 @@ export class History {
 
     undos           : ICommand[];
     redos           : ICommand[];
-    editor          : IEditor;
+    editor          : ITool;
     lastCmdTime     : Date;
     idCounter       : number;
     historyDisabled : boolean;
@@ -273,7 +273,7 @@ export class History {
 
     // [ Constructors ]
 
-    constructor ( editor:IEditor ) {
+    constructor ( editor:ITool ) {
 
         this.editor             = editor;
         this.undos              = [];

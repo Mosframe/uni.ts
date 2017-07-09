@@ -36,12 +36,12 @@ export interface ICommand {
 }
 
 /**
- * Editor interface
+ * Tool interface
  *
  * @export
- * @interface IEditor
+ * @interface ITool
  */
-export interface IEditor {
+export interface ITool {
 
     config          : Config;
     signals         : ISignals;

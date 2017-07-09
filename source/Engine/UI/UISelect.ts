@@ -37,7 +37,7 @@ export class UISelect extends UIElement {
         return options;
     }
 
-    setOptions ( options:string[] ) {
+    setOptions ( options:{[title:string]:string} ) {
 
     	let selected = this.core.value;
 
@@ -45,10 +45,10 @@ export class UISelect extends UIElement {
             if( this._core.firstChild ) this._core.removeChild( this._core.firstChild );
         }
 
-        for( let key in options ) {
+        for( let title in options ) {
             let option = document.createElement( 'option' );
-            option.value = key;
-            option.innerHTML = options[ key ];
+            option.value = title;
+            option.innerHTML = options[ title ];
             this._core.appendChild( option );
         }
 

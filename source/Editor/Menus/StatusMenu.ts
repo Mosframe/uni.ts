@@ -13,7 +13,7 @@ import { UINumber                   }   from '../../Engine/UI/UINumber'         
 import { UIText                     }   from '../../Engine/UI/UIText'              ;
 import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { IEditor                    }   from '../Interfaces'                            ;
+import { ITool                    }   from '../Interfaces'                            ;
 import { Menu                       }   from './Menu'                                   ;
 
 /**
@@ -25,7 +25,7 @@ import { Menu                       }   from './Menu'                           
  */
 export class StatusMenu extends Menu {
 
-    constructor( editor:IEditor ) {
+    constructor( editor:ITool ) {
         super('status');
         this.setClass( 'menu right' );
 

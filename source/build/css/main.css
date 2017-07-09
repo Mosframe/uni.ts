@@ -31,7 +31,7 @@ textarea {
 
 textarea, input { outline: none; } /* osx */
 
-.Panel {
+.panel {
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;

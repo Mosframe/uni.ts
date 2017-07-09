@@ -5,14 +5,14 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { UIPanel            }   from '../Engine/UI/UIPanel';
-import { FileMenu           }   from './Menus/FileMenu';
-import { EditMenu           }   from './Menus/EditMenu';
-import { AddMenu            }   from './Menus/AddMenu';
-import { PlayMenu           }   from './Menus/PlayMenu';
-import { ExamplesMenu       }   from './Menus/ExamplesMenu';
-import { HelpMenu           }   from './Menus/HelpMenu';
-import { StatusMenu         }   from './Menus/StatusMenu';
+import { UIPanel        }   from '../Engine/UI/UIPanel';
+import { FileMenu       }   from './Menus/FileMenu';
+import { EditMenu       }   from './Menus/EditMenu';
+import { AddMenu        }   from './Menus/AddMenu';
+import { PlayMenu       }   from './Menus/PlayMenu';
+import { ExamplesMenu   }   from './Menus/ExamplesMenu';
+import { HelpMenu       }   from './Menus/HelpMenu';
+import { StatusMenu     }   from './Menus/StatusMenu';
 
 /**
  * menubar

@@ -9,7 +9,7 @@ import { UIElement          }   from '../../Engine/UI/UIElement';
 import { UISpan             }   from '../../Engine/UI/UISpan';
 import { UICheckbox         }   from '../../Engine/UI/UICheckbox';
 import { UIText             }   from '../../Engine/UI/UIText';
-import { IEditor            }   from '../Interfaces';
+import { ITool              }   from '../Interfaces';
 import { MoveObjectCommand  }   from '../Commands/MoveObjectCommand'
 
 
@@ -22,7 +22,205 @@ import { MoveObjectCommand  }   from '../Commands/MoveObjectCommand'
  */
 export class UIOutliner extends UIElement {
 
-    constructor ( editor:IEditor ) {
+    // [ Public Variables ]
+
+    get options () : HTMLDivElement[] {
+        return this._options;
+    }
+
+    // [ Public Functions ]
+
+    selectIndex ( index:number ) {
+
+        if ( index >= 0 && index < this._options.length ) {
+
+            this.setValue( this._options[ index ]['value'] );
+
+            let changeEvent = document.createEvent( 'HTMLEvents' );
+            changeEvent.initEvent( 'change', true, true );
+            this.core.dispatchEvent( changeEvent );
+        }
+    }
+
+    setOptions ( options:HTMLDivElement[] ) {
+
+        let scope = this;
+
+        while ( scope.core.children.length > 0 ) {
+            if( scope.core.firstChild ) scope.core.removeChild( scope.core.firstChild );
+        }
+
+        function onClick() {
+            let option = <HTMLDivElement>this;
+            scope.setValue( option['value'] );
+            let changeEvent = document.createEvent( 'HTMLEvents' );
+            changeEvent.initEvent( 'change', true, true );
+            scope.core.dispatchEvent( changeEvent );
+        }
+
+        // Drag
+
+    	let currentDrag:any;
+
+        function onDrag( event ) {
+            currentDrag = this;
+        }
+
+        function onDragStart( event ) {
+            event.dataTransfer.setData( 'text', 'foo' );
+        }
+
+        function onDragOver( event ) {
+
+            let option = <HTMLDivElement>this;
+
+            if ( option === currentDrag ) return;
+
+            let area = event.offsetY / option.clientHeight;
+
+            if ( area < 0.25 ) {
+
+                option.className = 'option dragTop';
+
+            } else if ( area > 0.75 ) {
+
+                option.className = 'option dragBottom';
+
+            } else {
+
+                option.className = 'option drag';
+
+            }
+        }
+
+        function onDragLeave() {
+
+            let option = <HTMLDivElement>this;
+            if ( option === currentDrag ) return;
+
+            option.className = 'option';
+        }
+
+        function onDrop( event ) {
+
+            let option = <HTMLDivElement>this;
+            if ( option === currentDrag ) return;
+
+            option.className = 'option';
+
+            let scene = scope._editor.scene;
+            let object = scene.getObjectById( currentDrag['value'] );
+
+            let area = event.offsetY / option.clientHeight;
+
+            if ( area < 0.25 ) {
+
+                let nextObject = scene.getObjectById( option['value'] );
+                moveObject( object, nextObject.parent, nextObject );
+
+            } else if ( area > 0.75 ) {
+                let nextOption = option.nextSibling;
+                if( nextOption ) {
+                    let nextObject = scene.getObjectById( nextOption['value'] );
+                    moveObject( object, nextObject.parent, nextObject );
+                }
+
+            } else {
+                let parentObject = scene.getObjectById( option['value'] );
+                moveObject( object, parentObject );
+            }
+        }
+
+        function moveObject( object, newParent, nextObject?:any ) {
+
+            if ( nextObject === null ) nextObject = undefined;
+
+            let newParentIsChild = false;
+
+            object.traverse( ( child ) => {
+                if ( child === newParent ) newParentIsChild = true;
+            });
+
+            if ( newParentIsChild ) return;
+
+            this.editor.execute( new MoveObjectCommand( object, newParent, nextObject ) );
+
+            let changeEvent = document.createEvent( 'HTMLEvents' );
+            changeEvent.initEvent( 'change', true, true );
+            scope.core.dispatchEvent( changeEvent );
+        }
+
+        //
+
+        scope._options = [];
+
+        for ( let i = 0; i < options.length; i ++ ) {
+
+            let option = options[ i ];
+            option.className = 'option';
+            scope.core.appendChild( option );
+
+            scope._options.push( option );
+
+            option.addEventListener( 'click', onClick, false );
+
+            if ( option.draggable === true ) {
+
+                option.addEventListener( 'drag'        , onDrag        , false );
+                option.addEventListener( 'dragstart'   , onDragStart   , false ); // Firefox needs this
+                option.addEventListener( 'dragover'    , onDragOver    , false );
+                option.addEventListener( 'dragleave'   , onDragLeave   , false );
+                option.addEventListener( 'drop'        , onDrop        , false );
+            }
+        }
+        return scope;
+    }
+
+    getValue () : number {
+
+        return this._selectedValue;
+    }
+
+    setValue ( value:number ) {
+
+        for ( let i = 0; i < this._options.length; i ++ ) {
+
+            let option = this._options[ i ];
+
+            if ( option['value'] === value ) {
+
+                option.classList.add( 'active' );
+
+                // scroll into view
+
+                let y = option.offsetTop - this.core.offsetTop;
+                let bottomY = y + option.offsetHeight;
+                let minScroll = bottomY - this.core.offsetHeight;
+
+                if ( this.core.scrollTop > y ) {
+
+                    this.core.scrollTop = y;
+
+                } else if ( this.core.scrollTop < minScroll ) {
+
+                    this.core.scrollTop = minScroll;
+                }
+
+                this._selectedIndex = i;
+
+            } else {
+                option.classList.remove( 'active' );
+            }
+        }
+
+        this._selectedValue = value;
+
+        return this;
+    }
+
+    // [ Constructor ]
+
+    constructor ( editor:ITool ) {
 
         super( document.createElement( 'div' ), 'outliner' );
 
@@ -56,197 +254,11 @@ export class UIOutliner extends UIElement {
         });
 
         this._options        = [];
-        this._selectedIndex  = - 1;
-        this._selectedValue  = null;
+        this._selectedIndex  =-1;
+        this._selectedValue  = 0;
 
         return this;
 
-    }
-
-    selectIndex ( index:number ) {
-
-        if ( index >= 0 && index < this._options.length ) {
-
-            this.setValue( this._options[ index ].value );
-
-            let changeEvent = document.createEvent( 'HTMLEvents' );
-            changeEvent.initEvent( 'change', true, true );
-            this.core.dispatchEvent( changeEvent );
-        }
-
-    }
-
-    setOptions ( options:any ) {
-
-        let scope = this;
-
-        while ( scope.core.children.length > 0 ) {
-            if( scope.core.firstChild ) scope.core.removeChild( scope.core.firstChild );
-        }
-
-
-        function onClick() {
-
-            scope.setValue( this.value );
-            let changeEvent = document.createEvent( 'HTMLEvents' );
-            changeEvent.initEvent( 'change', true, true );
-            scope.core.dispatchEvent( changeEvent );
-        }
-
-        // Drag
-
-    	let currentDrag;
-
-        function onDrag( event ) {
-            currentDrag = this;
-        }
-
-        function onDragStart( event ) {
-            event.dataTransfer.setData( 'text', 'foo' );
-        }
-
-        function onDragOver( event ) {
-
-            if ( this === currentDrag ) return;
-
-            let area = event.offsetY / this.clientHeight;
-
-            if ( area < 0.25 ) {
-
-                this.className = 'option dragTop';
-
-            } else if ( area > 0.75 ) {
-
-                this.className = 'option dragBottom';
-
-            } else {
-
-                this.className = 'option drag';
-
-            }
-        }
-
-        function onDragLeave() {
-
-            if ( this === currentDrag ) return;
-
-            this.className = 'option';
-        }
-
-        function onDrop( event ) {
-
-            if ( this === currentDrag ) return;
-
-            this.className = 'option';
-
-            let scene = scope._editor.scene;
-            let object = scene.getObjectById( currentDrag.value );
-
-            let area = event.offsetY / this.clientHeight;
-
-            if ( area < 0.25 ) {
-
-                let nextObject = scene.getObjectById( this.value );
-                moveObject( object, nextObject.parent, nextObject );
-
-            } else if ( area > 0.75 ) {
-
-                let nextObject = scene.getObjectById( this.nextSibling.value );
-                moveObject( object, nextObject.parent, nextObject );
-
-            } else {
-                let parentObject = scene.getObjectById( this.value );
-                moveObject( object, parentObject );
-            }
-        }
-
-        function moveObject( object, newParent, nextObject?:any ) {
-
-            if ( nextObject === null ) nextObject = undefined;
-
-            let newParentIsChild = false;
-
-            object.traverse( function ( child ) {
-
-                if ( child === newParent ) newParentIsChild = true;
-
-            } );
-
-            if ( newParentIsChild ) return;
-
-            this.editor.execute( new MoveObjectCommand( object, newParent, nextObject ) );
-
-            let changeEvent = document.createEvent( 'HTMLEvents' );
-            changeEvent.initEvent( 'change', true, true );
-            scope.core.dispatchEvent( changeEvent );
-        }
-
-        //
-
-        scope._options = [];
-
-        for ( let i = 0; i < options.length; i ++ ) {
-
-            let div = options[ i ];
-            div.className = 'option';
-            scope.core.appendChild( div );
-
-            scope._options.push( div );
-
-            div.addEventListener( 'click', onClick, false );
-
-            if ( div.draggable === true ) {
-
-                div.addEventListener( 'drag'        , onDrag        , false );
-                div.addEventListener( 'dragstart'   , onDragStart   , false ); // Firefox needs this
-                div.addEventListener( 'dragover'    , onDragOver    , false );
-                div.addEventListener( 'dragleave'   , onDragLeave   , false );
-                div.addEventListener( 'drop'        , onDrop        , false );
-            }
-        }
-        return scope;
-    }
-
-    getValue () {
-
-        return this._selectedValue;
-    }
-
-    setValue ( value ) {
-
-        for ( let i = 0; i < this._options.length; i ++ ) {
-
-            let element = this._options[ i ];
-
-            if ( element.value === value ) {
-
-                element.classList.add( 'active' );
-
-                // scroll into view
-
-                let y = element.offsetTop - this.core.offsetTop;
-                let bottomY = y + element.offsetHeight;
-                let minScroll = bottomY - this.core.offsetHeight;
-
-                if ( this.core.scrollTop > y ) {
-
-                    this.core.scrollTop = y;
-
-                } else if ( this.core.scrollTop < minScroll ) {
-
-                    this.core.scrollTop = minScroll;
-                }
-
-                this._selectedIndex = i;
-
-            } else {
-                element.classList.remove( 'active' );
-            }
-        }
-
-        this._selectedValue = value;
-
-        return this;
     }
 
     // [ Core ]
@@ -255,11 +267,8 @@ export class UIOutliner extends UIElement {
 
     // [ Protected Variables ]
 
-    protected _editor          : IEditor;
+    protected _editor          : ITool;
     protected _selectedIndex   : number;
-    protected _selectedValue   : any;
-    protected _options         : any;
-    protected _value           : any;
-    protected _clientHeight    : any;
-    protected _nextSibling     : any;
+    protected _selectedValue   : number;
+    protected _options         : HTMLDivElement[];
 }
