@@ -58,6 +58,8 @@ export class UIModal extends UIElement {
         this.onClick ( ( event:MouseEvent ) => {
             this.hide();
         });
+
+        document.body.appendChild( this.core );
     }
 
     // [ Core ]
