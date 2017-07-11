@@ -5,20 +5,28 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL                          from '../../Engine/Graphic'                ;
-import { UIPanel                    }   from '../../Engine/UI/UIPanel'             ;
-import { UIRow                      }   from '../../Engine/UI/UIRow'               ;
-import { UIButton                   }   from '../../Engine/UI/UIButton'            ;
-import { UINumber                   }   from '../../Engine/UI/UINumber'            ;
-import { UIText                     }   from '../../Engine/UI/UIText'              ;
-import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
-import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { ITool                      }   from '../Interfaces'                            ;
-import { AddObjectCommand           }   from '../Commands/AddObjectCommand'             ;
-import { RemoveObjectCommand        }   from '../Commands/RemoveObjectCommand'          ;
-import { SetMaterialValueCommand    }   from '../Commands/SetMaterialValueCommand'      ;
-import { MultiCmdsCommand           }   from '../Commands/MultiCmdsCommand'             ;
-import { Menu                       }   from './Menu'                                   ;
+import * as GL                          from '../../Engine/Graphic';
+import { UIPanel                    }   from '../../Engine/UI/UIPanel';
+import { UIRow                      }   from '../../Engine/UI/UIRow';
+import { UIButton                   }   from '../../Engine/UI/UIButton';
+import { UINumber                   }   from '../../Engine/UI/UINumber';
+import { UIText                     }   from '../../Engine/UI/UIText';
+import { UIBoolean                  }   from '../../Engine/UI/UIBoolean';
+import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule';
+import { ITool                      }   from '../Interfaces';
+import { AddObjectCommand           }   from '../Commands/AddObjectCommand';
+import { RemoveObjectCommand        }   from '../Commands/RemoveObjectCommand';
+import { SetMaterialValueCommand    }   from '../Commands/SetMaterialValueCommand';
+import { MultiCmdsCommand           }   from '../Commands/MultiCmdsCommand';
+import { Menu                       }   from './Menu';
+
+import { GameObject                 }   from '../../Engine/GameObject';
+import { MeshFilter                 }   from '../../Engine/MeshFilter';
+import { Mesh                       }   from '../../Engine/Mesh';
+import { Geometry                   }   from '../../Engine/Geometry';
+import { PrimitiveType              }   from '../../Engine/PrimitiveType';
+import { MeshRenderer               }   from '../../Engine/MeshRenderer';
+import { MeshStandardMaterial       }   from '../../Engine/MeshStandardMaterial';
 
 /**
  * add menubar
@@ -79,13 +87,23 @@ export class AddMenu extends Menu {
             option.setTextContent( 'Plane' );
             option.onClick( () => {
 
-                let geometry = new GL.PlaneBufferGeometry( 2, 2 );
-                let material = new GL.MeshStandardMaterial();
-                let mesh = new GL.Mesh( geometry, material );
-                mesh.name = 'Plane ' + ( ++ meshCount );
+                //let geometry = new GL.PlaneBufferGeometry( 2, 2 );
+                //let material = new GL.MeshStandardMaterial();
+                //let mesh = new GL.Mesh( geometry, material );
+                //mesh.name = 'Plane ' + ( ++ meshCount );
+                //tool.execute( new AddObjectCommand( mesh ) );
 
-                tool.execute( new AddObjectCommand( mesh ) );
+                // [ TEST ]
+                var gameObject  = new GameObject( 'Plane ' + ( ++ meshCount ) );
+                var meshFilter  = gameObject.addComponent( MeshFilter );
+                var geometry    = new Geometry( PrimitiveType.plane );
+                var mesh        = new Mesh(geometry);
+                var renderer    = new MeshRenderer( gameObject );
+                var material    = new MeshStandardMaterial();
+                renderer.sharedMaterial = material;
 
+                meshFilter.sharedMesh = mesh;
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }

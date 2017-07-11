@@ -18,6 +18,8 @@ import { Loader      	} 	from './Loader';
 import { Storage     	} 	from './Storage';
 import { Command     	} 	from './Commands/Command';
 
+import { GameObject     }   from '../Engine/GameObject';
+
 /**
  * Tool
  *

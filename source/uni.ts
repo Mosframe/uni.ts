@@ -19,6 +19,7 @@ import { Toolbar                }   from './Editor/Toolbar';
 import { RightSidebar1          }   from './Editor/RightSidebar1';
 import { RemoveObjectCommand    }   from './Editor/Commands/RemoveObjectCommand';
 
+import { GameObject             }   from './Engine/GameObject';
 
 /**
  * Units Editor

@@ -95,14 +95,17 @@ export class GameObject extends Ubject {
         super();
 
         // [ name ]
-        if( name ) this.name = name;
-        else       this.name = 'GameObject';
+        if( !name ) name = 'GameObject';
+        this.name = name;
 
         // [ core ]
         this._core  = new GL.Object3D();
+        this._core.name = name;
+        this._core.userData = this;
 
         // [ scene ]
-        this._scene = SceneManager.getActiveScene();
+        //this._scene = SceneManager.getActiveScene();
+        //this._scene.add( this.core );
 
         // [ transform ]
         this.transform = this.addComponent( Transform );
