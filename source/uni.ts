@@ -32,79 +32,81 @@ export class Units {
 
     constructor () {
 
-        this.tool           = new Tool();
-        this.viewport       = new Viewport( this.tool );
-        this.menubar        = new Menubar( this.tool );
-        this.toolbar        = new Toolbar( this.tool );
-        this.rightSidebar1  = new RightSidebar1( this.tool );
+        this._tool           = new Tool();
+        this._viewport       = new Viewport( this._tool );
+        this._menubar        = new Menubar( this._tool );
+        this._toolbar        = new Toolbar( this._tool );
+        this._rightSidebar1  = new RightSidebar1( this._tool );
 
-        this.modal          = new UIModal();
-        this.modal.show ( (new UIText()).setTextContent( "Wealcome Uni.ts" ) );
-        this.modal.setTextAlign('center');
+        // [ Notice ]
+        this._modal = new UIModal();
+        this._modal.setTextAlign('center');
 
         // [ Theme ]
-        this.tool.setTheme( this.tool.config.getKey( 'theme' ) );
+        this._tool.setTheme( this._tool.config.getKey( 'theme' ) );
 
         // [ Save State ]
         let saveState = ( scene ) => {
 
-            if ( this.tool.config.getKey( 'autosave' ) === false ) {
+            if ( this._tool.config.getKey( 'autosave' ) === false ) {
                 return;
             }
 
             let timeout;
             clearTimeout( timeout );
             timeout = setTimeout( () => {
-                this.tool.signals.savingStarted.dispatch();
+                this._tool.signals.savingStarted.dispatch();
                 timeout = setTimeout( () => {
-                    this.tool.storage.set( this.tool.toJSON(), ()=>{} );
-                    this.tool.signals.savingFinished.dispatch();
+                    this._tool.storage.set( this._tool.toJSON(), ()=>{} );
+                    this._tool.signals.savingFinished.dispatch();
                 }, 100 );
             }, 1000 );
         };
 
         // [ Initialize Storage ]
-        this.tool.storage.init( () => {
+        this._tool.storage.init( () => {
 
-            this.tool.storage.get( ( state ) => {
+            this._tool.storage.get( ( state ) => {
 
                 if ( isLoadingFromHash ) return;
 
                 if ( state !== undefined ) {
-                    this.tool.fromJSON( state );
+                    this._tool.fromJSON( state );
                 }
 
                 // [ selected object ]
-                let selected = this.tool.config.getKey( 'selected' );
+                let selected = this._tool.config.getKey( 'selected' );
                 if ( selected !== undefined ) {
-                    this.tool.selectByUuid( selected );
+                    this._tool.selectByUuid( selected );
                 }
             });
 
-            //
-            let signals = this.tool.signals;
+            // [ Signals ]
+            let signals = this._tool.signals;
 
-            signals.geometryChanged.add( saveState );
-            signals.objectAdded.add( saveState );
-            signals.objectChanged.add( saveState );
-            signals.objectRemoved.add( saveState );
-            signals.materialChanged.add( saveState );
-            signals.sceneBackgroundChanged.add( saveState );
-            signals.sceneFogChanged.add( saveState );
-            signals.sceneGraphChanged.add( saveState );
-            signals.scriptChanged.add( saveState );
-            signals.historyChanged.add( saveState );
+            signals.geometryChanged         .add( saveState );
+            signals.objectAdded             .add( saveState );
+            signals.objectChanged           .add( saveState );
+            signals.objectRemoved           .add( saveState );
+            signals.materialChanged         .add( saveState );
+            signals.sceneBackgroundChanged  .add( saveState );
+            signals.sceneFogChanged         .add( saveState );
+            signals.sceneGraphChanged       .add( saveState );
+            signals.scriptChanged           .add( saveState );
+            signals.historyChanged          .add( saveState );
 
             signals.showModal.add( ( content ) => {
-                this.modal.show( content );
+                this._modal.show( content );
             });
+
+            // [ Notice test ]
+            this._tool.signals.showModal.dispatch( (new UIText()).setTextContent( "Wealcome Uni.ts" ) );
         });
 
+        // [ drag over event ]
         document.addEventListener( 'dragover', ( event ) => {
-
             event.preventDefault();
             event.dataTransfer.dropEffect = 'copy';
-
         }, false );
 
         document.addEventListener( 'drop', ( event ) => {
@@ -113,11 +115,12 @@ export class Units {
 
             if ( event.dataTransfer.files.length > 0 ) {
 
-                this.tool.loader.loadFile( event.dataTransfer.files[ 0 ] );
+                this._tool.loader.loadFile( event.dataTransfer.files[ 0 ] );
             }
 
         }, false );
 
+        // [ key down event ]
         document.addEventListener( 'keydown', ( event ) => {
 
             switch ( event.keyCode ) {
@@ -128,48 +131,43 @@ export class Units {
 
                 case 46: // delete
 
-                    let object = this.tool.selected;
+                    let object = this._tool.selected;
                     if( object ) {
                         if ( confirm( 'Delete ' + object.name + '?' ) === false ) return;
-                        if ( object.parent ) this.tool.execute( new RemoveObjectCommand( object ) );
+                        if ( object.parent ) this._tool.execute( new RemoveObjectCommand( object ) );
                     }
-
                     break;
 
                 case 90: // Register Ctrl-Z for Undo, Ctrl-Shift-Z for Redo
 
                     if ( event.ctrlKey && event.shiftKey ) {
-                        this.tool.redo();
+                        this._tool.redo();
                     } else if ( event.ctrlKey ) {
-                        this.tool.undo();
+                        this._tool.undo();
                     }
-
                     break;
 
                 case 87: // Register W for translation transform mode
 
-                    this.tool.signals.transformModeChanged.dispatch( 'translate' );
-
+                    this._tool.signals.transformModeChanged.dispatch( 'translate' );
                     break;
 
                 case 69: // Register E for rotation transform mode
 
-                    this.tool.signals.transformModeChanged.dispatch( 'rotate' );
-
+                    this._tool.signals.transformModeChanged.dispatch( 'rotate' );
                     break;
 
                 case 82: // Register R for scaling transform mode
 
-                    this.tool.signals.transformModeChanged.dispatch( 'scale' );
-
+                    this._tool.signals.transformModeChanged.dispatch( 'scale' );
                     break;
-
             }
 
         }, false );
 
-        window.addEventListener( 'resize', this.onWindowResize, false );
-        this.onWindowResize( null );
+        // [ window resize ]
+        window.addEventListener( 'resize', this._onWindowResize, false );
+        this._onWindowResize( null );
 
         //
         let isLoadingFromHash = false;
@@ -184,66 +182,66 @@ export class Units {
                 let loader = new GL.FileLoader();
                 if( 'crossOrigin' in loader ) loader['crossOrigin'] = '';
                 loader.load( file, ( text ) => {
-                    this.tool.clear();
-                    this.tool.fromJSON( JSON.parse( text ) );
+                    this._tool.clear();
+                    this._tool.fromJSON( JSON.parse( text ) );
                 });
                 isLoadingFromHash = true;
             }
-
         }
 
-
+        // VR
         let groupVR;
-        this.tool.signals.enterVR.add( () => {
+        this._tool.signals.enterVR.add( () => {
 
             if ( groupVR === undefined ) {
 
-                groupVR = new HTMLGroup( this.viewport.core );
-                this.tool.sceneHelpers.add( groupVR );
+                groupVR = new HTMLGroup( this._viewport.core );
+                this._tool.sceneHelpers.add( groupVR );
 
-                let mesh = new HTMLMesh( this.rightSidebar1.core );
+                let mesh = new HTMLMesh( this._rightSidebar1.core );
                 mesh.position.set( 15, 0, 15 );
                 mesh.rotation.y = - 0.5;
                 groupVR.add( mesh );
 
-                let signals = this.tool.signals;
+                let signals = this._tool.signals;
 
                 function updateTexture() {
                     mesh.material.update();
                 }
 
-                signals.objectSelected.add( updateTexture );
-                signals.objectAdded.add( updateTexture );
-                signals.objectChanged.add( updateTexture );
-                signals.objectRemoved.add( updateTexture );
-                signals.sceneGraphChanged.add( updateTexture );
-                signals.historyChanged.add( updateTexture );
+                signals.objectSelected      .add( updateTexture );
+                signals.objectAdded         .add( updateTexture );
+                signals.objectChanged       .add( updateTexture );
+                signals.objectRemoved       .add( updateTexture );
+                signals.sceneGraphChanged   .add( updateTexture );
+                signals.historyChanged      .add( updateTexture );
             }
 
             groupVR.visible = true;
         });
 
-        this.tool.signals.exitedVR.add( () => {
+        // exit VR
+        this._tool.signals.exitedVR.add( () => {
             if ( groupVR !== undefined ) groupVR.visible = false;
         });
 
-        console.log( "load finished" );
+        console.log( "Tool initialized" );
     }
 
     // [ Private Variables ]
 
-    tool            : Tool;
-    viewport        : Viewport;
-    menubar         : Menubar;
-    toolbar         : Toolbar;
-    rightSidebar1   : RightSidebar1;
-    modal           : UIModal;
+    private _tool            : Tool;
+    private _viewport        : Viewport;
+    private _menubar         : Menubar;
+    private _toolbar         : Toolbar;
+    private _rightSidebar1   : RightSidebar1;
+    private _modal           : UIModal;
 
+    // [ Private Functions ]
 
-    onWindowResize = ( event ) => {
-        this.tool.signals.windowResize.dispatch();
+    private _onWindowResize = ( event ) => {
+        this._tool.signals.windowResize.dispatch();
     }
-
 }
 
 let units = new Units();
