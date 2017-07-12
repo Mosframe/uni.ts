@@ -94,15 +94,17 @@ export class AddMenu extends Menu {
                 //tool.execute( new AddObjectCommand( mesh ) );
 
                 // [ TEST ]
-                var gameObject  = new GameObject( 'Plane ' + ( ++ meshCount ) );
-                var meshFilter  = gameObject.addComponent( MeshFilter );
-                var geometry    = new Geometry( PrimitiveType.plane );
-                var mesh        = new Mesh(geometry);
-                var renderer    = new MeshRenderer( gameObject );
-                var material    = new MeshStandardMaterial();
+                let gameObject  = new GameObject( 'Plane ' + ( ++ meshCount ) );
+
+                let meshFilter  = gameObject.addComponent( MeshFilter );
+                let geometry    = new Geometry( PrimitiveType.plane );
+                let mesh        = new Mesh(geometry);
+                meshFilter.mesh = mesh;
+
+                let renderer    = gameObject.addComponent( MeshRenderer );
+                let material    = new MeshStandardMaterial();
                 renderer.sharedMaterial = material;
 
-                meshFilter.sharedMesh = mesh;
                 tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );

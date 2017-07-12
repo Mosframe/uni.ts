@@ -14,15 +14,6 @@ export class Mesh extends Ubject {
 
     // [ Public Variables ]
 
-    /**
-     * get Geometry
-     *
-     * @readonly
-     *
-     * @memberof Mesh
-     */
-    get geometry() : Geometry { return this._geometry; }
-
     /*
     bindposes	The bind poses. The bind pose at each index refers to the bone with the same index.
     blendShapeCount	Returns BlendShape count on this mesh.
@@ -30,6 +21,10 @@ export class Mesh extends Ubject {
     bounds	The bounding volume of the mesh.
     colors	Vertex colors of the Mesh.
     colors32	Vertex colors of the Mesh.
+    */
+    get core        () : GL.Mesh    { return this._core; }
+    get geometry    () : Geometry   { return this._geometry; }
+    /*
     isReadable	Returns state of the Read/Write Enabled checkbox when model was imported.
     normals	The normals of the Mesh.
     subMeshCount	The number of sub-Meshes. Every Material has a separate triangle list.
@@ -54,7 +49,10 @@ export class Mesh extends Ubject {
      */
     constructor( geometry:Geometry ) {
         super();
+
+        this._core = new GL.Mesh();
         this._geometry = geometry;
+        this._onChanged();
     }
 
     // [ Public Functions ]
@@ -97,22 +95,14 @@ export class Mesh extends Ubject {
     UploadMeshData	Upload previously done Mesh modifications to the graphics API.
     */
 
-    // [ Public Static Variables ]
-
-    // [ Public Static Functions ]
-
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
     // [ Protected Variables ]
 
-    //protected _core : GL.Mesh;
+    protected _core     : GL.Mesh;
     protected _geometry : Geometry;
 
     // [ Protected Functions ]
 
-    // [ Protected Static Variables ]
-
-    // [ Protected Static Functions ]
+    protected _onChanged () {
+        this._core.geometry = this._geometry.core;
+    }
 }

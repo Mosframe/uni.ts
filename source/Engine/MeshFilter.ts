@@ -1,12 +1,19 @@
-import * as GL        from '../Engine/Graphic';
-import {Component   } from '../Engine/Component';
-import {GameObject  } from '../Engine/GameObject';
-import {Material    } from '../Engine/Material';
-import {Mesh        } from '../Engine/Mesh';
 /**
- * A class to access the Mesh of the mesh filter.
+ * MeshFilter.ts
  *
  * @author mosframe / https://github.com/mosframe
+ */
+
+import * as GL              from './Graphic';
+import { Component      }   from './Component';
+import { GameObject     }   from './GameObject';
+import { Material       }   from './Material';
+import { Mesh           }   from './Mesh';
+import { Geometry       }   from './Geometry';
+import { PrimitiveType  }   from './PrimitiveType';
+
+/**
+ * A class to access the Mesh of the mesh filter.
  *
  * @export
  * @class MeshFilter
@@ -32,10 +39,7 @@ export class MeshFilter extends Component {
      * @memberof MeshFilter
      */
     get mesh() : Mesh       { return <Mesh>Component.instantiate( this.sharedMesh ); }
-    set mesh( value:Mesh )  {
-        this.sharedMesh = value;
-        if( value ) this.core.geometry = value.geometry.core;
-    }
+    set mesh( value:Mesh )  { this.sharedMesh = <Mesh>Component.instantiate( value ); }
     /**
      * Returns the shared mesh of the mesh filter.
      *
@@ -45,6 +49,7 @@ export class MeshFilter extends Component {
     get sharedMesh() : Mesh         { return this._sharedMesh; }
     set sharedMesh( value:Mesh )    {
         this._sharedMesh=value;
+        this._onChanged();
     }
 
     // [ Constructors ]
@@ -52,31 +57,27 @@ export class MeshFilter extends Component {
     /**
      * Creates an instance of MeshFilter.
      * @param {GameObject} gameObject
-     *
+     * @param {Mesh} [mesh]
      * @memberof MeshFilter
      */
-    constructor( gameObject:GameObject ) {
+    constructor( gameObject:GameObject, mesh?:Mesh ) {
         super(gameObject);
 
-        this.gameObject.core = new GL.Mesh();
+        if( mesh === undefined ) {
+            mesh = new Mesh( new Geometry(PrimitiveType.cube) );
+        }
+        this.sharedMesh = mesh;
     }
 
-    // [ Public Functions ]
+    // [ Private Variables ]
 
-    // [ Public Static Variables ]
-
-    // [ Public Static Functions ]
-
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
-    // [ Protected Variables ]
-
-    protected _sharedMesh : Mesh;
-
+    private _sharedMesh : Mesh;
 
     // [ Protected Functions ]
+
+    protected _onChanged () {
+        this.gameObject.core = this._sharedMesh.core;
+    }
 
     // [ Protected Static Variables ]
 

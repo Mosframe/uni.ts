@@ -45,28 +45,30 @@ export class Renderer extends Component {
      * @type {Material}
      * @memberof Renderer
      */
-    get material() : Material {
-        if( this.materials.length === 0 ) {
-            let mtrl = new MeshLambertMaterial();
-            this.materials.push(mtrl);
-        }
-        return this.materials[0];
-    }
-    set material( value:Material ) {
-        if( this.materials.length === 0 ) {
-            this.materials.push(value);
-        } else {
-            this.materials[0] = value;
-        }
-        this.core.material = value.core;
-    }
+    get material () : Material      { return <Material>Component.instantiate( this.sharedMaterial ); }
+    set material ( value:Material ) { this.sharedMaterial = <Material>Component.instantiate(value); }
     /**
      * Returns all the instantiated materials of this object.
      *
      * @type {Material[]}
      * @memberof Renderer
      */
-    materials : Material[] = [];
+    get materials () : Material[] {
+        let materials = new Material[this.sharedMaterials.length];
+        for( let c=0; c<materials.length; ++c ) {
+            materials[c] = <Material>Component.instantiate( this.sharedMaterial[c] );
+        }
+        return materials;
+    }
+    set materials ( value:Material[] ) {
+        if( value && value.length>0 && value[0] ) {
+            let materials = new Material[value.length];
+            for( let c=0; c<materials.length; ++c ) {
+                materials[c] = <Material>Component.instantiate( this.sharedMaterial[c] );
+            }
+            this.sharedMaterials = materials;
+        }
+    }
     /*
     motionVectorGenerationMode	Specifies the mode for motion vector rendering.
     probeAnchor	If set, Renderer will use this Transform's position to find the light or reflection probe.
@@ -106,27 +108,24 @@ export class Renderer extends Component {
      * @type {Material}
      * @memberof Renderer
      */
-    get sharedMaterial() : Material {
-        if( this.sharedMaterials.length === 0 ) {
-            let mtrl = new MeshLambertMaterial();
-            this.sharedMaterials.push(mtrl);
-        }
-        return this.sharedMaterials[0];
-    }
-    set sharedMaterial( value:Material ) {
-        if( this.sharedMaterials.length === 0 ) {
-            this.sharedMaterials.push(value);
-        } else {
-            this.sharedMaterials[0] = value;
-        }
-    }
+    get sharedMaterial () : Material        { return this.sharedMaterials[0]; }
+    set sharedMaterial ( value:Material )   { this.sharedMaterials[0] = value; }
     /**
      * All the shared materials of this object.
      *
      * @type {Material[]}
      * @memberof Renderer
      */
-    sharedMaterials : Material[] = [];
+    get sharedMaterials () : Material[] {
+        this._sharedMaterials
+        return this._sharedMaterials;
+    }
+    set sharedMaterials ( value:Material[] ) {
+        if( value && value.length>0 && value[0] ) {
+            this._sharedMaterials = value;
+            this._onChanged();
+        }
+    }
     /*
     sortingLayerID	Unique ID of the Renderer's sorting layer.
     sortingLayerName	Name of the Renderer's sorting layer.
@@ -146,6 +145,10 @@ export class Renderer extends Component {
         super(gameObject);
 
         //let meshFilter = this.gameObject.getComponent( MeshFilter );
+
+        this._sharedMaterials = [];
+        this._sharedMaterials.push( new MeshLambertMaterial() );
+        this._onChanged();
     }
 
     // [ Public Functions ]
@@ -171,13 +174,19 @@ export class Renderer extends Component {
     OnBecameVisible	OnBecameVisible is called when the object became visible by any camera.
     */
 
-    // [ Protected Variables ]
+    // [ Private Variables ]
 
-    protected _shadowCastingMode : ShadowCastingMode;
+    private _shadowCastingMode  : ShadowCastingMode;
+    private _sharedMaterials    : Material[] = [];
+
 
     // [ Protected Functions ]
 
-    // [ Protected Static Variables ]
+    protected _onChanged () {
 
-    // [ Protected Static Functions ]
+        let meshFilter = this.gameObject.getComponent( MeshFilter );
+        if( meshFilter ) {
+            meshFilter.core.material = this.sharedMaterial.core;
+        }
+    }
 }

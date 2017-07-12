@@ -36,10 +36,12 @@ export class Ubject extends Object {
     /**
      * The name of the object.
      *
+     * @readonly
      * @type {string}
      * @memberof Ubject
      */
-    name : string;
+    get name () : string        { return  this._name; }
+    set name ( value:string )   { this._name = value; }
 
     // [ Constructors ]
 
@@ -96,6 +98,9 @@ export class Ubject extends Object {
     */
 
     // [ Protected Variables ]
+
+    protected _name : string;
+
 
     // [ Protected Functions ]
 

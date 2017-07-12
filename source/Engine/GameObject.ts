@@ -46,6 +46,8 @@ export class GameObject extends Ubject {
             if( value ) this._scene.core.add( value );
         }
         this._core = value;
+        this._core.userData = this;
+        this._core.name = this.name;
     }
 
     /*
@@ -54,6 +56,15 @@ export class GameObject extends Ubject {
     isStatic	Editor only API that specifies if a game object is static.
     layer	The layer the game object is in. A layer is in the range [0...31].
     */
+    /**
+     * The name of the object.
+     *
+     * @readonly
+     * @type {string}
+     * @memberof GameObject
+     */
+    get name () : string        { return  this._name; }
+    set name ( value:string )   { this._name = value; this._core.name = name; }
     /**
      * Scene that the GameObject is part of.
      *
@@ -88,20 +99,18 @@ export class GameObject extends Ubject {
      *
      * @param {string} [name]
      * @param {...string[]} componentNames
-     *
      * @memberof GameObject
      */
     constructor( name?:string, ...componentNames:string[] ) {
         super();
 
+        // [ core ]
+        this._core  = new GL.Object3D();
+        this._core.userData = this;
+
         // [ name ]
         if( !name ) name = 'GameObject';
         this.name = name;
-
-        // [ core ]
-        this._core  = new GL.Object3D();
-        this._core.name = name;
-        this._core.userData = this;
 
         // [ scene ]
         //this._scene = SceneManager.getActiveScene();
@@ -112,7 +121,7 @@ export class GameObject extends Ubject {
 
         // [ components ]
         for( let componentName of componentNames ) {
-            this.addComponentN( componentName );
+            this.addComponent2( componentName );
         }
     }
 
@@ -124,17 +133,14 @@ export class GameObject extends Ubject {
      * @template T
      * @param {ComponentType<T>} type
      * @returns {T}
-     *
      * @memberof GameObject
      */
     addComponent<T extends Component>( type:ComponentType<T> ) : T {
 
         // [ instance ]
         let instance = new type(this);
-
         // [ add components ]
         this._components.push( instance );
-
         return <T>instance;
     }
     /**
@@ -142,10 +148,9 @@ export class GameObject extends Ubject {
      *
      * @param {string} componentName
      * @returns {Component}
-     *
      * @memberof GameObject
      */
-    addComponentN( componentName:string ) : Component {
+    addComponent2( componentName:string ) : Component {
 
         // [ instance ]
         let activator = new Activator<Component>(window);
@@ -166,7 +171,6 @@ export class GameObject extends Ubject {
      * @template T
      * @param {ComponentType<T>} type
      * @returns {T}
-     *
      * @memberof GameObject
      */
     getComponent<T extends Component>( type:ComponentType<T> ) : T|undefined {
@@ -180,11 +184,10 @@ export class GameObject extends Ubject {
      * Returns the component of string name if the game object has one attached, null if it doesn't.
      *
      * @param {string} componentName
-     * @returns {Component}
-     *
+     * @returns {(Component|undefined)}
      * @memberof GameObject
      */
-    getComponentN( componentName:string ) : Component|undefined {
+    getComponent2( componentName:string ) : Component|undefined {
         for( let component of this._components ) {
             if( component.constructor.name === componentName ) {
                 return component;
@@ -247,21 +250,9 @@ export class GameObject extends Ubject {
     static FindWithTag	Returns one active GameObject tagged tag. Returns null if no GameObject was found.
     */
 
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
-    // [ public Messages ]
-
     // [ Protected Variables ]
 
     protected _components       : Component[] = [];
     protected _scene            : Scene;
     protected _core             : GL.Object3D;
-
-    // [ Protected Functions ]
-
-    // [ Protected Static Variables ]
-
-    // [ Protected Static Functions ]
 }
