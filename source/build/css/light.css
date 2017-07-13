@@ -66,7 +66,7 @@ select {
 	opacity: 0.9;
 }
 
-#player {
+#game-view {
 	position: absolute;
 	top: 32px;
 	left: 0;

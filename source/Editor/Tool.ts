@@ -44,6 +44,7 @@ export class Tool implements ITool {
 	materials       : {[uuid:string]:GL.Material};
 	textures        : {[uuid:string]:GL.Texture};
 	scripts         : {[uuid:string]:any[]};
+	gameObjects		: {[uuid:string]:GameObject}
 	selected        : GL.Object3D | null;
 	helpers         : {[uuid:string]:GL.Object3D};
 

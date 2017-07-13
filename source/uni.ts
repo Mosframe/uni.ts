@@ -17,6 +17,8 @@ import { Viewport               }   from './Editor/Viewport';
 import { Menubar                }   from './Editor/Menubar';
 import { Toolbar                }   from './Editor/Toolbar';
 import { RightSidebar1          }   from './Editor/RightSidebar1';
+import { GameView               }   from './Editor/GameView';
+
 import { RemoveObjectCommand    }   from './Editor/Commands/RemoveObjectCommand';
 
 import { GameObject             }   from './Engine/GameObject';
@@ -37,6 +39,7 @@ export class Units {
         this._viewport       = new Viewport( this._tool );
         this._menubar        = new Menubar( this._tool );
         this._toolbar        = new Toolbar( this._tool );
+        this._gameView       = new GameView( this._tool );
         this._rightSidebar1  = new RightSidebar1( this._tool );
 
         // [ Notice ]
@@ -231,12 +234,13 @@ export class Units {
 
     // [ Private Variables ]
 
-    private _tool            : Tool;
-    private _viewport        : Viewport;
-    private _menubar         : Menubar;
-    private _toolbar         : Toolbar;
-    private _rightSidebar1   : RightSidebar1;
-    private _modal           : UIModal;
+    private _tool               : Tool;
+    private _viewport           : Viewport;
+    private _menubar            : Menubar;
+    private _toolbar            : Toolbar;
+    private _rightSidebar1      : RightSidebar1;
+    private _gameView           : GameView;
+    private _modal              : UIModal;
 
     // [ Private Functions ]
 

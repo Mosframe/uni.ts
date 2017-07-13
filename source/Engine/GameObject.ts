@@ -46,7 +46,6 @@ export class GameObject extends Ubject {
             if( value ) this._scene.core.add( value );
         }
         this._core = value;
-        this._core.userData = this;
         this._core.name = this.name;
     }
 
