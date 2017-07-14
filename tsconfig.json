@@ -1,5 +1,4 @@
 {
-    "allowJs": true,
     "compilerOptions": {
         "target": "ES6",
         "module": "commonjs",
@@ -29,8 +28,7 @@
         "server.ts"
     ],
     "include": [
-        "types/typings.d.ts",
-        "typings/index.d.ts"
+        "source/**/*"
     ],
     "exclude": [
         "node_modules",

@@ -1,10 +1,16 @@
+/**
+ * Ubject.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
 //import deprecated   from 'deprecated-decorator';
 import * as GL      from '../Engine/Graphic';
 import {Util}       from '../Engine/Util';
+
+
 /**
  * Base class for all objects Unicon can reference.
- *
- * @author mosframe / https://github.com/mosframe
  *
  * @export
  * @class UObject
@@ -58,6 +64,22 @@ export class Ubject extends Object {
 
     hasProperty ( propertyName:string ) : boolean {
         return Ubject.hasProperty( this,propertyName );
+    }
+
+    /**
+     * to serialize (JSON)
+     *
+     * @param {*} meta meta data
+     * @memberof Ubject
+     */
+    toJSON ( meta:any ) {
+
+        // 기존에 이미 있는지 확인
+        // Object3D 인경우 uuid로 검색
+        // Component 인경우
+
+        let output:any = {};
+        JSON.stringify(this);
     }
 
     /*
