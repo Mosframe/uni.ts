@@ -7,7 +7,8 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { Command } from './Command';
+import * as GL      from '../../Engine/Graphic';
+import { Command }  from './Command';
 
 /**
  * MoveObjectCommand
@@ -26,12 +27,10 @@ export class MoveObjectCommand extends Command {
      * @memberof MoveObjectCommand
      */
     execute () {
-		if( this._oldParent ) this._oldParent.remove( this.object );
-        if( this._newParent && this._newIndex ) {
-            let children = this._newParent.children;
-            children.splice( this._newIndex, 0, this.object );
-            this.object.parent = this._newParent;
-        }
+		this._oldParent.remove( this.object );
+        let children = this._newParent.children;
+        children.splice( this._newIndex, 0, this.object );
+        this.object.parent = this._newParent;
         this._tool.signals.sceneGraphChanged.dispatch();
     }
     /**
@@ -40,12 +39,10 @@ export class MoveObjectCommand extends Command {
      * @memberof MoveObjectCommand
      */
 	undo () {
-        if( this._newParent ) this._newParent.remove( this.object );
-		if( this._oldParent && this._oldIndex ) {
-            let children = this._oldParent.children;
-            children.splice( this._oldIndex, 0, this.object );
-            this.object.parent = this._oldParent;
-        }
+        this._newParent.remove( this.object );
+        let children = this._oldParent.children;
+        children.splice( this._oldIndex, 0, this.object );
+        this.object.parent = this._oldParent;
 		this._tool.signals.sceneGraphChanged.dispatch();
 	}
     /**
@@ -57,8 +54,8 @@ export class MoveObjectCommand extends Command {
     toJSON () : any {
 		let output              = super.toJSON();
 		output.objectUuid       = this.object.uuid;
-		output.newParentUuid    = this._newParent ? this._newParent.uuid : undefined;
-		output.oldParentUuid    = this._oldParent ? this._oldParent.uuid : undefined;
+		output.newParentUuid    = this._newParent.uuid;
+		output.oldParentUuid    = this._oldParent.uuid;
 		output.newIndex         = this._newIndex;
 		output.oldIndex         = this._oldIndex;
         return output;
@@ -88,31 +85,29 @@ export class MoveObjectCommand extends Command {
 
     /**
      * Creates an instance of MoveObjectCommand.
-     * @param {THREE.Object3D} object
-     * @param {THREE.Object3D} [newParent]
-     * @param {THREE.Object3D} [newBefore]
+     * @param {GL.Object3D} object
+     * @param {GL.Object3D} [newParent]
+     * @param {GL.Object3D} [newBefore]
      * @memberof MoveObjectCommand
      */
-    constructor( object:THREE.Object3D, newParent?:THREE.Object3D, newBefore?:THREE.Object3D ) {
+    constructor( object:GL.Object3D, newParent:GL.Object3D, newBefore:GL.Object3D ) {
         super();
 
         this.type       = 'MoveObjectCommand';
         this.name       = 'Move Object';
         this.object     = object;
-        this._oldParent = ( object !== undefined ) ? object.parent : undefined;
-        this._oldIndex  = ( this._oldParent !== undefined ) ? this._oldParent.children.indexOf( this.object ) : undefined;
+	    this._oldParent = object.parent;
+        this._oldIndex  = ( this._oldParent !== undefined ) ? this._oldParent.children.indexOf( this.object ) : 0;
         this._newParent = newParent;
 
         if ( newBefore !== undefined ) {
-            this._newIndex = ( newParent !== undefined ) ? newParent.children.indexOf( newBefore ) : undefined;
+            this._newIndex = ( newParent !== undefined ) ? newParent.children.indexOf( newBefore ) : 0;
         } else {
-            this._newIndex = ( newParent !== undefined ) ? newParent.children.length : undefined;
+            this._newIndex = ( newParent !== undefined ) ? newParent.children.length : 0;
         }
 
-        if( this._newIndex && this._oldIndex) {
-            if ( this._oldParent === this._newParent && this._newIndex > this._oldIndex ) {
-                this._newIndex --;
-            }
+        if ( this._oldParent === this._newParent && this._newIndex > this._oldIndex ) {
+            this._newIndex --;
         }
 
         if( newBefore ) this._newBefore = newBefore;
@@ -120,9 +115,9 @@ export class MoveObjectCommand extends Command {
 
     // [ Private Variables ]
 
-     private _oldParent  ?: THREE.Object3D;
-     private _newParent  ?: THREE.Object3D;
-     private _newBefore  ?: THREE.Object3D;
-     private _oldIndex   ?: number;
-     private _newIndex   ?: number;
+     private _oldParent  : GL.Object3D;
+     private _newParent  : GL.Object3D;
+     private _newBefore  : GL.Object3D;
+     private _oldIndex   : number;
+     private _newIndex   : number;
 }

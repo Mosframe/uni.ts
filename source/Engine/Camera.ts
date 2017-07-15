@@ -40,15 +40,6 @@ export class Camera extends Behaviour {
 
     // [ Public Variables ]
 
-    /**
-     * get GL.Camera
-     *
-     * @readonly
-     * @type {GL.Camera}
-     * @memberof Camera
-     */
-    get core() : GL.Camera { return <GL.Camera>this.gameObject.core; }
-
     /*
     activeTexture	Gets or sets the temporary RenderTexture target for this Camera.
     actualRenderingPath	The rendering path that is currently being used (Read Only).
@@ -62,6 +53,16 @@ export class Camera extends Behaviour {
     clearFlags	How the camera clears the background.
     clearStencilAfterLightingPass	Should the camera clear the stencil buffer after the deferred light pass?
     commandBufferCount	Number of command buffers set up on this camera (Read Only).
+    */
+    /**
+     * get GL.Camera
+     *
+     * @readonly
+     * @type {GL.Camera}
+     * @memberof Camera
+     */
+    get core() : GL.Camera { return <GL.Camera>this.gameObject.core; }
+    /*
     cullingMask	This is used to render parts of the scene selectively.
     cullingMatrix	Sets a custom matrix for the camera to use for all culling queries.
     depth	Camera's depth in the camera rendering order.
@@ -99,22 +100,6 @@ export class Camera extends Behaviour {
     velocity	Get the world-space speed of the camera (Read Only).
     worldToCameraMatrix	Matrix that transforms from world to camera space.
     */
-
-    // [ Constructors ]
-
-    /**
-     * Creates an instance of Camera.
-     * @param {GameObject} gameObject
-     *
-     * @memberof Camera
-     */
-    constructor( gameObject:GameObject ) {
-        super( gameObject );
-
-        this.gameObject.core = new GL.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        this.gameObject.core.position.set( 40, 40, 40);
-        this.gameObject.core.lookAt( Vector3.zero );
-    }
 
     // [ Public Static Functions ]
 
@@ -160,10 +145,6 @@ export class Camera extends Behaviour {
     WorldToViewportPoint	Transforms position from world space into viewport space.
     */
 
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
     // [ Public Messages ]
 
     /*
@@ -175,11 +156,20 @@ export class Camera extends Behaviour {
     OnWillRenderObject	OnWillRenderObject is called for each camera if the object is visible.
     */
 
-    // [ Protected Variables ]
+    // [ Constructors ]
 
-    // [ Protected Functions ]
+    /**
+     * Creates an instance of Camera.
+     * @param {GameObject} gameObject
+     *
+     * @memberof Camera
+     */
+    constructor( gameObject:GameObject ) {
+        super( gameObject );
 
-    // [ Protected Static Variables ]
+        this.gameObject.core = new GL.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        this.gameObject.core.position.set( 40, 40, 40);
+        this.gameObject.core.lookAt( Vector3.zero );
+    }
 
-    // [ Protected Static Functions ]
 }

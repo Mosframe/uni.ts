@@ -19,6 +19,7 @@ import { Storage     	} 	from './Storage';
 import { Command     	} 	from './Commands/Command';
 
 import { GameObject     }   from '../Engine/GameObject';
+import { Scene     		}   from '../Engine/SceneManagement/Scene';
 
 /**
  * Tool
@@ -44,7 +45,7 @@ export class Tool implements ITool {
 	materials       : {[uuid:string]:GL.Material};
 	textures        : {[uuid:string]:GL.Texture};
 	scripts         : {[uuid:string]:any[]};
-	gameObjects		: {[uuid:string]:GameObject}
+	gameObjects		: {[uuid:string]:GameObject};
 	selected        : GL.Object3D | null;
 	helpers         : {[uuid:string]:GL.Object3D};
 
@@ -448,6 +449,7 @@ export class Tool implements ITool {
         this.textures               = {};
         this.scripts                = {};
         this.helpers                = {};
+		this.gameObjects			= {};
 
         this.selected               = null;
     }

@@ -28,6 +28,7 @@
     "@types/three": "^0.84.15",
     "@types/uuid": "^3.0.0",
     "browserify": "^14.4.0",
+    "deprecated-decorator": "^0.1.6",
     "electron": "^1.6.11",
     "express": "^4.15.3",
     "file": "^0.2.2",

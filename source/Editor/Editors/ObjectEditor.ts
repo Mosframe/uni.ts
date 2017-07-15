@@ -85,7 +85,7 @@ export class ObjectEditor extends UIPanel {
                 this._objectActions.setValue( 'Actions' );
             }
         });
-        // this.addStatic( this._objectActions );
+        //this.addStatic( this._objectActions );
 
         // [ type ]
 
@@ -272,6 +272,23 @@ export class ObjectEditor extends UIPanel {
         this._objectUserDataRow.add( new UIText( 'User data' ).setWidth( '90px' ) );
         this._objectUserDataRow.add( this._objectUserData );
         this.add( this._objectUserDataRow );
+
+        // [ Add Component ]
+
+        let addCompoentRow     = new UIRow();
+        let addCompoentButton  = new UIButton( 'New' ).setMarginLeft( '7px' ).onClick( () => {
+            if( tool.selected ) {
+
+                // Component 리소트 얻기 ( Component에서 상속한 모든 오브젝트들 얻기 )
+
+                tool.execute( new AddCompnentCommand( tool.selected, 'TestComponent' ) );
+            }
+        });
+        this._objectUUIDRow.add( new UIText( 'UUID' ).setWidth( '90px' ) );
+        this._objectUUIDRow.add( this._objectUUID );
+        this._objectUUIDRow.add( objectUUIDRenew );
+        this.add( this._objectUUIDRow );
+
 
 
         // events

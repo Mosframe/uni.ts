@@ -46,23 +46,10 @@ export class Component extends Ubject {
      * @type {GameObject}
      * @memberof Component
      */
-    gameObject : GameObject;
+    get gameObject () : GameObject { return this._gameObject; }
     /*
     tag	The tag of this game object.
     */
-
-    // [ Constructors ]
-
-    /**
-     * Creates an instance of Component.
-     * @param {GameObject} gameObject
-     *
-     * @memberof Component
-     */
-    constructor( gameObject:GameObject ) {
-        super();
-        this.gameObject = gameObject;
-    }
 
     // [ Public Functions ]
 
@@ -84,21 +71,24 @@ export class Component extends Ubject {
     SendMessageUpwards	Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
     */
 
-    // [ Public Static Variables ]
+    // [ Constructors ]
 
-    // [ Public Static Functions ]
-
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
-    // [ public Messages ]
+    /**
+     * Creates an instance of Component.
+     * @param {GameObject} gameObject
+     *
+     * @memberof Component
+     */
+    constructor( gameObject:GameObject ) {
+        super();
+        this._gameObject = gameObject;
+    }
 
     // [ Protected Variables ]
 
-    // [ Protected Functions ]
+    protected _gameObject : GameObject;
 
-    // [ Protected Static Variables ]
-
-    // [ Protected Static Functions ]
 }
+
+
+export let components : {[name:string]:Component} = {};

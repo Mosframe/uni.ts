@@ -15,6 +15,7 @@ import { UIBoolean                  }   from '../../Engine/UI/UIBoolean';
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule';
 import { ITool                      }   from '../Interfaces';
 import { AddObjectCommand           }   from '../Commands/AddObjectCommand';
+import { AddGameObjectCommand       }   from '../Commands/AddGameObjectCommand';
 import { RemoveObjectCommand        }   from '../Commands/RemoveObjectCommand';
 import { SetMaterialValueCommand    }   from '../Commands/SetMaterialValueCommand';
 import { MultiCmdsCommand           }   from '../Commands/MultiCmdsCommand';
@@ -93,8 +94,7 @@ export class AddMenu extends Menu {
                 //mesh.name = 'Plane ' + ( ++ meshCount );
                 //tool.execute( new AddObjectCommand( mesh ) );
 
-                // [ TEST ]
-                let gameObject  = new GameObject( 'Plane ' + ( ++ meshCount ) );
+                let gameObject  = new GameObject( 'Plane' );
 
                 let meshFilter  = gameObject.addComponent( MeshFilter );
                 let geometry    = new Geometry( PrimitiveType.plane );
@@ -105,24 +105,37 @@ export class AddMenu extends Menu {
                 let material    = new MeshStandardMaterial();
                 renderer.sharedMaterial = material;
 
-                tool.execute( new AddObjectCommand( gameObject.core ) );
+                tool.execute( new AddGameObjectCommand( gameObject ) );
             });
             options.add( option );
         }
 
-        // [ Box ]
+        // [ Cube ]
         {
             let option = new UIRow();
             option.setClass( 'option' );
-            option.setTextContent( 'Box' );
+            option.setTextContent( 'Cube' );
             option.onClick( () => {
 
+                /*
                 let geometry    = new GL.BoxBufferGeometry( 1, 1, 1 );
                 let mesh        = new GL.Mesh( geometry, new GL.MeshStandardMaterial() );
                 mesh.name = 'Box ' + ( ++ meshCount );
-
                 tool.execute( new AddObjectCommand( mesh ) );
+                */
 
+                let gameObject  = new GameObject( 'Cube' );
+
+                let meshFilter  = gameObject.addComponent( MeshFilter );
+                let geometry    = new Geometry( PrimitiveType.cube );
+                let mesh        = new Mesh(geometry);
+                meshFilter.mesh = mesh;
+
+                let renderer    = gameObject.addComponent( MeshRenderer );
+                let material    = new MeshStandardMaterial();
+                renderer.sharedMaterial = material;
+
+                tool.execute( new AddGameObjectCommand( gameObject ) );
             });
             options.add( option );
         }
@@ -133,7 +146,7 @@ export class AddMenu extends Menu {
             option.setClass( 'option' );
             option.setTextContent( 'Circle' );
             option.onClick( () => {
-
+                /*
                 let radius = 1;
                 let segments = 32;
 
@@ -142,6 +155,20 @@ export class AddMenu extends Menu {
                 mesh.name = 'Circle ' + ( ++ meshCount );
 
                 tool.execute( new AddObjectCommand( mesh ) );
+                */
+
+                let gameObject  = new GameObject( 'Circle' );
+
+                let meshFilter  = gameObject.addComponent( MeshFilter );
+                let geometry    = new Geometry( PrimitiveType.circle );
+                let mesh        = new Mesh(geometry);
+                meshFilter.mesh = mesh;
+
+                let renderer    = gameObject.addComponent( MeshRenderer );
+                let material    = new MeshStandardMaterial();
+                renderer.sharedMaterial = material;
+
+                tool.execute( new AddGameObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -153,6 +180,7 @@ export class AddMenu extends Menu {
             option.setTextContent( 'Cylinder' );
             option.onClick( () => {
 
+                /*
                 let radiusTop = 1;
                 let radiusBottom = 1;
                 let height = 2;
@@ -165,6 +193,19 @@ export class AddMenu extends Menu {
                 mesh.name = 'Cylinder ' + ( ++ meshCount );
 
                 tool.execute( new AddObjectCommand( mesh ) );
+                */
+                let gameObject  = new GameObject( 'Cylinder' );
+
+                let meshFilter  = gameObject.addComponent( MeshFilter );
+                let geometry    = new Geometry( PrimitiveType.cylinder );
+                let mesh        = new Mesh(geometry);
+                meshFilter.mesh = mesh;
+
+                let renderer    = gameObject.addComponent( MeshRenderer );
+                let material    = new MeshStandardMaterial();
+                renderer.sharedMaterial = material;
+
+                tool.execute( new AddGameObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -177,6 +218,7 @@ export class AddMenu extends Menu {
             option.setTextContent( 'Sphere' );
             option.onClick( () => {
 
+                /*
                 let radius          = 1;
                 let widthSegments   = 32;
                 let heightSegments  = 16;
@@ -190,6 +232,20 @@ export class AddMenu extends Menu {
                 mesh.name = 'Sphere ' + ( ++ meshCount );
 
                 tool.execute( new AddObjectCommand( mesh ) );
+                */
+
+                let gameObject  = new GameObject( 'Sphere' );
+
+                let meshFilter  = gameObject.addComponent( MeshFilter );
+                let geometry    = new Geometry( PrimitiveType.sphere );
+                let mesh        = new Mesh(geometry);
+                meshFilter.mesh = mesh;
+
+                let renderer    = gameObject.addComponent( MeshRenderer );
+                let material    = new MeshStandardMaterial();
+                renderer.sharedMaterial = material;
+
+                tool.execute( new AddGameObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -202,6 +258,7 @@ export class AddMenu extends Menu {
             option.setTextContent( 'Icosahedron' );
             option.onClick( () => {
 
+                /*
                 let radius = 1;
                 let detail = 2;
 
@@ -210,6 +267,20 @@ export class AddMenu extends Menu {
                 mesh.name = 'Icosahedron ' + ( ++ meshCount );
 
                 tool.execute( new AddObjectCommand( mesh ) );
+                */
+
+                let gameObject  = new GameObject( 'Icosahedron' );
+
+                let meshFilter  = gameObject.addComponent( MeshFilter );
+                let geometry    = new Geometry( PrimitiveType.icosahedron );
+                let mesh        = new Mesh(geometry);
+                meshFilter.mesh = mesh;
+
+                let renderer    = gameObject.addComponent( MeshRenderer );
+                let material    = new MeshStandardMaterial();
+                renderer.sharedMaterial = material;
+
+                tool.execute( new AddGameObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -222,6 +293,7 @@ export class AddMenu extends Menu {
             option.setTextContent( 'Torus' );
             option.onClick( () => {
 
+                /*
                 let radius = 2;
                 let tube = 1;
                 let radialSegments = 32;
@@ -233,7 +305,20 @@ export class AddMenu extends Menu {
                 mesh.name = 'Torus ' + ( ++ meshCount );
 
                 tool.execute( new AddObjectCommand( mesh ) );
+                */
 
+                let gameObject  = new GameObject( 'Torus' );
+
+                let meshFilter  = gameObject.addComponent( MeshFilter );
+                let geometry    = new Geometry( PrimitiveType.torus );
+                let mesh        = new Mesh(geometry);
+                meshFilter.mesh = mesh;
+
+                let renderer    = gameObject.addComponent( MeshRenderer );
+                let material    = new MeshStandardMaterial();
+                renderer.sharedMaterial = material;
+
+                tool.execute( new AddGameObjectCommand( gameObject ) );
             });
             options.add( option );
         }
@@ -244,7 +329,7 @@ export class AddMenu extends Menu {
             option.setClass( 'option' );
             option.setTextContent( 'TorusKnot' );
             option.onClick( () => {
-
+                /*
                 let radius = 2;
                 let tube = 0.8;
                 let tubularSegments = 64;
@@ -257,6 +342,20 @@ export class AddMenu extends Menu {
                 mesh.name = 'TorusKnot ' + ( ++ meshCount );
 
                 tool.execute( new AddObjectCommand( mesh ) );
+                */
+
+                let gameObject  = new GameObject( 'TorusKnot' );
+
+                let meshFilter  = gameObject.addComponent( MeshFilter );
+                let geometry    = new Geometry( PrimitiveType.torusKnot );
+                let mesh        = new Mesh(geometry);
+                meshFilter.mesh = mesh;
+
+                let renderer    = gameObject.addComponent( MeshRenderer );
+                let material    = new MeshStandardMaterial();
+                renderer.sharedMaterial = material;
+
+                tool.execute( new AddGameObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -299,6 +398,7 @@ export class AddMenu extends Menu {
             option.setTextContent( 'Lathe' );
             option.onClick( () => {
 
+                /*
                 let points = [
                     new GL.Vector3( 0, 0 ),
                     new GL.Vector3( 4, 0 ),
@@ -321,7 +421,20 @@ export class AddMenu extends Menu {
                 mesh.name = 'Lathe ' + ( ++ meshCount );
 
                 tool.execute( new AddObjectCommand( mesh ) );
+                */
 
+                let gameObject  = new GameObject( 'Lathe' );
+
+                let meshFilter  = gameObject.addComponent( MeshFilter );
+                let geometry    = new Geometry( PrimitiveType.lathe );
+                let mesh        = new Mesh(geometry);
+                meshFilter.mesh = mesh;
+
+                let renderer    = gameObject.addComponent( MeshRenderer );
+                let material    = new MeshStandardMaterial();
+                renderer.sharedMaterial = material;
+
+                tool.execute( new AddGameObjectCommand( gameObject ) );
             });
             options.add( option );
         }

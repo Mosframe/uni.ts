@@ -63,6 +63,8 @@ export class History {
 			cmd.id = ++ this.idCounter;
 		}
 		cmd.name = ( optionalName !== undefined ) ? optionalName : cmd.name;
+
+		console.log( "history.execute ", cmd );
 		cmd.execute();
 		cmd.inMemory = true;
 

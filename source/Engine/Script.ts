@@ -19,18 +19,6 @@ export class Script extends Behaviour {
     runInEditMode	Allow a specific instance of a MonoBehaviour to run in edit mode (only available in the editor).
     useGUILayout	Disabling this lets you skip the GUI layout phase.
     */
-
-    // [ Constructors ]
-
-    /**
-     * Creates an instance of Component.
-     *
-     * @memberof Component
-     */
-    constructor() {
-        super();
-    }
-
     // [ Public Functions ]
 
     /*
@@ -49,13 +37,18 @@ export class Script extends Behaviour {
     print	Logs message to the Unity Console (identical to Debug.Log).
     */
 
-    // [ Public Static Functions ]
+    // [ Constructors ]
 
-    // [ Public Operators ]
+    /**
+     * Creates an instance of Script.
+     * @param {GameObject} gameObject
+     * @memberof Script
+     */
+    constructor( gameObject:GameObject ) {
+        super( gameObject );
+    }
 
-    // [ Public Events ]
-
-    // [ public Messages ]
+    // [ Messages ]
 
     /*
     Awake	Awake is called when the script instance is being loaded.
@@ -122,12 +115,4 @@ export class Script extends Behaviour {
     Start	Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
     Update	Update is called every frame, if the MonoBehaviour is enabled.
     */
-
-    // [ Protected Variables ]
-
-    // [ Protected Functions ]
-
-    // [ Protected Static Variables ]
-
-    // [ Protected Static Functions ]
 }

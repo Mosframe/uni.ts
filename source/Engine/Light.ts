@@ -13,20 +13,7 @@ import {GameObject  } from '../Engine/GameObject';
  */
 export class Light extends Behaviour {
 
-    // [ Public Delegates ]
-
-    // [ Public Static Variables ]
-
     // [ Public Variables ]
-
-    /**
-     * get GL.Light
-     *
-     * @readonly
-     * @type {GL.Light}
-     * @memberof Light
-     */
-    get core() : GL.Light { return <GL.Light>this.gameObject.core; }
 
     /*
     areaSize	The size of the area light.
@@ -36,6 +23,16 @@ export class Light extends Behaviour {
     commandBufferCount	Number of command buffers set up on this light (Read Only).
     cookie	The cookie texture projected by the light.
     cookieSize	The size of a directional light's cookie.
+    */
+    /**
+     * get GL.Light
+     *
+     * @readonly
+     * @type {GL.Light}
+     * @memberof Light
+     */
+    get core() : GL.Light { return <GL.Light>this.gameObject.core; }
+    /*
     cullingMask	This is used to light certain objects in the scene selectively.
     flare	The flare asset to use for this light.
     intensity	The Intensity of a light is multiplied with the Light color.
@@ -54,6 +51,17 @@ export class Light extends Behaviour {
     type	The type of the light.
     */
 
+    // [ Public Functions ]
+
+    /*
+    AddCommandBuffer	Add a command buffer to be executed at a specified place.
+    GetCommandBuffers	Get command buffers to be executed at a specified place.
+    RemoveAllCommandBuffers	Remove all command buffers set on this light.
+    RemoveCommandBuffer	Remove command buffer from execution at a specified place.
+    RemoveCommandBuffers	Remove command buffers from execution at a specified place.
+    */
+
+
     // [ Constructors ]
 
     /**
@@ -69,30 +77,4 @@ export class Light extends Behaviour {
         this.gameObject.core.castShadow = true;
         this.gameObject.core.position.set(0,10,0);
     }
-
-    // [ Public Static Functions ]
-
-    // [ Public Functions ]
-
-    /*
-    AddCommandBuffer	Add a command buffer to be executed at a specified place.
-    GetCommandBuffers	Get command buffers to be executed at a specified place.
-    RemoveAllCommandBuffers	Remove all command buffers set on this light.
-    RemoveCommandBuffer	Remove command buffer from execution at a specified place.
-    RemoveCommandBuffers	Remove command buffers from execution at a specified place.
-    */
-
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
-    // [ Public Messages ]
-
-    // [ Protected Variables ]
-
-    // [ Protected Static Variables ]
-
-    // [ Protected Functions ]
-
-    // [ Protected Static Functions ]
 }

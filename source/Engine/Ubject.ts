@@ -4,10 +4,10 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-//import deprecated   from 'deprecated-decorator';
+import deprecated   from 'deprecated-decorator';
 import * as GL      from '../Engine/Graphic';
+import * as uuid    from 'uuid';
 import {Util}       from '../Engine/Util';
-
 
 /**
  * Base class for all objects Unicon can reference.
@@ -16,23 +16,6 @@ import {Util}       from '../Engine/Util';
  * @class UObject
  */
 export class Ubject extends Object {
-
-    // [ Public Static Variables ]
-
-    /**
-     * object has property
-     *
-     * @static
-     * @param {object} object
-     * @param {string} propertyName
-     * @returns {boolean}
-     * @memberof Ubject
-     */
-    static hasProperty ( object:object, propertyName:string ) : boolean {
-        if( !object ) return false;
-        return propertyName in object;
-        //return Reflect.defineProperty( object, propertyName, {} );
-    }
 
     // [ Public Variables ]
 
@@ -58,41 +41,44 @@ export class Ubject extends Object {
      */
     constructor() {
         super();
+
+        this.uuid = GL.Math.generateUUID();
     }
 
     // [ Public Functions ]
 
-    hasProperty ( propertyName:string ) : boolean {
-        return Ubject.hasProperty( this,propertyName );
-    }
-
     /**
-     * to serialize (JSON)
+     * Returns the instance id of the object.
      *
-     * @param {*} meta meta data
+     * @returns {string}
      * @memberof Ubject
      */
-    toJSON ( meta:any ) {
-
-        // 기존에 이미 있는지 확인
-        // Object3D 인경우 uuid로 검색
-        // Component 인경우
-
-        let output:any = {};
-        JSON.stringify(this);
+    getInstanceID () : string { return this.uuid; }
+    /**
+     * Returns the name of the game object.
+     *
+     * @returns {string}
+     * @memberof Ubject
+     */
+    toString () : string {
+        return this.name;
     }
-
-    /*
-    GetInstanceID	Returns the instance id of the object.
-    ToString	Returns the name of the game object.
-    */
-
-    // [ Public Static Variables ]
 
     // [ Public Static Functions ]
 
+    /**
+     * Removes a gameobject, component or asset.
+     *
+     * @static
+     * @param {Ubject} object
+     * @param {number} [t=0]
+     * @memberof Ubject
+     */
+    static Destroy ( object:Ubject, t:number=0 ) {
+        // 게임오브젝트인경우 씬에서 삭제
+        // 컴포넌트인경우 게임오브젝트에서 제거
+    }
     /*
-    static Destroy	Removes a gameobject, component or asset.
     static DestroyImmediate	Destroys the object obj immediately. You are strongly recommended to use Destroy instead.
     static DontDestroyOnLoad	Makes the object target not be destroyed automatically when loading a new scene.
     static FindObjectOfType	Returns the first active loaded object of Type type.
@@ -121,13 +107,43 @@ export class Ubject extends Object {
 
     // [ Protected Variables ]
 
-    protected _name : string;
-
-
-    // [ Protected Functions ]
-
-    // [ Protected Static Variables ]
+    protected _name     : string;
+    protected uuid      : string;
 
     // [ Protected Static Functions ]
+
+    protected static _serialize( obj:any ) : any {
+
+        if (obj === null) { return obj; }
+
+        if (obj instanceof Array) {
+            let output: any[] = [];
+            for (let key in obj) {
+                output[key] = Ubject._serialize(obj[key]);
+            }
+            return output;
+
+        } else {
+
+            let output: any = {};
+
+            for (let key in obj) {
+                if (key[0] !== '_') {
+                    let val = obj[key];
+                    if (typeof val !== 'function') {
+                        let descriptor = Object.getOwnPropertyDescriptor(obj, key);
+                        if (descriptor && !descriptor.get) {
+                            if (typeof val === 'object') {
+                                output[key] = Ubject._serialize(val);
+                            } else {
+                                output[key] = val;
+                            }
+                        }
+                    }
+                }
+            }
+            return output;
+        }
+    }
 }
 

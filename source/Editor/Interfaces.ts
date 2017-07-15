@@ -5,9 +5,11 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as THREE from 'three';
-import {Signal  } from 'signals';
-import {Config  } from './Config';
+import * as GL          from '../Engine/Graphic';
+import { GameObject }   from '../Engine/GameObject';
+import { Scene      }   from '../Engine/SceneManagement/Scene';
+import { Signal     }   from 'signals';
+import { Config     }   from './Config';
 
 
 /**
@@ -23,7 +25,7 @@ export interface ICommand {
 	name            : string;
 	inMemory        : boolean;
 	updatable       : boolean;
-    object          : THREE.Object3D;
+    object          : GL.Object3D;
     script          : object;
     attributeName   : string;
     json            : any;
@@ -45,45 +47,46 @@ export interface ITool {
 
     config          : Config;
     signals         : ISignals;
-    DEFAULT_CAMERA  : THREE.PerspectiveCamera;
+    DEFAULT_CAMERA  : GL.PerspectiveCamera;
 	history         : IHistory;
     storage         : IStorage;
 	loader          : ILoader;
-	camera          : THREE.Camera;
-	scene           : THREE.Scene;
-	sceneHelpers    : THREE.Scene;
-	geometries      : {[uuid:string]:THREE.Geometry|THREE.BufferGeometry};
-	materials       : {[uuid:string]:THREE.Material};
-	textures        : {[uuid:string]:THREE.Texture};
+	camera          : GL.Camera;
+	scene           : GL.Scene;
+	sceneHelpers    : GL.Scene;
+	geometries      : {[uuid:string]:GL.Geometry|GL.BufferGeometry};
+	materials       : {[uuid:string]:GL.Material};
+	textures        : {[uuid:string]:GL.Texture};
 	scripts         : {[uuid:string]:any[]};
-	selected        : THREE.Object3D | null;
-	helpers         : {[uuid:string]:THREE.Object3D};
+	gameObjects		: {[uuid:string]:GameObject};
+	selected        : GL.Object3D | null;
+	helpers         : {[uuid:string]:GL.Object3D};
 
     setTheme        ( value:string );
-	setScene        ( scene:THREE.Scene );
-    addObject       ( object:THREE.Object3D );
-	moveObject      ( object:THREE.Object3D, parent:THREE.Object3D, before:THREE.Object3D );
-	nameObject      ( object:THREE.Object3D, name:string );
-    removeObject    ( object:THREE.Object3D );
-	addGeometry     ( geometry:THREE.Geometry|THREE.BufferGeometry );
-	setGeometryName ( geometry:THREE.Geometry|THREE.BufferGeometry, name:string );
-	addMaterial     ( material:THREE.Material );
-	setMaterialName ( material:THREE.Material, name:string );
-	addTexture      ( texture:THREE.Texture );
-	addHelper       ( object:THREE.Object3D );
-	removeHelper    ( object:THREE.Object3D );
-	addScript       ( object:THREE.Object3D, script:object );
-	removeScript    ( object:THREE.Object3D, script:object );
-	select          ( object:THREE.Object3D|null );
+	setScene        ( scene:GL.Scene );
+    addObject       ( object:GL.Object3D );
+	moveObject      ( object:GL.Object3D, parent:GL.Object3D, before:GL.Object3D );
+	nameObject      ( object:GL.Object3D, name:string );
+    removeObject    ( object:GL.Object3D );
+	addGeometry     ( geometry:GL.Geometry|GL.BufferGeometry );
+	setGeometryName ( geometry:GL.Geometry|GL.BufferGeometry, name:string );
+	addMaterial     ( material:GL.Material );
+	setMaterialName ( material:GL.Material, name:string );
+	addTexture      ( texture:GL.Texture );
+	addHelper       ( object:GL.Object3D );
+	removeHelper    ( object:GL.Object3D );
+	addScript       ( object:GL.Object3D, script:object );
+	removeScript    ( object:GL.Object3D, script:object );
+	select          ( object:GL.Object3D|null );
 	selectById      ( id:number );
 	selectByUuid    ( uuid:string );
     deselect        ();
-	focus           ( object:THREE.Object3D );
+	focus           ( object:GL.Object3D );
 	focusById       ( id:number );
 	clear           ();
 	fromJSON        ( json:any );
 	toJSON          () : any;
-	objectByUuid    ( uuid:string ) : THREE.Object3D;
+	objectByUuid    ( uuid:string ) : GL.Object3D;
     execute         ( cmd:ICommand, optionalName?:string );
 	undo            ();
 	redo            ();

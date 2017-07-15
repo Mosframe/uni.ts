@@ -143,7 +143,7 @@ export class UIOutliner extends UIElement {
 
             if ( newParentIsChild ) return;
 
-            this.tool.execute( new MoveObjectCommand( object, newParent, nextObject ) );
+            scope._tool.execute( new MoveObjectCommand( object, newParent, nextObject ) );
 
             let changeEvent = document.createEvent( 'HTMLEvents' );
             changeEvent.initEvent( 'change', true, true );
@@ -177,12 +177,10 @@ export class UIOutliner extends UIElement {
     }
 
     getValue () : number {
-
         return this._selectedValue;
     }
 
     setValue ( value:number ) {
-
         for ( let i = 0; i < this._options.length; i ++ ) {
 
             let option = this._options[ i ];

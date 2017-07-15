@@ -32,23 +32,6 @@ export class GameObject extends Ubject {
 
     // [ Public Variables ]
 
-    /**
-     * get GL.Object3D
-     *
-     * @readonly
-     * @type {GL.Object3D}
-     * @memberof GameObject
-     */
-    get core() : GL.Object3D        { return this._core; }
-    set core( value:GL.Object3D )   {
-        if( this._scene ) {
-            if( this._core ) this._scene.core.remove( this._core );
-            if( value ) this._scene.core.add( value );
-        }
-        this._core = value;
-        this._core.name = this.name;
-    }
-
     /*
     activeInHierarchy	Is the GameObject active in the scene?
     activeSelf	The local active state of this GameObject. (Read Only)
@@ -81,47 +64,24 @@ export class GameObject extends Ubject {
      * @type {Transform}
      * @memberof GameObject
      */
-    transform : Transform;
+    get transform () : Transform { return this._transform; }
 
-    // [ Constructors ]
 
     /**
-     * Creates an instance of GameObject.
+     * get core object
      *
-     * Transform is always added to the GameObject that is being created.
-     *
-     * The creation of a GameObject with no script arguments will add the Transform but nothing else.
-     *
-     * Similarly, the version with just a single string argument just adds this and the Transform.
-     *
-     * Finally, the third version allows the name to be specified but also components to be passed in as an array.
-     *
-     * @param {string} [name]
-     * @param {...string[]} componentNames
+     * @readonly
+     * @type {GL.Object3D}
      * @memberof GameObject
      */
-    constructor( name?:string, ...componentNames:string[] ) {
-        super();
-
-        // [ core ]
-        this._core  = new GL.Object3D();
-        this._core.userData = this;
-
-        // [ name ]
-        if( !name ) name = 'GameObject';
-        this.name = name;
-
-        // [ scene ]
-        //this._scene = SceneManager.getActiveScene();
-        //this._scene.add( this.core );
-
-        // [ transform ]
-        this.transform = this.addComponent( Transform );
-
-        // [ components ]
-        for( let componentName of componentNames ) {
-            this.addComponent2( componentName );
+    get core() : GL.Object3D        { return this._core; }
+    set core( value:GL.Object3D )   {
+        if( this._scene ) {
+            if( this._core ) this._scene.core.remove( this._core );
+            if( value ) this._scene.core.add( value );
         }
+        this._core = value;
+        this._core.name = this.name;
     }
 
     // [ Public Functions ]
@@ -138,6 +98,7 @@ export class GameObject extends Ubject {
 
         // [ instance ]
         let instance = new type(this);
+        instance['_gameObject'] = this;
         // [ add components ]
         this._components.push( instance );
         return <T>instance;
@@ -153,9 +114,10 @@ export class GameObject extends Ubject {
 
         // [ instance ]
         let activator = new Activator<Component>(window);
+        let instance = activator.createInstance( componentName, this );
+        instance['_gameObject'] = this;
 
         // [ add components ]
-        let instance = activator.createInstance( componentName, this );
         this._components.push( instance );
 
         return instance;
@@ -204,9 +166,24 @@ export class GameObject extends Ubject {
     SetActive	Activates/Deactivates the GameObject.
     */
 
-    // [ Public Static Variables ]
+   /**
+     * to JSON
+     *
+     * @returns {*}
+     * @memberof GameObject
+     */
+    public toJSON(): any {
 
-    // [ Public Static Functions ]
+        let output:any = {};
+
+        // [ components ]
+        output.components = [];
+        for( let key in this._components ) {
+            output.components[key] = Ubject._serialize( this._components[key] );
+        }
+
+        return output;
+    }
 
     /**
      * Creates a game object with a primitive mesh renderer and appropriate collider.
@@ -234,7 +211,7 @@ export class GameObject extends Ubject {
 
         // Y축이 위로 향하도록 축을 회전
         if( type === PrimitiveType.plane ) {
-            gameObject.transform.core.rotation.x = -0.5 * Math.PI;
+            gameObject._transform.core.rotation.x = -0.5 * Math.PI;
             //let eulerAngles = gameObject.transform.eulerAngles;
             //gameObject.transform.eulerAngles = new Vector3(-0.5 * Math.PI, eulerAngles.y, eulerAngles.z );
             meshFiler.core.receiveShadow = true;
@@ -249,9 +226,51 @@ export class GameObject extends Ubject {
     static FindWithTag	Returns one active GameObject tagged tag. Returns null if no GameObject was found.
     */
 
+    // [ Constructors ]
+
+    /**
+     * Creates an instance of GameObject.
+     *
+     * Transform is always added to the GameObject that is being created.
+     *
+     * The creation of a GameObject with no script arguments will add the Transform but nothing else.
+     *
+     * Similarly, the version with just a single string argument just adds this and the Transform.
+     *
+     * Finally, the third version allows the name to be specified but also components to be passed in as an array.
+     *
+     * @param {string} [name]
+     * @param {...string[]} componentNames
+     * @memberof GameObject
+     */
+    constructor( name?:string, ...componentNames:string[] ) {
+        super();
+
+        // [ core ]
+        this._core  = new GL.Object3D();
+
+        // [ name ]
+        if( !name ) name = 'GameObject';
+        this.name = name;
+
+        // [ scene ]
+        //this._scene = SceneManager.getActiveScene();
+        //this._scene.add( this.core );
+
+        // [ transform ]
+        this._transform = this.addComponent( Transform );
+
+        // [ components ]
+        for( let componentName of componentNames ) {
+            this.addComponent2( componentName );
+        }
+    }
+
     // [ Protected Variables ]
 
     protected _components       : Component[] = [];
+    protected _transform        : Transform;
     protected _scene            : Scene;
     protected _core             : GL.Object3D;
+
 }
