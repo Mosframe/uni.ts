@@ -1,5 +1,4 @@
 import * as GL          from './Graphic';
-import { objects    }   from './Interfaces';
 import { Ubject     }   from './Ubject';
 import { Geometry   }   from './Geometry';
 /**
@@ -107,4 +106,4 @@ export class Mesh extends Ubject {
         this._core.geometry = this._geometry.core;
     }
 }
-objects[Mesh.name] = Mesh;
+window['units'][Mesh.name]=Mesh;

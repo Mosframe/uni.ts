@@ -14,6 +14,5 @@ export class TestComponent extends Behaviour {
     z : number = 30;
 
 }
-
-//components[TestComponent.name] = TestComponent;
+window[TestComponent.name]=TestComponent;
 

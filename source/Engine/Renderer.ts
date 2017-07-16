@@ -1,5 +1,4 @@
 import * as GL                      from './Graphic';
-import { objects                }   from './Ubject';
 import { Component              }   from './Component';
 import { GameObject             }   from './GameObject';
 import { Material               }   from './Material';
@@ -191,4 +190,4 @@ export class Renderer extends Component {
         }
     }
 }
-objects[Renderer.name] = Renderer;
+window['units'][Renderer.name]=Renderer;

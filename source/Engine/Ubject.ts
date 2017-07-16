@@ -6,8 +6,8 @@
 
 import deprecated   from 'deprecated-decorator';
 import * as uuid    from 'uuid';
-import * as GL      from '../Engine/Graphic';
-import {Util}       from '../Engine/Util';
+import * as GL      from './Graphic';
+import {Util}       from './Util';
 
 /**
  * Base class for all objects Unicon can reference.
@@ -118,15 +118,21 @@ export class Ubject extends Object {
             for (let key in obj) {
                 if (key[0] !== '_') {
                     let val = obj[key];
-                    if (typeof val !== 'function') {
-                        let descriptor = Object.getOwnPropertyDescriptor(obj, key);
-                        if (descriptor && ((descriptor.get && descriptor.set)||(!descriptor.get && !descriptor.set)) ) {
-                            if (typeof val === 'object') {
-                                output[key] = Ubject._serialize(val);
+                    let p = val;
+                    while(p) {
+                        //if (typeof val !== 'function') {
+                            let descriptor = Object.getOwnPropertyDescriptor(obj, key);
+                            if (descriptor && ((descriptor.get && descriptor.set)||(!descriptor.get && !descriptor.set)) ) {
+                                if (typeof val === 'object') {
+                                    output[key] = Ubject._serialize(val);
+                                } else {
+                                    output[key] = val;
+                                }
+                                p=null;
                             } else {
-                                output[key] = val;
+                                p = Object.getPrototypeOf(p);
                             }
-                        }
+                        //}
                     }
                 }
             }
@@ -134,4 +140,4 @@ export class Ubject extends Object {
         }
     }
 }
-
+window['units'][Ubject.name]=Ubject;

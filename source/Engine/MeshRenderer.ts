@@ -5,7 +5,6 @@
  */
 
 import * as GL              from '../Engine/Graphic';
-import { objects        }   from './Ubject';
 import { GameObject     }   from './GameObject';
 import { Geometry       }   from './Geometry';
 import { Material       }   from './Material';
@@ -31,5 +30,4 @@ export class MeshRenderer extends Renderer {
     additionalVertexStreams	Vertex attributes in this mesh will override or add attributes of the primary mesh in the MeshRenderer.
     */
 }
-
-objects[MeshRenderer.name] = MeshRenderer;
+window['units'][MeshRenderer.name]=MeshRenderer;

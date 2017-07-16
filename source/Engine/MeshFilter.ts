@@ -5,7 +5,6 @@
  */
 
 import * as GL              from './Graphic';
-import { objects        }   from './Ubject';
 import { Component      }   from './Component';
 import { GameObject     }   from './GameObject';
 import { Material       }   from './Material';
@@ -80,5 +79,4 @@ export class MeshFilter extends Component {
         this.gameObject.core = this.sharedMesh_.core;
     }
 }
-
-objects[MeshFilter.name] = MeshFilter;
+window['units'][MeshFilter.name]=MeshFilter;

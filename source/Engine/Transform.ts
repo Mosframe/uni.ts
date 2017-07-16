@@ -1,5 +1,4 @@
 import * as GL        from './Graphic';
-import {objects     } from './Ubject';
 import {Component   } from './Component';
 import {GameObject  } from './GameObject';
 import {Matrix4x4   } from './Matrix4x4';
@@ -184,5 +183,4 @@ export class Transform extends Component {
     */
 
 }
-
-objects[Transform.name] = Transform;
+window['units'][Transform.name]=Transform;

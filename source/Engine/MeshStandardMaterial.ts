@@ -71,3 +71,4 @@ export class MeshStandardMaterial extends Material {
 
     // [ Protected Static Functions ]
 }
+window['units'][MeshStandardMaterial.name]=MeshStandardMaterial;

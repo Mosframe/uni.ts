@@ -1,7 +1,4 @@
-import * as Engine  from './Interfaces';
-
 import * as GL                      from '../Engine/Graphic';
-import { objects                }   from './Interfaces';
 import { Type                   }   from '../libs/dotnet/System/Types';
 import { Activator              }   from './Activator';
 import { Color                  }   from './Color';
@@ -225,7 +222,7 @@ export class GameObject extends Ubject {
     fromJSON ( meta:any ) {
         this._components = [];
         for( let index in meta.components ) {
-            let compo = new objects[meta.components[index].type](this);
+            let compo = new window['units'][meta.components[index].type](this);
             Object.assign( compo, meta.components[index] );
             //compo['_gameObject'] = this;
             console.log( "GameObject.fromJSON", compo );

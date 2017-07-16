@@ -1,8 +1,9 @@
-import * as GL              from '../Engine/Graphic';
-import { objects        }   from './Ubject';
-import { GameObject     }   from '../Engine/GameObject';
-import { Transform      }   from '../Engine/Transform';
-import { Ubject         }   from '../Engine/Ubject';
+import * as GL              from './Graphic';
+import { GameObject     }   from './GameObject';
+import { Transform      }   from './Transform';
+import { Ubject         }   from './Ubject';
+
+
 
 /**
  * Component type

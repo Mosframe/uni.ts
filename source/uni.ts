@@ -4,6 +4,8 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+window['units']={};
+
 import * as GL from './Engine/Graphic';
 
 import { UIModal                }   from './Engine/UI/UIModal';
@@ -22,6 +24,8 @@ import { GameView               }   from './Editor/GameView';
 import { RemoveObjectCommand    }   from './Editor/Commands/RemoveObjectCommand';
 
 import { GameObject             }   from './Engine/GameObject';
+
+console.log(window);
 
 /**
  * Units Editor

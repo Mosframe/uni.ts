@@ -1,5 +1,4 @@
 import * as GL              from '../Engine/Graphic';
-import { objects        }   from './Interfaces';
 import { PrimitiveType  }   from '../Engine/PrimitiveType';
 import { Ubject         }   from '../Engine/Ubject';
 /**
@@ -138,4 +137,4 @@ export class Geometry {
 
     // [ Protected Static Functions ]
 }
-objects[Geometry.name] = Geometry;
+window['units'][Geometry.name]=Geometry;
