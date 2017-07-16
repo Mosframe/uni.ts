@@ -109,24 +109,24 @@ export class UIOutliner extends UIElement {
             option.className = 'option';
 
             let scene = scope._tool.scene;
-            let object = scene.getObjectById( currentDrag['value'] );
+            let object = scene.core.getObjectById( currentDrag['value'] );
 
             let area = event.offsetY / option.clientHeight;
 
             if ( area < 0.25 ) {
 
-                let nextObject = scene.getObjectById( option['value'] );
+                let nextObject = scene.core.getObjectById( option['value'] );
                 moveObject( object, nextObject.parent, nextObject );
 
             } else if ( area > 0.75 ) {
                 let nextOption = option.nextSibling;
                 if( nextOption ) {
-                    let nextObject = scene.getObjectById( nextOption['value'] );
+                    let nextObject = scene.core.getObjectById( nextOption['value'] );
                     moveObject( object, nextObject.parent, nextObject );
                 }
 
             } else {
-                let parentObject = scene.getObjectById( option['value'] );
+                let parentObject = scene.core.getObjectById( option['value'] );
                 moveObject( object, parentObject );
             }
         }

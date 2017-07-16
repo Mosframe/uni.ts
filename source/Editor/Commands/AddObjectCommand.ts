@@ -8,7 +8,8 @@
  */
 
 import * as GL          from '../../Engine/Graphic';
-import {Command     }   from './Command';
+import { GameObject }   from '../../Engine/GameObject';
+import { Command    }   from './Command';
 
 /**
  * AddObjectCommand
@@ -27,7 +28,7 @@ export class AddObjectCommand extends Command {
      * @memberof AddObjectCommand
      */
     execute () {
-        this._tool.addObject( this.object );
+        this._tool.addObject( this._gameObject );
     }
     /**
      * Undo
@@ -35,7 +36,7 @@ export class AddObjectCommand extends Command {
      * @memberof AddObjectCommand
      */
 	undo () {
-		this._tool.removeObject( this.object );
+		this._tool.removeObject( this._gameObject );
 		this._tool.deselect();
 	}
     /**
@@ -46,7 +47,8 @@ export class AddObjectCommand extends Command {
      */
     toJSON () : any {
 		let output = super.toJSON();
-		output.object = this.object.toJSON();
+		output.object = this._gameObject.core.toJSON();
+        output.gameObject = this._gameObject.toJSON();
 		return output;
     }
     /**
@@ -57,27 +59,34 @@ export class AddObjectCommand extends Command {
      */
 	fromJSON ( json:any ) {
 		super.fromJSON( json );
-		this.object = this._tool.objectByUuid( json.object.object.uuid );
-		if ( this.object === undefined ) {
-			let loader = new GL.ObjectLoader();
-			this.object = loader.parse( json.object );
-		}
+
+        this._gameObject = Object.assign( new GameObject(), JSON.parse(json.gameObject) );
+        if( this._gameObject !== undefined ) {
+            this._gameObject.core = this._tool.objectByUuid( json.object.object.uuid );
+            if ( this._gameObject.core === undefined ) {
+                let loader = new GL.ObjectLoader();
+                this._gameObject.core = loader.parse( json.object );
+            }
+        }
 	}
 
     // [ Constructor ]
 
     /**
      * Creates an instance of AddObjectCommand.
-     * @param {GL.Object3D} object
+     * @param {GameObject} gameObject
      * @memberof AddObjectCommand
      */
-    constructor( object:GL.Object3D ) {
+    constructor( gameObject:GameObject ) {
         super();
 
-        this.type   = 'AddObjectCommand';
-        this.object = object;
-        if( object !== undefined ) {
-            this.name = 'Add Object: ' + object.name;
+        this.type   = 'AddGameObjectCommand';
+        this._gameObject = gameObject;
+        if( gameObject !== undefined ) {
+            this.name = 'Add GameObject: ' + gameObject.name;
         }
     }
+
+    // [ Protected Variables ]
+    protected _gameObject : GameObject;
 }

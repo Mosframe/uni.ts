@@ -157,24 +157,24 @@ export class SceneEditor extends UIPanel {
 
         let scene = this._tool.scene;
 
-        if ( scene.background ) {
-            this._backgroundColor.setHexValue( scene.background.getHex() );
+        if ( scene.core.background ) {
+            this._backgroundColor.setHexValue( scene.core.background.getHex() );
         }
 
-        if ( scene.fog ) {
+        if ( scene.core.fog ) {
 
-            this._fogColor.setHexValue( scene.fog.color.getHex() );
+            this._fogColor.setHexValue( scene.core.fog.color.getHex() );
 
-            if ( scene.fog instanceof GL.Fog ) {
+            if ( scene.core.fog instanceof GL.Fog ) {
 
                 this._fogType.setValue( "Fog" );
-                this._fogNear.setValue( scene.fog.near );
-                this._fogFar.setValue( scene.fog.far );
+                this._fogNear.setValue( scene.core.fog.near );
+                this._fogFar.setValue( scene.core.fog.far );
 
-            } else if ( scene.fog instanceof GL.FogExp2 ) {
+            } else if ( scene.core.fog instanceof GL.FogExp2 ) {
 
                 this._fogType.setValue( "FogExp2" );
-                this._fogDensity.setValue( scene.fog.density );
+                this._fogDensity.setValue( scene.core.fog.density );
 
             }
 

@@ -1,1 +1,1 @@
-console.error("TypeScript error: source/editor/editors/objecteditor.ts(284,35): Error TS2304: Cannot find name 'AddCompnentCommand'.");
+console.error("TypeScript error: source/engine/component.ts(2,10): Error TS2305: Module '\"source/engine/ubject\"' has no exported member 'objects'.");

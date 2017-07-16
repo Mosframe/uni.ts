@@ -1,6 +1,7 @@
-import * as GL        from '../Engine/Graphic';
-import {Geometry    } from '../Engine/Geometry';
-import {Ubject      } from '../Engine/Ubject';
+import * as GL          from './Graphic';
+import { objects    }   from './Interfaces';
+import { Ubject     }   from './Ubject';
+import { Geometry   }   from './Geometry';
 /**
  * A class that allows creating or modifying meshes from scripts.
  *
@@ -22,8 +23,9 @@ export class Mesh extends Ubject {
     colors	Vertex colors of the Mesh.
     colors32	Vertex colors of the Mesh.
     */
-    get core        () : GL.Mesh    { return this._core; }
-    get geometry    () : Geometry   { return this._geometry; }
+    get core        () : GL.Mesh        { return this._core; }
+    get geometry    () : Geometry       { return this._geometry; }
+    set geometry    ( value:Geometry )  { this._geometry=value; this._onChanged(); }
     /*
     isReadable	Returns state of the Read/Write Enabled checkbox when model was imported.
     normals	The normals of the Mesh.
@@ -47,12 +49,11 @@ export class Mesh extends Ubject {
      *
      * @memberof Mesh
      */
-    constructor( geometry:Geometry ) {
+    constructor( geometry?:Geometry ) {
         super();
 
         this._core = new GL.Mesh();
-        this._geometry = geometry;
-        this._onChanged();
+        if( geometry ) this.geometry = geometry;
     }
 
     // [ Public Functions ]
@@ -106,3 +107,4 @@ export class Mesh extends Ubject {
         this._core.geometry = this._geometry.core;
     }
 }
+objects[Mesh.name] = Mesh;

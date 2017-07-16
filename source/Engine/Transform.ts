@@ -1,9 +1,10 @@
-import * as GL        from '../Engine/Graphic';
-import {Component   } from '../Engine/Component';
-import {GameObject  } from '../Engine/GameObject';
-import {Matrix4x4   } from '../Engine/Matrix4x4';
-import {Quaternion  } from '../Engine/Quaternion';
-import {Vector3     } from '../Engine/Vector3';
+import * as GL        from './Graphic';
+import {objects     } from './Ubject';
+import {Component   } from './Component';
+import {GameObject  } from './GameObject';
+import {Matrix4x4   } from './Matrix4x4';
+import {Quaternion  } from './Quaternion';
+import {Vector3     } from './Vector3';
 
 /**
  * Position, rotation and scale of an object.
@@ -182,17 +183,6 @@ export class Transform extends Component {
     Translate	Moves the transform in the direction and distance of translation.
     */
 
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
-    // [ Public Messages ]
-
-    // [ Protected Variables ]
-
-    // [ Protected Static Variables ]
-
-    // [ Protected Functions ]
-
-    // [ Protected Static Functions ]
 }
+
+objects[Transform.name] = Transform;

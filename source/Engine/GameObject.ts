@@ -1,23 +1,25 @@
-import {Type                } from '../libs/dotnet/System/Types';
-import * as GL                from '../Engine/Graphic';
-import {Activator           } from '../Engine/Activator';
-import {Color               } from '../Engine/Color';
-import {Component           } from '../Engine/Component';
-import {ComponentType       } from '../Engine/Component';
-import {Geometry            } from '../Engine/Geometry';
-import {Material            } from '../Engine/Material';
-import {Mesh                } from '../Engine/Mesh';
-import {MeshFilter          } from '../Engine/MeshFilter';
-import {MeshLambertMaterial } from '../Engine/MeshLambertMaterial';
-import {MeshRenderer        } from '../Engine/MeshRenderer';
-import {PrimitiveType       } from '../Engine/PrimitiveType';
-import {Scene               } from '../Engine/SceneManagement/Scene';
-import {SceneManager        } from '../Engine/SceneManagement/SceneManager';
-import {ShaderType          } from '../Engine/ShaderType';
-import {Transform           } from '../Engine/Transform';
-//import {Type                } from '../Engine/Type';
-import {Ubject              } from '../Engine/Ubject';
-import {Vector3             } from '../Engine/Vector3';
+import * as Engine  from './Interfaces';
+
+import * as GL                      from '../Engine/Graphic';
+import { objects                }   from './Interfaces';
+import { Type                   }   from '../libs/dotnet/System/Types';
+import { Activator              }   from './Activator';
+import { Color                  }   from './Color';
+import { Component              }   from './Component';
+import { ComponentType          }   from './Component';
+import { Geometry               }   from './Geometry';
+import { Material               }   from './Material';
+import { Mesh                   }   from './Mesh';
+import { MeshFilter             }   from './MeshFilter';
+import { MeshLambertMaterial    }   from './MeshLambertMaterial';
+import { MeshRenderer           }   from './MeshRenderer';
+import { PrimitiveType          }   from './PrimitiveType';
+import { Scene                  }   from './SceneManagement/Scene';
+import { SceneManager           }   from './SceneManagement/SceneManager';
+import { ShaderType             }   from './ShaderType';
+import { Transform              }   from './Transform';
+import { Ubject                 }   from './Ubject';
+import { Vector3                }   from './Vector3';
 
 /**
  * Base class for all entities in Unicon scenes.
@@ -74,14 +76,28 @@ export class GameObject extends Ubject {
      * @type {GL.Object3D}
      * @memberof GameObject
      */
-    get core() : GL.Object3D        { return this._core; }
-    set core( value:GL.Object3D )   {
-        if( this._scene ) {
-            if( this._core ) this._scene.core.remove( this._core );
-            if( value ) this._scene.core.add( value );
+    get core () : GL.Object3D       { return this._core; }
+    set core ( value:GL.Object3D )  {
+        if( this._core ) {
+            if( this._core.parent ) {
+                this._core.parent.add( value );
+            }
         }
         this._core = value;
         this._core.name = this.name;
+
+        for (let c=0; c<value.children.length; ++c ) {
+            let child = value.children[c];
+
+            let gameObject = new GameObject(child.name);
+            gameObject.core = child;
+
+            // TODO : 타입에 따라서 컴포넌트 추가
+			if( child instanceof GL.Mesh ){
+            }
+
+            this._scene.regist( gameObject );
+        }
     }
 
     // [ Public Functions ]
@@ -161,6 +177,27 @@ export class GameObject extends Ubject {
     GetComponents	Returns all components of Type type in the GameObject.
     GetComponentsInChildren	Returns all components of Type type in the GameObject or any of its children.
     GetComponentsInParent	Returns all components of Type type in the GameObject or any of its parents.
+    */
+    /**
+     * Remove a component.
+     *
+     * @param {Component} component
+     * @memberof GameObject
+     */
+    removeComponent ( component:Component ) {
+        let index = this._components.indexOf( component );
+        if( index > -1 ) {
+            this._components.splice(index,1);
+        }
+    }
+    removeComponent2 ( componentName:string ) {
+        let components = this._components.filter( t => t.name == componentName );
+        for( let component of components ) {
+            this.removeComponent( component );
+            break;
+        }
+    }
+    /*
     SendMessage	Calls the method named methodName on every MonoBehaviour in this game object.
     SendMessageUpwards	Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
     SetActive	Activates/Deactivates the GameObject.
@@ -172,17 +209,28 @@ export class GameObject extends Ubject {
      * @returns {*}
      * @memberof GameObject
      */
-    public toJSON(): any {
+    toJSON ( meta?:any ) : any {
 
-        let output:any = {};
-
-        // [ components ]
-        output.components = [];
-        for( let key in this._components ) {
-            output.components[key] = Ubject._serialize( this._components[key] );
+        if( meta === undefined ) {
+            meta = {};
         }
 
-        return output;
+        meta.components = [];
+        for( let index in this._components ) {
+            meta.components[index] = GameObject._serialize( this._components[index] );
+        }
+        return meta;
+    }
+
+    fromJSON ( meta:any ) {
+        this._components = [];
+        for( let index in meta.components ) {
+            let compo = new objects[meta.components[index].type](this);
+            Object.assign( compo, meta.components[index] );
+            //compo['_gameObject'] = this;
+            console.log( "GameObject.fromJSON", compo );
+            this._components.push( compo );
+        }
     }
 
     /**
@@ -201,8 +249,6 @@ export class GameObject extends Ubject {
         let material    = new MeshLambertMaterial();
         let mesh        = new Mesh( geometry );
 
-        console.log( mesh );
-
         let meshFiler = gameObject.addComponent( MeshFilter );
         meshFiler.mesh = mesh;
 
@@ -219,7 +265,6 @@ export class GameObject extends Ubject {
 
         return gameObject;
     }
-
     /*
     static Find	Finds a GameObject by name and returns it.
     static FindGameObjectsWithTag	Returns a list of active GameObjects tagged tag. Returns empty array if no GameObject was found.
@@ -253,9 +298,7 @@ export class GameObject extends Ubject {
         if( !name ) name = 'GameObject';
         this.name = name;
 
-        // [ scene ]
-        //this._scene = SceneManager.getActiveScene();
-        //this._scene.add( this.core );
+        this._scene = SceneManager.getActiveScene();
 
         // [ transform ]
         this._transform = this.addComponent( Transform );

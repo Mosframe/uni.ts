@@ -15,7 +15,6 @@ import { UIBoolean                  }   from '../../Engine/UI/UIBoolean';
 import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule';
 import { ITool                      }   from '../Interfaces';
 import { AddObjectCommand           }   from '../Commands/AddObjectCommand';
-import { AddGameObjectCommand       }   from '../Commands/AddGameObjectCommand';
 import { RemoveObjectCommand        }   from '../Commands/RemoveObjectCommand';
 import { SetMaterialValueCommand    }   from '../Commands/SetMaterialValueCommand';
 import { MultiCmdsCommand           }   from '../Commands/MultiCmdsCommand';
@@ -72,9 +71,10 @@ export class AddMenu extends Menu {
             option.setTextContent( 'Group' );
             option.onClick( () => {
 
-                let mesh = new GL.Group();
-                mesh.name = 'Group ' + ( ++ meshCount );
-                tool.execute( new AddObjectCommand( mesh ) );
+                //let mesh = new GL.Group();
+                //mesh.name = 'Group ' + ( ++ meshCount );
+                let gameObject = new GameObject('Group');
+                tool.execute( new AddObjectCommand( gameObject ) );
             });
             options.add( option );
         }
@@ -105,7 +105,7 @@ export class AddMenu extends Menu {
                 let material    = new MeshStandardMaterial();
                 renderer.sharedMaterial = material;
 
-                tool.execute( new AddGameObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject ) );
             });
             options.add( option );
         }
@@ -135,7 +135,7 @@ export class AddMenu extends Menu {
                 let material    = new MeshStandardMaterial();
                 renderer.sharedMaterial = material;
 
-                tool.execute( new AddGameObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject ) );
             });
             options.add( option );
         }
@@ -168,7 +168,7 @@ export class AddMenu extends Menu {
                 let material    = new MeshStandardMaterial();
                 renderer.sharedMaterial = material;
 
-                tool.execute( new AddGameObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -205,7 +205,7 @@ export class AddMenu extends Menu {
                 let material    = new MeshStandardMaterial();
                 renderer.sharedMaterial = material;
 
-                tool.execute( new AddGameObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -245,7 +245,7 @@ export class AddMenu extends Menu {
                 let material    = new MeshStandardMaterial();
                 renderer.sharedMaterial = material;
 
-                tool.execute( new AddGameObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -280,7 +280,7 @@ export class AddMenu extends Menu {
                 let material    = new MeshStandardMaterial();
                 renderer.sharedMaterial = material;
 
-                tool.execute( new AddGameObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -318,7 +318,7 @@ export class AddMenu extends Menu {
                 let material    = new MeshStandardMaterial();
                 renderer.sharedMaterial = material;
 
-                tool.execute( new AddGameObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject ) );
             });
             options.add( option );
         }
@@ -355,7 +355,7 @@ export class AddMenu extends Menu {
                 let material    = new MeshStandardMaterial();
                 renderer.sharedMaterial = material;
 
-                tool.execute( new AddGameObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -434,7 +434,7 @@ export class AddMenu extends Menu {
                 let material    = new MeshStandardMaterial();
                 renderer.sharedMaterial = material;
 
-                tool.execute( new AddGameObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject ) );
             });
             options.add( option );
         }
@@ -449,7 +449,10 @@ export class AddMenu extends Menu {
                 let sprite = new GL.Sprite( new GL.SpriteMaterial() );
                 sprite.name = 'Sprite ' + ( ++ meshCount );
 
-                tool.execute( new AddObjectCommand( sprite ) );
+                let gameObject = new GameObject( sprite.name );
+                gameObject.core = sprite;
+
+                tool.execute( new AddObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -471,7 +474,10 @@ export class AddMenu extends Menu {
                 let light = new GL.PointLight( color, intensity, distance );
                 light.name = 'PointLight ' + ( ++ lightCount );
 
-                tool.execute( new AddObjectCommand( light ) );
+                let gameObject = new GameObject( light.name );
+                gameObject.core = light;
+
+                tool.execute( new AddObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -496,7 +502,10 @@ export class AddMenu extends Menu {
 
                 light.position.set( 5, 10, 7.5 );
 
-                tool.execute( new AddObjectCommand( light ) );
+                let gameObject = new GameObject( light.name );
+                gameObject.core = light;
+
+                tool.execute( new AddObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -518,7 +527,10 @@ export class AddMenu extends Menu {
 
                 light.position.set( 5, 10, 7.5 );
 
-                tool.execute( new AddObjectCommand( light ) );
+                let gameObject = new GameObject( light.name );
+                gameObject.core = light;
+
+                tool.execute( new AddObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -540,7 +552,10 @@ export class AddMenu extends Menu {
 
                 light.position.set( 0, 10, 0 );
 
-                tool.execute( new AddObjectCommand( light ) );
+                let gameObject = new GameObject( light.name );
+                gameObject.core = light;
+
+                tool.execute( new AddObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -556,7 +571,11 @@ export class AddMenu extends Menu {
                 let color = 0x222222;
                 let light = new GL.AmbientLight( color );
                 light.name = 'AmbientLight ' + ( ++ lightCount );
-                tool.execute( new AddObjectCommand( light ) );
+
+                let gameObject = new GameObject( light.name );
+                gameObject.core = light;
+
+                tool.execute( new AddObjectCommand( gameObject ) );
 
             });
             options.add( option );
@@ -573,7 +592,11 @@ export class AddMenu extends Menu {
 
                 let camera = new GL.PerspectiveCamera( 50, 1, 1, 10000 );
                 camera.name = 'PerspectiveCamera ' + ( ++ cameraCount );
-                tool.execute( new AddObjectCommand( camera ) );
+
+                let gameObject = new GameObject( camera.name );
+                gameObject.core = camera;
+
+                tool.execute( new AddObjectCommand( gameObject ) );
             });
             options.add( option );
         }

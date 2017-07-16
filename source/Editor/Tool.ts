@@ -20,6 +20,7 @@ import { Command     	} 	from './Commands/Command';
 
 import { GameObject     }   from '../Engine/GameObject';
 import { Scene     		}   from '../Engine/SceneManagement/Scene';
+import { SceneManager	}	from '../Engine/SceneManagement/SceneManager';
 
 /**
  * Tool
@@ -39,13 +40,12 @@ export class Tool implements ITool {
     storage         : Storage;
 	loader          : Loader;
 	camera          : GL.Camera;
-	scene           : GL.Scene;
+	scene           : Scene;
 	sceneHelpers    : GL.Scene;
 	geometries      : {[uuid:string]:GL.Geometry|GL.BufferGeometry};
 	materials       : {[uuid:string]:GL.Material};
 	textures        : {[uuid:string]:GL.Texture};
 	scripts         : {[uuid:string]:any[]};
-	gameObjects		: {[uuid:string]:GameObject};
 	selected        : GL.Object3D | null;
 	helpers         : {[uuid:string]:GL.Object3D};
 
@@ -57,31 +57,33 @@ export class Tool implements ITool {
 		this.signals.themeChanged.dispatch( value );
     }
 
-	setScene ( scene:GL.Scene ) {
+	setScene ( scene:Scene ) {
 
-		this.scene.uuid = scene.uuid;
+		this.scene.core.uuid = scene.core.uuid;
 		this.scene.name = scene.name;
 
-		if ( scene.background !== null ) this.scene.background = scene.background.clone();
-		if ( scene.fog !== null ) this.scene.fog = scene.fog.clone();
+		if ( scene.core.background !== null ) this.scene.core.background = scene.core.background.clone();
+		if ( scene.core.fog !== null ) this.scene.core.fog = scene.core.fog.clone();
 
-		this.scene.userData = JSON.parse( JSON.stringify( scene.userData ) );
+		this.scene.core.userData = JSON.parse( JSON.stringify( scene.core.userData ) );
 
 		// avoid render per object
 
 		this.signals.sceneGraphChanged.active = false;
 
-		while( scene.children.length > 0 ) {
-			this.addObject( scene.children[ 0 ] );
+		let gameObjects = scene.getRootGameObjects();
+
+		for (let c=0;c<gameObjects.length; ++c) {
+			this.addObject( gameObjects[c] );
 		}
 
 		this.signals.sceneGraphChanged.active = true;
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-	addObject ( object:GL.Object3D ) {
+	addObject ( gameObject:GameObject ) {
 
-		object.traverse( ( child:GL.Object3D ) => {
+		gameObject.core.traverse( ( child:GL.Object3D ) => {
 
 			if( child instanceof GL.Mesh ){
                 this.addGeometry( child.geometry );
@@ -91,16 +93,16 @@ export class Tool implements ITool {
 			this.addHelper( child );
 		});
 
-		this.scene.add( object );
+		this.scene.add( gameObject );
 
-		this.signals.objectAdded.dispatch( object );
+		this.signals.objectAdded.dispatch( gameObject.core );
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
 	moveObject ( object:GL.Object3D, parent:GL.Object3D, before:GL.Object3D ) {
 
 		if( parent === undefined ) {
-			parent = this.scene;
+			parent = this.scene.core;
 		}
 
 		parent.add( object );
@@ -116,22 +118,22 @@ export class Tool implements ITool {
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-	nameObject ( object:GL.Object3D, name:string ) {
-		object.name = name;
+	nameObject ( gameObject:GameObject, name:string ) {
+		gameObject.name = name;
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-    removeObject ( object:GL.Object3D ) {
+    removeObject ( gameObject:GameObject ) {
 
-		if( object.parent === null ) return; // avoid deleting the camera or scene
+		if( gameObject.core.parent === null ) return; // avoid deleting the camera or scene
 
-		object.traverse( ( child:GL.Object3D ) => {
+		gameObject.core.traverse( ( child:GL.Object3D ) => {
 			this.removeHelper( child );
 		});
 
-		object.parent.remove( object );
+		this.scene.remove( gameObject );
 
-		this.signals.objectRemoved.dispatch( object );
+		this.signals.objectRemoved.dispatch( gameObject.core );
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
@@ -261,11 +263,11 @@ export class Tool implements ITool {
 			this.select( this.camera );
 			return;
 		}
-		this.select( this.scene.getObjectById( id ) );
+		this.select( this.scene.core.getObjectById( id ) );
 	}
 
 	selectByUuid ( uuid:string ) {
-		this.scene.traverse( ( child ) => {
+		this.scene.core.traverse( ( child ) => {
 			if( child.uuid === uuid ) {
 				this.select( child );
 			}
@@ -283,7 +285,7 @@ export class Tool implements ITool {
 
 	focusById ( id:number ) {
 
-		this.focus( this.scene.getObjectById( id ) );
+		this.focus( this.scene.core.getObjectById( id ) );
 	}
 
 	clear () {
@@ -292,13 +294,12 @@ export class Tool implements ITool {
 		this.storage.clear();
 
 		this.camera.copy( this.DEFAULT_CAMERA );
-		this.scene.background.setHex( 0xaaaaaa );
-		this.scene.fog = new GL.Fog(0);
+		this.scene.core.background.setHex( 0xaaaaaa );
+		this.scene.core.fog = new GL.Fog(0);
 
-		let objects = this.scene.children;
-
-		while( objects.length > 0 ) {
-			this.removeObject( objects[ 0 ] );
+		let gameObjects = this.scene.getRootGameObjects();
+		for (let c=0; c<gameObjects.length; ++c) {
+			this.removeObject( gameObjects[c] );
 		}
 
 		this.geometries = {};
@@ -311,19 +312,12 @@ export class Tool implements ITool {
 		this.signals.editorCleared.dispatch();
 	}
 
-	fromJSON ( json:any ) {
+	fromJSON ( meta:any ) {
+
+		console.log(meta);
 
 		let loader = new GL.ObjectLoader();
-
-		// backwards
-
-		if ( json.scene === undefined ) {
-
-			this.setScene( <GL.Scene>loader.parse( json ) );
-			return;
-		}
-
-		let camera = <GL.Camera>loader.parse( json.camera );
+		let camera = <GL.Camera>loader.parse( meta.camera );
 
 		this.camera.copy( camera );
         if( this.camera instanceof GL.PerspectiveCamera ) {
@@ -331,10 +325,15 @@ export class Tool implements ITool {
             this.camera.updateProjectionMatrix();
         }
 
-		this.history.fromJSON( json.history );
-		this.scripts = json.scripts;
+		this.history.fromJSON( meta.history );
+		this.scripts = meta.scripts;
 
-		this.setScene( <GL.Scene>loader.parse( json.scene ) );
+		let scene = new Scene();
+		scene.fromJSON( meta );
+
+		console.log( "Tool.fromJSON" , scene);
+
+		this.setScene( scene );
 	}
 
 	toJSON () : any {
@@ -346,13 +345,13 @@ export class Tool implements ITool {
 
 		for( let key in scripts ) {
 			let script = scripts[ key ];
-			if ( script.length === 0 || scene.getObjectByProperty( 'uuid', key ) === undefined ) {
+			if ( script.length === 0 || scene.core.getObjectByProperty( 'uuid', key ) === undefined ) {
 				delete scripts[ key ];
 			}
 		}
 
 		//
-		return {
+		let meta = {
 
 			metadata: {},
 			project : {
@@ -362,14 +361,17 @@ export class Tool implements ITool {
 				vr          : this.config.getKey( 'project/vr' )
 			},
 			camera  : this.camera.toJSON(),
-			scene   : this.scene.toJSON(),
 			scripts : this.scripts,
 			history : this.history.toJSON()
 		};
+
+		this.scene.toJSON(meta);
+
+		return meta;
 	}
 
 	objectByUuid ( uuid:string ) : GL.Object3D {
-		return this.scene.getObjectByProperty( 'uuid', uuid );
+		return this.scene.core.getObjectByProperty( 'uuid', uuid );
 	}
 
     execute ( cmd:ICommand, optionalName?:string ) {
@@ -438,10 +440,10 @@ export class Tool implements ITool {
         this.storage                = new Storage();
         this.loader                 = new Loader( this );
 
-        this.scene                  = new GL.Scene();
+		SceneManager.loadScene( 'Scene' );
+        this.scene                  = SceneManager.getActiveScene();
         this.scene.name             = 'Scene';
-        this.scene.background       = new GL.Color( 0xaaaaaa );
-
+        this.scene.core.background  = new GL.Color( 0xaaaaaa );
         this.sceneHelpers           = new GL.Scene();
 
         this.geometries             = {};
@@ -449,7 +451,6 @@ export class Tool implements ITool {
         this.textures               = {};
         this.scripts                = {};
         this.helpers                = {};
-		this.gameObjects			= {};
 
         this.selected               = null;
     }

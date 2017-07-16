@@ -1,11 +1,12 @@
-import * as GL                from './Graphic';
-import {Component           } from './Component';
-import {GameObject          } from './GameObject';
-import {Material            } from './Material';
-import {MeshLambertMaterial } from './MeshLambertMaterial';
-import {MeshFilter          } from './MeshFilter';
-import {ShadowCastingMode   } from './Rendering/ShadowCastingMode';
-import {ShaderType          } from './ShaderType';
+import * as GL                      from './Graphic';
+import { objects                }   from './Ubject';
+import { Component              }   from './Component';
+import { GameObject             }   from './GameObject';
+import { Material               }   from './Material';
+import { MeshLambertMaterial    }   from './MeshLambertMaterial';
+import { MeshFilter             }   from './MeshFilter';
+import { ShadowCastingMode      }   from './Rendering/ShadowCastingMode';
+import { ShaderType             }   from './ShaderType';
 
 
 /**
@@ -190,3 +191,4 @@ export class Renderer extends Component {
         }
     }
 }
+objects[Renderer.name] = Renderer;

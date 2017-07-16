@@ -5,13 +5,20 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL                  from '../Engine/Graphic';
-import { UNumber	        }   from '../Engine/UNumber';
-import { ILoader            }   from './Interfaces';
-import { ITool              }   from './Interfaces';
-import { ISignals           }   from './Interfaces';
-import { AddObjectCommand   }   from './Commands/AddObjectCommand';
-import { SetSceneCommand    }   from './Commands/SetSceneCommand';
+import * as GL                          from '../Engine/Graphic';
+import { UNumber	                }   from '../Engine/UNumber';
+import { ILoader                    }   from './Interfaces';
+import { ITool                      }   from './Interfaces';
+import { ISignals                   }   from './Interfaces';
+import { AddObjectCommand           }   from './Commands/AddObjectCommand';
+import { SetSceneCommand            }   from './Commands/SetSceneCommand';
+import { GameObject                 }   from '../Engine/GameObject';
+import { MeshFilter                 }   from '../Engine/MeshFilter';
+import { Mesh                       }   from '../Engine/Mesh';
+import { Geometry                   }   from '../Engine/Geometry';
+import { PrimitiveType              }   from '../Engine/PrimitiveType';
+import { MeshRenderer               }   from '../Engine/MeshRenderer';
+import { MeshStandardMaterial       }   from '../Engine/MeshStandardMaterial';
 
 /**
  * Loader
@@ -481,7 +488,10 @@ export class Loader implements ILoader {
                 let loader  = new GL.BufferGeometryLoader();
                 let result  = loader.parse( data );
                 let mesh    = new GL.Mesh( result );
-                this._tool.execute( new AddObjectCommand( mesh ) );
+                let gameObject = new GameObject( mesh.name );
+                gameObject.core = mesh;
+
+                this._tool.execute( new AddObjectCommand( gameObject ) );
             }
             break;
 
@@ -515,7 +525,10 @@ export class Loader implements ILoader {
                 }
                 mesh.name = filename;
 
-                this._tool.execute( new AddObjectCommand( mesh ) );
+                let gameObject = new GameObject( mesh.name );
+                gameObject.core = mesh;
+
+                this._tool.execute( new AddObjectCommand( gameObject ) );
             }
             break;
 
@@ -529,7 +542,11 @@ export class Loader implements ILoader {
                 if ( result instanceof GL.Scene ) {
                     this._tool.execute( new SetSceneCommand( result ) );
                 } else {
-                    this._tool.execute( new AddObjectCommand( result ) );
+
+                    let gameObject = new GameObject( result.name );
+                    gameObject.core = result;
+
+                    this._tool.execute( new AddObjectCommand( gameObject ) );
                 }
             }
             break;

@@ -100,9 +100,9 @@ export class HierarchyEditor extends UIPanel {
         let options:HTMLDivElement[] = [];
 
         options.push( this._buildOption( camera, false ) );
-        options.push( this._buildOption( scene, true ) );
+        options.push( this._buildOption( scene.core, true ) );
 
-        this._addObjects( options, scene.children, 1 );
+        this._addObjects( options, scene.core.children, 1 );
 
         this._outliner.setOptions( options );
 

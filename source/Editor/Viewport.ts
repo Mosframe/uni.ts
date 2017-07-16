@@ -53,7 +53,7 @@ export class Viewport extends UIPanel {
 
 		this.tool 		= tool;
 		this.camera 		= tool.camera;
-		this.scene 			= tool.scene;
+		this.scene 			= tool.scene.core;
 		this.sceneHelpers 	= tool.sceneHelpers;
 		this.renderer 		= null;
 		this.objects 		= [];

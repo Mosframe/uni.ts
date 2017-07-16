@@ -5,6 +5,7 @@
  */
 
 import * as GL              from './Graphic';
+import { objects        }   from './Ubject';
 import { Component      }   from './Component';
 import { GameObject     }   from './GameObject';
 import { Material       }   from './Material';
@@ -46,9 +47,9 @@ export class MeshFilter extends Component {
      *
      * @memberof MeshFilter
      */
-    get sharedMesh() : Mesh         { return this._sharedMesh; }
+    get sharedMesh() : Mesh         { return this.sharedMesh_; }
     set sharedMesh( value:Mesh )    {
-        this._sharedMesh=value;
+        this.sharedMesh_=value;
         this._onChanged();
     }
 
@@ -64,22 +65,20 @@ export class MeshFilter extends Component {
         super(gameObject);
 
         if( mesh === undefined ) {
-            mesh = new Mesh( new Geometry(PrimitiveType.cube) );
+            mesh = new Mesh( );
         }
         this.sharedMesh = mesh;
     }
 
     // [ Private Variables ]
 
-    private _sharedMesh : Mesh;
+    private sharedMesh_ : Mesh;
 
     // [ Protected Functions ]
 
     protected _onChanged () {
-        this.gameObject.core = this._sharedMesh.core;
+        this.gameObject.core = this.sharedMesh_.core;
     }
-
-    // [ Protected Static Variables ]
-
-    // [ Protected Static Functions ]
 }
+
+objects[MeshFilter.name] = MeshFilter;

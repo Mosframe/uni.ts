@@ -24,8 +24,8 @@
         ]
     },
     "files": [
-        "uni.ts",
-        "server.ts"
+        "source/uni.ts",
+        "source/server.ts"
     ],
     "include": [
         "source/**/*"

@@ -5,8 +5,8 @@
  */
 
 import deprecated   from 'deprecated-decorator';
-import * as GL      from '../Engine/Graphic';
 import * as uuid    from 'uuid';
+import * as GL      from '../Engine/Graphic';
 import {Util}       from '../Engine/Util';
 
 /**
@@ -41,7 +41,6 @@ export class Ubject extends Object {
      */
     constructor() {
         super();
-
         this.uuid = GL.Math.generateUUID();
     }
 
@@ -66,19 +65,8 @@ export class Ubject extends Object {
 
     // [ Public Static Functions ]
 
-    /**
-     * Removes a gameobject, component or asset.
-     *
-     * @static
-     * @param {Ubject} object
-     * @param {number} [t=0]
-     * @memberof Ubject
-     */
-    static Destroy ( object:Ubject, t:number=0 ) {
-        // 게임오브젝트인경우 씬에서 삭제
-        // 컴포넌트인경우 게임오브젝트에서 제거
-    }
     /*
+    static Destroy ( object:Ubject, delay:number=0 ) Removes a gameobject, component or asset.
     static DestroyImmediate	Destroys the object obj immediately. You are strongly recommended to use Destroy instead.
     static DontDestroyOnLoad	Makes the object target not be destroyed automatically when loading a new scene.
     static FindObjectOfType	Returns the first active loaded object of Type type.
@@ -107,8 +95,8 @@ export class Ubject extends Object {
 
     // [ Protected Variables ]
 
-    protected _name     : string;
-    protected uuid      : string;
+    protected _name         : string;
+    protected uuid          : string;
 
     // [ Protected Static Functions ]
 
@@ -132,7 +120,7 @@ export class Ubject extends Object {
                     let val = obj[key];
                     if (typeof val !== 'function') {
                         let descriptor = Object.getOwnPropertyDescriptor(obj, key);
-                        if (descriptor && !descriptor.get) {
+                        if (descriptor && ((descriptor.get && descriptor.set)||(!descriptor.get && !descriptor.set)) ) {
                             if (typeof val === 'object') {
                                 output[key] = Ubject._serialize(val);
                             } else {

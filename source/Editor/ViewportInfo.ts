@@ -51,9 +51,9 @@ export class ViewportInfo extends UIPanel {
             let vertices    = 0;
             let triangles   = 0;
 
-            for( let i=0, l=tool.scene.children.length; i < l; i++ ) {
+            for( let i=0, l=tool.scene.core.children.length; i < l; i++ ) {
 
-                let object = tool.scene.children[ i ];
+                let object = tool.scene.core.children[ i ];
 
                 object.traverseVisible( ( object ) => {
 

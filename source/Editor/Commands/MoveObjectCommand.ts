@@ -71,11 +71,11 @@ export class MoveObjectCommand extends Command {
 		this.object     = this._tool.objectByUuid( json.objectUuid );
 		this._oldParent  = this._tool.objectByUuid( json.oldParentUuid );
 		if ( this._oldParent === undefined ) {
-			this._oldParent = this._tool.scene;
+			this._oldParent = this._tool.scene.core;
 		}
 		this._newParent = this._tool.objectByUuid( json.newParentUuid );
 		if ( this._newParent === undefined ) {
-			this._newParent = this._tool.scene;
+			this._newParent = this._tool.scene.core;
 		}
 		this._newIndex = json.newIndex;
 		this._oldIndex = json.oldIndex;

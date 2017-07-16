@@ -79,7 +79,7 @@ export class RemoveObjectCommand extends Command {
 		super.fromJSON( json );
 		this._parent = this._tool.objectByUuid( json.parentUuid );
 		if ( this._parent === undefined ) {
-			this._parent = this._tool.scene;
+			this._parent = this._tool.scene.core;
 		}
 		this._index = json.index;
 		this.object = this._tool.objectByUuid( json.object.object.uuid );

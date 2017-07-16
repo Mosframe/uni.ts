@@ -1,6 +1,7 @@
-import * as GL            from '../Engine/Graphic';
-import {PrimitiveType   } from '../Engine/PrimitiveType';
-import {Ubject          } from '../Engine/Ubject';
+import * as GL              from '../Engine/Graphic';
+import { objects        }   from './Interfaces';
+import { PrimitiveType  }   from '../Engine/PrimitiveType';
+import { Ubject         }   from '../Engine/Ubject';
 /**
  * Geometry
  *
@@ -15,23 +16,24 @@ export class Geometry {
     // [ Public Variables ]
 
     /**
-     * get GL.Geometry
+     * get core geometry
      *
      * @readonly
-     * @type {GL.Geometry}
+     * @type {(GL.Geometry|GL.BufferGeometry)}
      * @memberof Geometry
      */
-    get core() : GL.Geometry {return this._core; }
+    get core () : GL.Geometry|GL.BufferGeometry       {return this._core; }
+    set core (value:GL.Geometry|GL.BufferGeometry )   {this._core=value;}
 
     // [ Constructors ]
 
     /**
      * Creates an instance of Geometry.
-     * @param {PrimitiveType} type
+     * @param {PrimitiveType} [type]
      *
      * @memberof Geometry
      */
-    constructor( type:PrimitiveType ) {
+    constructor( type?:PrimitiveType ) {
         switch( type ) {
             case PrimitiveType.quad: {
                     this._core = new GL.PlaneGeometry( 1, 1, 1, 1 );
@@ -128,7 +130,7 @@ export class Geometry {
 
     // [ Protected Variables ]
 
-    protected _core : GL.Geometry;
+    protected _core : GL.Geometry|GL.BufferGeometry;
 
     // [ Protected Functions ]
 
@@ -136,3 +138,4 @@ export class Geometry {
 
     // [ Protected Static Functions ]
 }
+objects[Geometry.name] = Geometry;

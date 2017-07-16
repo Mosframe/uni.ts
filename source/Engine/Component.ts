@@ -1,7 +1,8 @@
-import * as GL        from '../Engine/Graphic';
-import {GameObject  } from '../Engine/GameObject';
-import {Transform   } from '../Engine/Transform';
-import {Ubject      } from '../Engine/Ubject';
+import * as GL              from '../Engine/Graphic';
+import { objects        }   from './Ubject';
+import { GameObject     }   from '../Engine/GameObject';
+import { Transform      }   from '../Engine/Transform';
+import { Ubject         }   from '../Engine/Ubject';
 
 /**
  * Component type
@@ -82,13 +83,11 @@ export class Component extends Ubject {
     constructor( gameObject:GameObject ) {
         super();
         this._gameObject = gameObject;
+        this.type = this.constructor.name;
     }
 
     // [ Protected Variables ]
-
+    protected type : string;
     protected _gameObject : GameObject;
 
 }
-
-
-export let components : {[name:string]:Component} = {};

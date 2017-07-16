@@ -168,7 +168,7 @@ export class FileMenu extends Menu {
         option.setTextContent( 'Export Scene' );
         option.onClick( () => {
 
-            let output = tool.scene.toJSON();
+            let output = tool.scene.core.toJSON();
 
             try {
 

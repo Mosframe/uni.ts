@@ -1,7 +1,6 @@
 /**
- * Command interface
+ * Editor interfaces
  *
- * @author mrdoob ( http://mrdoob.com )
  * @author mosframe / https://github.com/mosframe
  */
 
@@ -52,22 +51,21 @@ export interface ITool {
     storage         : IStorage;
 	loader          : ILoader;
 	camera          : GL.Camera;
-	scene           : GL.Scene;
+	scene           : Scene;
 	sceneHelpers    : GL.Scene;
 	geometries      : {[uuid:string]:GL.Geometry|GL.BufferGeometry};
 	materials       : {[uuid:string]:GL.Material};
 	textures        : {[uuid:string]:GL.Texture};
 	scripts         : {[uuid:string]:any[]};
-	gameObjects		: {[uuid:string]:GameObject};
 	selected        : GL.Object3D | null;
 	helpers         : {[uuid:string]:GL.Object3D};
 
     setTheme        ( value:string );
-	setScene        ( scene:GL.Scene );
-    addObject       ( object:GL.Object3D );
+	setScene        ( scene:Scene );
+    addObject       ( gameObject:GameObject );
 	moveObject      ( object:GL.Object3D, parent:GL.Object3D, before:GL.Object3D );
-	nameObject      ( object:GL.Object3D, name:string );
-    removeObject    ( object:GL.Object3D );
+	nameObject      ( gameObject:GameObject, name:string );
+    removeObject    ( gameObject:GameObject );
 	addGeometry     ( geometry:GL.Geometry|GL.BufferGeometry );
 	setGeometryName ( geometry:GL.Geometry|GL.BufferGeometry, name:string );
 	addMaterial     ( material:GL.Material );

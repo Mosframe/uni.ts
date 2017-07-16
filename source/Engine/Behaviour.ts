@@ -30,24 +30,4 @@ export class Behaviour extends Component {
     get transform() : Transform { return this.gameObject.transform; }
 
     // [ Constructors ]
-
-    // [ Public Functions ]
-
-    // [ Public Static Variables ]
-
-    // [ Public Static Functions ]
-
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
-    // [ public Messages ]
-
-    // [ Protected Variables ]
-
-    // [ Protected Functions ]
-
-    // [ Protected Static Variables ]
-
-    // [ Protected Static Functions ]
 }

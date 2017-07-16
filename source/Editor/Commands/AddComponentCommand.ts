@@ -25,7 +25,6 @@ export class AddComponentCommand extends Command {
      * @memberof AddComponentCommand
      */
     execute () {
-		this._tool.gameObjects[ this.object.uuid ] = this._gameObject;
         this._gameObject.addComponent2( this._componentName );
     }
     /**
@@ -34,7 +33,7 @@ export class AddComponentCommand extends Command {
      * @memberof AddComponentCommand
      */
 	undo () {
-        this._gameObject.destroy( this._componentName );
+        this._gameObject.removeComponent2( this._componentName );
 	}
     /**
      * to JSON

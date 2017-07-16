@@ -8,6 +8,7 @@
  */
 
 import * as GL                  from '../../Engine/Graphic';
+import { GameObject         }   from '../../Engine/GameObject';
 import { ICommand           }   from '../Interfaces';
 import { Command            }   from './Command';
 import { AddObjectCommand   }   from './AddObjectCommand';
@@ -69,21 +70,25 @@ export class SetSceneCommand extends Command {
 
     // [ Constructor ]
 
-    constructor( object:THREE.Object3D, scene?:THREE.Scene ) {
+    constructor( object:GL.Object3D, scene?:GL.Scene ) {
         super();
 
         this.type   = 'SetSceneCommand';
         this.name   = 'Set Scene';
 
         if ( scene !== undefined ) {
-            this.cmdArray.push( new SetUuidCommand( this._tool.scene, scene.uuid ) );
-            this.cmdArray.push( new SetValueCommand( this._tool.scene, 'name', scene.name ) );
-            this.cmdArray.push( new SetValueCommand( this._tool.scene, 'userData', JSON.parse( JSON.stringify( scene.userData ) ) ) );
+            this.cmdArray.push( new SetUuidCommand( this._tool.scene.core, scene.uuid ) );
+            this.cmdArray.push( new SetValueCommand( this._tool.scene.core, 'name', scene.name ) );
+            this.cmdArray.push( new SetValueCommand( this._tool.scene.core, 'userData', JSON.parse( JSON.stringify( scene.userData ) ) ) );
 
             while ( scene.children.length > 0 ) {
                 let child = scene.children.pop();
                 if( child ) {
-                    this.cmdArray.push( new AddObjectCommand( child ) );
+
+                    let gameObject = new GameObject( child.name );
+                    gameObject.core = child;
+
+                    this.cmdArray.push( new AddObjectCommand( gameObject ) );
                 }
             }
         }

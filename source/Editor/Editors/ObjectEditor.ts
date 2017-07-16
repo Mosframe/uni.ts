@@ -281,7 +281,7 @@ export class ObjectEditor extends UIPanel {
 
                 // Component 리소트 얻기 ( Component에서 상속한 모든 오브젝트들 얻기 )
 
-                tool.execute( new AddCompnentCommand( tool.selected, 'TestComponent' ) );
+                //tool.execute( new AddCompnentCommand( tool.selected, 'TestComponent' ) );
             }
         });
         this._objectUUIDRow.add( new UIText( 'UUID' ).setWidth( '90px' ) );

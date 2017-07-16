@@ -19,6 +19,7 @@ import { RemoveObjectCommand        }   from '../Commands/RemoveObjectCommand'  
 import { SetMaterialValueCommand    }   from '../Commands/SetMaterialValueCommand'      ;
 import { MultiCmdsCommand           }   from '../Commands/MultiCmdsCommand'             ;
 import { Menu                       }   from './Menu'                                   ;
+import { GameObject                 }   from '../../Engine/GameObject';
 
 
 let glslprep = window['glslprep'];//require('../../libs/glslprep/glslprep.min');
@@ -104,7 +105,9 @@ export class EditMenu extends Menu {
                 if( object ) {
                     if ( object.parent === null ) return; // avoid cloning the camera or scene
                     object = object.clone();
-                    tool.execute( new AddObjectCommand( object ) );
+                    let gameObject = new GameObject();
+                    gameObject.core = object;
+                    tool.execute( new AddObjectCommand( gameObject ) );
                 }
             });
             options.add( option );
@@ -134,7 +137,7 @@ export class EditMenu extends Menu {
             option.setTextContent( 'Minify Shaders' );
             option.onClick( () => {
 
-                let root                = tool.selected || tool.scene;
+                let root                = tool.selected || tool.scene.core;
                 let errors  : any       = [];
                 let path    : any       = [];
                 let cmds    : any       = [];

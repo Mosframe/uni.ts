@@ -4,8 +4,8 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { components } from '../../Engine/Component';
-import { Behaviour  } from '../../Engine/Behaviour';
+//import { components } from '../../../Engine/Component';
+import { Behaviour  } from '../../../Engine/Behaviour';
 
 export class TestComponent extends Behaviour {
 
@@ -15,5 +15,5 @@ export class TestComponent extends Behaviour {
 
 }
 
-components[TestComponent.name] = TestComponent;
+//components[TestComponent.name] = TestComponent;
 
