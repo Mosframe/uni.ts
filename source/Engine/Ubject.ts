@@ -98,16 +98,28 @@ export class Ubject extends Object {
     protected _name         : string;
     protected uuid          : string;
 
-    // [ Protected Static Functions ]
+    // [ Protected Functions ]
 
-    protected static _serialize( obj:any ) : any {
+    /*
+    object타입이 아닌경우 _가 없으면 저장한다.
+    object타입인경우
+        Object3D타입인 경우
+            uuid만 저장, 나중에 검색하여 링크
+        Component타입인 경우
+            등록이 되어있는지 검사 window['units']
+            등록되어 있지 않으면
+        ScriptableObject 타입인 경우
+        그외타입인경우
+
+    */
+    protected _serialize( obj:any ) : any {
 
         if (obj === null) { return obj; }
 
         if (obj instanceof Array) {
             let output: any[] = [];
             for (let key in obj) {
-                output[key] = Ubject._serialize(obj[key]);
+                output[key] = this._serialize(obj[key]);
             }
             return output;
 
@@ -120,24 +132,39 @@ export class Ubject extends Object {
                     let val = obj[key];
                     let p = val;
                     while(p) {
-                        //if (typeof val !== 'function') {
-                            let descriptor = Object.getOwnPropertyDescriptor(obj, key);
-                            if (descriptor && ((descriptor.get && descriptor.set)||(!descriptor.get && !descriptor.set)) ) {
-                                if (typeof val === 'object') {
-                                    output[key] = Ubject._serialize(val);
-                                } else {
-                                    output[key] = val;
-                                }
-                                p=null;
+                        let descriptor = Object.getOwnPropertyDescriptor(obj, key);
+                        if (descriptor && ((descriptor.get && descriptor.set)||(!descriptor.get && !descriptor.set)) ) {
+                            if (typeof val === 'object') {
+                                output[key] = this._serialize(val);
                             } else {
-                                p = Object.getPrototypeOf(p);
+                                output[key] = val;
                             }
-                        //}
+                            p=null;
+                        } else {
+                            p = Object.getPrototypeOf(p);
+                        }
                     }
                 }
             }
             return output;
         }
     }
+
+    protected _deserialize( meta, environment ) {
+        let instance = new environment[meta.type]();
+        for ( let property in meta ) {
+            if ( !meta.hasOwnProperty(property) ) {
+                continue;
+            }
+
+            if (typeof meta[property] === 'object') {
+                instance[property] = this._deserialize( meta[property], environment );
+            } else {
+                instance[property] = meta[property];
+            }
+        }
+        return instance;
+    }
 }
+
 window['units'][Ubject.name]=Ubject;
