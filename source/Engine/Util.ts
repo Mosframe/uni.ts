@@ -80,11 +80,13 @@ export class Util {
                     let p:Object|null = obj;
                     while(p) {
                         let descriptor = Object.getOwnPropertyDescriptor(p, key);
-                        if (descriptor && ((descriptor.get && descriptor.set)||(!descriptor.get && !descriptor.set)) ) {
-                            if (typeof val === 'object') {
-                                output[key] = this.serialize(val);
-                            } else {
-                                output[key] = val;
+                        if (descriptor && ((descriptor.get && descriptor.set) || (!descriptor.get && !descriptor.set))) {
+                            if ( typeof val !== 'function') {
+                              if (typeof val === 'object') {
+                                  output[key] = this.serialize(val);
+                              } else {
+                                  output[key] = val;
+                              }
                             }
                             p=null;
                         } else {
@@ -107,10 +109,19 @@ export class Util {
      * @memberof Util
      */
     static deserialize( target, meta, environment ) {
-        for (let property in meta) {
-            if (meta.hasOwnProperty(property)) {
+      for (let property in meta) {
+
+            if (property === 'class') continue;
+
+            if (!target.hasOwnProperty(property)) {
+              target[property] = meta[property];
+            }
+
+            if (target.hasOwnProperty(property)) {
+
                 let targetProp  = target[property];
                 let metaProp    = meta[property];
+
                 if (metaProp instanceof Array) {
                     for (let key in metaProp) {
                         console.log( "key", metaProp[key] );
@@ -124,10 +135,22 @@ export class Util {
                 }
                 else
                 if (typeof metaProp === 'object') {
-                    targetProp = this.deserialize(targetProp, metaProp, environment);
+
+                    if( metaProp.class in window ) {
+                      targetProp = new window[metaProp.class]();
+                    }
+                    else
+                    if( metaProp.class in window['units'] ) {
+                      targetProp = new environment[metaProp.class]();
+                    }
+                    else {
+                      targetProp = {};
+                    }
+
+                    target[property] = this.deserialize(targetProp, metaProp, environment);
                 }
                 else {
-                    targetProp = metaProp;
+                    target[property] = metaProp;
                 }
             }
         }
