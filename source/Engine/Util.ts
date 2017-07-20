@@ -25,6 +25,16 @@ export class Util {
         return Object.assign(Object.create(original), original);
     }
 
+
+    /*
+    클래스 멤버들중에 오브젝트형이면
+        Ubject에서 상속받은 객채들은 메타에서 검색해서 없으면 메타의 오브젝트 리스트에 기록한다.
+            UUID만 기록한다.
+        하위를 검색할때도 루트 메타를 검색하여 모두 오브젝트 리스트에 등록이 되도록 처리한다.
+        Ubject에서 상속받은 객체가 아니면 시리얼라이징 오브젝트로 판단하고 객체에 포함시킨다.
+
+    */
+
     /**
      * serialize
      *
