@@ -7,8 +7,8 @@
  * @class Scene
  */
 
-import * as GL              from '../Graphic';
-import { GameObject     }   from '../GameObject';
+import * as GL              from './Graphic';
+import { GameObject     }   from './GameObject';
 import { SceneManager   }   from './SceneManager';
 
 /**

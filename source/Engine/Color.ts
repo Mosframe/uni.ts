@@ -101,3 +101,4 @@ export class Color extends GL.Color{
 
     // [ Protected Static Functions ]
 }
+window['UNITS'][Color.name]=Color;

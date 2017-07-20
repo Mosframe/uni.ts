@@ -106,4 +106,4 @@ export class Mesh extends Ubject {
         this._core.geometry = this._geometry.core;
     }
 }
-window['units'][Mesh.name]=Mesh;
+window['UNITS'][Mesh.name]=Mesh;

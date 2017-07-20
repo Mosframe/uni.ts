@@ -173,4 +173,4 @@ export class Camera extends Behaviour {
     }
 
 }
-window['units'][Camera.name]=Camera;
+window['UNITS'][Camera.name]=Camera;

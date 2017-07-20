@@ -6,7 +6,7 @@
 
 import * as GL          from '../Engine/Graphic';
 import { GameObject }   from '../Engine/GameObject';
-import { Scene      }   from '../Engine/SceneManagement/Scene';
+import { Scene      }   from '../Engine/Scene';
 import { Signal     }   from 'signals';
 import { Config     }   from './Config';
 

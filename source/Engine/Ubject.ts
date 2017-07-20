@@ -13,7 +13,7 @@ import {Util}       from './Util';
  * Base class for all objects Unicon can reference.
  *
  * @export
- * @class UObject
+ * @class Ubject
  */
 export class Ubject extends Object {
 
@@ -98,5 +98,14 @@ export class Ubject extends Object {
     protected _name         : string;
     protected uuid          : string;
 
+    // [ Protected Functions ]
+
+    protected _serialize (meta?:any) : any {
+        return Util.serialize(this,window['UNITS'],meta);
+    }
+
+    protected _deserialize (meta:any) : any {
+        return Util.deserialize( this, meta, window['UNITS'] );
+    }
 }
-window['units'][Ubject.name]=Ubject;
+window['UNITS'][Ubject.name]=Ubject;

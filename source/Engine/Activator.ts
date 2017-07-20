@@ -28,6 +28,7 @@ export class Activator<T> {
         return <T> instance;
     }
 }
+window['UNITS'][Activator.name]=Activator;
 
 
 

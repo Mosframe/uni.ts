@@ -137,4 +137,4 @@ export class Geometry {
 
     // [ Protected Static Functions ]
 }
-window['units'][Geometry.name]=Geometry;
+window['UNITS'][Geometry.name]=Geometry;

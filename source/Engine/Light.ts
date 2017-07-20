@@ -78,4 +78,4 @@ export class Light extends Behaviour {
         this.gameObject.core.position.set(0,10,0);
     }
 }
-window['units'][Light.name]=Light;
+window['UNITS'][Light.name]=Light;

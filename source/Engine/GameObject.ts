@@ -11,12 +11,13 @@ import { MeshFilter             }   from './MeshFilter';
 import { MeshLambertMaterial    }   from './MeshLambertMaterial';
 import { MeshRenderer           }   from './MeshRenderer';
 import { PrimitiveType          }   from './PrimitiveType';
-import { Scene                  }   from './SceneManagement/Scene';
-import { SceneManager           }   from './SceneManagement/SceneManager';
+import { Scene                  }   from './Scene';
+import { SceneManager           }   from './SceneManager';
 import { ShaderType             }   from './ShaderType';
 import { Transform              }   from './Transform';
 import { Ubject                 }   from './Ubject';
 import { Vector3                }   from './Vector3';
+
 
 /**
  * Base class for all entities in Unicon scenes.
@@ -113,7 +114,7 @@ export class GameObject extends Ubject {
         let instance = new type(this);
         instance['_gameObject'] = this;
         // [ add components ]
-        this._components.push( instance );
+        this.components.push( instance );
         return <T>instance;
     }
     /**
@@ -123,7 +124,7 @@ export class GameObject extends Ubject {
      * @returns {Component}
      * @memberof GameObject
      */
-    addComponent2( componentName:string ) : Component {
+    addComponentByName( componentName:string ) : Component {
 
         // [ instance ]
         let activator = new Activator<Component>(window);
@@ -131,7 +132,7 @@ export class GameObject extends Ubject {
         instance['_gameObject'] = this;
 
         // [ add components ]
-        this._components.push( instance );
+        this.components.push( instance );
 
         return instance;
     }
@@ -148,7 +149,7 @@ export class GameObject extends Ubject {
      * @memberof GameObject
      */
     getComponent<T extends Component>( type:ComponentType<T> ) : T|undefined {
-        for( let component of this._components ) {
+        for( let component of this.components ) {
             if( component instanceof type ) {
                 return <T>component;
             }
@@ -161,8 +162,8 @@ export class GameObject extends Ubject {
      * @returns {(Component|undefined)}
      * @memberof GameObject
      */
-    getComponent2( componentName:string ) : Component|undefined {
-        for( let component of this._components ) {
+    getComponentByName( componentName:string ) : Component|undefined {
+        for( let component of this.components ) {
             if( component.constructor.name === componentName ) {
                 return component;
             }
@@ -182,13 +183,13 @@ export class GameObject extends Ubject {
      * @memberof GameObject
      */
     removeComponent ( component:Component ) {
-        let index = this._components.indexOf( component );
+        let index = this.components.indexOf( component );
         if( index > -1 ) {
-            this._components.splice(index,1);
+            this.components.splice(index,1);
         }
     }
-    removeComponent2 ( componentName:string ) {
-        let components = this._components.filter( t => t.name == componentName );
+    removeComponentByName ( componentName:string ) {
+        let components = this.components.filter( t => t.name == componentName );
         for( let component of components ) {
             this.removeComponent( component );
             break;
@@ -207,27 +208,11 @@ export class GameObject extends Ubject {
      * @memberof GameObject
      */
     toJSON ( meta?:any ) : any {
-
-        if( meta === undefined ) {
-            meta = {};
-        }
-
-        meta.components = [];
-        for( let index in this._components ) {
-            meta.components[index] = GameObject._serialize( this._components[index] );
-        }
-        return meta;
+        return this._serialize(meta);
     }
 
     fromJSON ( meta:any ) {
-        this._components = [];
-        for( let index in meta.components ) {
-            let compo = new window['units'][meta.components[index].type](this);
-            Object.assign( compo, meta.components[index] );
-            //compo['_gameObject'] = this;
-            console.log( "GameObject.fromJSON", compo );
-            this._components.push( compo );
-        }
+        this._deserialize( meta );
     }
 
     /**
@@ -302,15 +287,16 @@ export class GameObject extends Ubject {
 
         // [ components ]
         for( let componentName of componentNames ) {
-            this.addComponent2( componentName );
+            this.addComponentByName( componentName );
         }
     }
 
     // [ Protected Variables ]
 
-    protected _components       : Component[] = [];
+    protected components        : Component[] = [];
     protected _transform        : Transform;
     protected _scene            : Scene;
     protected _core             : GL.Object3D;
 
 }
+window['UNITS'][GameObject.name]=GameObject;

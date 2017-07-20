@@ -11,21 +11,6 @@ import {Ubject}         from '../Engine/Ubject';
  */
 export class ScriptableObject extends Ubject {
 
-    // [ Public Variables ]
 
-    // [ Constructors ]
-
-    // [ Public Functions ]
-
-    // [ Public Static Variables ]
-
-    // [ Public Static Functions ]
-
-    // [ Protected Variables ]
-
-    // [ Protected Functions ]
-
-    // [ Protected Static Variables ]
-
-    // [ Protected Static Functions ]
 }
+window['UNITS'][ScriptableObject.name]=ScriptableObject;

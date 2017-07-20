@@ -25,68 +25,56 @@ export class Util {
         return Object.assign(Object.create(original), original);
     }
 
-
-    /*
-    object타입이 아닌경우 _가 없으면 저장한다.
-        get set이 모두 존재하는 경우 저장한다.
-
-    object타입인경우
-        일반 오브젝트인경우
-            하위를 모두 저장한다.
-        Object3D타입인 경우
-            uuid만 저장, 나중에 검색하여 링크
-        Component타입인 경우
-            등록이 되어있는지 검사 window['units']
-            등록되어 있지 않으면
-        ScriptableObject 타입인 경우
-        그외타입인경우
-
-    */
-
     /**
-     *
+     * serialize
      *
      * @static
      * @param {Object} obj
+     * @param {any} module
+     * @param {any} [meta]
      * @returns {*}
      * @memberof Util
      */
-    static serialize (obj:Object) : any {
+    static serialize ( target:Object, module:any, meta?:any ) : any {
 
-        if (obj === null) { return obj; }
+        if (target === null) { return target; }
 
-        if (obj instanceof Array) {
-            let output: any[] = [];
-            for (let key in obj) {
-                if (typeof obj[key] === 'object') {
-                    output[key] = this.serialize(obj[key]);
+        if (target instanceof Array) {
+            if( meta === undefined ) {
+                meta = [];
+            }
+            for (let key in target) {
+                if (typeof target[key] === 'object') {
+                    meta[key] = this.serialize(target[key],module,meta[key]);
                 } else {
-                    output[key] = obj[key];
+                    meta[key] = target[key];
                 }
             }
-            return output;
+            return meta;
         } else {
-            let output: any = {};
-
-            if (obj.constructor.name in window['units']) {
-                //if (obj.constructor.arguments === null) {
-                output.class = obj.constructor.name;
-                //}
+            if( meta === undefined ) {
+                meta = {};
+            }
+            if (target.constructor.name in module) {
+                meta.class = target.constructor.name;
+                if (target.constructor.arguments !== null) {
+                    meta.arguments = target.constructor.arguments;
+                }
             }
 
-            for (let key in obj) {
+            for (let key in target) {
                 if (key[0] !== '_') {
-                    let val = obj[key];
-                    let p:Object|null = obj;
+                    let val = target[key];
+                    let p:Object|null = target;
                     while(p) {
                         let descriptor = Object.getOwnPropertyDescriptor(p, key);
                         if (descriptor && ((descriptor.get && descriptor.set) || (!descriptor.get && !descriptor.set))) {
                             if ( typeof val !== 'function') {
-                              if (typeof val === 'object') {
-                                  output[key] = this.serialize(val);
-                              } else {
-                                  output[key] = val;
-                              }
+                                if (typeof val === 'object') {
+                                    meta[key] = this.serialize(val,module,meta[key]);
+                                } else {
+                                    meta[key] = val;
+                                }
                             }
                             p=null;
                         } else {
@@ -95,7 +83,7 @@ export class Util {
                     }
                 }
             }
-            return output;
+            return meta;
         }
     }
     /**
@@ -104,17 +92,20 @@ export class Util {
      * @static
      * @param {any} target
      * @param {any} meta
-     * @param {any} environment
+     * @param {any} module
      * @returns
      * @memberof Util
      */
-    static deserialize( target, meta, environment ) {
-      for (let property in meta) {
+    static deserialize( target:Object, meta:any, module:any ) {
+
+        console.log( "deserialize", target, meta, module );
+
+        for (let property in meta) {
 
             if (property === 'class') continue;
 
             if (!target.hasOwnProperty(property)) {
-              target[property] = meta[property];
+                target[property] = meta[property];
             }
 
             if (target.hasOwnProperty(property)) {
@@ -123,10 +114,12 @@ export class Util {
                 let metaProp    = meta[property];
 
                 if (metaProp instanceof Array) {
+                    targetProp = [];
                     for (let key in metaProp) {
-                        console.log( "key", metaProp[key] );
                         if (typeof metaProp[key] === 'object') {
-                            targetProp[key] = this.deserialize( targetProp[key], metaProp[key], environment );
+                            targetProp[key] = {}; // 생성,,,
+                            // 멤버오브젝트가 포함인지 참조인지 구분이 필요하다. : Serializable
+                            targetProp[key] = this.deserialize( targetProp[key], metaProp[key], module );
                         }
                         else {
                             targetProp[key] = metaProp[key];
@@ -136,18 +129,18 @@ export class Util {
                 else
                 if (typeof metaProp === 'object') {
 
-                    if( metaProp.class in window ) {
-                      targetProp = new window[metaProp.class]();
-                    }
-                    else
-                    if( metaProp.class in window['units'] ) {
-                      targetProp = new environment[metaProp.class]();
+                    if( metaProp.class in module ) {
+                        if( module[metaProp.class].constructor.arguments ) {
+                            targetProp = new module[metaProp.class](metaProp.arguments);
+                        } else {
+                            targetProp = new module[metaProp.class]();
+                        }
                     }
                     else {
                       targetProp = {};
                     }
 
-                    target[property] = this.deserialize(targetProp, metaProp, environment);
+                    target[property] = this.deserialize(targetProp, metaProp, module);
                 }
                 else {
                     target[property] = metaProp;
@@ -156,5 +149,4 @@ export class Util {
         }
         return target;
     }
-
 }

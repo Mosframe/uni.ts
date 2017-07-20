@@ -92,3 +92,4 @@ export class Component extends Ubject {
     protected _gameObject : GameObject;
 
 }
+window['UNITS'][Component.name]=Component;

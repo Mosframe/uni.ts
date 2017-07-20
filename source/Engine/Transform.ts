@@ -183,4 +183,4 @@ export class Transform extends Component {
     */
 
 }
-window['units'][Transform.name]=Transform;
+window['UNITS'][Transform.name]=Transform;

@@ -4,7 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-window['units']={};
+window['UNITS']={};
 
 import * as GL from './Engine/Graphic';
 

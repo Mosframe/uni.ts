@@ -79,4 +79,4 @@ export class MeshFilter extends Component {
         this.gameObject.core = this.sharedMesh_.core;
     }
 }
-window['units'][MeshFilter.name]=MeshFilter;
+window['UNITS'][MeshFilter.name]=MeshFilter;

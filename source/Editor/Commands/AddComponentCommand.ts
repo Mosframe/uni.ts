@@ -25,7 +25,7 @@ export class AddComponentCommand extends Command {
      * @memberof AddComponentCommand
      */
     execute () {
-        this._gameObject.addComponent2( this._componentName );
+        this._gameObject.addComponentByName( this._componentName );
     }
     /**
      * Undo
@@ -33,7 +33,7 @@ export class AddComponentCommand extends Command {
      * @memberof AddComponentCommand
      */
 	undo () {
-        this._gameObject.removeComponent2( this._componentName );
+        this._gameObject.addComponentByName( this._componentName );
 	}
     /**
      * to JSON

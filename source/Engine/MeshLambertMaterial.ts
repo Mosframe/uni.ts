@@ -71,4 +71,4 @@ export class MeshLambertMaterial extends Material {
 
     // [ Protected Static Functions ]
 }
-window['units'][MeshLambertMaterial.name]=MeshLambertMaterial;
+window['UNITS'][MeshLambertMaterial.name]=MeshLambertMaterial;

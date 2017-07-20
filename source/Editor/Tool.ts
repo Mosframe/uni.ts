@@ -19,8 +19,8 @@ import { Storage     	} 	from './Storage';
 import { Command     	} 	from './Commands/Command';
 
 import { GameObject     }   from '../Engine/GameObject';
-import { Scene     		}   from '../Engine/SceneManagement/Scene';
-import { SceneManager	}	from '../Engine/SceneManagement/SceneManager';
+import { Scene     		}   from '../Engine/Scene';
+import { SceneManager	}	from '../Engine/SceneManager';
 
 /**
  * Tool
