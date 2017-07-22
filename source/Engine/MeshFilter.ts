@@ -5,6 +5,7 @@
  */
 
 import * as GL              from './Graphic';
+import { Ubject         }   from './Ubject';
 import { Component      }   from './Component';
 import { GameObject     }   from './GameObject';
 import { Material       }   from './Material';
@@ -30,7 +31,7 @@ export class MeshFilter extends Component {
      * @type {GL.Mesh}
      * @memberof MeshFilter
      */
-    get core() : GL.Mesh { return <GL.Mesh>this.gameObject.core; }
+    get core () : GL.Mesh { return <GL.Mesh>this.gameObject.core; }
 
     /**
      * Returns the instantiated Mesh assigned to the mesh filter.
@@ -38,19 +39,16 @@ export class MeshFilter extends Component {
      * @type {Mesh}
      * @memberof MeshFilter
      */
-    get mesh() : Mesh       { return <Mesh>Component.instantiate( this.sharedMesh ); }
-    set mesh( value:Mesh )  { this.sharedMesh = <Mesh>Component.instantiate( value ); }
+    get mesh () : Mesh      { return <Mesh>Component.instantiate( this.sharedMesh ); }
+    set mesh ( value:Mesh ) { this.sharedMesh = <Mesh>Component.instantiate( value ); }
     /**
      * Returns the shared mesh of the mesh filter.
      *
      *
      * @memberof MeshFilter
      */
-    get sharedMesh() : Mesh         { return this.sharedMesh_; }
-    set sharedMesh( value:Mesh )    {
-        this.sharedMesh_=value;
-        this._onChanged();
-    }
+    get sharedMesh () : Mesh        { return this._sharedMesh; }
+    set sharedMesh ( value:Mesh )   { this._sharedMesh=value; this._onChanged(); }
 
     // [ Constructors ]
 
@@ -60,23 +58,23 @@ export class MeshFilter extends Component {
      * @param {Mesh} [mesh]
      * @memberof MeshFilter
      */
-    constructor( gameObject:GameObject, mesh?:Mesh ) {
+    constructor ( gameObject:GameObject, mesh?:Mesh ) {
         super(gameObject);
 
-        if( mesh === undefined ) {
-            mesh = new Mesh( );
+        if (mesh === undefined) {
+            mesh = new Mesh();
         }
         this.sharedMesh = mesh;
     }
 
     // [ Private Variables ]
 
-    private sharedMesh_ : Mesh;
+    private _sharedMesh : Mesh;
 
     // [ Protected Functions ]
 
     protected _onChanged () {
-        this.gameObject.core = this.sharedMesh_.core;
+        if (this.gameObject !== undefined && this._sharedMesh !== undefined ) this.gameObject.core = this._sharedMesh.core;
     }
 }
 window['UNITS'][MeshFilter.name]=MeshFilter;

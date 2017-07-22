@@ -301,6 +301,7 @@ export class Tool implements ITool {
 		for (let c=0; c<gameObjects.length; ++c) {
 			this.removeObject( gameObjects[c] );
 		}
+		GameObject.clear();
 
 		this.geometries = {};
 		this.materials  = {};

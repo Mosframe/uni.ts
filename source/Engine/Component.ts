@@ -48,7 +48,8 @@ export class Component extends Ubject {
      * @type {GameObject}
      * @memberof Component
      */
-    get gameObject () : GameObject { return this._gameObject; }
+    get gameObject () : GameObject      { return this._gameObject; }
+    set gameObject ( value:GameObject ) { this._gameObject = value; this._onChanged(); }
     /*
     tag	The tag of this game object.
     */
@@ -83,13 +84,18 @@ export class Component extends Ubject {
      */
     constructor( gameObject:GameObject ) {
         super();
-        this._gameObject = gameObject;
-        this.type = this.constructor.name;
+        this.gameObject = gameObject;
     }
 
     // [ Protected Variables ]
-    protected type : string;
+
     protected _gameObject : GameObject;
 
+
+    // [ Protected Functions ]
+
+    protected _onChanged () {
+        if( this.gameObject !== undefined ) this.gameObject.core = this.core;
+    }
 }
 window['UNITS'][Component.name]=Component;

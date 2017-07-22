@@ -146,7 +146,6 @@ export class Renderer extends Component {
 
         //let meshFilter = this.gameObject.getComponent( MeshFilter );
 
-        this._sharedMaterials = [];
         this._sharedMaterials.push( new MeshLambertMaterial() );
         this._onChanged();
     }
@@ -184,9 +183,11 @@ export class Renderer extends Component {
 
     protected _onChanged () {
 
-        let meshFilter = this.gameObject.getComponent( MeshFilter );
-        if( meshFilter ) {
-            meshFilter.core.material = this.sharedMaterial.core;
+        if( this.gameObject !== undefined ) {
+            let meshFilter = this.gameObject.getComponent( MeshFilter );
+            if( meshFilter !== undefined && this._sharedMaterials !== undefined && this._sharedMaterials.length > 0 ) {
+                meshFilter.core.material = this.sharedMaterial.core;
+            }
         }
     }
 }

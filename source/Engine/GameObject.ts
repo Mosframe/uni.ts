@@ -39,15 +39,6 @@ export class GameObject extends Ubject {
     layer	The layer the game object is in. A layer is in the range [0...31].
     */
     /**
-     * The name of the object.
-     *
-     * @readonly
-     * @type {string}
-     * @memberof GameObject
-     */
-    get name () : string        { return  this._name; }
-    set name ( value:string )   { this._name = value; this._core.name = name; }
-    /**
      * Scene that the GameObject is part of.
      *
      * @readonly
@@ -81,8 +72,11 @@ export class GameObject extends Ubject {
                 this._core.parent.add( value );
             }
         }
+        let name = this._core.name;
+        delete Ubject._ubjects[this.uuid];
         this._core = value;
-        this._core.name = this.name;
+        this._core.name = name;
+        Ubject._ubjects[this.uuid] = this;
 
         for (let c=0; c<value.children.length; ++c ) {
             let child = value.children[c];
@@ -208,12 +202,17 @@ export class GameObject extends Ubject {
      * @memberof GameObject
      */
     toJSON ( meta?:any ) : any {
-        return this._serialize(meta);
+        let output : any = {};
+        output.link = 'Ubject';
+        output.uuid = this.uuid;
+        return output;
     }
 
     fromJSON ( meta:any ) {
-        this._deserialize( meta );
+        //this._deserialize( meta );
     }
+
+
 
     /**
      * Creates a game object with a primitive mesh renderer and appropriate collider.

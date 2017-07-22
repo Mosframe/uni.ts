@@ -8,6 +8,7 @@
  */
 
 import * as GL              from './Graphic';
+import { Ubject         }   from './Ubject';
 import { GameObject     }   from './GameObject';
 import { SceneManager   }   from './SceneManager';
 
@@ -64,7 +65,7 @@ export class Scene {
      * @memberof Scene
      */
     add( gameObject:GameObject ) {
-        this.regist( gameObject);
+        this.regist( gameObject );
         this._core.add( gameObject.core );
     }
     /**
@@ -95,11 +96,10 @@ export class Scene {
      */
     toJSON ( meta:any ) : any {
         meta.scene = this._core.toJSON();
-        meta.gameObjects = {};
-        for (let key in this._gameObjects ) {
-            meta.gameObjects[key] = this._gameObjects[key].toJSON();
-        }
-        console.log("Scene.toJSON", meta);
+
+        Ubject.serialize( meta );
+
+        console.log("Scene.toJSON.meta", meta);
         return meta;
     }
     /**
@@ -112,13 +112,21 @@ export class Scene {
         let loader = new GL.ObjectLoader();
         this._core = <GL.Scene>loader.parse( meta.scene );
 
+        console.log("Scene.fromJSON.meta", meta);
+
+        Ubject.deserialize( meta );
+
+        //console.log("Scene.fromJSON.objects", Ubject['_ubjects'] );
+
         this._gameObjects = {};
-        for (let key in meta.gameObjects ) {
-            let gameObject = new GameObject();
-            console.log("Scene.fromJSON", meta.gameObjects[key]);
-            gameObject.fromJSON( meta.gameObjects[key] );
-            this._gameObjects[key] = gameObject;
+        for (let key in Ubject['_ubjects'] ) {
+
+            if( Ubject['_ubjects'][key] instanceof GameObject ) {
+                this._gameObjects[key] = <GameObject>Ubject['_ubjects'][key];
+            }
         }
+
+        //console.log("Scene.fromJSON.gameObjects", this._gameObjects);
     }
 
     /**
