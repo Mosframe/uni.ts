@@ -4,7 +4,7 @@ import {GameObject  } from '../Engine/GameObject';
 import {Transform   } from '../Engine/Transform';
 import {Ubject      } from '../Engine/Ubject';
 /**
- * Script is the base class from which every Unicon script derives.
+ * Script is the base class from which every Uni.ts script derives.
  *
  * @author mosframe / https://github.com/mosframe
  * @export

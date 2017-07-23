@@ -9,9 +9,9 @@ import {Ubject} from '../Engine/Ubject';
  *
  * Consult any graphics textbook for in depth explanation of transformation matrices.
  *
- * In Unicon, Matrix4x4 is used by several Transform, Camera, Material and GL functions.
+ * In Uni.ts, Matrix4x4 is used by several Transform, Camera, Material and GL functions.
  *
- * Matrices in Unicon are column major. Data is accessed as: row + (column*4).
+ * Matrices in Uni.ts are column major. Data is accessed as: row + (column*4).
  * Matrices can be indexed like 2D arrays but in an expression like mat[a, b], a refers to the row index, while b refers to the column index (note that this is the opposite way round to Cartesian coordinates).
  *
  * @author mosframe / https://github.com/mosframe

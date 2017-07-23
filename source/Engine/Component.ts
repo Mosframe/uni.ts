@@ -79,11 +79,8 @@ export class Component extends Ubject {
 
     protected _gameObject : GameObject;
 
-
     // [ Protected Functions ]
 
-    protected _onChanged () {
-        if( this.gameObject !== undefined ) this.gameObject.core = this.core;
-    }
+    protected _onChanged () {}
 }
 window['UNITS'][Component.name]=Component;

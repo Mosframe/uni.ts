@@ -20,7 +20,7 @@ import { Vector3                }   from './Vector3';
 
 
 /**
- * Base class for all entities in Unicon scenes.
+ * Base class for all entities in Uni.ts scenes.
  *
  * @author mosframe / https://github.com/mosframe
  *
@@ -117,7 +117,7 @@ export class GameObject extends Ubject {
 
         // [ instance ]
         let instance = new type(this);
-        instance['_gameObject'] = this;
+        instance.gameObject = this;
         // [ add components ]
         this.components.push( instance );
         return <T>instance;
@@ -134,7 +134,7 @@ export class GameObject extends Ubject {
         // [ instance ]
         let activator = new Activator<Component>(window);
         let instance = activator.createInstance( componentName, this );
-        instance['_gameObject'] = this;
+        instance.gameObject = this;
 
         // [ add components ]
         this.components.push( instance );

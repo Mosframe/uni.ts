@@ -33,7 +33,7 @@ export class Storage implements IStorage {
             return;
         }
 
-        this.name = 'UniconEditor';
+        this.name = 'Uni.tsEditor';
         this.version = 1;
     }
 

@@ -9,9 +9,11 @@
 
 import * as GL          from '../../Engine/Graphic';
 import { Command    }   from './Command';
+import { Ubject     }   from '../../Engine/Ubject';
 
 /**
  * RemoveObjectCommand
+ * TODO : 게임오브젝트 삭제 , Ubject.objects, scene.gameObjects
  *
  * @export
  * @class RemoveObjectCommand

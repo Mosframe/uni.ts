@@ -254,6 +254,6 @@ export class Units {
 }
 
 let units = new Units();
-
+window['units'] = units;
 
 

@@ -14,7 +14,7 @@ import {Util}           from './Util';
 
 
 /**
- * Base class for all objects Unicon can reference.
+ * Base class for all objects Uni.ts can reference.
  *
  * @export
  * @class Ubject
@@ -297,28 +297,32 @@ export class Ubject extends Object implements IDisposable {
                         if (descriptor && ((descriptor.get && descriptor.set) || (!descriptor.get && !descriptor.set))) {
                             if (typeof val === 'object') {
 
-                                let p = this._serialize(module,val,undefined,metaRoot);
                                 if( val instanceof Ubject ) {
+                                    let p = this._serialize(module,val,undefined,metaRoot);
                                     meta[key] = {};
                                     meta[key].uuid = val.uuid;
                                 }
                                 else
                                 if( val instanceof GL.Object3D ) {
+                                    let p = this._serialize(module,val,undefined,metaRoot);
                                     meta[key] = {};
                                     meta[key].uuid = val.uuid;
                                 }
                                 else
                                 if( val instanceof GL.Material ) {
+                                    let p = this._serialize(module,val,undefined,metaRoot);
                                     meta[key] = {};
                                     meta[key].uuid = val.uuid;
                                 }
                                 else
                                 if( val instanceof GL.Geometry ) {
+                                    let p = this._serialize(module,val,undefined,metaRoot);
                                     meta[key] = {};
                                     meta[key].uuid = val.uuid;
                                 }
                                 else {
-                                    meta[key] = p;
+                                    // stack overflow
+                                    //meta[key] = this._serialize(module,val,undefined,metaRoot);
                                 }
                             }
                             else

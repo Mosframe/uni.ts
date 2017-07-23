@@ -88,5 +88,6 @@ export class AddObjectCommand extends Command {
     }
 
     // [ Protected Variables ]
+
     protected _gameObject : GameObject;
 }

@@ -1,12 +1,19 @@
-import * as GL        from '../Engine/Graphic';
-import {Behaviour   } from '../Engine/Behaviour';
-import {GameObject  } from '../Engine/GameObject';
+/**
+ * Light.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
+import * as GL          from './Graphic';
+import { Behaviour  }   from './Behaviour';
+import { GameObject }   from './GameObject';
+import { LightType  }   from './LightType';
+
 /**
  * Script interface for light components.
  *
- * Use this to control all aspects of Unicon's lights. The properties are an exact match for the values shown in the Inspector.
+ * Use this to control all aspects of Uni.ts's lights. The properties are an exact match for the values shown in the Inspector.
  *
- * @author mosframe / https://github.com/mosframe
  * @export
  * @class Light
  * @extends {Behaviour}
@@ -48,8 +55,15 @@ export class Light extends Behaviour {
     shadows	How this light casts shadows
     shadowStrength	Strength of light's shadows.
     spotAngle	The angle of the light's spotlight cone in degrees.
-    type	The type of the light.
     */
+    /**
+     * The type of the light.
+     *
+     * @type {LightType}
+     * @memberof Light
+     */
+    get type () : LightType         { return this._type; }
+    set type ( value : LightType )  { this._type = value; this._onChanged(); }
 
     // [ Public Functions ]
 
@@ -66,16 +80,71 @@ export class Light extends Behaviour {
 
     /**
      * Creates an instance of Light.
-     * @param {GameObject} gameObject
-     *
      * @memberof Light
      */
     constructor() {
         super();
+        this.type = LightType.Point;
+    }
 
-        this.gameObject.core = new GL.SpotLight(0xffffff);
-        this.gameObject.core.castShadow = true;
-        this.gameObject.core.position.set(0,10,0);
+    // [ Protected Virtual ]
+
+    protected _type : LightType;
+
+    // [ Protected Functions ]
+
+    protected _onChanged () {
+        if ( this._gameObject !== undefined ) {
+
+            switch(this.type) {
+
+            case LightType.Spot: {
+                    let color       = 0xffffff;
+                    let intensity   = 1.0;
+                    let distance    = 0.0;
+                    let angle       = Math.PI * 0.1;
+                    let exponent    = 10.0;
+                    let light = this._gameObject.core = new GL.SpotLight ( color, intensity, distance, angle, exponent );
+                    light.target.name = light.name + ' Target';
+                    light.position.set(5, 10, 7.5);
+                    light.castShadow = true;
+                }
+                break;
+            case LightType.Directional: {
+                    let color       = 0xffffff;
+                    let intensity   = 1.0;
+                    let light = this._gameObject.core = new GL.DirectionalLight ( color, intensity );
+                    light.target.name = light.name + ' Target';
+                    light.position.set(5, 10, 7.5);
+                    light.castShadow = true;
+                }
+                break;
+            case LightType.Area:
+                console.warn("not suport Area Light");
+            case LightType.Point: {
+                    let color       = 0xffffff;
+                    let intensity   = 1.0;
+                    let distance    = 0.0;
+                    let light = this._gameObject.core = new GL.PointLight ( color, intensity, distance );
+                    light.castShadow = true;
+                }
+                break;
+            case LightType.Hemisphere: {
+                    let skyColor    = 0x00aaff;
+                    let groundColor = 0xffaa00;
+                    let intensity   = 1.0;
+                    let light = this._gameObject.core = new GL.HemisphereLight ( skyColor, groundColor, intensity );
+                    light.position.set( 0, 10, 0 );
+                }
+                break;
+            case LightType.Ambient: {
+                    let color = 0x222222;
+                    let light = this._gameObject.core = new GL.AmbientLight ( color );
+                    light.position.set( 0, 20, 0 );
+                }
+                break;
+            }
+        }
     }
 }
 window['UNITS'][Light.name]=Light;

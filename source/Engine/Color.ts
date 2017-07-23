@@ -2,7 +2,7 @@ import * as GL  from '../Engine/Graphic';
 /**
  * Representation of RGBA colors.
  *
- * This structure is used throughout Unicon to pass colors around. Each color component is a floating point value with a range from 0 to 1.
+ * This structure is used throughout Uni.ts to pass colors around. Each color component is a floating point value with a range from 0 to 1.
  *
  * Components (r,g,b) define a color in RGB color space. Alpha component (a) defines transparency - alpha of one is completely opaque, alpha of zero is completely transparent.
  *

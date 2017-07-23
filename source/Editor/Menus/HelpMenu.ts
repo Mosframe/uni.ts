@@ -51,11 +51,11 @@ export class HelpMenu extends Menu {
             });
             options.add( option );
         }
-        // [ Source code - Unicon ]
+        // [ Source code - Uni.ts ]
         {
             let option = new UIRow();
             option.setClass( 'option' );
-            option.setTextContent( 'Source code (Unicon)' );
+            option.setTextContent( 'Source code (Uni.ts)' );
             option.onClick( () => {
 
                 window.open( 'https://github.com/mosframe/unicon/tree/master/server/unicon-tool', '_blank' )
