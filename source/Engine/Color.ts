@@ -89,16 +89,5 @@ export class Color extends GL.Color{
     Vector4	Colors can be implicitly converted to and from Vector4.
     */
 
-    // [ Public Events ]
-
-    // [ Public Messages ]
-
-    // [ Protected Variables ]
-
-    // [ Protected Static Variables ]
-
-    // [ Protected Functions ]
-
-    // [ Protected Static Functions ]
 }
 window['UNITS'][Color.name]=Color;

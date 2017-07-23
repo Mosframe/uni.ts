@@ -94,17 +94,7 @@ export class AddMenu extends Menu {
                 //mesh.name = 'Plane ' + ( ++ meshCount );
                 //tool.execute( new AddObjectCommand( mesh ) );
 
-                let gameObject  = new GameObject( 'Plane' );
-
-                let meshFilter  = gameObject.addComponent( MeshFilter );
-                let geometry    = new Geometry( PrimitiveType.plane );
-                let mesh        = new Mesh(geometry);
-                meshFilter.mesh = mesh;
-
-                let renderer    = gameObject.addComponent( MeshRenderer );
-                let material    = new MeshStandardMaterial();
-                renderer.sharedMaterial = material;
-
+                let gameObject = GameObject.createPrimitive( PrimitiveType.Plane );
                 tool.execute( new AddObjectCommand( gameObject ) );
             });
             options.add( option );
@@ -124,17 +114,7 @@ export class AddMenu extends Menu {
                 tool.execute( new AddObjectCommand( mesh ) );
                 */
 
-                let gameObject  = new GameObject( 'Cube' );
-
-                let meshFilter  = gameObject.addComponent( MeshFilter );
-                let geometry    = new Geometry( PrimitiveType.cube );
-                let mesh        = new Mesh(geometry);
-                meshFilter.mesh = mesh;
-
-                let renderer    = gameObject.addComponent( MeshRenderer );
-                let material    = new MeshStandardMaterial();
-                renderer.sharedMaterial = material;
-
+                let gameObject = GameObject.createPrimitive( PrimitiveType.Cube );
                 tool.execute( new AddObjectCommand( gameObject ) );
             });
             options.add( option );
@@ -157,17 +137,7 @@ export class AddMenu extends Menu {
                 tool.execute( new AddObjectCommand( mesh ) );
                 */
 
-                let gameObject  = new GameObject( 'Circle' );
-
-                let meshFilter  = gameObject.addComponent( MeshFilter );
-                let geometry    = new Geometry( PrimitiveType.circle );
-                let mesh        = new Mesh(geometry);
-                meshFilter.mesh = mesh;
-
-                let renderer    = gameObject.addComponent( MeshRenderer );
-                let material    = new MeshStandardMaterial();
-                renderer.sharedMaterial = material;
-
+                let gameObject = GameObject.createPrimitive( PrimitiveType.Circle );
                 tool.execute( new AddObjectCommand( gameObject ) );
 
             });
@@ -194,17 +164,8 @@ export class AddMenu extends Menu {
 
                 tool.execute( new AddObjectCommand( mesh ) );
                 */
-                let gameObject  = new GameObject( 'Cylinder' );
 
-                let meshFilter  = gameObject.addComponent( MeshFilter );
-                let geometry    = new Geometry( PrimitiveType.cylinder );
-                let mesh        = new Mesh(geometry);
-                meshFilter.mesh = mesh;
-
-                let renderer    = gameObject.addComponent( MeshRenderer );
-                let material    = new MeshStandardMaterial();
-                renderer.sharedMaterial = material;
-
+                let gameObject = GameObject.createPrimitive( PrimitiveType.Cylinder );
                 tool.execute( new AddObjectCommand( gameObject ) );
 
             });
@@ -234,17 +195,7 @@ export class AddMenu extends Menu {
                 tool.execute( new AddObjectCommand( mesh ) );
                 */
 
-                let gameObject  = new GameObject( 'Sphere' );
-
-                let meshFilter  = gameObject.addComponent( MeshFilter );
-                let geometry    = new Geometry( PrimitiveType.sphere );
-                let mesh        = new Mesh(geometry);
-                meshFilter.mesh = mesh;
-
-                let renderer    = gameObject.addComponent( MeshRenderer );
-                let material    = new MeshStandardMaterial();
-                renderer.sharedMaterial = material;
-
+                let gameObject = GameObject.createPrimitive( PrimitiveType.Sphere );
                 tool.execute( new AddObjectCommand( gameObject ) );
 
             });
@@ -269,17 +220,7 @@ export class AddMenu extends Menu {
                 tool.execute( new AddObjectCommand( mesh ) );
                 */
 
-                let gameObject  = new GameObject( 'Icosahedron' );
-
-                let meshFilter  = gameObject.addComponent( MeshFilter );
-                let geometry    = new Geometry( PrimitiveType.icosahedron );
-                let mesh        = new Mesh(geometry);
-                meshFilter.mesh = mesh;
-
-                let renderer    = gameObject.addComponent( MeshRenderer );
-                let material    = new MeshStandardMaterial();
-                renderer.sharedMaterial = material;
-
+                let gameObject = GameObject.createPrimitive( PrimitiveType.Icosahedron );
                 tool.execute( new AddObjectCommand( gameObject ) );
 
             });
@@ -307,17 +248,7 @@ export class AddMenu extends Menu {
                 tool.execute( new AddObjectCommand( mesh ) );
                 */
 
-                let gameObject  = new GameObject( 'Torus' );
-
-                let meshFilter  = gameObject.addComponent( MeshFilter );
-                let geometry    = new Geometry( PrimitiveType.torus );
-                let mesh        = new Mesh(geometry);
-                meshFilter.mesh = mesh;
-
-                let renderer    = gameObject.addComponent( MeshRenderer );
-                let material    = new MeshStandardMaterial();
-                renderer.sharedMaterial = material;
-
+                let gameObject = GameObject.createPrimitive( PrimitiveType.Torus );
                 tool.execute( new AddObjectCommand( gameObject ) );
             });
             options.add( option );
@@ -344,17 +275,7 @@ export class AddMenu extends Menu {
                 tool.execute( new AddObjectCommand( mesh ) );
                 */
 
-                let gameObject  = new GameObject( 'TorusKnot' );
-
-                let meshFilter  = gameObject.addComponent( MeshFilter );
-                let geometry    = new Geometry( PrimitiveType.torusKnot );
-                let mesh        = new Mesh(geometry);
-                meshFilter.mesh = mesh;
-
-                let renderer    = gameObject.addComponent( MeshRenderer );
-                let material    = new MeshStandardMaterial();
-                renderer.sharedMaterial = material;
-
+                let gameObject = GameObject.createPrimitive( PrimitiveType.TorusKnot );
                 tool.execute( new AddObjectCommand( gameObject ) );
 
             });
@@ -423,17 +344,7 @@ export class AddMenu extends Menu {
                 tool.execute( new AddObjectCommand( mesh ) );
                 */
 
-                let gameObject  = new GameObject( 'Lathe' );
-
-                let meshFilter  = gameObject.addComponent( MeshFilter );
-                let geometry    = new Geometry( PrimitiveType.lathe );
-                let mesh        = new Mesh(geometry);
-                meshFilter.mesh = mesh;
-
-                let renderer    = gameObject.addComponent( MeshRenderer );
-                let material    = new MeshStandardMaterial();
-                renderer.sharedMaterial = material;
-
+                let gameObject = GameObject.createPrimitive( PrimitiveType.Lathe );
                 tool.execute( new AddObjectCommand( gameObject ) );
             });
             options.add( option );

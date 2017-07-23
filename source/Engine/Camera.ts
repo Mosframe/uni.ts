@@ -160,12 +160,10 @@ export class Camera extends Behaviour {
 
     /**
      * Creates an instance of Camera.
-     * @param {GameObject} gameObject
-     *
      * @memberof Camera
      */
-    constructor( gameObject:GameObject ) {
-        super( gameObject );
+    constructor() {
+        super();
 
         this.gameObject.core = new GL.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
         this.gameObject.core.position.set( 40, 40, 40);

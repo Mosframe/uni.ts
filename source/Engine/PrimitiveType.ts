@@ -11,26 +11,26 @@
  */
 export enum PrimitiveType {
     /** A sphere primitive. */
-    sphere	    ,
+    Sphere	    ,
     /** A cylinder primitive. */
-    cylinder    ,
+    Cylinder    ,
     /** A cube primitive. */
-    cube        ,
+    Cube        ,
     /** A plane primitive. */
-    plane       ,
+    Plane       ,
     /** A Quad primitive. */
-    quad        ,
+    Quad        ,
     /** A Circle primitive. */
-    circle      ,
+    Circle      ,
     /** A Icosahedron primitive. */
-    icosahedron ,
+    Icosahedron ,
     /** A Torus primitive. */
-    torus       ,
+    Torus       ,
     /** A TorusKnot primitive. */
-    torusKnot   ,
+    TorusKnot   ,
     /** A Lathe primitive. */
-    lathe       ,
+    Lathe       ,
     /* A capsule primitive.
-    capsule     ,
+    Capsule     ,
      */
 }

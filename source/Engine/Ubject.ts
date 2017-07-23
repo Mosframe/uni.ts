@@ -4,11 +4,14 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import deprecated   from 'deprecated-decorator';
-import * as uuid    from 'uuid';
-import * as GL      from './Graphic';
-import {Core}       from './Core';
-import {Util}       from './Util';
+import deprecated       from 'deprecated-decorator';
+import * as uuid        from 'uuid';
+import * as GL          from './Graphic';
+import {using}          from './Interfaces';
+import {IDisposable}    from './Interfaces';
+import {Util}           from './Util';
+
+
 
 /**
  * Base class for all objects Unicon can reference.
@@ -16,13 +19,16 @@ import {Util}       from './Util';
  * @export
  * @class Ubject
  */
-export class Ubject extends Object {
+export class Ubject extends Object implements IDisposable {
 
     // [ Public Variables ]
 
     /*
     hideFlags	Should the object be hidden, saved with the scene or modifiable by the user?
     */
+
+    get avaliable () : boolean { return true; }
+
     /**
      * The name of the object.
      *
@@ -30,21 +36,14 @@ export class Ubject extends Object {
      * @type {string}
      * @memberof Ubject
      */
-    get name () : string        { return  this._core.name; }
-    set name ( value:string )   { this._core.name = value; }
+    get name () : string        { return this._name; }
+    set name ( value:string )   { this._name = value; }
 
-    get uuid () : string        { return this._core.uuid; }
+    get uuid () : string        { return this._uuid; }
     set uuid ( value:string )   {
-        delete Ubject._ubjects[this._core.uuid];
-        this._core.uuid = value;
-        Ubject._ubjects[this._core.uuid] = this;
-    }
-
-    get core () : Core|GL.Object3D      { return this._core; }
-    set core ( value:Core|GL.Object3D ) {
-        delete Ubject._ubjects[this._core.uuid];
-        this._core = value;
-        Ubject._ubjects[this._core.uuid] = this;
+        delete Ubject._ubjects[this._uuid];
+        this._uuid = value;
+        Ubject._ubjects[this._uuid] = this;
     }
 
     // [ Constructors ]
@@ -54,24 +53,32 @@ export class Ubject extends Object {
      *
      * @memberof Ubject
      */
-    constructor( core:Core|GL.Object3D ) {
+    constructor() {
         super();
-        if( core === undefined ) {
-            core = new Core();
-        }
-        this.core = core;
+        this._instanceID = ++Ubject._instanceID_;
+        this.uuid = GL.Math.generateUUID();
         Ubject._ubjects[this.uuid] = this;
     }
+
 
     // [ Public Functions ]
 
     /**
-     * Returns the instance id of the object.
+     * dispose
      *
-     * @returns {string}
      * @memberof Ubject
      */
-    getInstanceID () : string { return this.uuid; }
+    dispose() {
+        delete Ubject._ubjects[this._uuid];
+    }
+    /**
+     * Returns the instance id of the object.
+     *
+     * @returns {number}
+     * @memberof Ubject
+     */
+    getInstanceID () : number { return this._instanceID; }
+
     /**
      * Returns the name of the game object.
      *
@@ -92,26 +99,70 @@ export class Ubject extends Object {
     static FindObjectsOfType	Returns a list of all active loaded objects of Type type.
     */
 
-    static serialize (meta?:any) : any {
-
+    /**
+     * serialize
+     *
+     * @static
+     * @param {*} meta
+     * @returns {*}
+     * @memberof Ubject
+     */
+    static serialize (meta:any) : any {
+        this.validate();
         meta.ubjects = {};
         for( let c in Ubject._ubjects ) {
             Ubject._serialize( window['UNITS'], Ubject._ubjects[c], undefined, meta );
         }
         return meta;
     }
-
-    static deserialize (meta:any) : any {
-        Ubject._ubjects = {};
+    /**
+     * deserialize
+     *
+     * @static
+     * @param {*} meta
+     * @param {({[uuid:string]:GL.Object3D|GL.Material|GL.Geometry})} object3Ds
+     * @returns {*}
+     * @memberof Ubject
+     */
+    static deserialize (meta:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) : any {
+        this.clearAll();
         for( let c in meta.ubjects ) {
-            Ubject._ubjects[c] = Ubject._deserialize( window['UNITS'], meta.ubjects[c], meta );
+            Ubject._ubjects[c] = Ubject._deserialize( window['UNITS'], meta.ubjects[c], meta, object3Ds );
+        }
+        this.validate();
+    }
+    /**
+     * validate
+     *
+     * @static
+     * @memberof Ubject
+     */
+    static validate() {
+
+        let removes:any = [];
+        for( let c in Ubject._ubjects ) {
+            let obj = Ubject._ubjects[c];
+            if( !obj ) {
+                removes.push(c);
+            }
+            else
+            if( !obj.avaliable ) {
+                removes.push(c);
+            }
+        }
+        for( let c in removes ) {
+            delete Ubject._ubjects[removes[c]];
         }
     }
-
-    static clear() {
+    /**
+     * clear all ubjects
+     *
+     * @static
+     * @memberof Ubject
+     */
+    static clearAll() {
         Ubject._ubjects = {};
     }
-
 
 
     /**
@@ -141,10 +192,12 @@ export class Ubject extends Object {
 
     // [ Protected Variables ]
 
-    protected _core : Core | GL.Object3D;
+    protected       _name           : string;
+    protected       _uuid           : string;
+    protected       _instanceID     : number;
+    private static  _instanceID_    : number = 0;
 
-    // [ Protected Functions ]
-
+    // [ Protected static Functions ]
 
     /**
      * serialize
@@ -177,13 +230,21 @@ export class Ubject extends Object {
 
                     if( val instanceof Ubject ) {
                         meta[key] = {};
-                        meta[key].link = 'Ubject';
                         meta[key].uuid = val.uuid;
                     }
                     else
                     if( val instanceof GL.Object3D ) {
                         meta[key] = {};
-                        meta[key].link = 'Object3D';
+                        meta[key].uuid = val.uuid;
+                    }
+                    else
+                    if( val instanceof GL.Material ) {
+                        meta[key] = {};
+                        meta[key].uuid = val.uuid;
+                    }
+                    else
+                    if( val instanceof GL.Geometry ) {
+                        meta[key] = {};
                         meta[key].uuid = val.uuid;
                     }
                     else {
@@ -220,10 +281,13 @@ export class Ubject extends Object {
 
             if (target.constructor.name in module) {
                 meta.class = target.constructor.name;
+                if( target instanceof Ubject ) {
+                    meta.uuid = target.uuid;
+                }
             }
 
             for (let key in target) {
-                if (key[0] !== '_') {
+                if (key[0] !== '_' || key === "_core" ) {
 
                     let val = target[key];
                     let p:Object|null = target;
@@ -236,13 +300,21 @@ export class Ubject extends Object {
                                 let p = this._serialize(module,val,undefined,metaRoot);
                                 if( val instanceof Ubject ) {
                                     meta[key] = {};
-                                    meta[key].link = 'Ubject';
                                     meta[key].uuid = val.uuid;
                                 }
                                 else
                                 if( val instanceof GL.Object3D ) {
                                     meta[key] = {};
-                                    meta[key].link = 'Object3D';
+                                    meta[key].uuid = val.uuid;
+                                }
+                                else
+                                if( val instanceof GL.Material ) {
+                                    meta[key] = {};
+                                    meta[key].uuid = val.uuid;
+                                }
+                                else
+                                if( val instanceof GL.Geometry ) {
+                                    meta[key] = {};
                                     meta[key].uuid = val.uuid;
                                 }
                                 else {
@@ -273,60 +345,52 @@ export class Ubject extends Object {
      * @returns
      * @memberof Util
      */
-    static _deserialize( module:any, meta:any, metaRoot:any ) {
+    static _deserialize( module:any, meta:any, metaRoot:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) {
 
         if (meta instanceof Array) {
 
             let output : any = [];
-
             for( let c in meta ) {
-                output[c] = this._deserialize( module, meta[c], metaRoot );
+                output[c] = this._deserialize( module, meta[c], metaRoot, object3Ds );
             }
-
             return output;
+
         } else {
 
-            if( meta.uuid in this._ubjects ) {
-                return this._ubjects[meta.uuid];
+            let link1 = this._ubjects[meta.uuid];
+            if( link1 !== undefined ) {
+                return link1;
             }
-
-            if( 'link' in meta && 'uuid' in meta ) {
-                if( meta.link === 'Ubject' ) {
-                    if( meta.uuid in metaRoot.ubjects ) {
-                        return this._deserialize( module, metaRoot.ubjects[meta.uuid], metaRoot );
-                    }
-                    return undefined;
-                }
-                else
-                if( meta.link === 'Object3D' ) {
-                    // TODO : GL.Object3D ...
-                    //return meta.scene.FindObjectOfType(meta.uuid);
-                    return meta;
-                }
+            let link2 = object3Ds[meta.uuid];
+            if( link2 !== undefined ) {
+                return link2;
             }
 
             let output : any = {};
 
-            if ( 'class' in meta ) {
+            if ( meta.class === undefined ) {
+                if( meta.uuid in metaRoot.ubjects ) {
+                    output = this._deserialize( module, metaRoot.ubjects[meta.uuid], metaRoot, object3Ds );
+                }
+            } else {
                 output = new module[meta.class]();
-            }
 
-            for (let property in meta) {
+                for (let property in meta) {
 
-                if (property === 'link') continue;
-                if (property === 'class') continue;
-                if (property === 'arguments') continue;
+                    if (property === 'class') continue;
 
-                let metaProp = meta[property];
+                    let metaProp = meta[property];
 
-                if (typeof metaProp === 'object') {
-                    output[property] = this._deserialize( module, metaProp, metaRoot );
-                }
-                else
-                if( typeof metaProp === 'number' || typeof metaProp === 'string' ) {
-                    output[property] = metaProp;
+                    if (typeof metaProp === 'object') {
+                        output[property] = this._deserialize( module, metaProp, metaRoot, object3Ds );
+                    }
+                    else
+                    if( typeof metaProp === 'number' || typeof metaProp === 'string' ) {
+                        output[property] = metaProp;
+                    }
                 }
             }
+
             return output;
         }
     }

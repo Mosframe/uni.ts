@@ -34,6 +34,7 @@ export class Component extends Ubject {
 
     // [ Public Variables ]
 
+    get avaliable () : boolean { return this.gameObject!==undefined && this.gameObject.core!==undefined; }
     /**
      * get GL.Object3D
      *
@@ -73,19 +74,6 @@ export class Component extends Ubject {
     SendMessage	Calls the method named methodName on every MonoBehaviour in this game object.
     SendMessageUpwards	Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
     */
-
-    // [ Constructors ]
-
-    /**
-     * Creates an instance of Component.
-     * @param {GameObject} gameObject
-     *
-     * @memberof Component
-     */
-    constructor( gameObject:GameObject ) {
-        super();
-        this.gameObject = gameObject;
-    }
 
     // [ Protected Variables ]
 

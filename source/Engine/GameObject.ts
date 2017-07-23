@@ -8,7 +8,7 @@ import { Geometry               }   from './Geometry';
 import { Material               }   from './Material';
 import { Mesh                   }   from './Mesh';
 import { MeshFilter             }   from './MeshFilter';
-import { MeshLambertMaterial    }   from './MeshLambertMaterial';
+import { MeshStandardMaterial   }   from './MeshStandardMaterial';
 import { MeshRenderer           }   from './MeshRenderer';
 import { PrimitiveType          }   from './PrimitiveType';
 import { Scene                  }   from './Scene';
@@ -32,9 +32,13 @@ export class GameObject extends Ubject {
 
     // [ Public Variables ]
 
+
     /*
     activeInHierarchy	Is the GameObject active in the scene?
     activeSelf	The local active state of this GameObject. (Read Only)
+    */
+    get avaliable () : boolean { return this.core!==undefined; }
+    /*
     isStatic	Editor only API that specifies if a game object is static.
     layer	The layer the game object is in. A layer is in the range [0...31].
     */
@@ -59,6 +63,16 @@ export class GameObject extends Ubject {
 
 
     /**
+     * The name of the object.
+     *
+     * @readonly
+     * @type {string}
+     * @memberof Ubject
+     */
+    get name () : string        { return this._name; }
+    set name ( value:string )   { this._name = value; if(this.core!==undefined) this.core.name = this._name; }
+
+    /**
      * get core object
      *
      * @readonly
@@ -67,16 +81,13 @@ export class GameObject extends Ubject {
      */
     get core () : GL.Object3D       { return this._core; }
     set core ( value:GL.Object3D )  {
-        if( this._core ) {
+        if( this._core !== undefined ) {
             if( this._core.parent ) {
                 this._core.parent.add( value );
             }
         }
-        let name = this._core.name;
-        delete Ubject._ubjects[this.uuid];
         this._core = value;
-        this._core.name = name;
-        Ubject._ubjects[this.uuid] = this;
+        this._core.name = this._name;
 
         for (let c=0; c<value.children.length; ++c ) {
             let child = value.children[c];
@@ -213,7 +224,6 @@ export class GameObject extends Ubject {
     }
 
 
-
     /**
      * Creates a game object with a primitive mesh renderer and appropriate collider.
      *
@@ -227,17 +237,19 @@ export class GameObject extends Ubject {
 
         let gameObject  = new GameObject( PrimitiveType[type] );
         let geometry    = new Geometry( type );
-        let material    = new MeshLambertMaterial();
-        let mesh        = new Mesh( geometry );
+        let material    = new MeshStandardMaterial();
+        let mesh        = new Mesh();
+
+        mesh.geometry = geometry;
 
         let meshFiler = gameObject.addComponent( MeshFilter );
-        meshFiler.mesh = mesh;
+        meshFiler.sharedMesh = mesh;
 
         let renderer = gameObject.addComponent( MeshRenderer );
-        renderer.material = material;
+        renderer.sharedMaterial = material;
 
         // Y축이 위로 향하도록 축을 회전
-        if( type === PrimitiveType.plane ) {
+        if( type === PrimitiveType.Plane ) {
             gameObject._transform.core.rotation.x = -0.5 * Math.PI;
             //let eulerAngles = gameObject.transform.eulerAngles;
             //gameObject.transform.eulerAngles = new Vector3(-0.5 * Math.PI, eulerAngles.y, eulerAngles.z );
@@ -272,13 +284,14 @@ export class GameObject extends Ubject {
     constructor( name?:string, ...componentNames:string[] ) {
         super();
 
-        // [ core ]
-        this._core  = new GL.Object3D();
-
         // [ name ]
         if( !name ) name = 'GameObject';
-        this.name = name;
+        this._name = name;
 
+        // [ core ]
+        this.core  = new GL.Object3D();
+
+        // [ scene ]
         this._scene = SceneManager.getActiveScene();
 
         // [ transform ]

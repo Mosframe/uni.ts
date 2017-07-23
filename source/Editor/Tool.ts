@@ -18,6 +18,7 @@ import { Loader      	} 	from './Loader';
 import { Storage     	} 	from './Storage';
 import { Command     	} 	from './Commands/Command';
 
+import { Ubject     	}   from '../Engine/Ubject';
 import { GameObject     }   from '../Engine/GameObject';
 import { Scene     		}   from '../Engine/Scene';
 import { SceneManager	}	from '../Engine/SceneManager';
@@ -301,7 +302,7 @@ export class Tool implements ITool {
 		for (let c=0; c<gameObjects.length; ++c) {
 			this.removeObject( gameObjects[c] );
 		}
-		GameObject.clear();
+		Ubject.clearAll();
 
 		this.geometries = {};
 		this.materials  = {};

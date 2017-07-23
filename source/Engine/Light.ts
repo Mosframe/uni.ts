@@ -70,8 +70,8 @@ export class Light extends Behaviour {
      *
      * @memberof Light
      */
-    constructor( gameObject:GameObject ) {
-        super( gameObject );
+    constructor() {
+        super();
 
         this.gameObject.core = new GL.SpotLight(0xffffff);
         this.gameObject.core.castShadow = true;

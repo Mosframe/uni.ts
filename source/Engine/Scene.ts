@@ -65,7 +65,7 @@ export class Scene {
      * @memberof Scene
      */
     add( gameObject:GameObject ) {
-        this.regist( gameObject );
+        this.regist( gameObject);
         this._core.add( gameObject.core );
     }
     /**
@@ -99,7 +99,7 @@ export class Scene {
 
         Ubject.serialize( meta );
 
-        console.log("Scene.toJSON.meta", meta);
+        //console.log("Scene.toJSON.meta", meta);
         return meta;
     }
     /**
@@ -112,9 +112,18 @@ export class Scene {
         let loader = new GL.ObjectLoader();
         this._core = <GL.Scene>loader.parse( meta.scene );
 
-        console.log("Scene.fromJSON.meta", meta);
+        let objects : {[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} = {};
+        this.core.traverse( object => {
+            objects[object.uuid]=object;
+            if( 'material' in object ) {
+                objects[object['material'].uuid] = object['material'];
+            }
+            if( 'geometry' in object ) {
+                objects[object['geometry'].uuid] = object['geometry'];
+            }
+        });
 
-        Ubject.deserialize( meta );
+        Ubject.deserialize( meta, objects );
 
         //console.log("Scene.fromJSON.objects", Ubject['_ubjects'] );
 
@@ -122,7 +131,8 @@ export class Scene {
         for (let key in Ubject['_ubjects'] ) {
 
             if( Ubject['_ubjects'][key] instanceof GameObject ) {
-                this._gameObjects[key] = <GameObject>Ubject['_ubjects'][key];
+                let gameObject = <GameObject>Ubject['_ubjects'][key];
+                this._gameObjects[gameObject.core.uuid] = gameObject;
             }
         }
 

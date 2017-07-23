@@ -61,18 +61,6 @@ export class Material extends Ubject {
         this.create();
     }
 
-    // [ Public Functions ]
-
-    // [ Public Static Variables ]
-
-    // [ Public Static Functions ]
-
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
-    // [ Public Messages ]
-
     // [ Protected Variables ]
 
     protected _core : GL.Material;
@@ -82,9 +70,5 @@ export class Material extends Ubject {
     protected create() {
         this._core = new GL.Material();
     }
-
-    // [ Protected Static Variables ]
-
-    // [ Protected Static Functions ]
 }
 window['UNITS'][Material.name]=Material;

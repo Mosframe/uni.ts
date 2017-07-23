@@ -46,29 +46,9 @@ export class MeshStandardMaterial extends Material {
     shaderKeywords	Additional shader keywords set by this material.
     */
 
-    // [ Constructors ]
-
-    // [ Public Functions ]
-
-    // [ Public Static Variables ]
-
-    // [ Public Static Functions ]
-
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
-    // [ Public Messages ]
-
-    // [ Protected Variables ]
-
     // [ Protected Functions ]
     protected create() {
         this._core = new GL.MeshStandardMaterial();
     }
-
-    // [ Protected Static Variables ]
-
-    // [ Protected Static Functions ]
 }
 window['UNITS'][MeshStandardMaterial.name]=MeshStandardMaterial;

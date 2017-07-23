@@ -1,12 +1,17 @@
+/**
+ * MeshLambertMaterial.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ *
+ */
 import * as GL                from '../Engine/Graphic';
 import {Material            } from '../Engine/Material';
 import {Color               } from '../Engine/Color';
 import {ShaderType          } from '../Engine/ShaderType';
 import {Ubject              } from '../Engine/Ubject';
+
 /**
  * The MeshLambertMaterial class.
- *
- * @author mosframe / https://github.com/mosframe
  *
  * @export
  * @class MeshLambertMaterial
@@ -46,28 +51,10 @@ export class MeshLambertMaterial extends Material {
     shaderKeywords	Additional shader keywords set by this material.
     */
 
-    // [ Constructors ]
-
-    // [ Public Functions ]
-
-    // [ Public Static Variables ]
-
-    // [ Public Static Functions ]
-
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
-    // [ Public Messages ]
-
-    // [ Protected Variables ]
-
     // [ Protected Functions ]
     protected create() {
         this._core = new GL.MeshLambertMaterial({color:0xffffff});
     }
-
-    // [ Protected Static Variables ]
 
     // [ Protected Static Functions ]
 }

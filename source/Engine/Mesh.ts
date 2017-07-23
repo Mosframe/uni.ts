@@ -44,15 +44,12 @@ export class Mesh extends Ubject {
 
     /**
      * Creates an instance of Mesh.
-     * @param {Geometry} geometry
      *
      * @memberof Mesh
      */
-    constructor( geometry?:Geometry ) {
+    constructor() {
         super();
-
         this._core = new GL.Mesh();
-        if( geometry ) this.geometry = geometry;
     }
 
     // [ Public Functions ]

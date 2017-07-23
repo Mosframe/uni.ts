@@ -41,11 +41,10 @@ export class Script extends Behaviour {
 
     /**
      * Creates an instance of Script.
-     * @param {GameObject} gameObject
      * @memberof Script
      */
-    constructor( gameObject:GameObject ) {
-        super( gameObject );
+    constructor() {
+        super();
     }
 
     // [ Messages ]

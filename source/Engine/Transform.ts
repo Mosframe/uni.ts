@@ -136,10 +136,6 @@ export class Transform extends Component {
      */
     get worldToLocalMatrix() : Matrix4x4    { return this.core.matrixWorld; }
 
-    // [ Constructors ]
-
-    // [ Public Static Functions ]
-
     // [ Public Functions ]
 
     /*
