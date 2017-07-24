@@ -74,7 +74,7 @@ export class MeshFilter extends Component {
             if( this._sharedMesh !== undefined ) {
 
                 if( !(this.gameObject.core instanceof GL.Mesh) ) {
-                    this.gameObject.core = this._sharedMesh.core;
+                    this._gameObject['_core'] = this._sharedMesh.core;
                 }
 
                 if( this._sharedMesh.geometry !== undefined ) {

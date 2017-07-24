@@ -20,6 +20,7 @@ import { SetMaterialValueCommand    }   from '../Commands/SetMaterialValueComman
 import { MultiCmdsCommand           }   from '../Commands/MultiCmdsCommand';
 import { Menu                       }   from './Menu';
 
+import { Camera                     }   from '../../Engine/Camera';
 import { GameObject                 }   from '../../Engine/GameObject';
 import { Geometry                   }   from '../../Engine/Geometry';
 import { Light                      }   from '../../Engine/Light';
@@ -212,7 +213,7 @@ export class AddMenu extends Menu {
                 sprite.name = 'Sprite ' + ( ++ meshCount );
 
                 let gameObject = new GameObject( sprite.name );
-                gameObject.core = sprite;
+                gameObject['_core'] = sprite;
 
                 tool.execute( new AddObjectCommand( gameObject.core ) );
 
@@ -316,12 +317,14 @@ export class AddMenu extends Menu {
             option.setTextContent( 'PerspectiveCamera' );
             option.onClick( () => {
 
-                let camera = new GL.PerspectiveCamera( 50, 1, 1, 10000 );
-                camera.name = 'PerspectiveCamera ' + ( ++ cameraCount );
+                //let camera = new GL.PerspectiveCamera( 50, 1, 1, 10000 );
+                //camera.name = 'PerspectiveCamera ' + ( ++ cameraCount );
 
-                let gameObject = new GameObject( camera.name );
-                gameObject.core = camera;
-
+                let gameObject = new GameObject( 'Camera' );
+                let camera = gameObject.addComponent( Camera );
+                if( camera !== undefined ) {
+                    //camera.type =
+                }
                 tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );

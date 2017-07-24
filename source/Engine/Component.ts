@@ -34,7 +34,6 @@ export class Component extends Ubject {
 
     // [ Public Variables ]
 
-    get avaliable () : boolean { return this.gameObject!==undefined && this.gameObject.core!==undefined; }
     /**
      * get GL.Object3D
      *
@@ -54,6 +53,14 @@ export class Component extends Ubject {
     /*
     tag	The tag of this game object.
     */
+    /**
+     * uuid
+     *
+     * @readonly
+     * @type {string}
+     * @memberof GameObject
+     */
+    get uuid () : string { return this._gameObject.core.uuid; }
 
     // [ Public Functions ]
 

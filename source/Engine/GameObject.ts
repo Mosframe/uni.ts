@@ -36,9 +36,6 @@ export class GameObject extends Ubject {
     /*
     activeInHierarchy	Is the GameObject active in the scene?
     activeSelf	The local active state of this GameObject. (Read Only)
-    */
-    get avaliable () : boolean { return this.core!==undefined; }
-    /*
     isStatic	Editor only API that specifies if a game object is static.
     layer	The layer the game object is in. A layer is in the range [0...31].
     */
@@ -67,7 +64,7 @@ export class GameObject extends Ubject {
      *
      * @readonly
      * @type {string}
-     * @memberof Ubject
+     * @memberof GameObject
      */
     get name () : string        { return this._name; }
     set name ( value:string )   { this._name = value; if(this.core!==undefined) this.core.name = this._name; }
@@ -80,15 +77,14 @@ export class GameObject extends Ubject {
      * @memberof GameObject
      */
     get core () : GL.Object3D       { return this._core; }
-    set core ( value:GL.Object3D )  {
-        if( this._core !== undefined ) {
-            if( this._core.parent ) {
-                this._core.parent.add( value );
-            }
-        }
-        this._core = value;
-        this._core.name = this._name;
-    }
+    /**
+     * uuid
+     *
+     * @readonly
+     * @type {string}
+     * @memberof GameObject
+     */
+    get uuid () : string { return this._core.uuid; }
 
     // [ Public Functions ]
 
@@ -210,6 +206,19 @@ export class GameObject extends Ubject {
         //this._deserialize( meta );
     }
 
+    serialize (meta:any) : any {
+
+        for( let uuid in Ubject._ubjects ) {
+            Ubject._ubjects[uuid]['_avaliable'] = false;
+        }
+
+        meta.ubjects = {};
+        Ubject._serialize( window['UNITS'], this, undefined, meta );
+
+        Ubject.validate();
+
+        return meta;
+    }
 
     /**
      * Creates a game object with a primitive mesh renderer and appropriate collider.
@@ -276,7 +285,7 @@ export class GameObject extends Ubject {
         this._name = name;
 
         // [ core ]
-        this.core  = new GL.Object3D();
+        this._core  = new GL.Object3D();
 
         // [ scene ]
         this._scene = SceneManager.getActiveScene();

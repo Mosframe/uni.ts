@@ -98,9 +98,10 @@ export class Scene {
 
         for (let uuid in this._gameObjects ) {
             let gameObject = this._gameObjects[uuid];
+            gameObject.serialize( meta );
         }
 
-        Ubject.serialize( meta );
+        //Ubject.serialize( meta );
 
         //console.log("Scene.toJSON.meta", meta);
         return meta;

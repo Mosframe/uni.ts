@@ -104,19 +104,21 @@ export class Light extends Behaviour {
                     let distance    = 0.0;
                     let angle       = Math.PI * 0.1;
                     let exponent    = 10.0;
-                    let light = this._gameObject.core = new GL.SpotLight ( color, intensity, distance, angle, exponent );
+                    let light = new GL.SpotLight ( color, intensity, distance, angle, exponent );
                     light.target.name = light.name + ' Target';
                     light.position.set(5, 10, 7.5);
                     light.castShadow = true;
+                    this._gameObject['_core'] = light;
                 }
                 break;
             case LightType.Directional: {
                     let color       = 0xffffff;
                     let intensity   = 1.0;
-                    let light = this._gameObject.core = new GL.DirectionalLight ( color, intensity );
+                    let light = new GL.DirectionalLight ( color, intensity );
                     light.target.name = light.name + ' Target';
                     light.position.set(5, 10, 7.5);
                     light.castShadow = true;
+                    this._gameObject['_core'] = light;
                 }
                 break;
             case LightType.Area:
@@ -125,22 +127,25 @@ export class Light extends Behaviour {
                     let color       = 0xffffff;
                     let intensity   = 1.0;
                     let distance    = 0.0;
-                    let light = this._gameObject.core = new GL.PointLight ( color, intensity, distance );
+                    let light = new GL.PointLight ( color, intensity, distance );
                     light.castShadow = true;
+                    this._gameObject['_core'] = light;
                 }
                 break;
             case LightType.Hemisphere: {
                     let skyColor    = 0x00aaff;
                     let groundColor = 0xffaa00;
                     let intensity   = 1.0;
-                    let light = this._gameObject.core = new GL.HemisphereLight ( skyColor, groundColor, intensity );
+                    let light = new GL.HemisphereLight ( skyColor, groundColor, intensity );
                     light.position.set( 0, 10, 0 );
+                    this._gameObject['_core'] = light;
                 }
                 break;
             case LightType.Ambient: {
                     let color = 0x222222;
-                    let light = this._gameObject.core = new GL.AmbientLight ( color );
+                    let light = new GL.AmbientLight ( color );
                     light.position.set( 0, 20, 0 );
+                    this._gameObject['_core'] = light;
                 }
                 break;
             }

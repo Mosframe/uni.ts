@@ -27,8 +27,6 @@ export class Ubject extends Object implements IDisposable {
     hideFlags	Should the object be hidden, saved with the scene or modifiable by the user?
     */
 
-    get avaliable () : boolean { return true; }
-
     /**
      * The name of the object.
      *
@@ -38,13 +36,14 @@ export class Ubject extends Object implements IDisposable {
      */
     get name () : string        { return this._name; }
     set name ( value:string )   { this._name = value; }
-
+    /**
+     * uuid
+     *
+     * @readonly
+     * @type {string}
+     * @memberof Ubject
+     */
     get uuid () : string        { return this._uuid; }
-    set uuid ( value:string )   {
-        delete Ubject._ubjects[this._uuid];
-        this._uuid = value;
-        Ubject._ubjects[this._uuid] = this;
-    }
 
     // [ Constructors ]
 
@@ -55,8 +54,9 @@ export class Ubject extends Object implements IDisposable {
      */
     constructor() {
         super();
+        this._avaliable = true;
         this._instanceID = ++Ubject._instanceID_;
-        this.uuid = GL.Math.generateUUID();
+        this._uuid = GL.Math.generateUUID();
         Ubject._ubjects[this.uuid] = this;
     }
 
@@ -146,7 +146,7 @@ export class Ubject extends Object implements IDisposable {
                 removes.push(c);
             }
             else
-            if( !obj.avaliable ) {
+            if( !obj._avaliable ) {
                 removes.push(c);
             }
         }
@@ -205,6 +205,7 @@ export class Ubject extends Object implements IDisposable {
 
     // [ Protected Variables ]
 
+    protected       _avaliable      : boolean;
     protected       _name           : string;
     protected       _uuid           : string;
     protected       _instanceID     : number;
@@ -239,29 +240,36 @@ export class Ubject extends Object implements IDisposable {
                 let val = target[key];
                 if( typeof val === 'object' ) {
 
-                    let p = this._serialize(module,target[key],undefined,metaRoot);
-
                     if( val instanceof Ubject ) {
+                        this._serialize(module,val,undefined,metaRoot);
                         meta[key] = {};
                         meta[key].uuid = val.uuid;
                     }
                     else
                     if( val instanceof GL.Object3D ) {
+                        this._serialize(module,val,undefined,metaRoot);
                         meta[key] = {};
                         meta[key].uuid = val.uuid;
                     }
                     else
                     if( val instanceof GL.Material ) {
+                        this._serialize(module,val,undefined,metaRoot);
                         meta[key] = {};
                         meta[key].uuid = val.uuid;
                     }
                     else
                     if( val instanceof GL.Geometry ) {
+                        this._serialize(module,val,undefined,metaRoot);
                         meta[key] = {};
                         meta[key].uuid = val.uuid;
                     }
+                    else
+                    if( val instanceof Array ) {
+                        meta[key] = this._serialize(module,val,undefined,metaRoot);
+                    }
                     else {
-                        meta[key] = p;
+                        // stack overflow
+                        //meta[key] = this._serialize(module,val,undefined,metaRoot);
                     }
                 }
                 else
@@ -296,6 +304,7 @@ export class Ubject extends Object implements IDisposable {
                 meta.class = target.constructor.name;
                 if( target instanceof Ubject ) {
                     meta.uuid = target.uuid;
+                    target._avaliable = true;
                 }
             }
 
@@ -311,27 +320,31 @@ export class Ubject extends Object implements IDisposable {
                             if (typeof val === 'object') {
 
                                 if( val instanceof Ubject ) {
-                                    let p = this._serialize(module,val,undefined,metaRoot);
+                                    this._serialize(module,val,undefined,metaRoot);
                                     meta[key] = {};
                                     meta[key].uuid = val.uuid;
                                 }
                                 else
                                 if( val instanceof GL.Object3D ) {
-                                    let p = this._serialize(module,val,undefined,metaRoot);
+                                    this._serialize(module,val,undefined,metaRoot);
                                     meta[key] = {};
                                     meta[key].uuid = val.uuid;
                                 }
                                 else
                                 if( val instanceof GL.Material ) {
-                                    let p = this._serialize(module,val,undefined,metaRoot);
+                                    this._serialize(module,val,undefined,metaRoot);
                                     meta[key] = {};
                                     meta[key].uuid = val.uuid;
                                 }
                                 else
                                 if( val instanceof GL.Geometry ) {
-                                    let p = this._serialize(module,val,undefined,metaRoot);
+                                    this._serialize(module,val,undefined,metaRoot);
                                     meta[key] = {};
                                     meta[key].uuid = val.uuid;
+                                }
+                                else
+                                if( val instanceof Array ) {
+                                    meta[key] = this._serialize(module,val,undefined,metaRoot);
                                 }
                                 else {
                                     // stack overflow

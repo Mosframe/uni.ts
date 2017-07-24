@@ -165,9 +165,10 @@ export class Camera extends Behaviour {
     constructor() {
         super();
 
-        this.gameObject.core = new GL.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        this.gameObject.core.position.set( 40, 40, 40);
-        this.gameObject.core.lookAt( Vector3.zero );
+        let camera = new GL.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        camera.position.set( 40, 40, 40);
+        camera.lookAt( Vector3.zero );
+        this.gameObject['_core'] = camera;
     }
 
 }
