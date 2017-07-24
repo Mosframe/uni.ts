@@ -161,7 +161,20 @@ export class Ubject extends Object implements IDisposable {
      * @memberof Ubject
      */
     static clearAll() {
-        Ubject._ubjects = {};
+        this._ubjects = {};
+    }
+    static getUbject( uuid:string ) : Ubject {
+        return this._ubjects[uuid];
+    }
+    /**
+     * remove ubject
+     *
+     * @static
+     * @param {string} uuid
+     * @memberof Ubject
+     */
+    static remove ( uuid:string ) {
+        delete this._ubjects[uuid];
     }
 
 

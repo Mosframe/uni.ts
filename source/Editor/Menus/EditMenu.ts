@@ -105,9 +105,7 @@ export class EditMenu extends Menu {
                 if( object ) {
                     if ( object.parent === null ) return; // avoid cloning the camera or scene
                     object = object.clone();
-                    let gameObject = new GameObject();
-                    gameObject.core = object;
-                    tool.execute( new AddObjectCommand( gameObject ) );
+                    tool.execute( new AddObjectCommand( object ) );
                 }
             });
             options.add( option );

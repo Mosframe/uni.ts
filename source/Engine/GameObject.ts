@@ -88,19 +88,6 @@ export class GameObject extends Ubject {
         }
         this._core = value;
         this._core.name = this._name;
-
-        for (let c=0; c<value.children.length; ++c ) {
-            let child = value.children[c];
-
-            let gameObject = new GameObject(child.name);
-            gameObject.core = child;
-
-            // TODO : 타입에 따라서 컴포넌트 추가
-			if( child instanceof GL.Mesh ){
-            }
-
-            this._scene.regist( gameObject );
-        }
     }
 
     // [ Public Functions ]

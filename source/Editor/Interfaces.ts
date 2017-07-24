@@ -62,10 +62,10 @@ export interface ITool {
 
     setTheme        ( value:string );
 	setScene        ( scene:Scene );
-    addObject       ( gameObject:GameObject );
+    addObject       ( object:GL.Object3D );
 	moveObject      ( object:GL.Object3D, parent:GL.Object3D, before:GL.Object3D );
-	nameObject      ( gameObject:GameObject, name:string );
-    removeObject    ( gameObject:GameObject );
+	nameObject      ( object:GL.Object3D, name:string );
+    removeObject    ( object:GL.Object3D );
 	addGeometry     ( geometry:GL.Geometry|GL.BufferGeometry );
 	setGeometryName ( geometry:GL.Geometry|GL.BufferGeometry, name:string );
 	addMaterial     ( material:GL.Material );

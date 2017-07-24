@@ -73,7 +73,7 @@ export class AddMenu extends Menu {
             option.onClick( () => {
 
                 let gameObject = new GameObject('Group');
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }
@@ -88,7 +88,7 @@ export class AddMenu extends Menu {
             option.onClick( () => {
 
                 let gameObject = GameObject.createPrimitive( PrimitiveType.Plane );
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }
@@ -101,7 +101,7 @@ export class AddMenu extends Menu {
             option.onClick( () => {
 
                 let gameObject = GameObject.createPrimitive( PrimitiveType.Cube );
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }
@@ -114,7 +114,7 @@ export class AddMenu extends Menu {
             option.onClick( () => {
 
                 let gameObject = GameObject.createPrimitive( PrimitiveType.Circle );
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
 
             });
             options.add( option );
@@ -127,7 +127,7 @@ export class AddMenu extends Menu {
             option.onClick( () => {
 
                 let gameObject = GameObject.createPrimitive( PrimitiveType.Cylinder );
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
 
             });
             options.add( option );
@@ -141,7 +141,7 @@ export class AddMenu extends Menu {
             option.onClick( () => {
 
                 let gameObject = GameObject.createPrimitive( PrimitiveType.Sphere );
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
 
             });
             options.add( option );
@@ -155,7 +155,7 @@ export class AddMenu extends Menu {
             option.onClick( () => {
 
                 let gameObject = GameObject.createPrimitive( PrimitiveType.Icosahedron );
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
 
             });
             options.add( option );
@@ -169,7 +169,7 @@ export class AddMenu extends Menu {
             option.onClick( () => {
 
                 let gameObject = GameObject.createPrimitive( PrimitiveType.Torus );
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }
@@ -182,7 +182,7 @@ export class AddMenu extends Menu {
             option.onClick( () => {
 
                 let gameObject = GameObject.createPrimitive( PrimitiveType.TorusKnot );
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
 
             });
             options.add( option );
@@ -196,7 +196,7 @@ export class AddMenu extends Menu {
             option.onClick( () => {
 
                 let gameObject = GameObject.createPrimitive( PrimitiveType.Lathe );
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }
@@ -214,7 +214,7 @@ export class AddMenu extends Menu {
                 let gameObject = new GameObject( sprite.name );
                 gameObject.core = sprite;
 
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
 
             });
             options.add( option );
@@ -234,7 +234,7 @@ export class AddMenu extends Menu {
                 if( light !== undefined ) {
                     light.type = LightType.Point;
                 }
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }
@@ -251,7 +251,7 @@ export class AddMenu extends Menu {
                 if( light !== undefined ) {
                     light.type = LightType.Spot;
                 }
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }
@@ -268,7 +268,7 @@ export class AddMenu extends Menu {
                 if( light !== undefined ) {
                     light.type = LightType.Directional;
                 }
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }
@@ -285,7 +285,7 @@ export class AddMenu extends Menu {
                 if( light !== undefined ) {
                     light.type = LightType.Hemisphere;
                 }
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }
@@ -302,7 +302,7 @@ export class AddMenu extends Menu {
                 if( light !== undefined ) {
                     light.type = LightType.Ambient;
                 }
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }
@@ -322,7 +322,7 @@ export class AddMenu extends Menu {
                 let gameObject = new GameObject( camera.name );
                 gameObject.core = camera;
 
-                tool.execute( new AddObjectCommand( gameObject ) );
+                tool.execute( new AddObjectCommand( gameObject.core ) );
             });
             options.add( option );
         }

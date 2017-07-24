@@ -72,19 +72,19 @@ export class Tool implements ITool {
 
 		this.signals.sceneGraphChanged.active = false;
 
-		let gameObjects = scene.getRootGameObjects();
+		let objects = scene.getRootObjects();
 
-		for (let c=0;c<gameObjects.length; ++c) {
-			this.addObject( gameObjects[c] );
+		for (let c=0;c<objects.length; ++c) {
+			this.addObject( objects[c] );
 		}
 
 		this.signals.sceneGraphChanged.active = true;
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-	addObject ( gameObject:GameObject ) {
+	addObject ( object:GL.Object3D ) {
 
-		gameObject.core.traverse( ( child:GL.Object3D ) => {
+		object.traverse( ( child:GL.Object3D ) => {
 
 			if( child instanceof GL.Mesh ){
                 this.addGeometry( child.geometry );
@@ -94,9 +94,9 @@ export class Tool implements ITool {
 			this.addHelper( child );
 		});
 
-		this.scene.add( gameObject );
+		this.scene.add( object );
 
-		this.signals.objectAdded.dispatch( gameObject.core );
+		this.signals.objectAdded.dispatch( object );
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
@@ -119,22 +119,22 @@ export class Tool implements ITool {
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-	nameObject ( gameObject:GameObject, name:string ) {
-		gameObject.name = name;
+	nameObject ( object:GL.Object3D, name:string ) {
+		object.name = name;
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-    removeObject ( gameObject:GameObject ) {
+    removeObject ( object:GL.Object3D ) {
 
-		if( gameObject.core.parent === null ) return; // avoid deleting the camera or scene
+		if( object.parent === null ) return; // avoid deleting the camera or scene
 
-		gameObject.core.traverse( ( child:GL.Object3D ) => {
+		object.traverse( ( child:GL.Object3D ) => {
 			this.removeHelper( child );
 		});
 
-		this.scene.remove( gameObject );
+		this.scene.remove( object );
 
-		this.signals.objectRemoved.dispatch( gameObject.core );
+		this.signals.objectRemoved.dispatch( object );
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
@@ -298,7 +298,7 @@ export class Tool implements ITool {
 		this.scene.core.background.setHex( 0xaaaaaa );
 		this.scene.core.fog = new GL.Fog(0);
 
-		let gameObjects = this.scene.getRootGameObjects();
+		let gameObjects = this.scene.getRootObjects();
 		for (let c=0; c<gameObjects.length; ++c) {
 			this.removeObject( gameObjects[c] );
 		}

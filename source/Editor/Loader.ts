@@ -488,10 +488,8 @@ export class Loader implements ILoader {
                 let loader  = new GL.BufferGeometryLoader();
                 let result  = loader.parse( data );
                 let mesh    = new GL.Mesh( result );
-                let gameObject = new GameObject( mesh.name );
-                gameObject.core = mesh;
 
-                this._tool.execute( new AddObjectCommand( gameObject ) );
+                this._tool.execute( new AddObjectCommand( mesh ) );
             }
             break;
 
@@ -525,10 +523,7 @@ export class Loader implements ILoader {
                 }
                 mesh.name = filename;
 
-                let gameObject = new GameObject( mesh.name );
-                gameObject.core = mesh;
-
-                this._tool.execute( new AddObjectCommand( gameObject ) );
+                this._tool.execute( new AddObjectCommand( mesh ) );
             }
             break;
 
@@ -542,11 +537,7 @@ export class Loader implements ILoader {
                 if ( result instanceof GL.Scene ) {
                     this._tool.execute( new SetSceneCommand( result ) );
                 } else {
-
-                    let gameObject = new GameObject( result.name );
-                    gameObject.core = result;
-
-                    this._tool.execute( new AddObjectCommand( gameObject ) );
+                    this._tool.execute( new AddObjectCommand( result ) );
                 }
             }
             break;

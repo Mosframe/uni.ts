@@ -59,33 +59,29 @@ export class Scene {
     // [ Public Functions ]
 
     /**
-     * add GameObject
+     * add Object
      *
-     * @param {GameObject} gameObject
+     * @param {GL.Object3D} object
      * @memberof Scene
      */
-    add( gameObject:GameObject ) {
-        this.regist( gameObject);
-        this._core.add( gameObject.core );
+    add( object:GL.Object3D ) {
+        this._core.add( object );
+        this._gameObjects[object.uuid] = new GameObject(object.name);
     }
     /**
-     * regist GameObject
+     * remove object
      *
-     * @param {GameObject} gameObject
+     * @param {GL.Object3D} object
      * @memberof Scene
      */
-    regist( gameObject:GameObject ) {
-        this._gameObjects[gameObject.core.uuid] = gameObject;
-    }
-    /**
-     * remove gameObject
-     *
-     * @param {GameObject} gameObject
-     * @memberof Scene
-     */
-    remove ( gameObject:GameObject ) {
-        delete this._gameObjects[gameObject.core.uuid];
-        gameObject.core.parent.remove( gameObject.core );
+    remove ( object:GL.Object3D ) {
+
+        let gameObject = this._gameObjects[object.uuid];
+        if( gameObject !== undefined ) {
+            Ubject.remove( gameObject.uuid );
+            delete this._gameObjects[object.uuid];
+        }
+        object.parent.remove( object );
     }
     /**
      * to JSON
@@ -96,6 +92,13 @@ export class Scene {
      */
     toJSON ( meta:any ) : any {
         meta.scene = this._core.toJSON();
+
+        // 모든 게임오브젝트들과 연결되어 있는 Ubject들만 저장한다.
+        // 필요없는 객체들은 모두 제거한다.
+
+        for (let uuid in this._gameObjects ) {
+            let gameObject = this._gameObjects[uuid];
+        }
 
         Ubject.serialize( meta );
 
@@ -139,18 +142,19 @@ export class Scene {
         //console.log("Scene.fromJSON.gameObjects", this._gameObjects);
     }
 
+
     /**
-     * Returns all the root game objects in the scene.
+     * Returns all the root objects in the scene.
      *
-     * @returns {GameObject[]}
+     * @returns {GL.Object3D[]}
      * @memberof Scene
      */
-    getRootGameObjects () : GameObject[] {
-        let gameObjects : GameObject[] = [];
+    getRootObjects () : GL.Object3D[] {
+        let objects : GL.Object3D[] = [];
         for (let child of this._core.children) {
-            gameObjects.push( this._gameObjects[child.uuid] );
+            objects.push( child );
         }
-        return gameObjects;
+        return objects;
     }
 
     /*
@@ -173,5 +177,5 @@ export class Scene {
     // [ Protected Functions ]
 
     protected _core : GL.Scene;
-    protected _gameObjects:{[uuid:string]:GameObject} = {};
+    protected _gameObjects:{[uuid:string]:GameObject} = {}; // all gameObjects in scene
 }

@@ -8,8 +8,9 @@
  */
 
 import * as GL          from '../../Engine/Graphic';
-import { Command    }   from './Command';
+import { GameObject }   from '../../Engine/GameObject';
 import { Ubject     }   from '../../Engine/Ubject';
+import { Command    }   from './Command';
 
 /**
  * RemoveObjectCommand
@@ -32,6 +33,8 @@ export class RemoveObjectCommand extends Command {
 		this.object.traverse( ( child:GL.Object3D ) => {
 			this._tool.removeHelper( child );
 		});
+
+        this._tool.scene.remove( this.object );
 
 		this._parent.remove( this.object );
 		this._tool.select( this._parent );
@@ -95,16 +98,16 @@ export class RemoveObjectCommand extends Command {
 
     /**
      * Creates an instance of RemoveObjectCommand.
-     * @param {GL.Object3D} object
+     * @param {GameObject} gameObject
      * @memberof RemoveObjectCommand
      */
     constructor( object:GL.Object3D ) {
         super();
 
-        this.type   = 'RemoveObjectCommand';
-        this.name   = 'Remove Object';
-        this.object = object;
-        this._parent = object.parent;
+        this.type           = 'RemoveObjectCommand';
+        this.name           = 'Remove Object';
+        this.object         = object;
+        this._parent        = this.object.parent;
         if ( this._parent !== undefined ) {
             this._index = this._parent.children.indexOf( this.object );
         }
@@ -112,6 +115,6 @@ export class RemoveObjectCommand extends Command {
 
 	// [ Private Variables ]
 
-    private _parent	: GL.Object3D;
-    private _index 	: number;
+    private _parent	    : GL.Object3D;
+    private _index 	    : number;
 }

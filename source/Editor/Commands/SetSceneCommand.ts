@@ -84,11 +84,7 @@ export class SetSceneCommand extends Command {
             while ( scene.children.length > 0 ) {
                 let child = scene.children.pop();
                 if( child ) {
-
-                    let gameObject = new GameObject( child.name );
-                    gameObject.core = child;
-
-                    this.cmdArray.push( new AddObjectCommand( gameObject ) );
+                    this.cmdArray.push( new AddObjectCommand( child ) );
                 }
             }
         }
