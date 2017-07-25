@@ -108,7 +108,7 @@ export class Light extends Behaviour {
                     light.target.name = light.name + ' Target';
                     light.position.set(5, 10, 7.5);
                     light.castShadow = true;
-                    this._gameObject['_core'] = light;
+                    this._gameObject.core = light;
                 }
                 break;
             case LightType.Directional: {
@@ -118,7 +118,7 @@ export class Light extends Behaviour {
                     light.target.name = light.name + ' Target';
                     light.position.set(5, 10, 7.5);
                     light.castShadow = true;
-                    this._gameObject['_core'] = light;
+                    this._gameObject.core = light;
                 }
                 break;
             case LightType.Area:
@@ -129,7 +129,7 @@ export class Light extends Behaviour {
                     let distance    = 0.0;
                     let light = new GL.PointLight ( color, intensity, distance );
                     light.castShadow = true;
-                    this._gameObject['_core'] = light;
+                    this._gameObject.core = light;
                 }
                 break;
             case LightType.Hemisphere: {
@@ -138,14 +138,14 @@ export class Light extends Behaviour {
                     let intensity   = 1.0;
                     let light = new GL.HemisphereLight ( skyColor, groundColor, intensity );
                     light.position.set( 0, 10, 0 );
-                    this._gameObject['_core'] = light;
+                    this._gameObject.core = light;
                 }
                 break;
             case LightType.Ambient: {
                     let color = 0x222222;
                     let light = new GL.AmbientLight ( color );
                     light.position.set( 0, 20, 0 );
-                    this._gameObject['_core'] = light;
+                    this._gameObject.core = light;
                 }
                 break;
             }

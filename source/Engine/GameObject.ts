@@ -76,15 +76,8 @@ export class GameObject extends Ubject {
      * @type {GL.Object3D}
      * @memberof GameObject
      */
-    get core () : GL.Object3D       { return this._core; }
-    /**
-     * uuid
-     *
-     * @readonly
-     * @type {string}
-     * @memberof GameObject
-     */
-    get uuid () : string { return this._core.uuid; }
+    get core () : GL.Object3D           { return this._core; }
+    set core ( value : GL.Object3D )    { this._core = value; this._uuid = value.uuid; }
 
     // [ Public Functions ]
 
@@ -205,7 +198,13 @@ export class GameObject extends Ubject {
     fromJSON ( meta:any ) {
         //this._deserialize( meta );
     }
-
+    /**
+     * serialize
+     *
+     * @param {*} meta
+     * @returns {*}
+     * @memberof GameObject
+     */
     serialize (meta:any) : any {
 
         for( let uuid in Ubject._ubjects ) {
@@ -305,6 +304,5 @@ export class GameObject extends Ubject {
     protected _transform        : Transform;
     protected _scene            : Scene;
     protected _core             : GL.Object3D;
-
 }
 window['UNITS'][GameObject.name]=GameObject;

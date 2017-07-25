@@ -96,14 +96,26 @@ export class Scene {
         // 모든 게임오브젝트들과 연결되어 있는 Ubject들만 저장한다.
         // 필요없는 객체들은 모두 제거한다.
 
-        for (let uuid in this._gameObjects ) {
-            let gameObject = this._gameObjects[uuid];
-            gameObject.serialize( meta );
-        }
+        // 씬에 존재하는 GameObject들만 저장한다.
+
+        let uuids : string[] = [];
+        this.core.traverse( object => {
+            uuids.push( object.uuid );
+            if( 'material' in object ) {
+                uuids.push( object['material'].uuid );
+            }
+            if( 'geometry' in object ) {
+                uuids.push( object['geometry'].uuid );
+            }
+        });
+
+
+        Ubject.serialize( meta, uuids );
 
         //Ubject.serialize( meta );
 
-        //console.log("Scene.toJSON.meta", meta);
+        console.log("Scene.toJSON.meta", meta);
+
         return meta;
     }
     /**

@@ -213,7 +213,7 @@ export class AddMenu extends Menu {
                 sprite.name = 'Sprite ' + ( ++ meshCount );
 
                 let gameObject = new GameObject( sprite.name );
-                gameObject['_core'] = sprite;
+                gameObject.core = sprite;
 
                 tool.execute( new AddObjectCommand( gameObject.core ) );
 

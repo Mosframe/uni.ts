@@ -57,7 +57,7 @@ export class Ubject extends Object implements IDisposable {
         this._avaliable = true;
         this._instanceID = ++Ubject._instanceID_;
         this._uuid = GL.Math.generateUUID();
-        Ubject._ubjects[this.uuid] = this;
+        Ubject._ubjects[this._uuid] = this;
     }
 
 
@@ -104,10 +104,38 @@ export class Ubject extends Object implements IDisposable {
      *
      * @static
      * @param {*} meta
+     * @param {string[]} uuids
      * @returns {*}
      * @memberof Ubject
      */
-    static serialize (meta:any) : any {
+    static serialize ( meta:any, uuids:string[] ) : any {
+
+        for( let uuid in this._ubjects ) {
+            this._ubjects[uuid]['_avaliable'] = false;
+        }
+
+        meta.ubjects = {};
+
+        for( let uuid in uuids ) {
+            let obj = this._ubjects[uuid];
+            if( obj !== undefined ) {
+                this._serialize( window['UNITS'], obj, undefined, meta );
+            }
+        }
+
+        this.validate();
+
+        return meta;
+    }
+    /**
+     * serialize
+     *
+     * @static
+     * @param {*} meta
+     * @returns {*}
+     * @memberof Ubject
+     */
+    static serialize2 (meta:any) : any {
         this.validate();
         meta.ubjects = {};
         for( let c in Ubject._ubjects ) {
