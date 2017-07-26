@@ -66,7 +66,6 @@ export class Scene {
      */
     add( object:GL.Object3D ) {
         this._core.add( object );
-        this._gameObjects[object.uuid] = new GameObject(object.name);
     }
     /**
      * remove object
@@ -75,12 +74,6 @@ export class Scene {
      * @memberof Scene
      */
     remove ( object:GL.Object3D ) {
-
-        let gameObject = this._gameObjects[object.uuid];
-        if( gameObject !== undefined ) {
-            Ubject.remove( gameObject.uuid );
-            delete this._gameObjects[object.uuid];
-        }
         object.parent.remove( object );
     }
     /**
@@ -95,8 +88,13 @@ export class Scene {
 
         // 모든 게임오브젝트들과 연결되어 있는 Ubject들만 저장한다.
         // 필요없는 객체들은 모두 제거한다.
-
         // 씬에 존재하는 GameObject들만 저장한다.
+        // uuid로 검색
+
+        // gameObject[uuid]
+        //    components[]
+        //       link objects[]
+
 
         let uuids : string[] = [];
         this.core.traverse( object => {

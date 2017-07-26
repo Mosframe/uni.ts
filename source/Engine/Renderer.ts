@@ -110,7 +110,7 @@ export class Renderer extends Component {
      */
     get sharedMaterial () : Material        { return this.sharedMaterials[0]; }
     set sharedMaterial ( value:Material ) {
-        this.sharedMaterials[0] = value;
+        this._sharedMaterials[0] = value;
         this._onChanged();
     }
     /**
@@ -120,7 +120,6 @@ export class Renderer extends Component {
      * @memberof Renderer
      */
     get sharedMaterials () : Material[] {
-        this._sharedMaterials
         return this._sharedMaterials;
     }
     set sharedMaterials ( value:Material[] ) {
@@ -146,10 +145,6 @@ export class Renderer extends Component {
      */
     constructor() {
         super();
-
-        //let meshFilter = this.gameObject.getComponent( MeshFilter );
-        //this._sharedMaterials.push( new MeshLambertMaterial() );
-        //this._onChanged();
     }
 
     // [ Public Functions ]
@@ -186,9 +181,8 @@ export class Renderer extends Component {
     protected _onChanged () {
 
         if( this.gameObject !== undefined ) {
-            if( this._sharedMaterials !== undefined && this._sharedMaterials.length > 0 ) {
-                this.core.material = this._sharedMaterials[0].core;
-            }
+            if( )
+            this.core.material = this._sharedMaterials[0].core;
         }
     }
 }

@@ -116,6 +116,9 @@ export class Ubject extends Object implements IDisposable {
 
         meta.ubjects = {};
 
+        console.log("uuids",uuids);
+        console.log("ubjects",this._ubjects);
+
         for( let uuid in uuids ) {
             let obj = this._ubjects[uuid];
             if( obj !== undefined ) {
