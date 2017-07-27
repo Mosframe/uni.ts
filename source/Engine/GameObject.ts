@@ -76,11 +76,11 @@ export class GameObject extends Ubject {
      * @type {GL.Object3D}
      * @memberof GameObject
      */
-    get core () : GL.Object3D           { return this._core; }
+    get core () : GL.Object3D        { return this._core; }
     set core ( value : GL.Object3D ) {
         this._core = value;
-        this._uuid = value.uuid;
-        this._core.name = this.name;
+        this._core.name = this._name;
+        this.uuid = value.uuid;
     }
 
     // [ Public Functions ]

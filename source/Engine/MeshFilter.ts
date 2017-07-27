@@ -58,7 +58,6 @@ export class MeshFilter extends Component {
      */
     constructor () {
         super();
-        //this.sharedMesh = new Mesh();
     }
 
     // [ Private Variables ]

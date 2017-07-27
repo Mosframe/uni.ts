@@ -84,18 +84,11 @@ export class Scene {
      * @memberof Scene
      */
     toJSON ( meta:any ) : any {
+
+        // [ scene objects ]
         meta.scene = this._core.toJSON();
 
-        // 모든 게임오브젝트들과 연결되어 있는 Ubject들만 저장한다.
-        // 필요없는 객체들은 모두 제거한다.
-        // 씬에 존재하는 GameObject들만 저장한다.
-        // uuid로 검색
-
-        // gameObject[uuid]
-        //    components[]
-        //       link objects[]
-
-
+        // [ set uuids : GL.Object3Ds + Materials + Geometries ]
         let uuids : string[] = [];
         this.core.traverse( object => {
             uuids.push( object.uuid );
@@ -107,10 +100,8 @@ export class Scene {
             }
         });
 
-
+        // [ serialize ]
         Ubject.serialize( meta, uuids );
-
-        //Ubject.serialize( meta );
 
         console.log("Scene.toJSON.meta", meta);
 
@@ -123,9 +114,12 @@ export class Scene {
      * @memberof Scene
      */
     fromJSON ( meta:any ) {
+
+        // [ scene objects ]
         let loader = new GL.ObjectLoader();
         this._core = <GL.Scene>loader.parse( meta.scene );
 
+        // [ set objects + materials + geometries ]
         let objects : {[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} = {};
         this.core.traverse( object => {
             objects[object.uuid]=object;
@@ -137,10 +131,12 @@ export class Scene {
             }
         });
 
+        // [ deserialize ]
         Ubject.deserialize( meta, objects );
 
         //console.log("Scene.fromJSON.objects", Ubject['_ubjects'] );
 
+        /*
         this._gameObjects = {};
         for (let key in Ubject['_ubjects'] ) {
 
@@ -149,6 +145,7 @@ export class Scene {
                 this._gameObjects[gameObject.core.uuid] = gameObject;
             }
         }
+        */
 
         //console.log("Scene.fromJSON.gameObjects", this._gameObjects);
     }
@@ -188,5 +185,5 @@ export class Scene {
     // [ Protected Functions ]
 
     protected _core : GL.Scene;
-    protected _gameObjects:{[uuid:string]:GameObject} = {}; // all gameObjects in scene
+    //protected _gameObjects:{[uuid:string]:GameObject} = {}; // all gameObjects in scene
 }

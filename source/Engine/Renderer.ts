@@ -181,7 +181,6 @@ export class Renderer extends Component {
     protected _onChanged () {
 
         if( this.gameObject !== undefined ) {
-            if( )
             this.core.material = this._sharedMaterials[0].core;
         }
     }

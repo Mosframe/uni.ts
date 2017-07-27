@@ -49,7 +49,7 @@ export class Component extends Ubject {
      * @memberof Component
      */
     get gameObject () : GameObject      { return this._gameObject; }
-    set gameObject ( value:GameObject ) { this._gameObject = value; this._onChanged(); }
+    set gameObject ( value:GameObject ) { this._gameObject = value }
     /*
     tag	The tag of this game object.
     */
