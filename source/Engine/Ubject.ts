@@ -255,52 +255,73 @@ export class Ubject extends Object implements IDisposable {
      *
      * @static
      * @param {any} module
-     * @param {Object} obj
-     * @param {any} [meta]
+     * @param {any} target
+     * @param {any} [metaRoot]
      * @returns {*}
      * @memberof Util
      */
-    protected static _serialize ( module:any, target:Object, meta?:any, metaRoot?:any ) : any {
+    protected static _serialize ( module:any, target:any, metaRoot?:any ) : any {
+
+        /*
+            리터럴이면 저장
+            오브젝트이면
+                멤버를 조사
+                    Ubject이면
+                        메타에 등록되어 있지 않으면
+                            제귀로 등록
+                        링크 UUID
+                    Object3D이면
+                        링크 UUID
+                    배열이면
+                        배열생성
+                        배열멤버 조사
+                            배열멤버가 리터럴이면 저장
+                            배열멤버가 Ubject이면
+                                메타에 등록되어 있지 않으면
+                                    제귀로 등록
+                                링크 UUID
+                            Object3D이면
+                                링크 UUID
+                            배열이면
+                                배열생성
+                                배열멤버 조사
+                                    배열멤버가 리터럴이면 저장
+                                    배열멤버가 Ubject이면
+                                        메타에 등록되어 있지 않으면
+                                            제귀로 등록
+                                        링크 UUID
+                                    Object3D이면
+                                        링크 UUID
+                                    배열이면
+                                        ....
+
+
+        */
 
         // [ null ]
-        if (target === null) return meta;
+        if (target === null) return target;
 
-        // [number, string]
+        // [ number, string ]
         if( typeof target === 'number' || typeof target === 'string' ) {
             return target;
         }
 
-        if( meta === undefined ) {
-            meta = {};
-        }
-        if( metaRoot === undefined ) {
-            metaRoot = meta;
-        }
-
-        if( typeof target !== 'object' ) return meta;
-
         // [ object ]
-
-        if( target instanceof Ubject ) {
-            if( metaRoot.ubjects[target.uuid] === undefined ) {
-                metaRoot.ubjects[target.uuid] = {};
-                metaRoot.ubjects[target.uuid] = this._serialize(module,target,undefined,metaRoot);
-                return meta;
-            }
+        let output:any = {};
+        if( metaRoot === undefined ) {
+            metaRoot = output;
         }
-        else
-        if( target instanceof GL.Object3D ) {
-            return meta;
-        }
+        if( typeof target !== 'object' ) return output;
 
+        // [ class ]
         if (target.constructor.name in module) {
-            meta.class = target.constructor.name;
+            output.class = target.constructor.name;
             if( target instanceof Ubject ) {
-                meta.uuid = target.uuid;
                 target._avaliable = true;
             }
         }
 
+        // [ properties ]
         for (let key in target) {
             if (key[0] !== '_' || key === "_core" ) {
 
@@ -312,44 +333,44 @@ export class Ubject extends Object implements IDisposable {
                     if (descriptor && ((descriptor.get && descriptor.set) || (!descriptor.get && !descriptor.set))) {
                         if (typeof val === 'object') {
 
+                            // [ Ubject ]
                             if( val instanceof Ubject ) {
-                                this._serialize(module,val,undefined,metaRoot);
-                                meta[key] = {};
-                                meta[key].uuid = val.uuid;
+                                if( metaRoot.ubjects[val.uuid] === undefined ) {
+                                    metaRoot.ubjects[val.uuid] = this._serialize(module,target,metaRoot);
+                                }
+                                output[key] = {};
+                                output[key].uuid = val.uuid;
                             }
                             else
                             if( val instanceof GL.Object3D ) {
-                                this._serialize(module,val,undefined,metaRoot);
-                                meta[key] = {};
-                                meta[key].uuid = val.uuid;
+                                output[key] = {};
+                                output[key].uuid = val.uuid;
                             }
                             else
                             if( val instanceof GL.Material ) {
-                                this._serialize(module,val,undefined,metaRoot);
-                                meta[key] = {};
-                                meta[key].uuid = val.uuid;
+                                output[key] = {};
+                                output[key].uuid = val.uuid;
                             }
                             else
                             if( val instanceof GL.Geometry ) {
-                                this._serialize(module,val,undefined,metaRoot);
-                                meta[key] = {};
-                                meta[key].uuid = val.uuid;
+                                output[key] = {};
+                                output[key].uuid = val.uuid;
                             }
                             else
                             if( val instanceof Array ) {
-                                meta[key] = [];
+                                output[key] = [];
                                 for( let a in val ) {
-                                    meta[key][a] = this._serialize(module,val[a],undefined,metaRoot);
+                                    output[key][a] = this._serialize(module,val[a],metaRoot);
                                 }
                             }
                             else {
                                 // stack overflow
-                                //meta[key] = this._serialize(module,val,undefined,metaRoot);
+                                //meta[key] = this._serialize(module,val,metaRoot);
                             }
                         }
                         else
                         if( typeof val === 'number' || typeof val === 'string' ) {
-                            meta[key] = val;
+                            output[key] = val;
                         }
                         p=null;
                     } else {
@@ -358,7 +379,7 @@ export class Ubject extends Object implements IDisposable {
                 }
             }
         }
-        return meta;
+        return output;
     }
     /**
      * deserialize
