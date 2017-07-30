@@ -24,6 +24,7 @@ import { GameView               }   from './Editor/GameView';
 import { RemoveObjectCommand    }   from './Editor/Commands/RemoveObjectCommand';
 
 import { GameObject             }   from './Engine/GameObject';
+import { Util                   }   from './Engine/Util';
 
 console.log(window);
 
@@ -255,5 +256,7 @@ export class Units {
 
 let units = new Units();
 window['units'] = units;
+
+
 
 

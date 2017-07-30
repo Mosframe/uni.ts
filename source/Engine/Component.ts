@@ -48,8 +48,7 @@ export class Component extends Ubject {
      * @type {GameObject}
      * @memberof Component
      */
-    get gameObject () : GameObject      { return this._gameObject; }
-    set gameObject ( value:GameObject ) { this._gameObject = value }
+    gameObject : GameObject;
     /*
     tag	The tag of this game object.
     */
@@ -73,10 +72,6 @@ export class Component extends Ubject {
     SendMessage	Calls the method named methodName on every MonoBehaviour in this game object.
     SendMessageUpwards	Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
     */
-
-    // [ Protected Variables ]
-
-    protected _gameObject : GameObject;
 
     // [ Protected Functions ]
 

@@ -30,62 +30,45 @@ export class Util {
      * serialize
      *
      * @static
-     * @param {Object} obj
+     * @param {any} target
      * @param {any} module
-     * @param {any} [meta]
      * @returns {*}
      * @memberof Util
      */
-    static serialize ( target:Object, module:any, meta?:any ) : any {
+    static serialize ( target:any, module:any ) : any {
 
-        if (target === null) { return meta; }
+        let output:any = {};
 
-        if (target instanceof Array) {
-            if( meta === undefined ) {
-                meta = [];
+        // [ number | string ]
+        if( typeof target === 'number' || typeof target === 'string' ) {
+            output = target;
+        }
+        else
+        // [ array ]
+        if( target instanceof Array ) {
+            output = [];
+            for( let key in target ) {
+                output[key] = this.serialize(target[key],module);
             }
-            for (let key in target) {
-                if (typeof target[key] === 'object') {
-                    meta[key] = this.serialize(target[key],module,meta[key]);
-                } else {
-                    meta[key] = target[key];
-                }
-            }
-            return meta;
-        } else {
-            if( meta === undefined ) {
-                meta = {};
-            }
-            if (target.constructor.name in module) {
-                meta.class = target.constructor.name;
-                if (target.constructor.arguments !== null) {
-                    meta.arguments = target.constructor.arguments;
-                }
+        }
+        else
+        // [ object ]
+        if( typeof target === 'object' ) {
+
+            if( target.constructor.name in module ) {
+                output.class = target.constructor.name;
             }
 
-            for (let key in target) {
-                if (key[0] !== '_') {
+            for( let key in target ) {
+               if( key[0] !== '_' ) {
                     let val = target[key];
-                    let p:Object|null = target;
-                    while(p) {
-                        let descriptor = Object.getOwnPropertyDescriptor(p, key);
-                        if (descriptor && ((descriptor.get && descriptor.set) || (!descriptor.get && !descriptor.set))) {
-                            if ( typeof val !== 'function') {
-                                if (typeof val === 'object') {
-                                    meta[key] = this.serialize(val,module,meta[key]);
-                                } else {
-                                    meta[key] = val;
-                                }
-                            }
-                            p=null;
-                        } else {
-                            p = Object.getPrototypeOf(p);
-                        }
+                    if( typeof val !== 'number' || typeof val !== 'string' || typeof val !== 'object' ) {
+                        output[key] = this.serialize(val,module);
                     }
                 }
             }
-            return meta;
         }
+        return output;
     }
     /**
      * deserialize
@@ -97,58 +80,45 @@ export class Util {
      * @returns
      * @memberof Util
      */
-    static deserialize( target:Object, meta:any, module:any ) {
+    static deserialize ( target:any, meta:any, module:any ) {
 
-        console.log( "deserialize", target, meta, module );
+        // [ number, string ]
+        if( typeof meta === 'number' || typeof meta === 'string' ) {
+            target = meta;
+        }
+        else
+        // [ array ]
+        if( meta instanceof Array ) {
+            target = [];
+            for( let key in meta ) {
+                target[key] = this.deserialize( target[key], meta[key], module );
+            }
+        }
+        else
+        // [ object ]
+        if( typeof meta === 'object' ) {
 
-        for (let property in meta) {
-
-            if (property === 'class') continue;
-
-            if (!target.hasOwnProperty(property)) {
-                target[property] = meta[property];
+            // [ instantiate ]
+            if( target === undefined ) {
+                if( meta.class !== undefined ) {
+                    if( meta.class in module ) {
+                        target = new module[meta.class]();
+                    }
+                }
             }
 
-            if (target.hasOwnProperty(property)) {
-
-                let targetProp  = target[property];
-                let metaProp    = meta[property];
-
-                if (metaProp instanceof Array) {
-                    targetProp = [];
-                    for (let key in metaProp) {
-                        if (typeof metaProp[key] === 'object') {
-                            let p = metaProp[key];
-                            if( module[p.class].constructor.arguments ) {
-                                targetProp[key] = new module[p.class](p.arguments);
-                            } else {
-                                targetProp[key] = new module[p.class]();
-                            }
-                            targetProp[key] = this.deserialize( targetProp[key], metaProp[key], module );
-                        }
-                        else {
-                            targetProp[key] = metaProp[key];
-                        }
+            if( target === undefined ) {
+                target = {};
+                for( let property in meta ) {
+                    if( property !== 'class' ) {
+                        target[property] = this.deserialize(target[property], meta[property], module);
                     }
                 }
-                else
-                if (typeof metaProp === 'object') {
-
-                    if( metaProp.class in module ) {
-                        if( module[metaProp.class].constructor.arguments ) {
-                            targetProp = new module[metaProp.class](metaProp.arguments);
-                        } else {
-                            targetProp = new module[metaProp.class]();
-                        }
+            } else {
+                for( let property in meta ) {
+                    if( property in target ) {
+                        target[property] = this.deserialize(target[property], meta[property], module);
                     }
-                    else {
-                      targetProp = {};
-                    }
-
-                    target[property] = this.deserialize(targetProp, metaProp, module);
-                }
-                else {
-                    target[property] = metaProp;
                 }
             }
         }

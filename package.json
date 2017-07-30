@@ -47,7 +47,6 @@
     "faucet": "0.0.1",
     "tape": "^4.7.0",
     "tsify": "^3.0.1",
-    "typescript": "^2.4.1",
     "v8-profiler": "^5.7.0"
   },
   "keywords": [

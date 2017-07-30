@@ -125,7 +125,7 @@ export class Ubject extends Object implements IDisposable {
         for( let uuid of uuids ) {
             let obj = this._ubjects[uuid];
             if( obj !== undefined ) {
-                this._serialize( window['UNITS'], obj, undefined, meta );
+                this._serialize( window['UNITS'], obj, meta );
             }
         }
 
@@ -146,7 +146,7 @@ export class Ubject extends Object implements IDisposable {
     static deserialize (meta:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) : any {
         this.clearAll();
         for( let uuid in meta.ubjects ) {
-            this._ubjects[uuid] = this._deserialize( window['UNITS'], meta.ubjects[uuid], meta, object3Ds );
+            this._ubjects[uuid] = this._deserialize( window['UNITS'], undefined, meta.ubjects[uuid], meta, object3Ds );
         }
         this.validate();
     }
@@ -163,7 +163,7 @@ export class Ubject extends Object implements IDisposable {
         this.validate();
         meta.ubjects = {};
         for( let c in this._ubjects ) {
-            this._serialize( window['UNITS'], Ubject._ubjects[c], undefined, meta );
+            this._serialize( window['UNITS'], Ubject._ubjects[c], meta );
         }
         return meta;
     }
@@ -200,20 +200,6 @@ export class Ubject extends Object implements IDisposable {
     static clearAll() {
         this._ubjects = {};
     }
-    static getUbject( uuid:string ) : Ubject {
-        return this._ubjects[uuid];
-    }
-    /**
-     * remove ubject
-     *
-     * @static
-     * @param {string} uuid
-     * @memberof Ubject
-     */
-    static remove ( uuid:string ) {
-        delete this._ubjects[uuid];
-    }
-
 
     /**
      * Clones the object original and returns the clone.
@@ -256,127 +242,82 @@ export class Ubject extends Object implements IDisposable {
      * @static
      * @param {any} module
      * @param {any} target
-     * @param {any} [metaRoot]
+     * @param {any} [meta]
      * @returns {*}
      * @memberof Util
      */
-    protected static _serialize ( module:any, target:any, metaRoot?:any ) : any {
+    protected static _serialize ( module:any, target:any, meta?:any ) : any {
 
-        /*
-            리터럴이면 저장
-            오브젝트이면
-                멤버를 조사
-                    Ubject이면
-                        메타에 등록되어 있지 않으면
-                            제귀로 등록
-                        링크 UUID
-                    Object3D이면
-                        링크 UUID
-                    배열이면
-                        배열생성
-                        배열멤버 조사
-                            배열멤버가 리터럴이면 저장
-                            배열멤버가 Ubject이면
-                                메타에 등록되어 있지 않으면
-                                    제귀로 등록
-                                링크 UUID
-                            Object3D이면
-                                링크 UUID
-                            배열이면
-                                배열생성
-                                배열멤버 조사
-                                    배열멤버가 리터럴이면 저장
-                                    배열멤버가 Ubject이면
-                                        메타에 등록되어 있지 않으면
-                                            제귀로 등록
-                                        링크 UUID
-                                    Object3D이면
-                                        링크 UUID
-                                    배열이면
-                                        ....
+        let output : any = {};
 
-
-        */
-
-        // [ null ]
-        if (target === null) return target;
-
-        // [ number, string ]
+        // [ number | string ]
         if( typeof target === 'number' || typeof target === 'string' ) {
-            return target;
+            output = target;
         }
-
+        else
         // [ object ]
-        let output:any = {};
-        if( metaRoot === undefined ) {
-            metaRoot = output;
-        }
-        if( typeof target !== 'object' ) return output;
+        if (typeof target === 'object') {
 
-        // [ class ]
-        if (target.constructor.name in module) {
-            output.class = target.constructor.name;
-            if( target instanceof Ubject ) {
-                target._avaliable = true;
+            // [ Array ]
+            if( target instanceof Array ) {
+                output = [];
+                for( let key in target ) {
+                    output[key] = this._serialize( module, target[key], meta );
+                }
             }
-        }
+            else
+            // [ GL.Object3D ]
+            if( target instanceof GL.Object3D ) {
+                output.link = 'GL';
+                output.uuid = target.uuid;
+            }
+            else
+            // [ GL.Material ]
+            if( target instanceof GL.Material ) {
+                output.link = 'GL';
+                output.uuid = target.uuid;
+            }
+            else
+            // [ GL.Geometry ]
+            if( target instanceof GL.Geometry ) {
+                output.link = 'GL';
+                output.uuid = target.uuid;
+            }
+            else
+            // [ Ubject ]
+            if( target instanceof Ubject ) {
 
-        // [ properties ]
-        for (let key in target) {
-            if (key[0] !== '_' || key === "_core" ) {
+                if( meta.ubjects[target.uuid] === undefined ) {
 
-                let val = target[key];
-                let p:Object|null = target;
+                    meta.ubjects[target.uuid] = {};
+                    let metaObj = meta.ubjects[target.uuid];
 
-                while(p) {
-                    let descriptor = Object.getOwnPropertyDescriptor(p, key);
-                    if (descriptor && ((descriptor.get && descriptor.set) || (!descriptor.get && !descriptor.set))) {
-                        if (typeof val === 'object') {
+                    // [ class ]
+                    if (target.constructor.name in module) {
+                        metaObj.class = target.constructor.name;
+                        if( target instanceof Ubject ) {
+                            target._avaliable = true;
+                            metaObj._uuid = target._uuid;
+                        }
+                    }
 
-                            // [ Ubject ]
-                            if( val instanceof Ubject ) {
-                                if( metaRoot.ubjects[val.uuid] === undefined ) {
-                                    metaRoot.ubjects[val.uuid] = this._serialize(module,target,metaRoot);
-                                }
-                                output[key] = {};
-                                output[key].uuid = val.uuid;
-                            }
-                            else
-                            if( val instanceof GL.Object3D ) {
-                                output[key] = {};
-                                output[key].uuid = val.uuid;
-                            }
-                            else
-                            if( val instanceof GL.Material ) {
-                                output[key] = {};
-                                output[key].uuid = val.uuid;
-                            }
-                            else
-                            if( val instanceof GL.Geometry ) {
-                                output[key] = {};
-                                output[key].uuid = val.uuid;
-                            }
-                            else
-                            if( val instanceof Array ) {
-                                output[key] = [];
-                                for( let a in val ) {
-                                    output[key][a] = this._serialize(module,val[a],metaRoot);
-                                }
-                            }
-                            else {
-                                // stack overflow
-                                //meta[key] = this._serialize(module,val,metaRoot);
+                    // [ properties ]
+                    for (let key in target) {
+                        //console.log("key",key);
+                        if (key[0] !== '_' || key === "_core" ) {
+                            let val = target[key];
+                            if ( typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
+                                metaObj[key] = this._serialize( module, val, meta );
                             }
                         }
-                        else
-                        if( typeof val === 'number' || typeof val === 'string' ) {
-                            output[key] = val;
-                        }
-                        p=null;
-                    } else {
-                        p = Object.getPrototypeOf(p);
                     }
                 }
+                output.link = 'Ubject';
+                output.uuid = target.uuid;
+            }
+            // [ Serializable object ]
+            else {
+                output = Util.serialize(target,module);
             }
         }
         return output;
@@ -386,88 +327,79 @@ export class Ubject extends Object implements IDisposable {
      *
      * @static
      * @param {*} module
+     * @param {*} target
      * @param {*} meta
      * @param {*} metaRoot
      * @param {({[uuid:string]:GL.Object3D|GL.Material|GL.Geometry})} object3Ds
      * @returns
      * @memberof Ubject
      */
-    static _deserialize( module:any, meta:any, metaRoot:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) {
-
-
-        // 디버깅중...
-        // 여기서부터 잘되는지 추적한다.
-
-        // [ null ]
-        if( meta === null ) return meta;
+    static _deserialize( module:any, target:any, meta:any, metaRoot:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) {
 
         // [ number, string ]
         if( typeof meta === 'number' || typeof meta === 'string' ) {
-            return meta;
+            target = meta;
         }
-
+        else
         // [ array ]
-        if (meta instanceof Array) {
-
-            let output : any = [];
-            for( let c in meta ) {
-                output[c] = this._deserialize( module, meta[c], metaRoot, object3Ds );
+        if( meta instanceof Array ) {
+            target = [];
+            for( let key in meta ) {
+                target[key] = this._deserialize( module, target[key], meta[key], metaRoot, object3Ds );
             }
-            return output;
         }
-
-        if( typeof meta !== 'object' ) return meta;
-
+        else
         // [ object ]
-        let output : any = {};
+        if( typeof meta === 'object' ) {
 
-        if ( meta.class === undefined ) {
-            if( meta.uuid in metaRoot.ubjects ) {
-                output = this._deserialize( module, metaRoot.ubjects[meta.uuid], metaRoot, object3Ds );
+            // [ GL ]
+            if( meta.link === 'GL' ) {
+                if( meta.uuid in object3Ds ) {
+                    target = object3Ds[meta.uuid];
+                }
             }
-        } else {
-            output = new module[meta.class]();
+            else
+            // [ Ubject ]
+            if( meta.link === 'Ubject' ) {
 
-            for (let property in meta) {
+                if( !(meta.uuid in this._ubjects) ) {
+                    this._ubjects[meta.uuid] = this._deserialize( module, undefined, metaRoot.ubjects[meta.uuid], metaRoot, object3Ds );
+                }
+                target = this._ubjects[meta.uuid];
+            }
+            else {
 
-                if (property === 'class') continue;
-
-                let metaProp = meta[property];
-
-                if (metaProp instanceof Array) {
-
-                    output[property] = [];
-                    for( let c in metaProp ) {
-                        output[property][c] = this._deserialize( module, metaProp[c], metaRoot, object3Ds );
+                // [ instantiate ]
+                if( target === undefined ) {
+                    if( meta.class !== undefined ) {
+                        if( meta.class in module ) {
+                            target = new module[meta.class]();
+                            target = Object.assign( target, meta );
+                            if( target instanceof Ubject ) {
+                                target.uuid = meta._uuid;
+                            }
+                        }
                     }
-                    continue;
                 }
 
-                if (typeof metaProp === 'object') {
-
-                    let link1 = this._ubjects[meta.uuid];
-                    if( link1 !== undefined ) {
-                        output[property] = link1;
-                        continue;
+                if( target === undefined ) {
+                    target = {};
+                    for( let property in meta ) {
+                        if( property !== 'class' ) {
+                            target[property] = this._deserialize( module, target[property], meta[property], metaRoot, object3Ds );
+                        }
                     }
-
-                    let link2 = object3Ds[meta.uuid];
-                    if( link2 !== undefined ) {
-                        output[property] = link2;
-                        continue;
-                    }
-
-                    output[property] = this._deserialize( module, metaProp, metaRoot, object3Ds );
-                    continue;
                 }
-
-                if( typeof metaProp === 'number' || typeof metaProp === 'string' ) {
-                    output[property] = metaProp;
-                    continue;
+                else {
+                    for( let property in meta ) {
+                        if( property in target ) {
+                            target[property] = this._deserialize( module, target[property], meta[property], metaRoot, object3Ds );
+                        }
+                    }
                 }
             }
         }
-        return output;
+        return target;
     }
 }
 window['UNITS'][Ubject.name]=Ubject;

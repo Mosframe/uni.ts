@@ -216,7 +216,7 @@ export class GameObject extends Ubject {
         }
 
         meta.ubjects = {};
-        Ubject._serialize( window['UNITS'], this, undefined, meta );
+        Ubject._serialize( window['UNITS'], this, meta );
 
         Ubject.validate();
 
