@@ -68,9 +68,9 @@ export class MeshFilter extends Component {
 
     protected _onChanged () {
 
-        if( this.gameObject !== undefined ) {
+        if( this._gameObject !== undefined ) {
             if( this._sharedMesh !== undefined ) {
-                this.gameObject.core = this._sharedMesh.core;
+                this._gameObject.core = this._sharedMesh.core;
             }
         }
     }

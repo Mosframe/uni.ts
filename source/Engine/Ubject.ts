@@ -228,6 +228,7 @@ export class Ubject extends Object implements IDisposable {
 
     // [ Protected Variables ]
 
+    @Ubject.Serializable
     protected       _avaliable      : boolean;
     protected       _name           : string;
     protected       _uuid           : string;
@@ -235,6 +236,37 @@ export class Ubject extends Object implements IDisposable {
     private static  _instanceID_    : number = 0;
 
     // [ Protected static Functions ]
+
+    static Serializable( target: any, key: string ) {
+
+        // property value
+        let _val = this[key];
+
+        // property getter
+        let getter = function () {
+            //console.log(`Get: ${key} => ${_val}`);
+            return _val;
+        };
+
+        // property setter
+        let setter = function (newVal) {
+            //console.log(`Set: ${key} => ${newVal}`);
+            _val = newVal;
+        };
+
+        // Delete property.
+        if (delete this[key]) {
+
+            // Create new property with getter and setter
+            Object.defineProperty( target, key, {
+                get: getter,
+                set: setter,
+                enumerable: true,
+                configurable: true
+            });
+        }
+    }
+
 
     /**
      * serialize
