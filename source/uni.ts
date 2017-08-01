@@ -260,3 +260,72 @@ window['units'] = units;
 
 
 
+
+class Test1 {
+  t1: string = 't1';
+
+  get t3(): string        { return this._t3; }
+  set t3( value:string )  { this._t3=value; }
+  set t4( value:string )  { this._t4=value; }
+  get t5(): string        { return this._t5; }
+  get t7(): string[]      { return this._t7; }
+  set t7(value: string[]) { this._t7 = value; }
+
+  t8: { [name: string]: Test21 } = {}
+
+  _t1: string = '_t1';
+  _t3: string = '_t3';
+  _t4: string = '_t4';
+  _t5: string = '_t5';
+  _t7: string[] = [];
+
+  _name: string = 'sss';
+
+  get name() { return this._name; }
+  set name(value: string) { this._name = value;}
+}
+window['UNITS'][Test1.name]=Test1;
+
+class Test21 {
+  t21: string = 't21';
+}
+window['UNITS'][Test21.name] = Test21;
+
+class Test2 extends Test1 {
+  t2: string = 't2';
+  _t2: string = '_t2';
+  _t6: string = '_t6';
+
+  t21: Test21 = new Test21();
+
+  get t6(): string        { return this._t6; }
+  set t6( value:string )  { this._t6=value; }
+}
+window['UNITS'][Test2.name]=Test2;
+
+let t2 = new Test2();
+t2.t3 = "----t3";
+t2.t6 = "----t6";
+t2.t21.t21 = "-----t21";
+t2.t7.push("t7-0");
+t2.t7.push("t7-1");
+t2.t8['n1'] = new Test21();
+t2.t8['n1'].t21 = 'n1-t21';
+t2.t8['n2'] = new Test21();
+t2.t8['n2'].t21 = 'n2-t21';
+
+
+let oo: { [name: string]: Test1 } = {};
+oo['t2'] = t2;
+
+let meta = Util.serialize(oo['t2'],window['UNITS']);
+
+let t3 = new window['UNITS'][meta.class]();
+t3 = Object.assign(t3, meta);
+let t4 = new window['UNITS'][meta.class]();
+t4 = Util.deserialize( undefined, meta, window['UNITS'] );
+
+console.log(t2);
+console.log(meta);
+console.log(t3);
+console.log(t4);

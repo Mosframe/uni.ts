@@ -235,36 +235,16 @@ export class Ubject extends Object implements IDisposable {
     protected       _instanceID     : number;
     private static  _instanceID_    : number = 0;
 
+    private         _serializable   : string[] = [];
+
     // [ Protected static Functions ]
 
-    static Serializable( target: any, key: string ) {
 
-        // property value
-        let _val = this[key];
-
-        // property getter
-        let getter = function () {
-            //console.log(`Get: ${key} => ${_val}`);
-            return _val;
-        };
-
-        // property setter
-        let setter = function (newVal) {
-            //console.log(`Set: ${key} => ${newVal}`);
-            _val = newVal;
-        };
-
-        // Delete property.
-        if (delete this[key]) {
-
-            // Create new property with getter and setter
-            Object.defineProperty( target, key, {
-                get: getter,
-                set: setter,
-                enumerable: true,
-                configurable: true
-            });
+    protected static Serializable( target: Ubject, key: string ) {
+        if( target._serializable === undefined ) {
+            target._serializable = [];
         }
+        target._serializable.push( key );
     }
 
 
