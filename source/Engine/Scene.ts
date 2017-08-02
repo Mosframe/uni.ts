@@ -11,6 +11,7 @@ import * as GL              from './Graphic';
 import { Ubject         }   from './Ubject';
 import { GameObject     }   from './GameObject';
 import { SceneManager   }   from './SceneManager';
+import { Serializable   }   from './Serializable';
 
 /**
  * Run-time data structure for *.unity file.
@@ -184,6 +185,7 @@ export class Scene {
 
     // [ Protected Functions ]
 
+    @Serializable
     protected _core : GL.Scene;
     //protected _gameObjects:{[uuid:string]:GameObject} = {}; // all gameObjects in scene
 }

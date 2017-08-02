@@ -1,22 +1,23 @@
-import * as GL                      from '../Engine/Graphic';
-import { Type                   }   from '../libs/dotnet/System/Types';
-import { Activator              }   from './Activator';
-import { Color                  }   from './Color';
-import { Component              }   from './Component';
-import { ComponentType          }   from './Component';
-import { Geometry               }   from './Geometry';
-import { Material               }   from './Material';
-import { Mesh                   }   from './Mesh';
-import { MeshFilter             }   from './MeshFilter';
-import { MeshStandardMaterial   }   from './MeshStandardMaterial';
-import { MeshRenderer           }   from './MeshRenderer';
-import { PrimitiveType          }   from './PrimitiveType';
-import { Scene                  }   from './Scene';
-import { SceneManager           }   from './SceneManager';
-import { ShaderType             }   from './ShaderType';
-import { Transform              }   from './Transform';
-import { Ubject                 }   from './Ubject';
-import { Vector3                }   from './Vector3';
+import * as GL                          from '../Engine/Graphic';
+import { GameObject as IGameObject  }   from './Interfaces';
+import { Activator                  }   from './Activator';
+import { Color                      }   from './Color';
+import { Component                  }   from './Component';
+import { ComponentType              }   from './Interfaces';
+import { Geometry                   }   from './Geometry';
+import { Material                   }   from './Material';
+import { Mesh                       }   from './Mesh';
+import { MeshFilter                 }   from './Interfaces';
+import { MeshRenderer               }   from './Interfaces';
+import { MeshStandardMaterial       }   from './MeshStandardMaterial';
+import { PrimitiveType              }   from './PrimitiveType';
+import { Scene                      }   from './Interfaces';
+import { SceneManager               }   from './SceneManager';
+import { Serializable               }   from './Serializable';
+import { ShaderType                 }   from './ShaderType';
+import { Transform                  }   from './Interfaces';
+import { Ubject                     }   from './Ubject';
+import { Vector3                    }   from './Vector3';
 
 
 /**
@@ -28,7 +29,7 @@ import { Vector3                }   from './Vector3';
  * @class GameObject
  * @extends {Ubject}
  */
-export class GameObject extends Ubject {
+export class GameObject extends Ubject implements IGameObject {
 
     // [ Public Variables ]
 
@@ -99,7 +100,7 @@ export class GameObject extends Ubject {
         let instance = new type(this);
         instance.gameObject = this;
         // [ add components ]
-        this.components.push( instance );
+        this._components.push( instance );
         return <T>instance;
     }
     /**
@@ -117,7 +118,7 @@ export class GameObject extends Ubject {
         instance.gameObject = this;
 
         // [ add components ]
-        this.components.push( instance );
+        this._components.push( instance );
 
         return instance;
     }
@@ -134,7 +135,7 @@ export class GameObject extends Ubject {
      * @memberof GameObject
      */
     getComponent<T extends Component>( type:ComponentType<T> ) : T|undefined {
-        for( let component of this.components ) {
+        for( let component of this._components ) {
             if( component instanceof type ) {
                 return <T>component;
             }
@@ -148,7 +149,7 @@ export class GameObject extends Ubject {
      * @memberof GameObject
      */
     getComponentByName( componentName:string ) : Component|undefined {
-        for( let component of this.components ) {
+        for( let component of this._components ) {
             if( component.constructor.name === componentName ) {
                 return component;
             }
@@ -168,13 +169,13 @@ export class GameObject extends Ubject {
      * @memberof GameObject
      */
     removeComponent ( component:Component ) {
-        let index = this.components.indexOf( component );
+        let index = this._components.indexOf( component );
         if( index > -1 ) {
-            this.components.splice(index,1);
+            this._components.splice(index,1);
         }
     }
     removeComponentByName ( componentName:string ) {
-        let components = this.components.filter( t => t.name == componentName );
+        let components = this._components.filter( t => t.name == componentName );
         for( let component of components ) {
             this.removeComponent( component );
             break;
@@ -241,11 +242,11 @@ export class GameObject extends Ubject {
 
         mesh.geometry = geometry;
 
-        let meshFiler = gameObject.addComponent( MeshFilter );
-        meshFiler.sharedMesh = mesh;
+        let meshFiler = gameObject.addComponent( window['UNITS']['MeshFilter'] );
+        meshFiler['sharedMesh'] = mesh;
 
-        let renderer = gameObject.addComponent( MeshRenderer );
-        renderer.sharedMaterial = material;
+        let renderer = gameObject.addComponent( window['UNITS']['MeshRenderer'] );
+        renderer['sharedMaterial'] = material;
 
         // Y축이 위로 향하도록 축을 회전
         if( type === PrimitiveType.Plane ) {
@@ -294,7 +295,8 @@ export class GameObject extends Ubject {
         this._scene = SceneManager.getActiveScene();
 
         // [ transform ]
-        this._transform = this.addComponent( Transform );
+        let t = this.addComponent( window['UNITS']['Transform'] );
+        this._transform = Object.assign( this._transform, t );
 
         // [ components ]
         for( let componentName of componentNames ) {
@@ -304,9 +306,13 @@ export class GameObject extends Ubject {
 
     // [ Protected Variables ]
 
-    protected components        : Component[] = [];
+    @Serializable
+    protected _components       : Component[] = [];
+    @Serializable
     protected _transform        : Transform;
+    @Serializable
     protected _scene            : Scene;
+    @Serializable
     protected _core             : GL.Object3D;
 }
 window['UNITS'][GameObject.name]=GameObject;

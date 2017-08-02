@@ -1,13 +1,18 @@
-import * as GL        from '../Engine/Graphic';
-import {Component   } from '../Engine/Component';
-import {GameObject  } from '../Engine/GameObject';
-import {Transform   } from '../Engine/Transform';
-import {Ubject      } from '../Engine/Ubject';
+/**
+ * Behaviour.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
+ import * as GL              from './Graphic';
+import { Component      }   from './Component';
+import { GameObject     }   from './GameObject';
+import { Transform      }   from './Interfaces';
+import { Ubject         }   from './Ubject';
 
 /**
  * Behaviours are Components that can be enabled or disabled.
  *
- * @author mosframe / https://github.com/mosframe
  * @export
  * @class Behaviour
  * @extends {Component}

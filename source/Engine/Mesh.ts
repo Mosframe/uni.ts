@@ -1,6 +1,8 @@
-import * as GL          from './Graphic';
-import { Ubject     }   from './Ubject';
-import { Geometry   }   from './Geometry';
+import * as GL              from './Graphic';
+import { Ubject         }   from './Ubject';
+import { Geometry       }   from './Geometry';
+import { Serializable   }   from './Serializable';
+
 /**
  * A class that allows creating or modifying meshes from scripts.
  *
@@ -94,7 +96,9 @@ export class Mesh extends Ubject {
 
     // [ Protected Variables ]
 
+    @Serializable
     protected _core     : GL.Mesh;
+    @Serializable
     protected _geometry : Geometry;
 
     // [ Protected Functions ]

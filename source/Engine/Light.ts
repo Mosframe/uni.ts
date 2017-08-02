@@ -4,10 +4,12 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL          from './Graphic';
-import { Behaviour  }   from './Behaviour';
-import { GameObject }   from './GameObject';
-import { LightType  }   from './LightType';
+import * as GL              from './Graphic';
+import { Behaviour      }   from './Behaviour';
+import { GameObject     }   from './GameObject';
+import { LightType      }   from './LightType';
+import { Serializable   }   from './Serializable';
+import { Ubject         }   from '../Engine/Ubject';
 
 /**
  * Script interface for light components.
@@ -89,6 +91,7 @@ export class Light extends Behaviour {
 
     // [ Protected Virtual ]
 
+    @Serializable
     protected _type : LightType;
 
     // [ Protected Functions ]

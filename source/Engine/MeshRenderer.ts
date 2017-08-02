@@ -4,14 +4,15 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL              from '../Engine/Graphic';
-import { GameObject     }   from './GameObject';
-import { Geometry       }   from './Geometry';
-import { Material       }   from './Material';
-import { Mesh           }   from './Mesh';
-import { MeshFilter     }   from './MeshFilter';
-import { Renderer       }   from './Renderer';
-import { ShaderType     }   from './ShaderType';
+import * as GL                              from '../Engine/Graphic';
+import { MeshRenderer as IMeshRenderer  }   from './Interfaces';
+import { GameObject                     }   from './GameObject';
+import { Geometry                       }   from './Geometry';
+import { Material                       }   from './Material';
+import { Mesh                           }   from './Mesh';
+import { MeshFilter                     }   from './MeshFilter';
+import { Renderer                       }   from './Renderer';
+import { ShaderType                     }   from './ShaderType';
 
 /**
  * Renders meshes inserted by the MeshFilter or TextMesh.
@@ -20,7 +21,7 @@ import { ShaderType     }   from './ShaderType';
  * @class MeshRenderer
  * @extends {Renderer}
  */
-export class MeshRenderer extends Renderer {
+export class MeshRenderer extends Renderer implements IMeshRenderer {
 
     // [ Public Variables ]
 

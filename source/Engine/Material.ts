@@ -1,7 +1,9 @@
-import * as GL                from '../Engine/Graphic';
-import {Color               } from '../Engine/Color';
-import {ShaderType          } from '../Engine/ShaderType';
-import {Ubject              } from '../Engine/Ubject';
+import * as GL              from '../Engine/Graphic';
+import { Color          }   from '../Engine/Color';
+import { ShaderType     }   from '../Engine/ShaderType';
+import { Serializable   }   from './Serializable';
+import { Ubject         }   from './Ubject';
+
 /**
  * The material class.
  * This class exposes all properties from a material, allowing you to animate them.
@@ -63,6 +65,7 @@ export class Material extends Ubject {
 
     // [ Protected Variables ]
 
+    @Serializable
     protected _core : GL.Material;
 
     // [ Protected Functions ]

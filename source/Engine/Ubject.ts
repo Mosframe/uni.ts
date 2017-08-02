@@ -4,14 +4,15 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import deprecated       from 'deprecated-decorator';
-import * as uuid        from 'uuid';
-import * as GL          from './Graphic';
-import {using}          from './Interfaces';
-import {IDisposable}    from './Interfaces';
-import {Util}           from './Util';
-
-
+import deprecated                       from 'deprecated-decorator';
+import                  * as uuid       from 'uuid';
+import                  * as GL         from './Graphic';
+import { Ubject         as IUbject  }   from './Interfaces';
+import { using                      }   from './Interfaces';
+import { IDisposable                }   from './Interfaces';
+import { Serializable               }   from './Serializable';
+import { serializable               }   from './Serializable';
+import { Util                       }   from './Util';
 
 /**
  * Base class for all objects Uni.ts can reference.
@@ -19,7 +20,7 @@ import {Util}           from './Util';
  * @export
  * @class Ubject
  */
-export class Ubject extends Object implements IDisposable {
+export class Ubject extends Object implements IDisposable, IUbject  {
 
     // [ Public Variables ]
 
@@ -228,24 +229,15 @@ export class Ubject extends Object implements IDisposable {
 
     // [ Protected Variables ]
 
-    @Ubject.Serializable
-    protected       _avaliable      : boolean;
+    @Serializable
     protected       _name           : string;
+    @Serializable
     protected       _uuid           : string;
+
+    protected       _avaliable      : boolean;
     protected       _instanceID     : number;
+
     private static  _instanceID_    : number = 0;
-
-    private         _serializable   : string[] = [];
-
-    // [ Protected static Functions ]
-
-
-    protected static Serializable( target: Ubject, key: string ) {
-        if( target._serializable === undefined ) {
-            target._serializable = [];
-        }
-        target._serializable.push( key );
-    }
 
 
     /**
@@ -280,19 +272,19 @@ export class Ubject extends Object implements IDisposable {
             else
             // [ GL.Object3D ]
             if( target instanceof GL.Object3D ) {
-                output.link = 'GL';
+                output.module = 'GL';
                 output.uuid = target.uuid;
             }
             else
             // [ GL.Material ]
             if( target instanceof GL.Material ) {
-                output.link = 'GL';
+                output.module = 'GL';
                 output.uuid = target.uuid;
             }
             else
             // [ GL.Geometry ]
             if( target instanceof GL.Geometry ) {
-                output.link = 'GL';
+                output.module = 'GL';
                 output.uuid = target.uuid;
             }
             else
@@ -305,7 +297,7 @@ export class Ubject extends Object implements IDisposable {
                     let metaObj = meta.ubjects[target.uuid];
 
                     // [ class ]
-                    if (target.constructor.name in module) {
+                    if( target.constructor.name in module ) {
                         metaObj.class = target.constructor.name;
                         if( target instanceof Ubject ) {
                             target._avaliable = true;
@@ -314,9 +306,11 @@ export class Ubject extends Object implements IDisposable {
                     }
 
                     // [ properties ]
-                    for (let key in target) {
-                        //console.log("key",key);
-                        if (key[0] !== '_' || key === "_core" ) {
+                    for( let key in target ) {
+
+                        let propName = serializable[target.constructor.name][key];
+
+                        if( key[0] !== '_' || propName !== undefined ) {
                             let val = target[key];
                             if ( typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
                                 metaObj[key] = this._serialize( module, val, meta );
@@ -324,7 +318,7 @@ export class Ubject extends Object implements IDisposable {
                         }
                     }
                 }
-                output.link = 'Ubject';
+                output.module = 'UNITS';
                 output.uuid = target.uuid;
             }
             // [ Serializable object ]
@@ -365,14 +359,14 @@ export class Ubject extends Object implements IDisposable {
         if( typeof meta === 'object' ) {
 
             // [ GL ]
-            if( meta.link === 'GL' ) {
+            if( meta.module === 'GL' ) {
                 if( meta.uuid in object3Ds ) {
                     target = object3Ds[meta.uuid];
                 }
             }
             else
-            // [ Ubject ]
-            if( meta.link === 'Ubject' ) {
+            // [ UNITS ]
+            if( meta.module === 'UNITS' ) {
 
                 if( !(meta.uuid in this._ubjects) ) {
                     this._ubjects[meta.uuid] = this._deserialize( module, undefined, metaRoot.ubjects[meta.uuid], metaRoot, object3Ds );

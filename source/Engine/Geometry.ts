@@ -1,16 +1,22 @@
-import * as GL              from '../Engine/Graphic';
-import { PrimitiveType  }   from '../Engine/PrimitiveType';
-import { Ubject         }   from '../Engine/Ubject';
 /**
- * Geometry
+ * Geometry.ts
  *
  * @author mosframe / https://github.com/mosframe
+ */
+
+import * as GL              from '../Engine/Graphic';
+import { PrimitiveType  }   from '../Engine/PrimitiveType';
+import { Serializable   }   from './Serializable';
+import { Ubject         }   from '../Engine/Ubject';
+
+/**
+ * Geometry
  *
  * @export
  * @class Geometry
  * @extends {Ubject}
  */
-export class Geometry {
+export class Geometry extends Ubject {
 
     // [ Public Variables ]
 
@@ -33,6 +39,8 @@ export class Geometry {
      * @memberof Geometry
      */
     constructor( type?:PrimitiveType ) {
+        super();
+
         switch( type ) {
             case PrimitiveType.Quad: {
                     this._core = new GL.PlaneGeometry( 1, 1, 1, 1 );
@@ -129,6 +137,7 @@ export class Geometry {
 
     // [ Protected Variables ]
 
+    @Serializable
     protected _core : GL.Geometry|GL.BufferGeometry;
 
     // [ Protected Functions ]

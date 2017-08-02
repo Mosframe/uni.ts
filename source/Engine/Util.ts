@@ -39,27 +39,6 @@ export class Util {
 
         let output:any = {};
 
-        /*
-        재설계
-
-        컴포넌트의 get /set GameObject 복원
-
-
-        _가 없는 모든 변수들 저장
-        특수 멈버들 모두 저장
-            _uuid
-            _core
-            _gmaeObject
-
-        값이 있는 변수들만 저장
-
-        복원할때 우선 객체들을 모두 생성 ( 원형 멤버들이 생성되어야 한다.)
-        멤버들을을 링크 및 복원
-
-        Object.assign()을 이용하여 복원한다.
-
-        */
-
         // [ number | string ]
         if( typeof target === 'number' || typeof target === 'string' ) {
             output = target;
@@ -127,19 +106,12 @@ export class Util {
                     }
                 }
             }
-
             if( target === undefined ) {
                 target = {};
-                for( let property in meta ) {
-                    if( property !== 'class' ) {
-                        target[property] = this.deserialize(target[property], meta[property], module);
-                    }
-                }
-            } else {
-                for( let property in meta ) {
-                    if( property in target ) {
-                        target[property] = this.deserialize(target[property], meta[property], module);
-                    }
+            }
+            for( let property in meta ) {
+                if( property !== 'class' ) {
+                    target[property] = this.deserialize(target[property], meta[property], module);
                 }
             }
         }

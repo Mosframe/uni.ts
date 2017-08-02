@@ -1,21 +1,18 @@
-import * as GL              from './Graphic';
-import { GameObject     }   from './GameObject';
-import { Transform      }   from './Transform';
-import { Ubject         }   from './Ubject';
-
-
-
 /**
- * Component type
+ * Component.ts
  *
  * @author mosframe / https://github.com/mosframe
- * @export
- * @interface ComponentType
- * @template T
  */
-export interface ComponentType<T> {
-    new(gameObject:GameObject):T;
-}
+
+ import * as GL                 from './Graphic';
+import { ComponentType      }   from './Interfaces';
+import { GameObject         }   from './GameObject';
+import { Serializable       }   from './Serializable';
+import { Transform          }   from './Transform';
+import { Ubject             }   from './Ubject';
+
+
+
 
 /**
  * Base class for everything attached to GameObjects.
@@ -23,8 +20,6 @@ export interface ComponentType<T> {
  * Note that your code will never directly create a Component.
  * Instead, you write script code, and attach the script to a GameObject.
  * See Also: ScriptableObject as a way to create scripts that do not attach to any GameObject.
- *
- * @author mosframe / https://github.com/mosframe
  *
  * @export
  * @class Temp
@@ -74,7 +69,18 @@ export class Component extends Ubject {
     SendMessageUpwards	Calls the method named methodName on every MonoBehaviour in this game object and on every ancestor of the behaviour.
     */
 
+    // [ Constructors ]
+
+    /**
+     * Creates an instance of Component.
+     * @memberof MeshFilter
+     */
+    constructor () {
+        super();
+    }
+
     // [ Protected Varriables ]
+    @Serializable
     protected _gameObject:GameObject;
 
     // [ Protected Functions ]

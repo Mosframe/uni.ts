@@ -4,9 +4,9 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL    from './Graphic';
-import {Scene   } from './Scene';
-import {Ubject  } from './Ubject';
+import * as GL      from './Graphic';
+import { Scene  }   from './Scene';
+import { Ubject }   from './Ubject';
 
 /**
  * Scene management at run-time.

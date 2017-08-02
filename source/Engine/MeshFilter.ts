@@ -4,14 +4,16 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL              from './Graphic';
-import { Ubject         }   from './Ubject';
-import { Component      }   from './Component';
-import { GameObject     }   from './GameObject';
-import { Material       }   from './Material';
-import { Mesh           }   from './Mesh';
-import { Geometry       }   from './Geometry';
-import { PrimitiveType  }   from './PrimitiveType';
+import * as GL                              from './Graphic';
+import { MeshFilter as IMeshFilter      }   from './Interfaces';
+import { Ubject                         }   from './Ubject';
+import { Component                      }   from './Component';
+import { GameObject                     }   from './GameObject';
+import { Material                       }   from './Material';
+import { Mesh                           }   from './Mesh';
+import { Geometry                       }   from './Geometry';
+import { PrimitiveType                  }   from './PrimitiveType';
+import { Serializable                   }   from './Serializable';
 
 /**
  * A class to access the Mesh of the mesh filter.
@@ -20,7 +22,7 @@ import { PrimitiveType  }   from './PrimitiveType';
  * @class MeshFilter
  * @extends {Component}
  */
-export class MeshFilter extends Component {
+export class MeshFilter extends Component implements IMeshFilter {
 
     // [ Public Variables ]
 
@@ -62,6 +64,7 @@ export class MeshFilter extends Component {
 
     // [ Private Variables ]
 
+    @Serializable
     private _sharedMesh : Mesh;
 
     // [ Protected Functions ]

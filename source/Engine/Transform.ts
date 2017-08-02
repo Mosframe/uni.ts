@@ -1,9 +1,10 @@
-import * as GL        from './Graphic';
-import {Component   } from './Component';
-import {GameObject  } from './GameObject';
-import {Matrix4x4   } from './Matrix4x4';
-import {Quaternion  } from './Quaternion';
-import {Vector3     } from './Vector3';
+import *            as GL               from './Graphic';
+import { Transform  as ITransform   }   from './Interfaces';
+import { Component                  }   from './Component';
+import { GameObject                 }   from './GameObject';
+import { Matrix4x4                  }   from './Matrix4x4';
+import { Quaternion                 }   from './Quaternion';
+import { Vector3                    }   from './Vector3';
 
 /**
  * Position, rotation and scale of an object.
@@ -18,7 +19,7 @@ import {Vector3     } from './Vector3';
  * @class Transform
  * @extends {Component}
  */
-export class Transform extends Component {
+export class Transform extends Component implements ITransform {
 
     // [ Public Static Variables ]
 
@@ -36,12 +37,6 @@ export class Transform extends Component {
     /*
     childCount	The number of children the Transform has.
     */
-    /**
-     * The rotation as Euler angles in degrees.
-     *
-     * @type {Vector3}
-     * @memberof Transform
-     */
     get eulerAngles() : Vector3             { return this.core.localToWorld( this.localEulerAngles ); }
     set eulerAngles( value:Vector3 )        { this.localEulerAngles = this.core.worldToLocal(value); }
     /*
@@ -50,90 +45,31 @@ export class Transform extends Component {
     hierarchyCapacity	The transform capacity of the transform's hierarchy data structure.
     hierarchyCount	The number of transforms in the transform's hierarchy data structure.
     */
-    /**
-     * The rotation as Euler angles in degrees relative to the parent transform's rotation.
-     *
-     * @type {Vector3}
-     * @memberof Transform
-     */
     get localEulerAngles() : Vector3        { return this.core.rotation.toVector3(); }
     set localEulerAngles( value:Vector3 )   { this.core.rotation.setFromVector3( value ); }
-    /**
-     * Position of the transform relative to the parent transform.
-     *
-     * @type {Vector3}
-     * @memberof Transform
-     */
     get localPosition() : Vector3           { return this.core.position; }
     set localPosition( value:Vector3 )      { this.core.position.set( value.x, value.y, value.z ); }
-    /**
-     * The rotation of the transform relative to the parent transform's rotation.
-     *
-     * @type {Quaternion}
-     * @memberof Transform
-     */
     get localRotation() : Quaternion        { return this.core.quaternion }
     set localRotation( value:Quaternion )   { this.core.rotation.setFromQuaternion( value ); }
-    /**
-     * The scale of the transform relative to the parent.
-     *
-     * @readonly
-     * @type {Vector3}
-     * @memberof Transform
-     */
     get localScale() : Vector3              { return this.core.scale; }
     set localScale( value:Vector3 )         { this.core.scale.set( value.x, value.y, value.z ); }
 
-    /**
-     * Matrix that transforms a point from local space into world space (Read Only).
-     *
-     * @readonly
-     * @type {Matrix4x4}
-     * @memberof Transform
-     */
     get localToWorldMatrix() : Matrix4x4    { return this.core.matrix; }
-    /**
-     * The global scale of the object (Read Only).
-     *
-     * @type {Vector3}
-     * @memberof Transform
-     */
     get lossyScale() : Vector3              { return this.core.getWorldScale(); }
     /*
     parent	The parent of the transform.
     */
-    /**
-     * The position of the transform in world space.
-     *
-     * @readonly
-     * @type {Vector3}
-     * @memberof Transform
-     */
     get position() : Vector3                { return this.core.localToWorld(this.core.position); }
     set position( value:Vector3 )           { let localPos = this.core.worldToLocal(value); this.core.position.set( localPos.x, localPos.y, localPos.z ); }
     /*
     right	The red axis of the transform in world space.
     root	Returns the topmost transform in the hierarchy.
     */
-    /**
-     * The rotation of the transform in world space stored as a Quaternion.
-     *
-     * @readonly
-     * @type {Quaternion}
-     * @memberof Transform
-     */
     get rotation() : Quaternion             { return this.core.quaternion; }
     set rotation( value:Quaternion )        { this.core.quaternion.set( value.x, value.y, value.z, value.w ); }
     /*
     up	The green axis of the transform in world space.
     */
-    /**
-     * Matrix that transforms a point from world space into local space (Read Only).
-     *
-     * @readonly
-     * @type {Matrix4x4}
-     * @memberof Transform
-     */
     get worldToLocalMatrix() : Matrix4x4    { return this.core.matrixWorld; }
 
     // [ Public Functions ]
@@ -148,14 +84,6 @@ export class Transform extends Component {
     InverseTransformVector	Transforms a vector from world space to local space. The opposite of Transform.TransformVector.
     IsChildOf	Is this transform a child of parent?
     */
-    /**
-     * Rotates the transform so the forward vector points at /target/'s current position.
-     *
-     * @param {Transform} traget
-     * @param {Vector3} [worldUp=Vector3.up]
-     *
-     * @memberof Transform
-     */
     lookAt( traget:Transform, worldUp:Vector3=Vector3.up ) {
         // TODO : worldUp 처리가 필요함
         this.core.lookAt( traget.position );

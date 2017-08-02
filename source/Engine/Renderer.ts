@@ -4,6 +4,7 @@ import { GameObject             }   from './GameObject';
 import { Material               }   from './Material';
 import { MeshLambertMaterial    }   from './MeshLambertMaterial';
 import { MeshFilter             }   from './MeshFilter';
+import { Serializable           }   from './Serializable';
 import { ShadowCastingMode      }   from './Rendering/ShadowCastingMode';
 import { ShaderType             }   from './ShaderType';
 
@@ -172,7 +173,9 @@ export class Renderer extends Component {
 
     // [ Private Variables ]
 
+    @Serializable
     private _shadowCastingMode  : ShadowCastingMode;
+    @Serializable
     private _sharedMaterials    : Material[] = [];
 
 
