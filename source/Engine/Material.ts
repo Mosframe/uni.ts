@@ -1,8 +1,15 @@
-import * as GL              from '../Engine/Graphic';
-import { Color          }   from '../Engine/Color';
-import { ShaderType     }   from '../Engine/ShaderType';
-import { Serializable   }   from './Serializable';
-import { Ubject         }   from './Ubject';
+/**
+ * Materials.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
+import *                as GL               from './Graphic';
+import { Material       as IMaterial    }   from './Interfaces';
+import { Color                          }   from './Color';
+import { ShaderType                     }   from './ShaderType';
+import { Serializable                   }   from './Serializable';
+import { Ubject                         }   from './Ubject';
 
 /**
  * The material class.
@@ -16,8 +23,9 @@ import { Ubject         }   from './Ubject';
  * @export
  * @class Material
  * @extends {Ubject}
+ * @implements {IMaterial}
  */
-export class Material extends Ubject {
+export class Material extends Ubject implements IMaterial {
 
     // [ Public Variables ]
 

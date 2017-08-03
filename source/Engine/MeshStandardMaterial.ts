@@ -3,6 +3,7 @@ import {Material            } from '../Engine/Material';
 import {Color               } from '../Engine/Color';
 import {ShaderType          } from '../Engine/ShaderType';
 import {Ubject              } from '../Engine/Ubject';
+
 /**
  * The MeshStandardMaterial class.
  *

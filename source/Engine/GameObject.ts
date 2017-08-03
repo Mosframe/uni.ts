@@ -41,52 +41,27 @@ export class GameObject extends Ubject implements IGameObject {
     /*
     activeInHierarchy	Is the GameObject active in the scene?
     activeSelf	The local active state of this GameObject. (Read Only)
-    isStatic	Editor only API that specifies if a game object is static.
-    layer	The layer the game object is in. A layer is in the range [0...31].
     */
-    /**
-     * Scene that the GameObject is part of.
-     *
-     * @readonly
-     * @type {Scene}
-     * @memberof GameObject
-     */
-    get scene() : Scene { return this._scene; }
-    /*
-    tag	The tag of this game object.
-    */
-    /**
-     * The Transform attached to this GameObject.
-     *
-     * @type {Transform}
-     * @memberof GameObject
-     */
-    get transform () : Transform { return this._transform; }
 
-
-    /**
-     * The name of the object.
-     *
-     * @readonly
-     * @type {string}
-     * @memberof GameObject
-     */
-    get name () : string        { return this._name; }
-    set name ( value:string )   { this._name = value; if(this.core!==undefined) this.core.name = this._name; }
-
-    /**
-     * get core object
-     *
-     * @readonly
-     * @type {GL.Object3D}
-     * @memberof GameObject
-     */
     get core () : GL.Object3D        { return this._core; }
     set core ( value : GL.Object3D ) {
         this._core = value;
         this._core.name = this._name;
         this.uuid = value.uuid;
     }
+
+    /*
+    isStatic	Editor only API that specifies if a game object is static.
+    layer	The layer the game object is in. A layer is in the range [0...31].
+    */
+    get name () : string        { return this._name; }
+    set name ( value:string )   { this._name = value; if(this.core!==undefined) this.core.name = this._name; }
+    get scene() : IScene        { return this._scene; }
+    /*
+    tag	The tag of this game object.
+    */
+    get transform () : Transform { return this._transform; }
+
 
     // [ Public Functions ]
 

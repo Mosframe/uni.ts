@@ -1,18 +1,24 @@
-import * as GL              from './Graphic';
-import { Ubject         }   from './Ubject';
-import { Geometry       }   from './Geometry';
-import { Serializable   }   from './Serializable';
+/**
+ * Mesh.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
+import *                as GL           from './Graphic';
+import { Mesh           as IMesh    }   from './Interfaces';
+import { Ubject                     }   from './Ubject';
+import { Geometry                   }   from './Geometry';
+import { Serializable               }   from './Serializable';
 
 /**
  * A class that allows creating or modifying meshes from scripts.
  *
- * @author mosframe / https://github.com/mosframe
- *
  * @export
  * @class Mesh
  * @extends {Ubject}
+ * @implements {IMesh}
  */
-export class Mesh extends Ubject {
+export class Mesh extends Ubject implements IMesh {
 
     // [ Public Variables ]
 
@@ -41,18 +47,6 @@ export class Mesh extends Ubject {
     vertexCount	Returns the number of vertices in the Mesh (Read Only).
     vertices	Returns a copy of the vertex positions or assigns a new vertex positions array.
     */
-
-    // [ Constructors ]
-
-    /**
-     * Creates an instance of Mesh.
-     *
-     * @memberof Mesh
-     */
-    constructor() {
-        super();
-        this._core = new GL.Mesh();
-    }
 
     // [ Public Functions ]
 
@@ -93,6 +87,18 @@ export class Mesh extends Ubject {
     SetVertices	Assigns a new vertex positions array.
     UploadMeshData	Upload previously done Mesh modifications to the graphics API.
     */
+
+    // [ Constructors ]
+
+    /**
+     * Creates an instance of Mesh.
+     *
+     * @memberof Mesh
+     */
+    constructor() {
+        super();
+        this._core = new GL.Mesh();
+    }
 
     // [ Protected Variables ]
 

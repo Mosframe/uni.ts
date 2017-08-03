@@ -1,12 +1,19 @@
-import * as GL                      from './Graphic';
-import { Component              }   from './Component';
-import { GameObject             }   from './GameObject';
-import { Material               }   from './Material';
-import { MeshLambertMaterial    }   from './MeshLambertMaterial';
-import { MeshFilter             }   from './MeshFilter';
-import { Serializable           }   from './Serializable';
-import { ShadowCastingMode      }   from './Rendering/ShadowCastingMode';
-import { ShaderType             }   from './ShaderType';
+/**
+ * Renderer.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
+import *                        as GL               from './Graphic';
+import { Renderer               as IRenderer    }   from './Interfaces';
+import { Component                              }   from './Component';
+import { GameObject                             }   from './GameObject';
+import { Material                               }   from './Material';
+import { MeshLambertMaterial                    }   from './MeshLambertMaterial';
+import { MeshFilter                             }   from './MeshFilter';
+import { Serializable                           }   from './Serializable';
+import { ShadowCastingMode                      }   from './Rendering/ShadowCastingMode';
+import { ShaderType                             }   from './ShaderType';
 
 
 /**
@@ -15,13 +22,12 @@ import { ShaderType             }   from './ShaderType';
  * Use this class to access the renderer of any object, mesh or particle system.
  * Renderers can be disabled to make objects invisible (see enabled), and the materials can be accessed and modified through them (see material).
  *
- * @author mosframe / https://github.com/mosframe
- *
  * @export
  * @class Renderer
  * @extends {Component}
+ * @implements {IRenderer}
  */
-export class Renderer extends Component {
+export class Renderer extends Component implements IRenderer {
 
     // [ Public Variables ]
 
@@ -136,6 +142,21 @@ export class Renderer extends Component {
     worldToLocalMatrix	Matrix that transforms a point from world space into local space (Read Only).
     */
 
+    // [ Public Functions ]
+
+    /*
+    GetClosestReflectionProbes	Returns an array of closest reflection probes with weights, weight shows how much influence the probe has on the renderer, this value is also used when blending between reflection probes occur.
+    GetPropertyBlock	Get per-renderer material property block.
+    SetPropertyBlock	Lets you add per-renderer material parameters without duplicating a material.
+    */
+
+    // [ Public Messages ]
+
+    /*
+    OnBecameInvisible	OnBecameInvisible is called when the object is no longer visible by any camera.
+    OnBecameVisible	OnBecameVisible is called when the object became visible by any camera.
+    */
+
     // [ Constructors ]
 
     /**
@@ -147,29 +168,6 @@ export class Renderer extends Component {
     constructor() {
         super();
     }
-
-    // [ Public Functions ]
-
-    /*
-    GetClosestReflectionProbes	Returns an array of closest reflection probes with weights, weight shows how much influence the probe has on the renderer, this value is also used when blending between reflection probes occur.
-    GetPropertyBlock	Get per-renderer material property block.
-    SetPropertyBlock	Lets you add per-renderer material parameters without duplicating a material.
-    */
-
-    // [ Public Static Variables ]
-
-    // [ Public Static Functions ]
-
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
-    // [ Public Messages ]
-
-    /*
-    OnBecameInvisible	OnBecameInvisible is called when the object is no longer visible by any camera.
-    OnBecameVisible	OnBecameVisible is called when the object became visible by any camera.
-    */
 
     // [ Private Variables ]
 

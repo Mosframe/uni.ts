@@ -4,10 +4,11 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL              from '../Engine/Graphic';
-import { PrimitiveType  }   from '../Engine/PrimitiveType';
-import { Serializable   }   from './Serializable';
-import { Ubject         }   from '../Engine/Ubject';
+import *                as GL               from './Graphic';
+import { Geometry       as IGeometry    }   from './Interfaces';
+import { PrimitiveType                  }   from './PrimitiveType';
+import { Serializable                   }   from './Serializable';
+import { Ubject                         }   from './Ubject';
 
 /**
  * Geometry
@@ -16,7 +17,7 @@ import { Ubject         }   from '../Engine/Ubject';
  * @class Geometry
  * @extends {Ubject}
  */
-export class Geometry extends Ubject {
+export class Geometry extends Ubject implements IGeometry {
 
     // [ Public Variables ]
 
@@ -125,24 +126,10 @@ export class Geometry extends Ubject {
         }
     }
 
-    // [ Public Functions ]
-
-    // [ Public Static Variables ]
-
-    // [ Public Static Functions ]
-
-    // [ Public Operators ]
-
-    // [ Public Events ]
-
     // [ Protected Variables ]
 
     @Serializable
     protected _core : GL.Geometry|GL.BufferGeometry;
-
-    // [ Protected Functions ]
-
-    // [ Protected Static Variables ]
 
     // [ Protected Static Functions ]
 }
