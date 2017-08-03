@@ -1,7 +1,8 @@
-import * as GL        from '../Engine/Graphic';
-import {Behaviour   } from '../Engine/Behaviour';
-import {GameObject  } from '../Engine/GameObject';
-import {Vector3     } from '../Engine/Vector3';
+import *            as GL           from './Graphic';
+import { Camera     as ICamera  }   from './Interfaces';
+import { Behaviour              }   from './Behaviour';
+import { GameObject             }   from './GameObject';
+import { Vector3                }   from './Vector3';
 
 
 /**
@@ -18,7 +19,7 @@ import {Vector3     } from '../Engine/Vector3';
  * @class Camera
  * @extends {Behaviour}
  */
-export class Camera extends Behaviour {
+export class Camera extends Behaviour implements ICamera {
 
     // [ Public Delegates ]
 

@@ -1,5 +1,12 @@
-import * as GL                          from '../Engine/Graphic';
+/**
+ * GameObject.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
+import *            as GL               from '../Engine/Graphic';
 import { GameObject as IGameObject  }   from './Interfaces';
+import { Scene      as IScene       }   from './Interfaces';
 import { Activator                  }   from './Activator';
 import { Color                      }   from './Color';
 import { Component                  }   from './Component';
@@ -11,7 +18,6 @@ import { MeshFilter                 }   from './Interfaces';
 import { MeshRenderer               }   from './Interfaces';
 import { MeshStandardMaterial       }   from './MeshStandardMaterial';
 import { PrimitiveType              }   from './PrimitiveType';
-import { Scene                      }   from './Interfaces';
 import { SceneManager               }   from './SceneManager';
 import { Serializable               }   from './Serializable';
 import { ShaderType                 }   from './ShaderType';
@@ -22,8 +28,6 @@ import { Vector3                    }   from './Vector3';
 
 /**
  * Base class for all entities in Uni.ts scenes.
- *
- * @author mosframe / https://github.com/mosframe
  *
  * @export
  * @class GameObject
@@ -97,7 +101,7 @@ export class GameObject extends Ubject implements IGameObject {
     addComponent<T extends Component>( type:ComponentType<T> ) : T {
 
         // [ instance ]
-        let instance = new type(this);
+        let instance = new type();
         instance.gameObject = this;
         // [ add components ]
         this._components.push( instance );
@@ -311,7 +315,7 @@ export class GameObject extends Ubject implements IGameObject {
     @Serializable
     protected _transform        : Transform;
     @Serializable
-    protected _scene            : Scene;
+    protected _scene            : IScene;
     @Serializable
     protected _core             : GL.Object3D;
 }

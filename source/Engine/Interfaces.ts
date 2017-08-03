@@ -31,7 +31,7 @@ export interface Behaviour extends Component {
      * @type {Transform}
      * @memberof Component
      */
-    transform() : Transform;
+    transform : Transform;
 }
 /**
  * A Camera is a device through which the player views the world.
@@ -323,7 +323,7 @@ export interface GameObject {
  * @export
  * @interface Component
  */
-export interface Component {
+export interface Component extends Ubject {
     /**
      * get GL.Object3D
      *
@@ -371,7 +371,7 @@ export interface Component {
  * @template T
  */
 export interface ComponentType<T> {
-    new(gameObject:GameObject):T;
+    new():T;
 }
 
 /**
@@ -423,7 +423,7 @@ export interface Scene {
      * @type {string}
      * @memberof Scene
      */
-    name () : string;
+    name : string;
     /*
     path	Returns the relative path of the scene. Like: "Assets/MyScenes/MyScene.unity".
     */
@@ -434,7 +434,7 @@ export interface Scene {
      * @type {number}
      * @memberof Scene
      */
-    rootCount () : number;
+    rootCount : number;
 
     /**
      * get GL.Scene
@@ -443,7 +443,7 @@ export interface Scene {
      * @type {GL.Scene}
      * @memberof Scene
      */
-    core() : GL.Scene;
+    core : GL.Scene;
 
     // [ Public Functions ]
 

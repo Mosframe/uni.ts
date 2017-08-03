@@ -4,9 +4,10 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL      from './Graphic';
-import { Scene  }   from './Scene';
-import { Ubject }   from './Ubject';
+import *        as GL           from './Graphic';
+import { Scene  as IScene   }   from './Interfaces';
+import { Scene              }   from './Scene';
+import { Ubject             }   from './Ubject';
 
 /**
  * Scene management at run-time.
@@ -42,7 +43,7 @@ export class SceneManager {
      *
      * @memberof SceneManager
      */
-    static getActiveScene() : Scene {
+    static getActiveScene() : IScene {
         return SceneManager._activeScene;
     }
     /*
@@ -65,7 +66,7 @@ export class SceneManager {
         this._activeScene = scene;
     }
     // 임시
-    static loadScene2( scene:Scene ){
+    static loadScene2( scene:IScene ){
         this._activeScene = scene;
     }
     /*
@@ -92,7 +93,7 @@ export class SceneManager {
 
     // [ Protected Static Variables ]
 
-    protected static _activeScene : Scene;
+    protected static _activeScene : IScene;
 
     // [ Protected Static Functions ]
 }

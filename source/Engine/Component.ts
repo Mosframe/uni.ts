@@ -4,15 +4,13 @@
  * @author mosframe / https://github.com/mosframe
  */
 
- import * as GL                 from './Graphic';
-import { ComponentType      }   from './Interfaces';
-import { GameObject         }   from './GameObject';
-import { Serializable       }   from './Serializable';
-import { Transform          }   from './Transform';
-import { Ubject             }   from './Ubject';
-
-
-
+import *                as GL               from './Graphic';
+import { Component      as IComponent   }   from './Interfaces';
+import { ComponentType                  }   from './Interfaces';
+import { GameObject                     }   from './GameObject';
+import { Serializable                   }   from './Serializable';
+import { Transform                      }   from './Transform';
+import { Ubject                         }   from './Ubject';
 
 /**
  * Base class for everything attached to GameObjects.
@@ -25,7 +23,7 @@ import { Ubject             }   from './Ubject';
  * @class Temp
  * @extends {Ubject}
  */
-export class Component extends Ubject {
+export class Component extends Ubject implements IComponent {
 
     // [ Public Variables ]
 
