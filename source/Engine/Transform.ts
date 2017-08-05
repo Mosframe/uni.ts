@@ -1,10 +1,15 @@
-import *            as GL               from './Graphic';
-import { Transform  as ITransform   }   from './Interfaces';
-import { Component                  }   from './Component';
-import { GameObject                 }   from './GameObject';
-import { Matrix4x4                  }   from './Matrix4x4';
-import { Quaternion                 }   from './Quaternion';
-import { Vector3                    }   from './Vector3';
+/**
+ * Transform.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
+import * as GL              from './Graphic';
+import { Component      }   from './Component';
+import { GameObject     }   from './GameObject';
+import { Matrix4x4      }   from './Matrix4x4';
+import { Quaternion     }   from './Quaternion';
+import { Vector3        }   from './Vector3';
 
 /**
  * Position, rotation and scale of an object.
@@ -19,7 +24,7 @@ import { Vector3                    }   from './Vector3';
  * @class Transform
  * @extends {Component}
  */
-export class Transform extends Component implements ITransform {
+export class Transform extends Component {
 
     // [ Public Static Variables ]
 

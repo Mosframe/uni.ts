@@ -4,13 +4,12 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import *                as GL           from './Graphic';
-import { Light          as ILight   }   from './Interfaces';
-import { Behaviour                  }   from './Behaviour';
-import { GameObject                 }   from './GameObject';
-import { LightType                  }   from './LightType';
-import { Serializable               }   from './Serializable';
-import { Ubject                     }   from '../Engine/Ubject';
+import * as GL              from './Graphic';
+import { Behaviour      }   from './Behaviour';
+import { GameObject     }   from './GameObject';
+import { LightType      }   from './LightType';
+import { Serializable   }   from './Serializable';
+import { Ubject         }   from '../Engine/Ubject';
 
 /**
  * Script interface for light components.
@@ -21,7 +20,7 @@ import { Ubject                     }   from '../Engine/Ubject';
  * @class Light
  * @extends {Behaviour}
  */
-export class Light extends Behaviour implements ILight {
+export class Light extends Behaviour {
 
     // [ Public Variables ]
 

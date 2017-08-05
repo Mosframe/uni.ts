@@ -4,15 +4,14 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import deprecated                       from 'deprecated-decorator';
-import                  * as uuid       from 'uuid';
-import                  * as GL         from './Graphic';
-import { Ubject         as IUbject  }   from './Interfaces';
-import { using                      }   from './Interfaces';
-import { IDisposable                }   from './Interfaces';
-import { Serializable               }   from './Serializable';
-import { serializable               }   from './Serializable';
-import { Util                       }   from './Util';
+import deprecated           from 'deprecated-decorator';
+import * as uuid            from 'uuid';
+import * as GL              from './Graphic';
+import { using          }   from './Interfaces';
+import { IDisposable    }   from './Interfaces';
+import { Serializable   }   from './Serializable';
+import { serializable   }   from './Serializable';
+import { Util           }   from './Util';
 
 /**
  * Base class for all objects Uni.ts can reference.
@@ -20,7 +19,7 @@ import { Util                       }   from './Util';
  * @export
  * @class Ubject
  */
-export class Ubject extends Object implements IDisposable, IUbject  {
+export class Ubject extends Object implements IDisposable  {
 
     // [ Public Variables ]
 

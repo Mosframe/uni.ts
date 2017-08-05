@@ -28,7 +28,7 @@ if( CONST.PROFILE ) {
             let profile = Profiler.stopProfiling(name);
             // write to file
             profile.export((error,result)=>{
-                FileStream.writeFile('./profiles/uni.ts.server.'+Date.nowToLog()+'.cpuprofile', result );
+                FileStream.writeFile('./profiles/uni.ts.server.'+Date.nowToLog()+'.cpuprofile', result, (err:any)=>{} );
                 profile.delete();
                 console.log('Profile saved.');
             });

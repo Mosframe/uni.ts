@@ -4,11 +4,10 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import *                as GL               from './Graphic';
-import { Geometry       as IGeometry    }   from './Interfaces';
-import { PrimitiveType                  }   from './PrimitiveType';
-import { Serializable                   }   from './Serializable';
-import { Ubject                         }   from './Ubject';
+import * as GL              from './Graphic';
+import { PrimitiveType  }   from './PrimitiveType';
+import { Serializable   }   from './Serializable';
+import { Ubject         }   from './Ubject';
 
 /**
  * Geometry
@@ -17,7 +16,7 @@ import { Ubject                         }   from './Ubject';
  * @class Geometry
  * @extends {Ubject}
  */
-export class Geometry extends Ubject implements IGeometry {
+export class Geometry extends Ubject {
 
     // [ Public Variables ]
 

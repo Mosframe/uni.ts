@@ -46,6 +46,7 @@
     "@types/v8-profiler": "0.0.5",
     "faucet": "0.0.1",
     "tape": "^4.7.0",
+    "ts-node": "^3.3.0",
     "tsify": "^3.0.1",
     "v8-profiler": "^5.7.0"
   },

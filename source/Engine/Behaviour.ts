@@ -4,10 +4,9 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import *            as GL               from './Graphic';
-import { Behaviour  as IBehaviour   }   from './Interfaces';
-import { Transform  as ITransform   }   from './Interfaces';
-import { Component                  }   from './Component';
+import * as GL          from './Graphic';
+import { Transform  }   from './Transform';
+import { Component  }   from './Component';
 
 /**
  * Behaviours are Components that can be enabled or disabled.
@@ -16,7 +15,7 @@ import { Component                  }   from './Component';
  * @class Behaviour
  * @extends {Component}
  */
-export class Behaviour extends Component implements IBehaviour  {
+export class Behaviour extends Component {
 
     // [ Public Variables ]
 
@@ -31,7 +30,7 @@ export class Behaviour extends Component implements IBehaviour  {
      * @type {Transform}
      * @memberof Component
      */
-    get transform() : ITransform { return this.gameObject.transform; }
+    get transform() : Transform { return this.gameObject.transform; }
 
     // [ Constructors ]
 }

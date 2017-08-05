@@ -4,12 +4,11 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import *                as GL               from './Graphic';
-import { Material       as IMaterial    }   from './Interfaces';
-import { Color                          }   from './Color';
-import { ShaderType                     }   from './ShaderType';
-import { Serializable                   }   from './Serializable';
-import { Ubject                         }   from './Ubject';
+import * as GL              from './Graphic';
+import { Color          }   from './Color';
+import { ShaderType     }   from './ShaderType';
+import { Serializable   }   from './Serializable';
+import { Ubject         }   from './Ubject';
 
 /**
  * The material class.
@@ -25,7 +24,7 @@ import { Ubject                         }   from './Ubject';
  * @extends {Ubject}
  * @implements {IMaterial}
  */
-export class Material extends Ubject implements IMaterial {
+export class Material extends Ubject {
 
     // [ Public Variables ]
 

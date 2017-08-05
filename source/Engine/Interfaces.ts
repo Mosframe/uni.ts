@@ -15,7 +15,11 @@ import { Vector3                }   from './Vector3';
 
 export * from './Using';
 
+export interface ComponentType<T> {
+    new():T;
+}
 
+/*
 export interface Behaviour extends Component {
     //transform : Transform;
 }
@@ -27,9 +31,6 @@ export interface Component extends Ubject {
     //core : GL.Object3D;
     gameObject : GameObject;
     //getComponent<T extends Component>( type:ComponentType<T> ) : T|undefined;
-}
-export interface ComponentType<T> {
-    new():T;
 }
 export interface GameObject extends Ubject {
     core : GL.Object3D;
@@ -109,3 +110,4 @@ export interface Ubject {
     //getInstanceID () : number;
     //toString () : string;
 }
+*/

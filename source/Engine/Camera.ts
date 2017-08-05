@@ -1,7 +1,12 @@
-import *            as GL           from './Graphic';
-import { Camera     as ICamera  }   from './Interfaces';
-import { Behaviour              }   from './Behaviour';
-import { Vector3                }   from './Vector3';
+/**
+ * Camera.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
+import * as GL         from './Graphic';
+import { Behaviour }   from './Behaviour';
+import { Vector3   }   from './Vector3';
 
 
 /**
@@ -18,7 +23,7 @@ import { Vector3                }   from './Vector3';
  * @class Camera
  * @extends {Behaviour}
  */
-export class Camera extends Behaviour implements ICamera {
+export class Camera extends Behaviour {
 
     // [ Public Delegates ]
 

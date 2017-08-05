@@ -17,7 +17,7 @@
         "noImplicitReturns" : false,
         "removeComments": false,
         "baseUrl": ".",
-        "allowJs": true,
+        "allowJs": false,
         "declaration": true,
         "charset": "utf8",
         "typeRoots":[

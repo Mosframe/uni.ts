@@ -4,12 +4,11 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import *                as GL               from './Graphic';
-import { ComponentType                  }   from './Interfaces';
-import { Component      as IComponent   }   from './Interfaces';
-import { GameObject     as IGameObject  }   from './Interfaces';
-import { Serializable                   }   from './Serializable';
-import { Ubject                         }   from './Ubject';
+import * as GL              from './Graphic';
+import { ComponentType  }   from './Interfaces';
+import { GameObject     }   from './GameObject';
+import { Serializable   }   from './Serializable';
+import { Ubject         }   from './Ubject';
 
 /**
  * Base class for everything attached to GameObjects.
@@ -22,7 +21,7 @@ import { Ubject                         }   from './Ubject';
  * @class Temp
  * @extends {Ubject}
  */
-export class Component extends Ubject implements IComponent {
+export class Component extends Ubject {
 
     // [ Public Variables ]
 
@@ -32,8 +31,8 @@ export class Component extends Ubject implements IComponent {
      * @type {GameObject}
      * @memberof Component
      */
-    get gameObject () : IGameObject      { return this._gameObject; }
-    set gameObject (value:IGameObject)   { this._gameObject=value; }
+    get gameObject () : GameObject      { return this._gameObject; }
+    set gameObject (value:GameObject)   { this._gameObject=value; }
     /*
     tag	The tag of this game object.
     */
@@ -44,7 +43,7 @@ export class Component extends Ubject implements IComponent {
     BroadcastMessage	Calls the method named methodName on every MonoBehaviour in this game object or any of its children.
     CompareTag	Is this game object tagged with tag ?
     */
-    getComponent<T extends IComponent>( type:ComponentType<T> ) : T|undefined {
+    getComponent<T extends Component>( type:ComponentType<T> ) : T|undefined {
         return this.gameObject.getComponent( type );
     }
     //	Returns the component of Type type if the game object has one attached, null if it doesn't.
@@ -70,7 +69,7 @@ export class Component extends Ubject implements IComponent {
 
     // [ Protected Varriables ]
     //@Serializable
-    protected _gameObject:IGameObject;
+    protected _gameObject:GameObject;
 
     // [ Protected Functions ]
 

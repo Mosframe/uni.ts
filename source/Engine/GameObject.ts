@@ -4,24 +4,23 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import *                as GL                   from '../Engine/Graphic';
-import { GameObject     as IGameObject      }   from './Interfaces';
-import { Component      as IComponent       }   from './Interfaces';
-import { Scene          as IScene           }   from './Interfaces';
-import { Transform      as ITransform       }   from './Interfaces';
-import { ComponentType                      }   from './Interfaces';
-import { Activator                          }   from './Activator';
-import { Color                              }   from './Color';
-import { Geometry                           }   from './Geometry';
-import { Material                           }   from './Material';
-import { Mesh                               }   from './Mesh';
-import { MeshStandardMaterial               }   from './MeshStandardMaterial';
-import { PrimitiveType                      }   from './PrimitiveType';
-import { SceneManager                       }   from './SceneManager';
-import { Serializable                       }   from './Serializable';
-import { ShaderType                         }   from './ShaderType';
-import { Ubject                             }   from './Ubject';
-import { Vector3                            }   from './Vector3';
+import * as GL                      from '../Engine/Graphic';
+import { ComponentType          }   from './Interfaces';
+import { Component              }   from './Component';
+import { Scene                  }   from './Scene';
+import { Transform              }   from './Transform';
+import { Activator              }   from './Activator';
+import { Color                  }   from './Color';
+import { Geometry               }   from './Geometry';
+import { Material               }   from './Material';
+import { Mesh                   }   from './Mesh';
+import { MeshStandardMaterial   }   from './MeshStandardMaterial';
+import { PrimitiveType          }   from './PrimitiveType';
+import { SceneManager           }   from './SceneManager';
+import { Serializable           }   from './Serializable';
+import { ShaderType             }   from './ShaderType';
+import { Ubject                 }   from './Ubject';
+import { Vector3                }   from './Vector3';
 
 
 /**
@@ -31,7 +30,7 @@ import { Vector3                            }   from './Vector3';
  * @class GameObject
  * @extends {Ubject}
  */
-export class GameObject extends Ubject implements IGameObject {
+export class GameObject extends Ubject {
 
     // [ Public Variables ]
 
@@ -54,11 +53,11 @@ export class GameObject extends Ubject implements IGameObject {
     */
     get name () : string        { return this._name; }
     set name ( value:string )   { this._name = value; if(this.core!==undefined) this.core.name = this._name; }
-    get scene() : IScene        { return this._scene; }
+    get scene() : Scene        { return this._scene; }
     /*
     tag	The tag of this game object.
     */
-    get transform () : ITransform { return this._transform; }
+    get transform () : Transform { return this._transform; }
 
 
     // [ Public Functions ]
@@ -71,7 +70,7 @@ export class GameObject extends Ubject implements IGameObject {
      * @returns {T}
      * @memberof GameObject
      */
-    addComponent<T extends IComponent>( type:ComponentType<T> ) : T {
+    addComponent<T extends Component>( type:ComponentType<T> ) : T {
 
         // [ instance ]
         let instance = new type();
@@ -87,10 +86,10 @@ export class GameObject extends Ubject implements IGameObject {
      * @returns {Component}
      * @memberof GameObject
      */
-    addComponent2( componentName:string ) : IComponent {
+    addComponent2( componentName:string ) : Component {
 
         // [ instance ]
-        let activator = new Activator<IComponent>(window);
+        let activator = new Activator<Component>(window);
         let instance = activator.createInstance( componentName, this );
         instance.gameObject = this;
 
@@ -111,7 +110,7 @@ export class GameObject extends Ubject implements IGameObject {
      * @returns {T}
      * @memberof GameObject
      */
-    getComponent<T extends IComponent>( type:ComponentType<T> ) : T|undefined {
+    getComponent<T extends Component>( type:ComponentType<T> ) : T|undefined {
         for( let component of this._components ) {
             if( component instanceof type ) {
                 return <T>component;
@@ -125,7 +124,7 @@ export class GameObject extends Ubject implements IGameObject {
      * @returns {(Component|undefined)}
      * @memberof GameObject
      */
-    getComponent2( componentName:string ) : IComponent|undefined {
+    getComponent2( componentName:string ) : Component|undefined {
         for( let component of this._components ) {
             if( component.constructor.name === componentName ) {
                 return component;
@@ -145,7 +144,7 @@ export class GameObject extends Ubject implements IGameObject {
      * @param {Component} component
      * @memberof GameObject
      */
-    removeComponent ( component:IComponent ) {
+    removeComponent ( component:Component ) {
         let index = this._components.indexOf( component );
         if( index > -1 ) {
             this._components.splice(index,1);
@@ -284,11 +283,11 @@ export class GameObject extends Ubject implements IGameObject {
     // [ Protected Variables ]
 
     //@Serializable
-    protected _components       : IComponent[] = [];
+    protected _components       : Component[] = [];
     //@Serializable
-    protected _transform        : ITransform;
+    protected _transform        : Transform;
     //@Serializable
-    protected _scene            : IScene;
+    protected _scene            : Scene;
     //@Serializable
     protected _core             : GL.Object3D;
 }

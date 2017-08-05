@@ -4,11 +4,10 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import *                as GL           from './Graphic';
-import { Mesh           as IMesh    }   from './Interfaces';
-import { Ubject                     }   from './Ubject';
-import { Geometry                   }   from './Geometry';
-import { Serializable               }   from './Serializable';
+import * as GL              from './Graphic';
+import { Ubject         }   from './Ubject';
+import { Geometry       }   from './Geometry';
+import { Serializable   }   from './Serializable';
 
 /**
  * A class that allows creating or modifying meshes from scripts.
@@ -18,7 +17,7 @@ import { Serializable               }   from './Serializable';
  * @extends {Ubject}
  * @implements {IMesh}
  */
-export class Mesh extends Ubject implements IMesh {
+export class Mesh extends Ubject {
 
     // [ Public Variables ]
 

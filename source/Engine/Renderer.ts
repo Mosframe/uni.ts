@@ -4,16 +4,15 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import *                        as GL               from './Graphic';
-import { Renderer               as IRenderer    }   from './Interfaces';
-import { Component                              }   from './Component';
-import { GameObject                             }   from './GameObject';
-import { Material                               }   from './Material';
-import { MeshLambertMaterial                    }   from './MeshLambertMaterial';
-import { MeshFilter                             }   from './MeshFilter';
-import { Serializable                           }   from './Serializable';
-import { ShadowCastingMode                      }   from './Rendering/ShadowCastingMode';
-import { ShaderType                             }   from './ShaderType';
+import * as GL                      from './Graphic';
+import { Component              }   from './Component';
+import { GameObject             }   from './GameObject';
+import { Material               }   from './Material';
+import { MeshLambertMaterial    }   from './MeshLambertMaterial';
+import { MeshFilter             }   from './MeshFilter';
+import { Serializable           }   from './Serializable';
+import { ShadowCastingMode      }   from './Rendering/ShadowCastingMode';
+import { ShaderType             }   from './ShaderType';
 
 
 /**
@@ -27,7 +26,7 @@ import { ShaderType                             }   from './ShaderType';
  * @extends {Component}
  * @implements {IRenderer}
  */
-export class Renderer extends Component implements IRenderer {
+export class Renderer extends Component {
 
     // [ Public Variables ]
 
