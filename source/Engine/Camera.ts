@@ -1,7 +1,6 @@
 import *            as GL           from './Graphic';
 import { Camera     as ICamera  }   from './Interfaces';
 import { Behaviour              }   from './Behaviour';
-import { GameObject             }   from './GameObject';
 import { Vector3                }   from './Vector3';
 
 

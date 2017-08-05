@@ -73,7 +73,7 @@ export class Material extends Ubject implements IMaterial {
 
     // [ Protected Variables ]
 
-    @Serializable
+    //@Serializable
     protected _core : GL.Material;
 
     // [ Protected Functions ]

@@ -6,10 +6,8 @@
 
 import *            as GL               from './Graphic';
 import { Behaviour  as IBehaviour   }   from './Interfaces';
+import { Transform  as ITransform   }   from './Interfaces';
 import { Component                  }   from './Component';
-import { GameObject                 }   from './GameObject';
-import { Transform                  }   from './Interfaces';
-import { Ubject                     }   from './Ubject';
 
 /**
  * Behaviours are Components that can be enabled or disabled.
@@ -33,7 +31,7 @@ export class Behaviour extends Component implements IBehaviour  {
      * @type {Transform}
      * @memberof Component
      */
-    get transform() : Transform { return this.gameObject.transform; }
+    get transform() : ITransform { return this.gameObject.transform; }
 
     // [ Constructors ]
 }

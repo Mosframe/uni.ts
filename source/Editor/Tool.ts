@@ -18,9 +18,9 @@ import { Loader      	} 	from './Loader';
 import { Storage     	} 	from './Storage';
 import { Command     	} 	from './Commands/Command';
 
-import { Ubject     	}   from '../Engine/Ubject';
+import { Ubject			}   from '../Engine/Ubject';
 import { GameObject     }   from '../Engine/GameObject';
-import { Scene     		}   from '../Engine/Scene';
+import { Scene			}   from '../Engine/Scene';
 import { SceneManager	}	from '../Engine/SceneManager';
 
 /**

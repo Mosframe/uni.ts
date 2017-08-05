@@ -5,7 +5,6 @@
  */
 
 import *        as GL           from './Graphic';
-import { Scene  as IScene   }   from './Interfaces';
 import { Scene              }   from './Scene';
 import { Ubject             }   from './Ubject';
 
@@ -43,7 +42,7 @@ export class SceneManager {
      *
      * @memberof SceneManager
      */
-    static getActiveScene() : IScene {
+    static getActiveScene() : Scene {
         return SceneManager._activeScene;
     }
     /*
@@ -66,7 +65,7 @@ export class SceneManager {
         this._activeScene = scene;
     }
     // 임시
-    static loadScene2( scene:IScene ){
+    static loadScene2( scene:Scene ){
         this._activeScene = scene;
     }
     /*
@@ -93,7 +92,7 @@ export class SceneManager {
 
     // [ Protected Static Variables ]
 
-    protected static _activeScene : IScene;
+    protected static _activeScene : Scene;
 
     // [ Protected Static Functions ]
 }

@@ -185,7 +185,7 @@ export class Scene {
 
     // [ Protected Functions ]
 
-    @Serializable
+    //@Serializable
     protected _core : GL.Scene;
     //protected _gameObjects:{[uuid:string]:GameObject} = {}; // all gameObjects in scene
 }

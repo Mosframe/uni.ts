@@ -1,1 +1,0 @@
-console.error("TypeScript error: source/engine/gameobject.ts(298,74): Error TS1005: ')' expected.");

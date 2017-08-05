@@ -5,11 +5,10 @@
  */
 
 import *                as GL               from './Graphic';
-import { Component      as IComponent   }   from './Interfaces';
 import { ComponentType                  }   from './Interfaces';
-import { GameObject                     }   from './GameObject';
+import { Component      as IComponent   }   from './Interfaces';
+import { GameObject     as IGameObject  }   from './Interfaces';
 import { Serializable                   }   from './Serializable';
-import { Transform                      }   from './Transform';
 import { Ubject                         }   from './Ubject';
 
 /**
@@ -28,21 +27,13 @@ export class Component extends Ubject implements IComponent {
     // [ Public Variables ]
 
     /**
-     * get GL.Object3D
-     *
-     * @readonly
-     * @type {GL.Object3D}
-     * @memberof Component
-     */
-    get core() : GL.Object3D { return this.gameObject.core; }
-    /**
      * The game object this component is attached to. A component is always attached to a game object.
      *
      * @type {GameObject}
      * @memberof Component
      */
-    get gameObject () : GameObject      { return this._gameObject; }
-    set gameObject (value:GameObject)   { this._gameObject=value; }
+    get gameObject () : IGameObject      { return this._gameObject; }
+    set gameObject (value:IGameObject)   { this._gameObject=value; }
     /*
     tag	The tag of this game object.
     */
@@ -53,7 +44,7 @@ export class Component extends Ubject implements IComponent {
     BroadcastMessage	Calls the method named methodName on every MonoBehaviour in this game object or any of its children.
     CompareTag	Is this game object tagged with tag ?
     */
-    getComponent<T extends Component>( type:ComponentType<T> ) : T|undefined {
+    getComponent<T extends IComponent>( type:ComponentType<T> ) : T|undefined {
         return this.gameObject.getComponent( type );
     }
     //	Returns the component of Type type if the game object has one attached, null if it doesn't.
@@ -78,8 +69,8 @@ export class Component extends Ubject implements IComponent {
     }
 
     // [ Protected Varriables ]
-    @Serializable
-    protected _gameObject:GameObject;
+    //@Serializable
+    protected _gameObject:IGameObject;
 
     // [ Protected Functions ]
 

@@ -171,9 +171,9 @@ export class Renderer extends Component implements IRenderer {
 
     // [ Private Variables ]
 
-    @Serializable
+    //@Serializable
     private _shadowCastingMode  : ShadowCastingMode;
-    @Serializable
+    //@Serializable
     private _sharedMaterials    : Material[] = [];
 
 

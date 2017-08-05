@@ -64,7 +64,7 @@ export class MeshFilter extends Component implements IMeshFilter {
 
     // [ Private Variables ]
 
-    @Serializable
+    //@Serializable
     private _sharedMesh : Mesh;
 
     // [ Protected Functions ]

@@ -102,9 +102,9 @@ export class Mesh extends Ubject implements IMesh {
 
     // [ Protected Variables ]
 
-    @Serializable
+    //@Serializable
     protected _core     : GL.Mesh;
-    @Serializable
+    //@Serializable
     protected _geometry : Geometry;
 
     // [ Protected Functions ]

@@ -4,26 +4,24 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import *            as GL               from '../Engine/Graphic';
-import { GameObject as IGameObject  }   from './Interfaces';
-import { Scene      as IScene       }   from './Interfaces';
-import { Activator                  }   from './Activator';
-import { Color                      }   from './Color';
-import { Component                  }   from './Component';
-import { ComponentType              }   from './Interfaces';
-import { Geometry                   }   from './Geometry';
-import { Material                   }   from './Material';
-import { Mesh                       }   from './Mesh';
-import { MeshFilter                 }   from './Interfaces';
-import { MeshRenderer               }   from './Interfaces';
-import { MeshStandardMaterial       }   from './MeshStandardMaterial';
-import { PrimitiveType              }   from './PrimitiveType';
-import { SceneManager               }   from './SceneManager';
-import { Serializable               }   from './Serializable';
-import { ShaderType                 }   from './ShaderType';
-import { Transform                  }   from './Interfaces';
-import { Ubject                     }   from './Ubject';
-import { Vector3                    }   from './Vector3';
+import *                as GL                   from '../Engine/Graphic';
+import { GameObject     as IGameObject      }   from './Interfaces';
+import { Component      as IComponent       }   from './Interfaces';
+import { Scene          as IScene           }   from './Interfaces';
+import { Transform      as ITransform       }   from './Interfaces';
+import { ComponentType                      }   from './Interfaces';
+import { Activator                          }   from './Activator';
+import { Color                              }   from './Color';
+import { Geometry                           }   from './Geometry';
+import { Material                           }   from './Material';
+import { Mesh                               }   from './Mesh';
+import { MeshStandardMaterial               }   from './MeshStandardMaterial';
+import { PrimitiveType                      }   from './PrimitiveType';
+import { SceneManager                       }   from './SceneManager';
+import { Serializable                       }   from './Serializable';
+import { ShaderType                         }   from './ShaderType';
+import { Ubject                             }   from './Ubject';
+import { Vector3                            }   from './Vector3';
 
 
 /**
@@ -60,7 +58,7 @@ export class GameObject extends Ubject implements IGameObject {
     /*
     tag	The tag of this game object.
     */
-    get transform () : Transform { return this._transform; }
+    get transform () : ITransform { return this._transform; }
 
 
     // [ Public Functions ]
@@ -73,7 +71,7 @@ export class GameObject extends Ubject implements IGameObject {
      * @returns {T}
      * @memberof GameObject
      */
-    addComponent<T extends Component>( type:ComponentType<T> ) : T {
+    addComponent<T extends IComponent>( type:ComponentType<T> ) : T {
 
         // [ instance ]
         let instance = new type();
@@ -89,10 +87,10 @@ export class GameObject extends Ubject implements IGameObject {
      * @returns {Component}
      * @memberof GameObject
      */
-    addComponentByName( componentName:string ) : Component {
+    addComponent2( componentName:string ) : IComponent {
 
         // [ instance ]
-        let activator = new Activator<Component>(window);
+        let activator = new Activator<IComponent>(window);
         let instance = activator.createInstance( componentName, this );
         instance.gameObject = this;
 
@@ -113,7 +111,7 @@ export class GameObject extends Ubject implements IGameObject {
      * @returns {T}
      * @memberof GameObject
      */
-    getComponent<T extends Component>( type:ComponentType<T> ) : T|undefined {
+    getComponent<T extends IComponent>( type:ComponentType<T> ) : T|undefined {
         for( let component of this._components ) {
             if( component instanceof type ) {
                 return <T>component;
@@ -127,7 +125,7 @@ export class GameObject extends Ubject implements IGameObject {
      * @returns {(Component|undefined)}
      * @memberof GameObject
      */
-    getComponentByName( componentName:string ) : Component|undefined {
+    getComponent2( componentName:string ) : IComponent|undefined {
         for( let component of this._components ) {
             if( component.constructor.name === componentName ) {
                 return component;
@@ -147,13 +145,13 @@ export class GameObject extends Ubject implements IGameObject {
      * @param {Component} component
      * @memberof GameObject
      */
-    removeComponent ( component:Component ) {
+    removeComponent ( component:IComponent ) {
         let index = this._components.indexOf( component );
         if( index > -1 ) {
             this._components.splice(index,1);
         }
     }
-    removeComponentByName ( componentName:string ) {
+    removeComponent2 ( componentName:string ) {
         let components = this._components.filter( t => t.name == componentName );
         for( let component of components ) {
             this.removeComponent( component );
@@ -221,10 +219,10 @@ export class GameObject extends Ubject implements IGameObject {
 
         mesh.geometry = geometry;
 
-        let meshFiler = gameObject.addComponent( window['UNITS']['MeshFilter'] );
+        let meshFiler = gameObject.addComponent2( 'MeshFilter' );
         meshFiler['sharedMesh'] = mesh;
 
-        let renderer = gameObject.addComponent( window['UNITS']['MeshRenderer'] );
+        let renderer = gameObject.addComponent2( 'MeshRenderer' );
         renderer['sharedMaterial'] = material;
 
         // Y축이 위로 향하도록 축을 회전
@@ -232,7 +230,7 @@ export class GameObject extends Ubject implements IGameObject {
             gameObject._transform.core.rotation.x = -0.5 * Math.PI;
             //let eulerAngles = gameObject.transform.eulerAngles;
             //gameObject.transform.eulerAngles = new Vector3(-0.5 * Math.PI, eulerAngles.y, eulerAngles.z );
-            meshFiler.core.receiveShadow = true;
+            //meshFiler.core.receiveShadow = true;
         }
 
         return gameObject;
@@ -279,19 +277,19 @@ export class GameObject extends Ubject implements IGameObject {
 
         // [ components ]
         for( let componentName of componentNames ) {
-            this.addComponentByName( componentName );
+            this.addComponent2( componentName );
         }
     }
 
     // [ Protected Variables ]
 
-    @Serializable
-    protected _components       : Component[] = [];
-    @Serializable
-    protected _transform        : Transform;
-    @Serializable
+    //@Serializable
+    protected _components       : IComponent[] = [];
+    //@Serializable
+    protected _transform        : ITransform;
+    //@Serializable
     protected _scene            : IScene;
-    @Serializable
+    //@Serializable
     protected _core             : GL.Object3D;
 }
 window['UNITS'][GameObject.name]=GameObject;
