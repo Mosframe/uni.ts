@@ -236,6 +236,8 @@ export class Ubject extends Object implements IDisposable  {
     protected       _avaliable      : boolean;
     protected       _instanceID     : number;
 
+    // [ Private Static Variables ]
+
     private static  _instanceID_    : number = 0;
 
 
