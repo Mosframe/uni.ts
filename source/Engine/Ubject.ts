@@ -242,7 +242,7 @@ export class Ubject extends Object implements IDisposable  {
 
 
     /**
-     * serialize
+     * serialize ( 공사중 )
      *
      * @static
      * @param {any} module
@@ -330,7 +330,7 @@ export class Ubject extends Object implements IDisposable  {
         return output;
     }
     /**
-     * deserialize
+     * deserialize ( 공사중 )
      *
      * @static
      * @param {*} module
