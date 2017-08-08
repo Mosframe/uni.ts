@@ -81,4 +81,3 @@ export class Material extends Ubject {
         this._core = new GL.Material();
     }
 }
-window['UNITS'][Material.name]=Material;

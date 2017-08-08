@@ -100,4 +100,3 @@ export class Shader extends Ubject {
 
     // [ Protected Static Functions ]
 }
-window['UNITS'][Shader.name]=Shader;

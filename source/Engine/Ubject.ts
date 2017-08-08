@@ -125,7 +125,7 @@ export class Ubject extends Object implements IDisposable  {
         for( let uuid of uuids ) {
             let obj = this._ubjects[uuid];
             if( obj !== undefined ) {
-                this._serialize( window['UNITS'], obj, meta );
+                this._serialize( window, obj, meta );
             }
         }
 
@@ -146,7 +146,7 @@ export class Ubject extends Object implements IDisposable  {
     static deserialize (meta:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) : any {
         this.clearAll();
         for( let uuid in meta.ubjects ) {
-            this._ubjects[uuid] = this._deserialize( window['UNITS'], undefined, meta.ubjects[uuid], meta, object3Ds );
+            this._ubjects[uuid] = this._deserialize( window, undefined, meta.ubjects[uuid], meta, object3Ds );
         }
         this.validate();
     }
@@ -163,7 +163,7 @@ export class Ubject extends Object implements IDisposable  {
         this.validate();
         meta.ubjects = {};
         for( let c in this._ubjects ) {
-            this._serialize( window['UNITS'], Ubject._ubjects[c], meta );
+            this._serialize( window, Ubject._ubjects[c], meta );
         }
         return meta;
     }
@@ -228,9 +228,9 @@ export class Ubject extends Object implements IDisposable  {
 
     // [ Protected Variables ]
 
-    @Serializable
+    //@Serializable
     protected       _name           : string;
-    @Serializable
+    //@Serializable
     protected       _uuid           : string;
 
     protected       _avaliable      : boolean;
@@ -409,4 +409,3 @@ export class Ubject extends Object implements IDisposable  {
         return target;
     }
 }
-window['UNITS'][Ubject.name]=Ubject;

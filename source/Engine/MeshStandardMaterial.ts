@@ -52,4 +52,3 @@ export class MeshStandardMaterial extends Material {
         this._core = new GL.MeshStandardMaterial();
     }
 }
-window['UNITS'][MeshStandardMaterial.name]=MeshStandardMaterial;

@@ -1,4 +1,10 @@
 /**
+ * Activator.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
+ /**
  * Activator
  *
  * @example {
@@ -8,12 +14,11 @@
  * var example = activator.createInstance('ClassA');
  *
  * }
- * @author mosframe / https://github.com/mosframe
  * @export
  * @class Activator
  * @template T
  */
-export class Activator<T> {
+export class Activator {
 
     // [ Constructors ]
 
@@ -22,13 +27,12 @@ export class Activator<T> {
 
     // [ Public Functions ]
 
-    createInstance( name:string, ...args: any[] ) : T {
+    createInstance<T>( name:string, ...args: any[] ) : T {
         var instance = Object.create(this.context[name].prototype);
         instance.constructor.apply(instance, args);
         return <T> instance;
     }
 }
-window['UNITS'][Activator.name]=Activator;
-
-
+/** global activator */
+export let activator = new Activator(window);
 

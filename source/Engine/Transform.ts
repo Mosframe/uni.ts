@@ -112,4 +112,3 @@ export class Transform extends Component {
     */
 
 }
-window['UNITS'][Transform.name]=Transform;

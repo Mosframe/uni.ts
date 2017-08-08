@@ -115,4 +115,3 @@ export class Script extends Behaviour {
     Update	Update is called every frame, if the MonoBehaviour is enabled.
     */
 }
-window['UNITS'][Script.name]=Script;

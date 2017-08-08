@@ -175,6 +175,4 @@ export class Camera extends Behaviour {
         camera.lookAt( Vector3.zero );
         this.gameObject.core = camera;
     }
-
 }
-window['UNITS'][Camera.name]=Camera;

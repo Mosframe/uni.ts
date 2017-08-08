@@ -90,4 +90,3 @@ export class Color extends GL.Color{
     */
 
 }
-window['UNITS'][Color.name]=Color;

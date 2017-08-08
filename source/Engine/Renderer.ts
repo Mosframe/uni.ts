@@ -185,4 +185,3 @@ export class Renderer extends Component {
         }
     }
 }
-window['UNITS'][Renderer.name]=Renderer;

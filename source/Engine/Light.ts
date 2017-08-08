@@ -91,7 +91,7 @@ export class Light extends Behaviour {
 
     // [ Protected Virtual ]
 
-    @Serializable
+    //@Serializable
     protected _type : LightType;
 
     // [ Protected Functions ]
@@ -155,4 +155,3 @@ export class Light extends Behaviour {
         }
     }
 }
-window['UNITS'][Light.name]=Light;

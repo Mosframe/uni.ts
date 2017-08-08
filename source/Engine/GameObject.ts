@@ -9,7 +9,7 @@ import { ComponentType          }   from './Interfaces';
 import { Component              }   from './Component';
 import { Scene                  }   from './Scene';
 import { Transform              }   from './Transform';
-import { Activator              }   from './Activator';
+import { activator              }   from './Activator';
 import { Color                  }   from './Color';
 import { Geometry               }   from './Geometry';
 import { Material               }   from './Material';
@@ -89,8 +89,7 @@ export class GameObject extends Ubject {
     addComponent2( componentName:string ) : Component {
 
         // [ instance ]
-        let activator = new Activator<Component>(window);
-        let instance = activator.createInstance( componentName, this );
+        let instance = activator.createInstance<Component>( componentName, this );
         instance.gameObject = this;
 
         // [ add components ]
@@ -193,7 +192,7 @@ export class GameObject extends Ubject {
         }
 
         meta.ubjects = {};
-        Ubject._serialize( window['UNITS'], this, meta );
+        Ubject._serialize( window, this, meta );
 
         Ubject.validate();
 
@@ -271,8 +270,7 @@ export class GameObject extends Ubject {
         this._scene = SceneManager.getActiveScene();
 
         // [ transform ]
-        let t = this.addComponent( window['UNITS']['Transform'] );
-        this._transform = Object.assign( this._transform, t );
+        this._transform = this.addComponent( Transform );
 
         // [ components ]
         for( let componentName of componentNames ) {
@@ -291,4 +289,3 @@ export class GameObject extends Ubject {
     //@Serializable
     protected _core             : GL.Object3D;
 }
-window['UNITS'][GameObject.name]=GameObject;

@@ -4,8 +4,6 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-window['UNITS']={};
-
 import * as GL from './Engine/Graphic';
 
 import { UIModal                }   from './Engine/UI/UIModal';

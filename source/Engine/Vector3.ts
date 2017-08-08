@@ -107,4 +107,3 @@ export class Vector3 extends GL.Vector3 {
 
     // [ Protected Static Functions ]
 }
-window['UNITS'][Vector3.name]=Vector3;

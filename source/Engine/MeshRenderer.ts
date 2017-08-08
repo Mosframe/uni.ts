@@ -30,4 +30,3 @@ export class MeshRenderer extends Renderer {
     additionalVertexStreams	Vertex attributes in this mesh will override or add attributes of the primary mesh in the MeshRenderer.
     */
 }
-window['UNITS'][MeshRenderer.name]=MeshRenderer;

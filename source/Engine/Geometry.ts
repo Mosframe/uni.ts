@@ -127,9 +127,8 @@ export class Geometry extends Ubject {
 
     // [ Protected Variables ]
 
-    @Serializable
+    //@Serializable
     protected _core : GL.Geometry|GL.BufferGeometry;
 
     // [ Protected Static Functions ]
 }
-window['UNITS'][Geometry.name]=Geometry;
