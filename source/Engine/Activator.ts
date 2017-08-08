@@ -28,11 +28,11 @@ export class Activator {
     // [ Public Functions ]
 
     createInstance<T>( name:string, ...args: any[] ) : T {
-        var instance = Object.create(this.context[name].prototype);
+        let instance = Object.create(this.context[name].prototype);
         instance.constructor.apply(instance, args);
         return <T> instance;
     }
 }
 /** global activator */
-export let activator = new Activator(window);
+export let activator = new Activator(window['UNITS']);
 

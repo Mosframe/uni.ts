@@ -155,3 +155,4 @@ export class Light extends Behaviour {
         }
     }
 }
+window['UNITS'][Light.name] = Light;

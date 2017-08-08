@@ -96,3 +96,4 @@ export class SceneManager {
 
     // [ Protected Static Functions ]
 }
+window['UNITS'][SceneManager.name] = SceneManager;

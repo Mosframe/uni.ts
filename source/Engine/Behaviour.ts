@@ -34,3 +34,4 @@ export class Behaviour extends Component {
 
     // [ Constructors ]
 }
+window['UNITS'][Behaviour.name] = Behaviour;

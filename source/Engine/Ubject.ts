@@ -7,6 +7,7 @@
 import deprecated           from 'deprecated-decorator';
 import * as uuid            from 'uuid';
 import * as GL              from './Graphic';
+import { activator      }   from './Activator';
 import { using          }   from './Interfaces';
 import { IDisposable    }   from './Interfaces';
 import { Serializable   }   from './Serializable';
@@ -163,7 +164,7 @@ export class Ubject extends Object implements IDisposable  {
         this.validate();
         meta.ubjects = {};
         for( let c in this._ubjects ) {
-            this._serialize( window, Ubject._ubjects[c], meta );
+            this._serialize( window['UNITS'], Ubject._ubjects[c], meta );
         }
         return meta;
     }
@@ -307,16 +308,19 @@ export class Ubject extends Object implements IDisposable  {
                     }
 
                     // [ properties ]
-                    for( let key in target ) {
+                    let s = serializable[target.constructor.name];
 
-                        let propName = serializable[target.constructor.name][key];
+                    for( let key in s ) {
+                        metaObj[key] = this._serialize( module, s[key], meta );
 
-                        if( key[0] !== '_' || propName !== undefined ) {
-                            let val = target[key];
-                            if ( typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
-                                metaObj[key] = this._serialize( module, val, meta );
-                            }
-                        }
+                        //let propName = s[key];
+//
+                        //if( key[0] !== '_' || propName !== undefined ) {
+                        //    let val = target[key];
+                        //    if ( typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
+                        //        metaObj[key] = this._serialize( module, val, meta );
+                        //    }
+                        //}
                     }
                 }
                 output.module = 'UNITS';
@@ -378,6 +382,12 @@ export class Ubject extends Object implements IDisposable  {
 
                 // [ instantiate ]
                 if( target === undefined ) {
+                    target = activator.createInstance( meta.class );
+                    //target = Object.assign( target, meta );
+                    if( target instanceof Ubject ) {
+                        target.uuid = meta._uuid;
+                    }
+                    /*
                     if( meta.class !== undefined ) {
                         if( meta.class in module ) {
                             target = new module[meta.class]();
@@ -387,6 +397,7 @@ export class Ubject extends Object implements IDisposable  {
                             }
                         }
                     }
+                    */
                 }
 
                 if( target === undefined ) {
@@ -409,3 +420,4 @@ export class Ubject extends Object implements IDisposable  {
         return target;
     }
 }
+window['UNITS'][Ubject.name] = Ubject;

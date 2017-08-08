@@ -75,3 +75,4 @@ export class Component extends Ubject {
 
     protected _onChanged () {}
 }
+window['UNITS'][Component.name] = Component;

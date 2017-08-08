@@ -14,10 +14,12 @@ import { Color                  }   from './Color';
 import { Geometry               }   from './Geometry';
 import { Material               }   from './Material';
 import { Mesh                   }   from './Mesh';
+import { MeshFilter             }   from './MeshFilter';
+import { MeshRenderer           }   from './MeshRenderer';
 import { MeshStandardMaterial   }   from './MeshStandardMaterial';
 import { PrimitiveType          }   from './PrimitiveType';
 import { SceneManager           }   from './SceneManager';
-import { Serializable           }   from './Serializable';
+import { serializable           }   from './Serializable';
 import { ShaderType             }   from './ShaderType';
 import { Ubject                 }   from './Ubject';
 import { Vector3                }   from './Vector3';
@@ -170,33 +172,13 @@ export class GameObject extends Ubject {
      */
     toJSON ( meta?:any ) : any {
         let output : any = {};
-        output.link = 'Ubject';
+        output.module = 'UNITS';
         output.uuid = this.uuid;
         return output;
     }
 
     fromJSON ( meta:any ) {
         //this._deserialize( meta );
-    }
-    /**
-     * serialize
-     *
-     * @param {*} meta
-     * @returns {*}
-     * @memberof GameObject
-     */
-    serialize (meta:any) : any {
-
-        for( let uuid in Ubject._ubjects ) {
-            Ubject._ubjects[uuid]['_avaliable'] = false;
-        }
-
-        meta.ubjects = {};
-        Ubject._serialize( window, this, meta );
-
-        Ubject.validate();
-
-        return meta;
     }
 
     /**
@@ -216,6 +198,8 @@ export class GameObject extends Ubject {
         let mesh        = new Mesh();
 
         mesh.geometry = geometry;
+
+        let meshFiler2 = gameObject.addComponent( MeshFilter );
 
         let meshFiler = gameObject.addComponent2( 'MeshFilter' );
         meshFiler['sharedMesh'] = mesh;
@@ -289,3 +273,12 @@ export class GameObject extends Ubject {
     //@Serializable
     protected _core             : GL.Object3D;
 }
+window['UNITS'][GameObject.name] = GameObject;
+
+serializable[GameObject.name] = [
+    '_components',
+    '_transform',
+    '_scene',
+    '_core',
+];
+

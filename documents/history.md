@@ -7,5 +7,7 @@
 ----------------------------------------
 
 
+GameObject.AddComponent2()
+    Activator 에러
 
 

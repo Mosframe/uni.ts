@@ -132,3 +132,4 @@ export class Geometry extends Ubject {
 
     // [ Protected Static Functions ]
 }
+window['UNITS'][Geometry.name] = Geometry;

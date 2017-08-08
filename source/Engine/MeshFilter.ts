@@ -77,3 +77,4 @@ export class MeshFilter extends Component {
         }
     }
 }
+window['UNITS'][MeshFilter.name] = MeshFilter;

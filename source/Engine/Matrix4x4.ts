@@ -42,6 +42,10 @@ export class Matrix4x4 extends GL.Matrix4 {
 
     // [ Constructors ]
 
+    constructor () {
+        super();
+    }
+
     // [ Public Static Functions ]
 
     /*
@@ -87,3 +91,4 @@ export class Matrix4x4 extends GL.Matrix4 {
 
     // [ Protected Static Functions ]
 }
+window['UNITS'][Matrix4x4.name] = Matrix4x4;

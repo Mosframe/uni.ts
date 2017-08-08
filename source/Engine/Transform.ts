@@ -110,5 +110,5 @@ export class Transform extends Component {
     TransformVector	Transforms vector from local space to world space.
     Translate	Moves the transform in the direction and distance of translation.
     */
-
 }
+window['UNITS'][Transform.name] = Transform;

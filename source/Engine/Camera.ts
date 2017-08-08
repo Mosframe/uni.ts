@@ -176,3 +176,4 @@ export class Camera extends Behaviour {
         this.gameObject.core = camera;
     }
 }
+window['UNITS'][Camera.name] = Camera;

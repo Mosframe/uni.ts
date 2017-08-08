@@ -189,3 +189,4 @@ export class Scene {
     protected _core : GL.Scene;
     //protected _gameObjects:{[uuid:string]:GameObject} = {}; // all gameObjects in scene
 }
+window['UNITS'][Scene.name] = Scene;

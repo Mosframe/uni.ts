@@ -78,3 +78,4 @@ export class Quaternion extends GL.Quaternion {
 
     // [ Protected Static Functions ]
 }
+window['UNITS'][Quaternion.name] = Quaternion;
