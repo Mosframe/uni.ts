@@ -13,6 +13,8 @@ import { ShadowCastingMode      }   from './Rendering/ShadowCastingMode';
 import { Vector3                }   from './Vector3';
 
 
+export let Units : {[className:string]:any} = {};
+
 export * from './Using';
 
 export interface ComponentType<T> {

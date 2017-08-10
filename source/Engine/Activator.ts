@@ -4,6 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+
  /**
  * Activator
  *
@@ -33,6 +34,4 @@ export class Activator {
         return <T> instance;
     }
 }
-/** global activator */
-export let activator = new Activator(window['UNITS']);
 

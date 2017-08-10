@@ -12,6 +12,7 @@ import { Mesh           }   from './Mesh';
 import { MeshFilter     }   from './MeshFilter';
 import { Renderer       }   from './Renderer';
 import { ShaderType     }   from './ShaderType';
+import { Ubject         }   from './Ubject';
 
 /**
  * Renders meshes inserted by the MeshFilter or TextMesh.

@@ -9,7 +9,6 @@ import { ComponentType          }   from './Interfaces';
 import { Component              }   from './Component';
 import { Scene                  }   from './Scene';
 import { Transform              }   from './Transform';
-import { activator              }   from './Activator';
 import { Color                  }   from './Color';
 import { Geometry               }   from './Geometry';
 import { Material               }   from './Material';
@@ -91,7 +90,7 @@ export class GameObject extends Ubject {
     addComponent2( componentName:string ) : Component {
 
         // [ instance ]
-        let instance = activator.createInstance<Component>( componentName, this );
+        let instance = new window['UNITS'][componentName]();
         instance.gameObject = this;
 
         // [ add components ]
@@ -199,12 +198,10 @@ export class GameObject extends Ubject {
 
         mesh.geometry = geometry;
 
-        let meshFiler2 = gameObject.addComponent( MeshFilter );
-
-        let meshFiler = gameObject.addComponent2( 'MeshFilter' );
+        let meshFiler = gameObject.addComponent( MeshFilter );
         meshFiler['sharedMesh'] = mesh;
 
-        let renderer = gameObject.addComponent2( 'MeshRenderer' );
+        let renderer = gameObject.addComponent( MeshRenderer );
         renderer['sharedMaterial'] = material;
 
         // Y축이 위로 향하도록 축을 회전

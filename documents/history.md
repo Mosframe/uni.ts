@@ -6,8 +6,8 @@
 
 ----------------------------------------
 
-
-GameObject.AddComponent2()
-    Activator 에러
+Ubject.serialize에서 null이면
+ Util.serialize로 넘기는데
+    scene.parent를 처리하는 과정에서 무한 루프가 걸린다.
 
 

@@ -7,12 +7,14 @@
 import deprecated           from 'deprecated-decorator';
 import * as uuid            from 'uuid';
 import * as GL              from './Graphic';
-import { activator      }   from './Activator';
 import { using          }   from './Interfaces';
 import { IDisposable    }   from './Interfaces';
 import { Serializable   }   from './Serializable';
 import { serializable   }   from './Serializable';
 import { Util           }   from './Util';
+
+
+
 
 /**
  * Base class for all objects Uni.ts can reference.
@@ -126,7 +128,7 @@ export class Ubject extends Object implements IDisposable  {
         for( let uuid of uuids ) {
             let obj = this._ubjects[uuid];
             if( obj !== undefined ) {
-                this._serialize( window, obj, meta );
+                this._serialize( window['UNITS'], obj, meta );
             }
         }
 
@@ -222,7 +224,6 @@ export class Ubject extends Object implements IDisposable  {
     operator ==	Compares two object references to see if they refer to the same object.
     */
 
-
     // [ Protected Static Variables ]
 
     protected static _ubjects   : {[uuid:string]:Ubject} = {};
@@ -308,18 +309,13 @@ export class Ubject extends Object implements IDisposable  {
                     }
 
                     // [ properties ]
-                    let s = serializable[target.constructor.name];
+                    for( let key in target ) {
 
-                    for( let key in s ) {
-                        metaObj[key] = this._serialize( module, s[key], meta );
-
-                        //let propName = s[key];
-//
                         //if( key[0] !== '_' || propName !== undefined ) {
-                        //    let val = target[key];
-                        //    if ( typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
-                        //        metaObj[key] = this._serialize( module, val, meta );
-                        //    }
+                            let val = target[key];
+                            if ( typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
+                                metaObj[key] = this._serialize( module, val, meta );
+                            }
                         //}
                     }
                 }
@@ -382,37 +378,18 @@ export class Ubject extends Object implements IDisposable  {
 
                 // [ instantiate ]
                 if( target === undefined ) {
-                    target = activator.createInstance( meta.class );
-                    //target = Object.assign( target, meta );
+                    target = new window['UNITS'][meta.class]();
                     if( target instanceof Ubject ) {
                         target.uuid = meta._uuid;
                     }
-                    /*
-                    if( meta.class !== undefined ) {
-                        if( meta.class in module ) {
-                            target = new module[meta.class]();
-                            target = Object.assign( target, meta );
-                            if( target instanceof Ubject ) {
-                                target.uuid = meta._uuid;
-                            }
-                        }
+                    if( target === undefined ) {
+                        target = {};
                     }
-                    */
                 }
 
-                if( target === undefined ) {
-                    target = {};
-                    for( let property in meta ) {
-                        if( property !== 'class' ) {
-                            target[property] = this._deserialize( module, target[property], meta[property], metaRoot, object3Ds );
-                        }
-                    }
-                }
-                else {
-                    for( let property in meta ) {
-                        if( property in target ) {
-                            target[property] = this._deserialize( module, target[property], meta[property], metaRoot, object3Ds );
-                        }
+                for( let property in meta ) {
+                    if( property !== 'class' ) {
+                        target[property] = this._deserialize( module, target[property], meta[property], metaRoot, object3Ds );
                     }
                 }
             }

@@ -6,6 +6,7 @@
 
  window['UNITS'] = {};
 
+
 import * as GL from './Engine/Graphic';
 
 import { UIModal                }   from './Engine/UI/UIModal';
@@ -25,6 +26,8 @@ import { RemoveObjectCommand    }   from './Editor/Commands/RemoveObjectCommand'
 
 import { GameObject             }   from './Engine/GameObject';
 import { Util                   }   from './Engine/Util';
+
+import './Engine/Classes';
 
 console.log(window);
 
