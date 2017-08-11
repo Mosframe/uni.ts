@@ -128,7 +128,7 @@ export class Ubject extends Object implements IDisposable  {
         for( let uuid of uuids ) {
             let obj = this._ubjects[uuid];
             if( obj !== undefined ) {
-                this._serialize( window['UNITS'], obj, meta );
+                meta.ubjects[uuid] = this._serialize( window['UNITS'], obj, meta );
             }
         }
 
@@ -152,23 +152,6 @@ export class Ubject extends Object implements IDisposable  {
             this._ubjects[uuid] = this._deserialize( window, undefined, meta.ubjects[uuid], meta, object3Ds );
         }
         this.validate();
-    }
-
-    /**
-     * serialize all
-     *
-     * @static
-     * @param {*} meta
-     * @returns {*}
-     * @memberof Ubject
-     */
-    static serializeAll (meta:any) : any {
-        this.validate();
-        meta.ubjects = {};
-        for( let c in this._ubjects ) {
-            this._serialize( window['UNITS'], Ubject._ubjects[c], meta );
-        }
-        return meta;
     }
 
     /**
@@ -294,17 +277,18 @@ export class Ubject extends Object implements IDisposable  {
             // [ Ubject ]
             if( target instanceof Ubject ) {
 
-                if( meta.ubjects[target.uuid] === undefined ) {
+                output.module = 'UNITS';
+                output.uuid = target.uuid;
 
-                    meta.ubjects[target.uuid] = {};
-                    let metaObj = meta.ubjects[target.uuid];
+                // register
+                if( meta.ubjects[target.uuid] === undefined ) {
+                    meta.ubjects[target.uuid] = output; // 멤버들중에 크로스 참조가 있을수 있으므로 미리등록을 해야 무한루프에 빠지지 않는다.
 
                     // [ class ]
                     if( target.constructor.name in module ) {
-                        metaObj.class = target.constructor.name;
+                        output.class = target.constructor.name;
                         if( target instanceof Ubject ) {
                             target._avaliable = true;
-                            metaObj._uuid = target._uuid;
                         }
                     }
 
@@ -314,17 +298,11 @@ export class Ubject extends Object implements IDisposable  {
                         //if( key[0] !== '_' || propName !== undefined ) {
                             let val = target[key];
                             if ( typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
-                                metaObj[key] = this._serialize( module, val, meta );
+                                output[key] = this._serialize( module, val, meta );
                             }
                         //}
                     }
                 }
-                output.module = 'UNITS';
-                output.uuid = target.uuid;
-            }
-            // [ Serializable object ]
-            else {
-                output = Util.serialize(target,module);
             }
         }
         return output;
@@ -369,27 +347,29 @@ export class Ubject extends Object implements IDisposable  {
             // [ UNITS ]
             if( meta.module === 'UNITS' ) {
 
-                if( !(meta.uuid in this._ubjects) ) {
-                    this._ubjects[meta.uuid] = this._deserialize( module, undefined, metaRoot.ubjects[meta.uuid], metaRoot, object3Ds );
-                }
-                target = this._ubjects[meta.uuid];
-            }
-            else {
+                if( meta.uuid in this._ubjects ) {
+                    target = this._ubjects[meta.uuid];
+                } else {
 
-                // [ instantiate ]
-                if( target === undefined ) {
-                    target = new window['UNITS'][meta.class]();
-                    if( target instanceof Ubject ) {
-                        target.uuid = meta._uuid;
-                    }
+                    // [ instantiate ]
                     if( target === undefined ) {
-                        target = {};
-                    }
-                }
+                        target = new window['UNITS'][meta.class]();
+                        this._ubjects[meta.uuid] = target;
 
-                for( let property in meta ) {
-                    if( property !== 'class' ) {
-                        target[property] = this._deserialize( module, target[property], meta[property], metaRoot, object3Ds );
+                        // this._ubjects에 미리등록을 해야 무한루프에 빠지지 않는다.
+                        //if( target instanceof Ubject ) {
+                        //    target.uuid = meta._uuid;
+                        //}
+
+                        if( target === undefined ) {
+                            target = {};
+                        }
+                    }
+
+                    for( let property in meta ) {
+                        if( property !== 'class' ) {
+                            target[property] = this._deserialize( module, target[property], meta[property], metaRoot, object3Ds );
+                        }
                     }
                 }
             }

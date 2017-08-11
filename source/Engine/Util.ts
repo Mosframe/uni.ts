@@ -62,12 +62,12 @@ export class Util {
             }
 
             for( let key in target ) {
-               //if( key[0] !== '_' ) {
+               if( key[0] !== '_' ) {
                     let val = target[key];
                     if( typeof val !== 'number' || typeof val !== 'string' || typeof val !== 'object' ) {
                         output[key] = this.serialize(val,module);
                     }
-                //}
+                }
             }
         }
         return output;
