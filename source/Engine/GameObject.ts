@@ -4,8 +4,8 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                     }   from '../Engine/Graphic';
-import { ComponentType          }   from './Interfaces';
+import { GL                     }   from './Graphic';
+import { ComponentType          }   from './Type';
 import { Component              }   from './Component';
 import { Scene                  }   from './Scene';
 import { Transform              }   from './Transform';

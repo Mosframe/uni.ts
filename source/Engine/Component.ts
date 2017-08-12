@@ -4,8 +4,8 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL             }   from '../Engine/Graphic';
-import { ComponentType  }   from './Interfaces';
+import { GL             }   from './Graphic';
+import { ComponentType  }   from './Type';
 import { GameObject     }   from './GameObject';
 import { Serializable   }   from './Serializable';
 import { Ubject         }   from './Ubject';

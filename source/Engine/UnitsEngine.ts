@@ -4,9 +4,16 @@
  * @author mosframe / https://github.com/mosframe
  */
 
- window['UNITS'] = {};
+window['UNITS'] = {};
 
+import * as uuid                    from 'uuid';
+export { uuid                   };
+export { deprecated             }   from 'deprecated-decorator';
 export { GL                     }   from './Graphic'
+export { Type                   }   from './Type'
+export { ComponentType          }   from './Type'
+export { using                  }   from './Using';
+export { IDisposable            }   from './Using';
 export { Behaviour              }   from './Behaviour';
 export { Camera                 }   from './Camera';
 export { Color                  }   from './Color';
@@ -29,11 +36,10 @@ export { SceneManager           }   from './SceneManager';
 export { Script                 }   from './Script';
 export { Serializable           }   from './Serializable';
 export { Shader                 }   from './Shader';
-export { ShadowCastingMode      }   from './Rendering/ShadowCastingMode';
+export { ShadowCastingMode      }   from './ShadowCastingMode';
 export { Transform              }   from './Transform';
 export { Ubject                 }   from './Ubject';
 export { Vector3                }   from './Vector3';
-export { Units                  }   from './Interfaces';
 
 
 console.log('UNITS',window['UNITS']);

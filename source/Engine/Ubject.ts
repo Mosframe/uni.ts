@@ -4,18 +4,12 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import deprecated           from 'deprecated-decorator';
-import * as uuid            from 'uuid';
-
 import { GL             }   from './Graphic';
-import { using          }   from './Interfaces';
-import { IDisposable    }   from './Interfaces';
+import { using          }   from './Using';
+import { IDisposable    }   from './Using';
 import { Serializable   }   from './Serializable';
 import { serializable   }   from './Serializable';
 import { Util           }   from './Util';
-
-
-
 
 /**
  * Base class for all objects Uni.ts can reference.

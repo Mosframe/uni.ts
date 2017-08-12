@@ -11,7 +11,7 @@ import { Material               }   from './Material';
 import { MeshLambertMaterial    }   from './MeshLambertMaterial';
 import { MeshFilter             }   from './MeshFilter';
 import { Serializable           }   from './Serializable';
-import { ShadowCastingMode      }   from './Rendering/ShadowCastingMode';
+import { ShadowCastingMode      }   from './ShadowCastingMode';
 import { ShaderType             }   from './ShaderType';
 
 

@@ -5,7 +5,7 @@
  */
 
 import { GL     }   from './Graphic';
-import { Ubject }   from '../Engine/Ubject';
+import { Ubject }   from './Ubject';
 
 /**
  * A standard 4x4 transformation matrix.

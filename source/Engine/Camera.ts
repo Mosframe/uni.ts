@@ -4,9 +4,9 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL        }   from '../Engine/Graphic';
-import { Behaviour }   from './Behaviour';
-import { Vector3   }   from './Vector3';
+import { GL        }   from './UnitsEngine';
+import { Behaviour }   from './UnitsEngine';
+import { Vector3   }   from './UnitsEngine';
 
 
 /**
