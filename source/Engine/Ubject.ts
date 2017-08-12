@@ -43,9 +43,9 @@ export class Ubject extends Object implements IDisposable  {
      */
     get uuid () : string        { return this._uuid; }
     set uuid ( value:string )   {
-        delete Ubject._ubjects[this._uuid];
+        delete Ubject.__ubjects[this._uuid];
         this._uuid=value;
-        Ubject._ubjects[this._uuid] = this
+        Ubject.__ubjects[this._uuid] = this
     }
 
     // [ Constructors ]
@@ -57,10 +57,10 @@ export class Ubject extends Object implements IDisposable  {
      */
     constructor() {
         super();
-        this._avaliable = true;
-        this._instanceID = ++Ubject._instanceID_;
+        this.__avaliable = true;
+        this.__instanceID = Ubject.__nextInstanceID++;
         this._uuid = GL.Math.generateUUID();
-        Ubject._ubjects[this._uuid] = this;
+        Ubject.__ubjects[this._uuid] = this;
     }
 
 
@@ -72,7 +72,7 @@ export class Ubject extends Object implements IDisposable  {
      * @memberof Ubject
      */
     dispose() {
-        delete Ubject._ubjects[this._uuid];
+        delete Ubject.__ubjects[this._uuid];
     }
     /**
      * Returns the instance id of the object.
@@ -80,7 +80,7 @@ export class Ubject extends Object implements IDisposable  {
      * @returns {number}
      * @memberof Ubject
      */
-    getInstanceID () : number { return this._instanceID; }
+    getInstanceID () : number { return this.__instanceID; }
 
     /**
      * Returns the name of the game object.
@@ -114,14 +114,14 @@ export class Ubject extends Object implements IDisposable  {
     static serialize ( meta:any, uuids:string[] ) : any {
 
         // [ reset avaliable flags ]
-        for( let uuid in this._ubjects ) {
-            this._ubjects[uuid]['_avaliable'] = false;
+        for( let uuid in this.__ubjects ) {
+            this.__ubjects[uuid].__avaliable = false;
         }
 
         // [ serialize ]
         meta.ubjects = {};
         for( let uuid of uuids ) {
-            let obj = this._ubjects[uuid];
+            let obj = this.__ubjects[uuid];
             if( obj !== undefined ) {
                 meta.ubjects[uuid] = this._serialize( window['UNITS'], obj, meta );
             }
@@ -144,9 +144,9 @@ export class Ubject extends Object implements IDisposable  {
     static deserialize (meta:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) : any {
         this.clearAll();
         for( let uuid in meta.ubjects ) {
-            this._ubjects[uuid] = this._deserialize( window, undefined, meta.ubjects[uuid], meta, object3Ds );
+            this._deserialize( window, undefined, meta.ubjects[uuid], meta, object3Ds );
         }
-        this.validate();
+        //this.validate();
     }
 
     /**
@@ -158,18 +158,18 @@ export class Ubject extends Object implements IDisposable  {
     static validate() {
 
         let removes:any = [];
-        for( let c in Ubject._ubjects ) {
-            let obj = Ubject._ubjects[c];
+        for( let c in Ubject.__ubjects ) {
+            let obj = Ubject.__ubjects[c];
             if( !obj ) {
                 removes.push(c);
             }
             else
-            if( !obj._avaliable ) {
+            if( !obj.__avaliable ) {
                 removes.push(c);
             }
         }
         for( let c in removes ) {
-            delete Ubject._ubjects[removes[c]];
+            delete Ubject.__ubjects[removes[c]];
         }
     }
     /**
@@ -179,7 +179,7 @@ export class Ubject extends Object implements IDisposable  {
      * @memberof Ubject
      */
     static clearAll() {
-        this._ubjects = {};
+        this.__ubjects = {};
     }
 
     /**
@@ -204,21 +204,19 @@ export class Ubject extends Object implements IDisposable  {
 
     // [ Protected Static Variables ]
 
-    protected static _ubjects   : {[uuid:string]:Ubject} = {};
+    protected static __ubjects      : {[uuid:string]:Ubject} = {};
 
     // [ Protected Variables ]
 
-    //@Serializable
     protected       _name           : string;
-    //@Serializable
     protected       _uuid           : string;
 
-    protected       _avaliable      : boolean;
-    protected       _instanceID     : number;
+    protected       __avaliable     : boolean;
+    protected       __instanceID    : number;
 
     // [ Private Static Variables ]
 
-    private static  _instanceID_    : number = 0;
+    private static  __nextInstanceID: number = 1;
 
 
     /**
@@ -272,28 +270,33 @@ export class Ubject extends Object implements IDisposable  {
             // [ Ubject ]
             if( target instanceof Ubject ) {
 
+                // [ serialized sequence ]
+                // 1. module name
+                // 2. uuid
+                // 3. class name
+                // 4. class valiables
+
                 output.module = 'UNITS';
                 output.uuid = target.uuid;
 
                 // [ register ]
                 if( meta.ubjects[target.uuid] === undefined ) {
-                    meta.ubjects[target.uuid] = output; // 멤버들중에 크로스 참조가 있을수 있으므로 미리등록을 해야 무한루프에 빠지지 않는다.
+                    meta.ubjects[target.uuid] = output;
 
                     // [ class ]
                     if( target.constructor.name in module ) {
                         output.class = target.constructor.name;
-                        target._avaliable = true;
+                        target.__avaliable = true;
                     }
 
                     // [ properties ]
                     for( let key in target ) {
-
-                        //if( key[0] !== '_' ) {
-                            let val = target[key];
-                            if ( typeof val === 'boolean' || typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
-                                output[key] = this._serialize( module, val, meta );
+                        let value = target[key];
+                        if( key[1] !== '_' ) { // __member
+                            if ( typeof value === 'boolean' || typeof value === 'number' || typeof value === 'string' || typeof value === 'object' ) {
+                                output[key] = this._serialize( module, value, meta );
                             }
-                        //}
+                        }
                     }
                 }
             }
@@ -301,7 +304,7 @@ export class Ubject extends Object implements IDisposable  {
         return output;
     }
     /**
-     * deserialize ( 공사중 )
+     * deserialize
      *
      * @static
      * @param {*} module
@@ -312,7 +315,7 @@ export class Ubject extends Object implements IDisposable  {
      * @returns
      * @memberof Ubject
      */
-    static _deserialize( module:any, target:any, meta:any, metaRoot:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) {
+    protected static _deserialize( module:any, target:any, meta:any, metaRoot:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) {
 
         // [ boolean | number | string ]
         if( typeof meta === 'boolean' || typeof meta === 'number' || typeof meta === 'string' ) {
@@ -340,21 +343,21 @@ export class Ubject extends Object implements IDisposable  {
             // [ UNITS ]
             if( meta.module === 'UNITS' ) {
 
-                if( meta.uuid in this._ubjects ) {
-                    target = this._ubjects[meta.uuid];
+                if( meta.uuid in this.__ubjects ) {
+                    target = this.__ubjects[meta.uuid];
                 } else {
 
                     // [ instantiate ]
                     target = new window['UNITS'][meta.class]();
-                    if( target ) {
-                        this._ubjects[meta.uuid] = target;
-                    } else {
+                    if( target === undefined ) {
                         target = {};
+                    } else {
+                        this.__ubjects[meta.uuid] = target;
                     }
 
-                    for( let property in meta ) {
-                        if( property !== 'class' ) {
-                            target[property] = this._deserialize( module, target[property], meta[property], metaRoot, object3Ds );
+                    for( let key in meta ) {
+                        if( key !== 'module' && key !== 'class' ) {
+                            target[key] = this._deserialize( module, target[key], meta[key], metaRoot, object3Ds );
                         }
                     }
                 }

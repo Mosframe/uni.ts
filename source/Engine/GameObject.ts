@@ -54,7 +54,7 @@ export class GameObject extends Ubject {
     */
     get name () : string        { return this._name; }
     set name ( value:string )   { this._name = value; if(this.core!==undefined) this.core.name = this._name; }
-    get scene() : Scene        { return this._scene; }
+    get scene() : Scene         { return this._scene; }
     /*
     tag	The tag of this game object.
     */
@@ -170,14 +170,11 @@ export class GameObject extends Ubject {
      * @memberof GameObject
      */
     toJSON ( meta?:any ) : any {
-        let output : any = {};
-        output.module = 'UNITS';
-        output.uuid = this.uuid;
-        return output;
+        return GameObject._serialize( window['UNITS'], this, meta );
     }
 
-    fromJSON ( meta:any ) {
-        //this._deserialize( meta );
+    fromJSON ( meta:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) {
+        GameObject._deserialize( window['UNITS'], this, meta, meta, object3Ds );
     }
 
     /**
