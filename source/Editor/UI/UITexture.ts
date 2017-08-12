@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL                  from '../../Engine/Graphic';
+import { GL                 }   from '../../Engine/Graphic';
 import { MoveObjectCommand  }   from '../Commands/MoveObjectCommand';
 import { TGALoader          }   from '../Loaders/TGAloader';
 import { UIElement          }   from '../../Engine/UI/UIElement';

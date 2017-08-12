@@ -1,12 +1,21 @@
-import * as GL        from '../Engine/Graphic';
-import {Behaviour   } from '../Engine/Behaviour';
-import {GameObject  } from '../Engine/GameObject';
-import {Transform   } from '../Engine/Transform';
-import {Ubject      } from '../Engine/Ubject';
+/**
+ * Script.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ * @export
+ * @class Script
+ * @extends {Behaviour}
+ */
+
+import { GL         }   from './Graphic';
+import { Behaviour  }   from './Behaviour';
+import { GameObject }   from './GameObject';
+import { Transform  }   from './Transform';
+import { Ubject     }   from './Ubject';
+
 /**
  * Script is the base class from which every Uni.ts script derives.
  *
- * @author mosframe / https://github.com/mosframe
  * @export
  * @class Script
  * @extends {Behaviour}

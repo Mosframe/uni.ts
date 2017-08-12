@@ -4,7 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL              from '../Engine/Graphic';
+import { GL             }   from './Graphic';
 import { GameObject     }   from './GameObject';
 import { Geometry       }   from './Geometry';
 import { Material       }   from './Material';

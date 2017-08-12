@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL                  from '../../Engine/Graphic';
+import { GL                 }   from '../../Engine/Graphic';
 import { GameObject         }   from '../../Engine/GameObject';
 import { ICommand           }   from '../Interfaces';
 import { Command            }   from './Command';

@@ -34,3 +34,4 @@ export enum PrimitiveType {
     Capsule     ,
      */
 }
+window['UNITS']['PrimitiveType'] = PrimitiveType;

@@ -4,7 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL          from './Graphic';
+import { GL         }   from '../Engine/Graphic';
 import { Transform  }   from './Transform';
 import { Component  }   from './Component';
 
@@ -34,3 +34,4 @@ export class Behaviour extends Component {
 
     // [ Constructors ]
 }
+window['UNITS'][Behaviour.name] = Behaviour;

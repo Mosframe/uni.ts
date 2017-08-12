@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL     		  	        from '../Engine/Graphic';
+import { GL                 	}   from '../Engine/Graphic';
 import { Signal  			    }   from 'signals';
 import { WebVR				    }   from '../Engine/VR/WebVR';
 import { VREffect			    }   from '../Engine/VR/VREffect';

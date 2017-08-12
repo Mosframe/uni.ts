@@ -1,4 +1,11 @@
-import * as GL  from '../Engine/Graphic';
+/**
+ * Color.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
+import { GL }   from '../Engine/Graphic';
+
 /**
  * Representation of RGBA colors.
  *
@@ -6,7 +13,6 @@ import * as GL  from '../Engine/Graphic';
  *
  * Components (r,g,b) define a color in RGB color space. Alpha component (a) defines transparency - alpha of one is completely opaque, alpha of zero is completely transparent.
  *
- * @author mosframe / https://github.com/mosframe
  * @export
  * @class Color
  * @extends {Ubject}

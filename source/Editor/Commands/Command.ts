@@ -5,11 +5,11 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL          from '../../Engine/Graphic';
+import { GL   	    }   from '../../Engine/Graphic';
+import { GameObject }   from '../../Engine/GameObject';
 import { ITool      }   from '../Interfaces';
 import { ICommand   }   from '../Interfaces';
 import { Config     }   from '../Config';
-import { GameObject }   from '../../Engine/GameObject';
 
 /**
  * Command

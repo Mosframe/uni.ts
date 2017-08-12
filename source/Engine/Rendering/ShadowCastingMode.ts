@@ -16,3 +16,5 @@ export enum ShadowCastingMode {
     /**	Object casts shadows, but is otherwise invisible in the scene. */
     shadowsOnly ,
 }
+window['UNITS']['ShadowCastingMode'] = ShadowCastingMode;
+

@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL from '../../Engine/Graphic';
+import { GL }   from '../../Engine/Graphic';
 
 // TGA Constants
 const	TGA_TYPE_NO_DATA = 0;

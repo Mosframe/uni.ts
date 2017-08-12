@@ -8,7 +8,7 @@
  * @author Mosframe / https://github.com/Mosframe
  */
 
-import * as GL  from '../Graphic';
+import { GL }   from '../Graphic';
 
 /**
  * Web VR

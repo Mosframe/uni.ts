@@ -4,10 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
- window['UNITS'] = {};
-
-
-import * as GL from './Engine/Graphic';
+import { GL                     }   from './Engine/UnitsEngine';
 
 import { UIModal                }   from './Engine/UI/UIModal';
 import { UIText                 }   from './Engine/UI/UIText';
@@ -27,9 +24,7 @@ import { RemoveObjectCommand    }   from './Editor/Commands/RemoveObjectCommand'
 import { GameObject             }   from './Engine/GameObject';
 import { Util                   }   from './Engine/Util';
 
-import './Engine/Classes';
 
-console.log(window);
 
 /**
  * Units Editor

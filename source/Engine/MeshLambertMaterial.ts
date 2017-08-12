@@ -4,11 +4,12 @@
  * @author mosframe / https://github.com/mosframe
  *
  */
-import * as GL                from './Graphic';
-import {Material            } from './Material';
-import {Color               } from './Color';
-import {ShaderType          } from './ShaderType';
-import {Ubject              } from './Ubject';
+
+import { GL         }   from './Graphic';
+import { Material   }   from './Material';
+import { Color      }   from './Color';
+import { ShaderType }   from './ShaderType';
+import { Ubject     }   from './Ubject';
 
 /**
  * The MeshLambertMaterial class.

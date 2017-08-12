@@ -5,17 +5,17 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL                          from '../../Engine/Graphic'                ;
-import { WebVR                      }   from '../../Engine/VR/WebVR'               ;
-import { UIPanel                    }   from '../../Engine/UI/UIPanel'             ;
-import { UIRow                      }   from '../../Engine/UI/UIRow'               ;
-import { UIButton                   }   from '../../Engine/UI/UIButton'            ;
-import { UINumber                   }   from '../../Engine/UI/UINumber'            ;
-import { UIText                     }   from '../../Engine/UI/UIText'              ;
-import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'           ;
-import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'    ;
-import { ITool                      }   from '../Interfaces'                            ;
-import { Menu                       }   from './Menu'                                   ;
+import { GL                         }   from '../../Engine/Graphic'                 ;
+import { WebVR                      }   from '../../Engine/VR/WebVR'                ;
+import { UIPanel                    }   from '../../Engine/UI/UIPanel'              ;
+import { UIRow                      }   from '../../Engine/UI/UIRow'                ;
+import { UIButton                   }   from '../../Engine/UI/UIButton'             ;
+import { UINumber                   }   from '../../Engine/UI/UINumber'             ;
+import { UIText                     }   from '../../Engine/UI/UIText'               ;
+import { UIBoolean                  }   from '../../Engine/UI/UIBoolean'            ;
+import { UIHorizontalRule           }   from '../../Engine/UI/UIHorizontalRule'     ;
+import { ITool                      }   from '../Interfaces'                        ;
+import { Menu                       }   from './Menu'                               ;
 
 /**
  * view menu

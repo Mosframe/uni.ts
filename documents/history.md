@@ -6,21 +6,6 @@
 
 ----------------------------------------
 
-Ubject.serialize에서 null이면
- Util.serialize로 넘기는데
-    scene.parent를 처리하는 과정에서 무한 루프가 걸린다.
-
-Mesh.parnet = Scene
-scene.childrun = Mesh
-
-
-GameObject : B8155C99-6D40-495D-8B83-9CF7815ED061
-              =>  D963F19E-DC07-4F12-956F-64DC998F5148
-
-    components
-
-    CCDE5E17-D984-4D96-9648-5A703A936B71
-
 
 
 구현 원칙

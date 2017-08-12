@@ -7,9 +7,9 @@
  * @extends {Ubject}
  */
 
-import * as GL        from '../Engine/Graphic';
-import {ShaderType  } from '../Engine/ShaderType';
-import {Ubject      } from '../Engine/Ubject';
+import { GL         }   from './Graphic';
+import { ShaderType }   from './ShaderType';
+import { Ubject     }   from './Ubject';
 
 /**
  * Shader scripts used for all rendering.

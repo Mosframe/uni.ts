@@ -4,7 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL              from './Graphic';
+import { GL             }   from '../Engine/Graphic';
 import { PrimitiveType  }   from './PrimitiveType';
 import { Serializable   }   from './Serializable';
 import { Ubject         }   from './Ubject';

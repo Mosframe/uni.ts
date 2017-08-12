@@ -1,8 +1,14 @@
-import * as GL  from '../Engine/Graphic';
 /**
- * Quaternion
+ * Quaternion.ts
  *
  * @author mosframe / https://github.com/mosframe
+ */
+
+import { GL }   from './Graphic';
+
+ /**
+ * Quaternion
+ *
  * @export
  * @class Quaternion
  * @extends {GL.Quaternion}

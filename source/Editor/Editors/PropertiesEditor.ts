@@ -1,7 +1,11 @@
-// -----------------------------------------------------------------------------
-// properties.ts
-// -----------------------------------------------------------------------------
-import * as GL              from '../../Engine/Graphic';
+/**
+ * PropertiesEditor.ts
+ *
+ * @author mrdoob / http://mrdoob.com/
+ * @author mosframe / https://github.com/mosframe
+ */
+
+import { GL             }   from '../../Engine/Graphic';
 import { System         }   from '../../Engine/System';
 import { UIPanel        }   from '../../Engine/UI/UIPanel';
 import { UIButton       }   from '../../Engine/UI/UIButton';
@@ -25,8 +29,6 @@ import { MaterialWindow }   from '../Windows/MaterialWindow';
 /**
  * properties panel
  *
- * @author mrdoob / http://mrdoob.com/
- * @author mosframe / https://github.com/mosframe
  * @export
  * @class PropertiesPanel
  * @extends {TabPanel}

@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL                  from '../../Engine/Graphic';
+import { GL         		}   from '../../Engine/Graphic';
 import { GizmoLineMaterial  } 	from './TransformControls/GizmoLineMaterial';
 import { GizmoMaterial      } 	from './TransformControls/GizmoMaterial';
 import { pickerMaterial     } 	from './TransformControls/GizmoMaterial';

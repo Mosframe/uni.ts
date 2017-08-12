@@ -4,7 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL                      from './Graphic';
+import { GL                     }   from './Graphic';
 import { Color                  }   from './Color';
 import { LightType              }   from './LightType';
 import { Matrix4x4              }   from './Matrix4x4';

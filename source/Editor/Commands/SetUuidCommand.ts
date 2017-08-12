@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL          from '../../Engine/Graphic';
+import { GL         }   from '../../Engine/Graphic';
 import { Command    }   from './Command';
 
 /**

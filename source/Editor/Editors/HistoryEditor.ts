@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL              from '../../Engine/Graphic';
+import { GL             }   from '../../Engine/Graphic';
 import { System         }   from '../../Engine/System';
 import { UIPanel        }   from '../../Engine/UI/UIPanel';
 import { UIButton       }   from '../../Engine/UI/UIButton';

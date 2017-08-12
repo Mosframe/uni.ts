@@ -9,3 +9,4 @@ export enum ShaderType {
     /** mesh lambert */
     MeshLambert,
 }
+window['UNITS']['ShaderType'] = ShaderType;

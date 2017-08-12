@@ -6,8 +6,8 @@
  * @author Mosframe / https://github.com/Mosframe
  */
 
-import * as GL from '../Graphic';
-import {WebVR} from './WebVR';
+import { GL     }   from '../Graphic';
+import { WebVR  }   from './WebVR';
 
 /**
  * VR Controls

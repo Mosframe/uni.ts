@@ -1,5 +1,5 @@
 /**
- * SetColorCommand
+ * SetColorCommand.ts
  *
  * Developed as part of a project at University of Applied Sciences and Arts Northwestern Switzerland (www.fhnw.ch)
  *
@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL          from '../../Engine/Graphic';
+import { GL         }   from '../../Engine/Graphic';
 import { Command    }   from './Command';
 
 /**

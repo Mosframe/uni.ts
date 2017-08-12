@@ -24,3 +24,4 @@ export enum LightType {
     /*The light is an area light. It affects only lightmaps and lightprobes.*/
     Area        ,
 }
+window['UNITS']['LightType'] = LightType;

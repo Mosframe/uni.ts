@@ -4,7 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL              from './Graphic';
+import { GL             }   from './Graphic';
 import { Ubject         }   from './Ubject';
 import { Geometry       }   from './Geometry';
 import { Serializable   }   from './Serializable';

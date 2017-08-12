@@ -6,7 +6,7 @@
  */
 
 import * as signals       	from 'signals';
-import * as GL         		from '../Engine/Graphic';
+import { GL             }   from '../Engine/Graphic';
 import { Signal      	} 	from 'signals';
 import { 				} 	from './date';
 import { ICommand    	} 	from './interfaces';

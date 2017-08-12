@@ -41,31 +41,33 @@ export class Util {
 
         if(target === null) return output;
 
-        // [ number | string ]
-        if( typeof target === 'number' || typeof target === 'string' ) {
+        // [ boolean | number | string ]
+        if( typeof target === 'boolean' || typeof target === 'number' || typeof target === 'string' ) {
             output = target;
-        }
-        else
-        // [ array ]
-        if( target instanceof Array ) {
-            output = [];
-            for( let key in target ) {
-                output[key] = this.serialize(target[key],module);
-            }
         }
         else
         // [ object ]
         if( typeof target === 'object' ) {
 
-            if( target.constructor.name in module ) {
-                output.class = target.constructor.name;
+            // [ array ]
+            if( target instanceof Array ) {
+                output = [];
+                for( let key in target ) {
+                    output[key] = this.serialize(target[key],module);
+                }
             }
+            // [ object ]
+            else {
+                if( target.constructor.name in module ) {
+                    output.class = target.constructor.name;
+                }
 
-            for( let key in target ) {
-               if( key[0] !== '_' ) {
-                    let val = target[key];
-                    if( typeof val !== 'number' || typeof val !== 'string' || typeof val !== 'object' ) {
-                        output[key] = this.serialize(val,module);
+                for( let key in target ) {
+                if( key[0] !== '_' ) {
+                        let val = target[key];
+                        if( typeof val === 'boolean' || typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
+                            output[key] = this.serialize(val,module);
+                        }
                     }
                 }
             }
@@ -84,8 +86,8 @@ export class Util {
      */
     static deserialize ( target:any, meta:any, module:any ) {
 
-        // [ number, string ]
-        if( typeof meta === 'number' || typeof meta === 'string' ) {
+        // [ boolean | number | string ]
+        if( typeof meta === 'boolean' || typeof meta === 'number' || typeof meta === 'string' ) {
             target = meta;
         }
         else

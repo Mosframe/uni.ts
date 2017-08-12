@@ -6,7 +6,8 @@
 
 import deprecated           from 'deprecated-decorator';
 import * as uuid            from 'uuid';
-import * as GL              from './Graphic';
+
+import { GL             }   from './Graphic';
 import { using          }   from './Interfaces';
 import { IDisposable    }   from './Interfaces';
 import { Serializable   }   from './Serializable';
@@ -240,8 +241,8 @@ export class Ubject extends Object implements IDisposable  {
 
         let output : any = {};
 
-        // [ number | string ]
-        if( typeof target === 'number' || typeof target === 'string' ) {
+        // [ boolean | number | string ]
+        if( typeof target === 'boolean' || typeof target === 'number' || typeof target === 'string' ) {
             output = target;
         }
         else
@@ -280,24 +281,22 @@ export class Ubject extends Object implements IDisposable  {
                 output.module = 'UNITS';
                 output.uuid = target.uuid;
 
-                // register
+                // [ register ]
                 if( meta.ubjects[target.uuid] === undefined ) {
                     meta.ubjects[target.uuid] = output; // 멤버들중에 크로스 참조가 있을수 있으므로 미리등록을 해야 무한루프에 빠지지 않는다.
 
                     // [ class ]
                     if( target.constructor.name in module ) {
                         output.class = target.constructor.name;
-                        if( target instanceof Ubject ) {
-                            target._avaliable = true;
-                        }
+                        target._avaliable = true;
                     }
 
                     // [ properties ]
                     for( let key in target ) {
 
-                        //if( key[0] !== '_' || propName !== undefined ) {
+                        //if( key[0] !== '_' ) {
                             let val = target[key];
-                            if ( typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
+                            if ( typeof val === 'boolean' || typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
                                 output[key] = this._serialize( module, val, meta );
                             }
                         //}
@@ -321,8 +320,8 @@ export class Ubject extends Object implements IDisposable  {
      */
     static _deserialize( module:any, target:any, meta:any, metaRoot:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) {
 
-        // [ number, string ]
-        if( typeof meta === 'number' || typeof meta === 'string' ) {
+        // [ boolean | number | string ]
+        if( typeof meta === 'boolean' || typeof meta === 'number' || typeof meta === 'string' ) {
             target = meta;
         }
         else
@@ -352,18 +351,11 @@ export class Ubject extends Object implements IDisposable  {
                 } else {
 
                     // [ instantiate ]
-                    if( target === undefined ) {
-                        target = new window['UNITS'][meta.class]();
+                    target = new window['UNITS'][meta.class]();
+                    if( target ) {
                         this._ubjects[meta.uuid] = target;
-
-                        // this._ubjects에 미리등록을 해야 무한루프에 빠지지 않는다.
-                        //if( target instanceof Ubject ) {
-                        //    target.uuid = meta._uuid;
-                        //}
-
-                        if( target === undefined ) {
-                            target = {};
-                        }
+                    } else {
+                        target = {};
                     }
 
                     for( let property in meta ) {

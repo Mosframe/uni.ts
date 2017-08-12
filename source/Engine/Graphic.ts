@@ -3,4 +3,6 @@
  *
  * @author mosframe / https://github.com/mosframe
  */
-export * from "three";
+
+import * as GL from "three";
+export {GL};

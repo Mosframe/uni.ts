@@ -4,7 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL              from './Graphic';
+import { GL             }   from './Graphic';
 import { Behaviour      }   from './Behaviour';
 import { GameObject     }   from './GameObject';
 import { LightType      }   from './LightType';

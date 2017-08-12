@@ -4,7 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import * as GL              from './Graphic';
+import { GL             }   from './Graphic';
 import { Color          }   from './Color';
 import { ShaderType     }   from './ShaderType';
 import { Serializable   }   from './Serializable';

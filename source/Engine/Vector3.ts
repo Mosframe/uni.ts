@@ -1,10 +1,15 @@
-import * as GL  from '../Engine/Graphic';
-import {Ubject} from '../Engine/Ubject';
+/**
+ * Vector3.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+
+import { GL     }   from './Graphic';
+import { Ubject }   from './Ubject';
 
 /**
  * Vector3
  *
- * @author mosframe / https://github.com/mosframe
  * @export
  * @class Vector3
  * @extends {GL.Vector3}

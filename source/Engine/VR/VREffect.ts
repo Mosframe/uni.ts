@@ -11,8 +11,8 @@
  * Chromium: https://webvr.info/get-chrome
  */
 
-import * as GL from '../Graphic';
-import {WebVR} from './WebVR';
+import { GL   	} from '../Graphic';
+import { WebVR	} from './WebVR';
 
 /**
  * VR Effect
