@@ -4,7 +4,8 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL }   from './Graphic';
+import { GL         }   from './Graphic';
+import { Vector3    }   from './Vector3';
 
  /**
  * Quaternion
@@ -31,8 +32,10 @@ export class Quaternion extends GL.Quaternion {
 
     // [ Public Variables ]
 
+    //Returns the euler angle representation of the rotation.
+    get eulerAngles () : Vector3        { return new GL.Euler().setFromQuaternion( this ).toVector3(); }
+    set eulerAngles ( value:Vector3 )   { let q = this.setFromEuler( new GL.Euler().setFromVector3(value) ); this.x = q.x; this.y = q.y; this.z = q.z; this.w = q.w; }
     /*
-    eulerAngles	Returns the euler angle representation of the rotation.
     this[int]	Access the x, y, z, w components using [0], [1], [2], [3] respectively.
     */
 
@@ -71,17 +74,5 @@ export class Quaternion extends GL.Quaternion {
     operator *	Combines rotations lhs and rhs.
     operator ==	Are two quaternions equal to each other?
     */
-
-    // [ Public Events ]
-
-    // [ Public Messages ]
-
-    // [ Protected Variables ]
-
-    // [ Protected Static Variables ]
-
-    // [ Protected Functions ]
-
-    // [ Protected Static Functions ]
 }
 window['UNITS'][Quaternion.name] = Quaternion;

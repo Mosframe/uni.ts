@@ -50,12 +50,12 @@ export class Transform extends Component {
     hierarchyCapacity	The transform capacity of the transform's hierarchy data structure.
     hierarchyCount	The number of transforms in the transform's hierarchy data structure.
     */
-    get localEulerAngles() : Vector3        { return this.core.rotation.toVector3(); }
-    set localEulerAngles( value:Vector3 )   { this.core.rotation.setFromVector3( value ); }
+    get localEulerAngles() : Vector3        { return new Vector3(this.core.rotation.x*GL.Math.RAD2DEG,this.core.rotation.y*GL.Math.RAD2DEG,this.core.rotation.z*GL.Math.RAD2DEG); }
+    set localEulerAngles( value:Vector3 )   { this.core.rotation.x = value.x*GL.Math.DEG2RAD; this.core.rotation.y = value.y*GL.Math.DEG2RAD; this.core.rotation.z = value.z*GL.Math.DEG2RAD; }
     get localPosition() : Vector3           { return this.core.position; }
     set localPosition( value:Vector3 )      { this.core.position.set( value.x, value.y, value.z ); }
-    get localRotation() : Quaternion        { return this.core.quaternion }
-    set localRotation( value:Quaternion )   { this.core.rotation.setFromQuaternion( value ); }
+    get localRotation() : Quaternion        { return <Quaternion>(new Quaternion().setFromEuler( this.core.rotation )); }
+    set localRotation( value:Quaternion )   { this.core.rotation = new GL.Euler().setFromQuaternion( value ); }
     get localScale() : Vector3              { return this.core.scale; }
     set localScale( value:Vector3 )         { this.core.scale.set( value.x, value.y, value.z ); }
 
@@ -64,14 +64,15 @@ export class Transform extends Component {
     /*
     parent	The parent of the transform.
     */
+
     get position() : Vector3                { return this.core.localToWorld(this.core.position); }
     set position( value:Vector3 )           { let localPos = this.core.worldToLocal(value); this.core.position.set( localPos.x, localPos.y, localPos.z ); }
     /*
     right	The red axis of the transform in world space.
     root	Returns the topmost transform in the hierarchy.
     */
-    get rotation() : Quaternion             { return this.core.quaternion; }
-    set rotation( value:Quaternion )        { this.core.quaternion.set( value.x, value.y, value.z, value.w ); }
+    get rotation() : Quaternion             { return <Quaternion>this.core.quaternion; }
+    set rotation( value:Quaternion )        { this.core.quaternion = value; }
     /*
     up	The green axis of the transform in world space.
     */

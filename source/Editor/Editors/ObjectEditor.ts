@@ -6,6 +6,9 @@
  */
 
 import { GL                     }   from '../../Engine/Graphic';
+import { GameObject             }   from '../../Engine/GameObject';
+
+import { UIElement              }   from '../../Engine/UI/UIElement';
 import { UIPanel                }   from '../../Engine/UI/UIPanel';
 import { UIButton               }   from '../../Engine/UI/UIButton';
 import { UINumber               }   from '../../Engine/UI/UINumber';
@@ -275,23 +278,22 @@ export class ObjectEditor extends UIPanel {
 
         // [ Add Component ]
 
+        this._objectComponentRow = new UIRow();
         let addCompoentRow     = new UIRow();
-        let addCompoentButton  = new UIButton( 'New' ).setMarginLeft( '7px' ).onClick( () => {
+        let addCompoentButton  = new UIButton( 'Add' ).setMarginLeft( '7px' ).onClick( () => {
             if( tool.selected ) {
 
                 // Component 리소트 얻기 ( Component에서 상속한 모든 오브젝트들 얻기 )
-
                 //tool.execute( new AddCompnentCommand( tool.selected, 'TestComponent' ) );
             }
         });
-        this._objectUUIDRow.add( new UIText( 'UUID' ).setWidth( '90px' ) );
-        this._objectUUIDRow.add( this._objectUUID );
-        this._objectUUIDRow.add( objectUUIDRenew );
-        this.add( this._objectUUIDRow );
+        this._objectComponentRow.add( addCompoentButton );
+        this._objectComponentRow.add( new UIText( 'Component' ).setWidth( '90px' ) );
+        this._objectComponentRow.add( new UIText("Test").setWidth('90px') );
+        this.add( this._objectComponentRow );
 
 
-
-        // events
+        // [ Object Selected Event ]
 
         this._signals.objectSelected.add( ( object ) => {
 
@@ -304,10 +306,14 @@ export class ObjectEditor extends UIPanel {
             }
         });
 
+        // [ Object Changeed Event ]
+
         this._signals.objectChanged.add( ( object ) => {
             if ( object !== tool.selected ) return;
             this.updateUI( object );
         });
+
+        // [ Refrash Sidebar Object Tab Event ]
 
         this._signals.refreshSidebarObject3D.add( ( object ) => {
             if ( object !== tool.selected ) return;
@@ -340,6 +346,7 @@ export class ObjectEditor extends UIPanel {
     private _objectShadowRow        : UIRow;
     private _objectVisibleRow       : UIRow;
     private _objectUserDataRow      : UIRow;
+    private _objectComponentRow     : UIRow;
 
     private _objectType             : UIText;
     private _objectUUID             : UIInput;
@@ -370,6 +377,8 @@ export class ObjectEditor extends UIPanel {
     private _objectShadowRadius     : UINumber;
     private _objectVisible          : UICheckbox;
     private _objectUserData         : UITextArea;
+
+    private _uiComponents           : {[uuid:string]:{[member:string]:UIElement}} = {};
 
     // [ Private Functions ]
 
@@ -419,7 +428,11 @@ export class ObjectEditor extends UIPanel {
 
     private update = () => {
 
+        console.log("update");
+
         let object = <any>this._editor.selected;
+
+        // [ Object3D ]
 
         if ( object !== null ) {
 
@@ -519,10 +532,58 @@ export class ObjectEditor extends UIPanel {
                 console.warn( exception );
             }
         }
+
+        // [ GameObject ]
+
+        let gameObject = <GameObject>GameObject.find( object.uuid );
+        if( gameObject !== undefined ) {
+
+            // [ Transform ]
+
+            let transform = gameObject.transform;
+
+            let uiTransform = this._uiComponents[transform.uuid];
+
+            let posX = <UINumber>uiTransform['localPosition.x'];
+            let posY = <UINumber>uiTransform['localPosition.y'];
+            let posZ = <UINumber>uiTransform['localPosition.z'];
+
+            let newPosition = new GL.Vector3( posX.getValue(), posY.getValue(), posZ.getValue() );
+            if ( transform.localPosition.distanceTo( newPosition ) >= 0.01 ) {
+
+                this._editor.execute( new SetPositionCommand( object, newPosition ) );
+
+            }
+
+            let rotX = <UINumber>uiTransform['localRotation.x'];
+            let rotY = <UINumber>uiTransform['localRotation.y'];
+            let rotZ = <UINumber>uiTransform['localRotation.z'];
+
+            let newRotation = new GL.Euler( rotX.getValue() * GL.Math.DEG2RAD, rotY.getValue() * GL.Math.DEG2RAD, rotZ.getValue() * GL.Math.DEG2RAD );
+            if ( transform.localRotation.eulerAngles.distanceTo( newRotation.toVector3() ) >= 0.01 ) {
+
+                this._editor.execute( new SetRotationCommand( object, newRotation ) );
+
+            }
+
+            let scaleX = <UINumber>uiTransform['localScale.x'];
+            let scaleY = <UINumber>uiTransform['localScale.y'];
+            let scaleZ = <UINumber>uiTransform['localScale.z'];
+
+            let newScale = new GL.Vector3( scaleX.getValue(), scaleY.getValue(), scaleZ.getValue() );
+            if ( transform.localScale.distanceTo( newScale ) >= 0.01 ) {
+
+                this._editor.execute( new SetScaleCommand( object, newScale ) );
+
+            }
+        }
     }
 
     private updateRows = ( object ) => {
 
+        console.log("updateRows");
+
+        // [ GL.Object3D ]
         let properties = {
             'fov'           : this._objectFovRow,
             'near'          : this._objectNearRow,
@@ -542,6 +603,45 @@ export class ObjectEditor extends UIPanel {
         for ( let property in properties ) {
             properties[ property ].setDisplay( object[ property ] !== undefined ? '' : 'none' );
         }
+
+        // [ gameObject ]
+        let gameObject = <GameObject>GameObject.find( object.uuid );
+        if( gameObject !== undefined ) {
+            let transform = gameObject.transform;
+
+            this._objectComponentRow.clear();
+
+            // [ transform ]
+            let compoRow  = new UIRow();
+            compoRow.add( new UIText( '[ '+transform.constructor.name+' ]' ).setWidth( '150px' ) );
+            compoRow.add( new UIBreak() );
+
+            let uiTransform = this._uiComponents[transform.uuid] = {};
+
+            let posX = uiTransform['localPosition.x'] = new UINumber().setWidth( '50px' ).onChange( this.update );
+            let posY = uiTransform['localPosition.y'] = new UINumber().setWidth( '50px' ).onChange( this.update );
+            let posZ = uiTransform['localPosition.z'] = new UINumber().setWidth( '50px' ).onChange( this.update );
+            compoRow.add( new UIText( 'Position' ).setWidth( '90px' ) );
+            compoRow.add( posX, posY, posZ );
+
+            let rotX = uiTransform['localRotation.x'] = new UINumber().setStep( 10 ).setUnit( '°' ).setWidth( '50px' ).onChange( this.update );
+            let rotY = uiTransform['localRotation.y'] = new UINumber().setStep( 10 ).setUnit( '°' ).setWidth( '50px' ).onChange( this.update );
+            let rotZ = uiTransform['localRotation.z'] = new UINumber().setStep( 10 ).setUnit( '°' ).setWidth( '50px' ).onChange( this.update );
+            compoRow.add( new UIText( 'Rotation' ).setWidth( '90px' ) );
+            compoRow.add( rotX, rotY, rotZ );
+
+            let scaleLock   = uiTransform['localScale.lock'] = new UICheckbox( true ).setPosition( 'absolute' ).setLeft( '75px' );
+            let scaleX      = uiTransform['localScale.x'] = new UINumber( 1 ).setRange( 0.01, Infinity ).setWidth( '50px' ).onChange( this.updateScaleX );
+            let scaleY      = uiTransform['localScale.y'] = new UINumber( 1 ).setRange( 0.01, Infinity ).setWidth( '50px' ).onChange( this.updateScaleY );
+            let scaleZ      = uiTransform['localScale.z'] = new UINumber( 1 ).setRange( 0.01, Infinity ).setWidth( '50px' ).onChange( this.updateScaleZ );
+            compoRow.add( new UIText( 'Scale' ).setWidth( '90px' ) );
+            compoRow.add( scaleLock );
+            compoRow.add( scaleX, scaleY, scaleZ );
+
+            this._objectComponentRow.add( compoRow );
+            this._objectComponentRow.setDisplay('');
+        }
+
     }
 
     private updateTransformRows = ( object ) =>{
@@ -556,6 +656,10 @@ export class ObjectEditor extends UIPanel {
     }
 
     private updateUI = ( object ) => {
+
+        // [ Object3D ]
+
+        console.log("updateUI");
 
         this._objectType.setValue( object.type );
 
@@ -618,6 +722,38 @@ export class ObjectEditor extends UIPanel {
             this._objectUserData.setValue( JSON.stringify( object.userData, null, '  ' ) );
         } catch ( error ) {
             console.log( error );
+        }
+
+        // [ GameObject ]
+
+        let gameObject = <GameObject>GameObject.find( object.uuid );
+        if( gameObject !== undefined ) {
+            let transform = gameObject.transform;
+            let uiTransform = this._uiComponents[transform.uuid];
+
+            let posX = <UINumber>uiTransform['localPosition.x'];
+            let posY = <UINumber>uiTransform['localPosition.y'];
+            let posZ = <UINumber>uiTransform['localPosition.z'];
+
+            posX.setValue( transform.localPosition.x );
+            posY.setValue( transform.localPosition.y );
+            posZ.setValue( transform.localPosition.z );
+
+            let rotX = <UINumber>uiTransform['localRotation.x'];
+            let rotY = <UINumber>uiTransform['localRotation.y'];
+            let rotZ = <UINumber>uiTransform['localRotation.z'];
+
+            rotX.setValue( transform.localEulerAngles.x );
+            rotY.setValue( transform.localEulerAngles.y );
+            rotZ.setValue( transform.localEulerAngles.z );
+
+            let scaleX = <UINumber>uiTransform['localScale.x'];
+            let scaleY = <UINumber>uiTransform['localScale.y'];
+            let scaleZ = <UINumber>uiTransform['localScale.z'];
+
+            scaleX.setValue( transform.localScale.x );
+            scaleY.setValue( transform.localScale.y );
+            scaleZ.setValue( transform.localScale.z );
         }
 
         this._objectUserData.setBorderColor( 'transparent' );

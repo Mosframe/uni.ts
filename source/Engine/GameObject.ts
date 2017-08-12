@@ -163,20 +163,6 @@ export class GameObject extends Ubject {
     SetActive	Activates/Deactivates the GameObject.
     */
 
-   /**
-     * to JSON
-     *
-     * @returns {*}
-     * @memberof GameObject
-     */
-    toJSON ( meta?:any ) : any {
-        return GameObject._serialize( window['UNITS'], this, meta );
-    }
-
-    fromJSON ( meta:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) {
-        GameObject._deserialize( window['UNITS'], this, meta, meta, object3Ds );
-    }
-
     /**
      * Creates a game object with a primitive mesh renderer and appropriate collider.
      *

@@ -7,8 +7,7 @@
 import { GL             }   from './Graphic';
 import { using          }   from './Using';
 import { IDisposable    }   from './Using';
-import { Serializable   }   from './Serializable';
-import { serializable   }   from './Serializable';
+import { Type           }   from './Type';
 import { Util           }   from './Util';
 
 /**
@@ -98,20 +97,72 @@ export class Ubject extends Object implements IDisposable  {
     static Destroy ( object:Ubject, delay:number=0 ) Removes a gameobject, component or asset.
     static DestroyImmediate	Destroys the object obj immediately. You are strongly recommended to use Destroy instead.
     static DontDestroyOnLoad	Makes the object target not be destroyed automatically when loading a new scene.
+    */
+
+    /**
+     * find
+     *
+     * @static
+     * @param {string} uuid
+     * @returns {Ubject}
+     * @memberof Ubject
+     */
+    static find ( uuid:string ) : Ubject {
+        return this.__ubjects[uuid];
+    }
+
+    /*
     static FindObjectOfType	Returns the first active loaded object of Type type.
     static FindObjectsOfType	Returns a list of all active loaded objects of Type type.
     */
+
+
+    /**
+     * serialize
+     *
+     * @static
+     * @param {string} uuid
+     * @returns {*}
+     * @memberof Ubject
+     */
+    static toJSON ( object:GL.Object3D ) : any {
+        let output:any = {};
+        if( object !== undefined ) {
+            if( object.uuid in this.__ubjects ) {
+                let ubject = this.__ubjects[object.uuid];
+                output = this._serialize( window['UNITS'], ubject, output );
+            }
+        }
+        return output;
+    }
+    /**
+     * deserialize
+     *
+     * @static
+     * @param {*} meta
+     * @param {{[uuid:string]:GL.Object3D}} objects
+     * @returns {*}
+     * @memberof Ubject
+     */
+    static fromJSON ( meta:any, objects:{[uuid:string]:GL.Object3D} ) : any {
+       let output:any = {};
+        if( meta.uuid in this.__ubjects ) {
+            let ubject = this.__ubjects[meta.uuid];
+            output = this._deserialize( window['UNITS'], undefined, meta, objects );
+        }
+        return output;
+    }
 
     /**
      * serialize
      *
      * @static
      * @param {*} meta
-     * @param {string[]} uuids
+     * @param {{[uuid:string]:GL.Object3D}} object3Ds
      * @returns {*}
      * @memberof Ubject
      */
-    static serialize ( meta:any, uuids:string[] ) : any {
+    static serialize ( meta:any, object3Ds:{[uuid:string]:GL.Object3D} ) : any {
 
         // [ reset avaliable flags ]
         for( let uuid in this.__ubjects ) {
@@ -120,7 +171,7 @@ export class Ubject extends Object implements IDisposable  {
 
         // [ serialize ]
         meta.ubjects = {};
-        for( let uuid of uuids ) {
+        for( let uuid in object3Ds ) {
             let obj = this.__ubjects[uuid];
             if( obj !== undefined ) {
                 meta.ubjects[uuid] = this._serialize( window['UNITS'], obj, meta );
@@ -137,14 +188,14 @@ export class Ubject extends Object implements IDisposable  {
      *
      * @static
      * @param {*} meta
-     * @param {({[uuid:string]:GL.Object3D|GL.Material|GL.Geometry})} object3Ds
+     * @param {[uuid:string]:GL.Object3D} object3Ds
      * @returns {*}
      * @memberof Ubject
      */
-    static deserialize (meta:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) : any {
+    static deserialize (meta:any, object3Ds:{[uuid:string]:GL.Object3D} ) : any {
         this.clearAll();
         for( let uuid in meta.ubjects ) {
-            this._deserialize( window, undefined, meta.ubjects[uuid], meta, object3Ds );
+            this._deserialize( window, undefined, meta.ubjects[uuid], object3Ds );
         }
         //this.validate();
     }
@@ -310,12 +361,11 @@ export class Ubject extends Object implements IDisposable  {
      * @param {*} module
      * @param {*} target
      * @param {*} meta
-     * @param {*} metaRoot
-     * @param {({[uuid:string]:GL.Object3D|GL.Material|GL.Geometry})} object3Ds
+     * @param {[uuid:string]:GL.Object3D} object3Ds
      * @returns
      * @memberof Ubject
      */
-    protected static _deserialize( module:any, target:any, meta:any, metaRoot:any, object3Ds:{[uuid:string]:GL.Object3D|GL.Material|GL.Geometry} ) {
+    protected static _deserialize( module:any, target:any, meta:any, objects:{[uuid:string]:GL.Object3D} ) {
 
         // [ boolean | number | string ]
         if( typeof meta === 'boolean' || typeof meta === 'number' || typeof meta === 'string' ) {
@@ -326,7 +376,7 @@ export class Ubject extends Object implements IDisposable  {
         if( meta instanceof Array ) {
             target = [];
             for( let key in meta ) {
-                target[key] = this._deserialize( module, target[key], meta[key], metaRoot, object3Ds );
+                target[key] = this._deserialize( module, target[key], meta[key], objects );
             }
         }
         else
@@ -335,8 +385,8 @@ export class Ubject extends Object implements IDisposable  {
 
             // [ GL ]
             if( meta.module === 'GL' ) {
-                if( meta.uuid in object3Ds ) {
-                    target = object3Ds[meta.uuid];
+                if( meta.uuid in objects ) {
+                    target = objects[meta.uuid];
                 }
             }
             else
@@ -357,7 +407,7 @@ export class Ubject extends Object implements IDisposable  {
 
                     for( let key in meta ) {
                         if( key !== 'module' && key !== 'class' ) {
-                            target[key] = this._deserialize( module, target[key], meta[key], metaRoot, object3Ds );
+                            target[key] = this._deserialize( module, target[key], meta[key], objects );
                         }
                     }
                 }

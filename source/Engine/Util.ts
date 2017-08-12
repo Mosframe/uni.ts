@@ -30,12 +30,12 @@ export class Util {
      * serialize
      *
      * @static
-     * @param {any} target
      * @param {any} module
+     * @param {any} target
      * @returns {*}
      * @memberof Util
      */
-    static serialize ( target:any, module:any ) : any {
+    static serialize ( module:any, target:any ) : any {
 
         let output:any = {};
 
@@ -63,7 +63,7 @@ export class Util {
                 }
 
                 for( let key in target ) {
-                if( key[0] !== '_' ) {
+                    if( key[1] !== '_' ) {
                         let val = target[key];
                         if( typeof val === 'boolean' || typeof val === 'number' || typeof val === 'string' || typeof val === 'object' ) {
                             output[key] = this.serialize(val,module);
@@ -78,13 +78,13 @@ export class Util {
      * deserialize
      *
      * @static
+     * @param {any} module
      * @param {any} target
      * @param {any} meta
-     * @param {any} module
      * @returns
      * @memberof Util
      */
-    static deserialize ( target:any, meta:any, module:any ) {
+    static deserialize ( module:any, target:any, meta:any ) {
 
         // [ boolean | number | string ]
         if( typeof meta === 'boolean' || typeof meta === 'number' || typeof meta === 'string' ) {

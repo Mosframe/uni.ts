@@ -7,10 +7,11 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL   	    }   from '../../Engine/Graphic';
-import { GameObject }   from '../../Engine/GameObject';
-import { Ubject     }   from '../../Engine/Ubject';
-import { Command    }   from './Command';
+import { GL   	        }   from '../../Engine/Graphic';
+import { Ubject         }   from '../../Engine/Ubject';
+import { GameObject     }   from '../../Engine/GameObject';
+import { SceneManager   }   from '../../Engine/SceneManager';
+import { Command        }   from './Command';
 
 /**
  * AddObjectCommand
@@ -48,7 +49,8 @@ export class AddObjectCommand extends Command {
      */
     toJSON () : any {
 		let output = super.toJSON();
-		output.object = this.object.toJSON();
+        output.object = this.object.toJSON();
+        output.gameObject = Ubject.toJSON(this.object);
 		return output;
     }
     /**
@@ -63,6 +65,7 @@ export class AddObjectCommand extends Command {
         if ( this.object === undefined ) {
             let loader = new GL.ObjectLoader();
             this.object = loader.parse( json.object );
+            Ubject.fromJSON( json.gameObject, SceneManager.getActiveScene().getObjects() );
         }
 	}
 
