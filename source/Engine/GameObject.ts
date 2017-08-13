@@ -18,6 +18,7 @@ import { MeshRenderer           }   from './MeshRenderer';
 import { MeshStandardMaterial   }   from './MeshStandardMaterial';
 import { PrimitiveType          }   from './PrimitiveType';
 import { SceneManager           }   from './SceneManager';
+import { Serializable           }   from './Serializable';
 import { serializable           }   from './Serializable';
 import { ShaderType             }   from './ShaderType';
 import { Ubject                 }   from './Ubject';
@@ -255,10 +256,11 @@ export class GameObject extends Ubject {
 }
 window['UNITS'][GameObject.name] = GameObject;
 
+/*
 serializable[GameObject.name] = [
     '_components',
     '_transform',
     '_scene',
     '_core',
 ];
-
+*/

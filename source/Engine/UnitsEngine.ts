@@ -5,6 +5,7 @@
  */
 
 window['UNITS'] = {};
+window['UNITS']['EDITOR'] = {};
 
 import * as uuid                    from 'uuid';
 export { uuid                   };
@@ -42,5 +43,9 @@ export { Ubject                 }   from './Ubject';
 export { Vector3                }   from './Vector3';
 
 
+export { ComponentEditor  }   from '../Editor/Editors/ComponentEditor'
+export { TransformEditor  }   from '../Editor/Editors/TransformEditor'
+
 console.log('UNITS',window['UNITS']);
+console.log('UNITS.EDITOR',window['UNITS']['EDITOR']);
 

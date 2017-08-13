@@ -27,7 +27,7 @@ import { ITool                  }   from '../Interfaces';
 import { ISignals               }   from '../Interfaces';
 
 /**
- * GeometryDrawer
+ * GeometryDrawer.ts
  *
  * @export
  * @class GeometryDrawer

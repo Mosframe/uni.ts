@@ -22,6 +22,7 @@ import { UICheckbox     }   from '../../Engine/UI/UICheckbox';
 import { UITab          }   from '../../Engine/UI/UITab';
 import { ITool          }   from '../Interfaces';
 import { ISignals       }   from '../Interfaces';
+
 import { ObjectWindow   }   from '../Windows/ObjectWindow';
 import { GeometryWindow }   from '../Windows/GeometryWindow';
 import { MaterialWindow }   from '../Windows/MaterialWindow';

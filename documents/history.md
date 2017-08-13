@@ -15,19 +15,20 @@ ObjectEditor.ts
             GameObject에서 포함된 Transform 객체를 얻는다.
             Transform을 표현한다.
 
-        범용 컴포넌트 UI를 만들어낸다.
-            boolean
-            number,
-            string,
+        범용 컴포넌트 UI를 만들어낸다. ( 공사중 )
+            boolean (완료)
+            number, (완료)
+            string, (완료)
+            array, (완료)
+            object, (완료)
             vector3,
-            array,
             dictionary
             component link
 
-        전용 컴폰넌트 UI를 만든다.
-            Transform
-            MeshFilter,
-            MeshRenderer,
+        전용 컴폰넌트 UI를 만든다. ( 공사중 )
+            TransformEditor ( 공사중 )
+            MeshFilterEditor,
+            MeshRendererEditor,
 
 
 

@@ -4,7 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL }   from './UnitsEngine';
+import { GL }   from './Graphic';
 
 /**
  * Representation of RGBA colors.
