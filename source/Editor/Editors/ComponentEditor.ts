@@ -37,49 +37,13 @@ import { ISignals               }   from '../Interfaces';
  */
 export class ComponentEditor extends UIPanel {
 
-    onCreate() {
-
-        for( let key in this._component ) {
-            if( key[0] === '_' ) continue;
-
-            let value = this._component[key];
-            let type = typeof(value);
-            console.log(this._component.constructor.name,key,type);
-
-            let drawerRow = new UIRow();
-            drawerRow.add( new UIText( key ).setWidth( '90px' ) );
-
-            switch(type){
-            case 'boolean':
-                drawerRow.add( this._drawers[key] = new UICheckbox().onChange( this._onChangedProperties ) );
-                break;
-            case 'number':
-                drawerRow.add( this._drawers[key] = new UINumber().setWidth( '50px' ).onChange( this._onChangedProperties ) );
-                break;
-            case 'string':
-                drawerRow.add( this._drawers[key] = new UIInput().setWidth( '150px' ).setFontSize( '12px' ).setDisabled(true).onChange( this._onChangedProperties ) );
-                break;
-            case 'object':
-                if( value instanceof Array ) {
-                    this._drawers[key] = [];
-                    for( let v in value ) {
-                        drawerRow.add( this._drawers[key][v] = new UIText().setWidth( '150px' ).onChange( this._onChangedProperties ) );
-                    }
-                } else {
-                    drawerRow.add( this._drawers[key] = new UIText().setWidth( '150px' ).onChange( this._onChangedProperties ) );
-                }
-                break;
-            }
-            this.add( drawerRow );
-        }
-    }
 
     /**
-     * update inspector GUI
+     * update
      *
      * @memberof ComponentEditor
      */
-    onInspectorGUI () {
+    onUpdate () {
 
         for( let key in this._component ) {
             if( key[0] === '_' ) continue;
@@ -133,22 +97,56 @@ export class ComponentEditor extends UIPanel {
 
         // [ Border ]
 
-        this.setBorderTop( '0' );
-        this.setPaddingTop( '20px' );
-        this.setPaddingRight( '0px' );
+        this.setBorder('1px');
+        this.setBorderColor( '0x000000' )
+        this.setStyle('border-style',['solid']);
+        this.setMargin( '5px','0px','5px','0px' ); //top,right,bottom,left
+        this.setPadding( '0px','0px','0px','0px' ); //top,right,bottom,left
 
         // [ Title ]
 
         let titleRow     = new UIRow();
         let titleText    = new UIText();
 
-        titleRow.add( new UIText( '[ '+component.constructor.name+' ]' ).setWidth( '200px' ) );
+        titleRow.add( new UIText( component.constructor.name ).setWidth( '200px' ).setFontWeight('bold') );
         this.add( titleRow );
-
 
         // [ Properties ]
 
-        this.onCreate();
+        for( let key in this._component ) {
+            if( key[0] === '_' ) continue;
+
+            let value = this._component[key];
+            let type = typeof(value);
+
+            //console.log(this._component.constructor.name,key,type);
+
+            let drawerRow = new UIRow();
+            drawerRow.add( new UIText( key ).setWidth( '90px' ) );
+
+            switch(type){
+            case 'boolean':
+                drawerRow.add( this._drawers[key] = new UICheckbox().onChange( ()=>{this._onChange();} ) );
+                break;
+            case 'number':
+                drawerRow.add( this._drawers[key] = new UINumber().setWidth( '50px' ).onChange( ()=>{this._onChange();} ) );
+                break;
+            case 'string':
+                drawerRow.add( this._drawers[key] = new UIInput().setWidth( '150px' ).setFontSize( '12px' ).setDisabled(true).onChange( ()=>{this._onChange();} ) );
+                break;
+            case 'object':
+                if( value instanceof Array ) {
+                    this._drawers[key] = [];
+                    for( let v in value ) {
+                        drawerRow.add( this._drawers[key][v] = new UIText().setWidth( '150px' ).onChange( ()=>{this._onChange();} ) );
+                    }
+                } else {
+                    drawerRow.add( this._drawers[key] = new UIText().setWidth( '150px' ).onChange( ()=>{this._onChange();} ) );
+                }
+                break;
+            }
+            this.add( drawerRow );
+        }
     }
 
     // [ Protected Variables ]
@@ -159,7 +157,7 @@ export class ComponentEditor extends UIPanel {
 
     // [ Protected Functions ]
 
-    protected _onChangedProperties = () => {
+    protected _onChange () {
 
         let object = this._tool.selected;
         if( object === undefined || object === null ) return;

@@ -26,7 +26,7 @@ ObjectEditor.ts
             component link
 
         전용 컴폰넌트 UI를 만든다. ( 공사중 )
-            TransformEditor ( 공사중 )
+            TransformEditor ( 완료 )
             MeshFilterEditor,
             MeshRendererEditor,
 

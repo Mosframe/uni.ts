@@ -58,8 +58,10 @@ export class UIElement {
 
     setStyle ( style:string, values:string[] ) {
 
+        this._core.style[style] = '';
         for( let i = 0; i < values.length; ++i ) {
-            this._core.style[style] = values[i];
+            if( i>0 ) this._core.style[style] += ' ';
+            this._core.style[style] += values[i];
         }
         return this;
     }

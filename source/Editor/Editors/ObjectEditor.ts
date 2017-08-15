@@ -130,6 +130,7 @@ export class ObjectEditor extends UIPanel {
         this._objectNameRow.add( this._objectName );
         this.add( this._objectNameRow );
 
+        /*
         // [ position ]
 
         this._objectPositionRow = new UIRow();
@@ -161,6 +162,24 @@ export class ObjectEditor extends UIPanel {
         this._objectScaleRow.add( this._objectScaleLock );
         this._objectScaleRow.add( this._objectScaleX, this._objectScaleY, this._objectScaleZ );
         this.add( this._objectScaleRow );
+        */
+
+        // [ Components ]
+
+        this._componentsRow = new UIRow();//.setBorderColor( '0x000000' ).setBorder('1px').setStyle('border-style',['solid']);
+        this.add( this._componentsRow );
+
+        // [ add component ]
+
+        let addCompoentButton  = new UIButton( 'Add Component' ).setMarginLeft('50px').setWidth('150px').setStyle( 'text-align', ['center'] ).onClick( () => {
+            if( tool.selected ) {
+                // Component 리소트 얻기 ( Component에서 상속한 모든 오브젝트들 얻기 )
+                //tool.execute( new AddCompnentCommand( tool.selected, 'TestComponent' ) );
+            }
+        });
+        this.add( addCompoentButton );
+        this.add( new UIBreak() );
+
 
         // [ fov ]
 
@@ -281,20 +300,6 @@ export class ObjectEditor extends UIPanel {
         this._objectUserDataRow.add( this._objectUserData );
         this.add( this._objectUserDataRow );
 
-        // [ Add Component ]
-
-        this._objectComponentRow = new UIRow();
-        this._componentsRow = new UIRow();
-        let addCompoentButton  = new UIButton( 'Add' ).setMarginLeft( '7px' ).onClick( () => {
-            if( tool.selected ) {
-                // Component 리소트 얻기 ( Component에서 상속한 모든 오브젝트들 얻기 )
-                //tool.execute( new AddCompnentCommand( tool.selected, 'TestComponent' ) );
-            }
-        });
-        this._objectComponentRow.add( this._componentsRow );
-        this._objectComponentRow.add( addCompoentButton );
-        this.add( this._objectComponentRow );
-
 
         // [ Object Selected Event ]
 
@@ -349,7 +354,6 @@ export class ObjectEditor extends UIPanel {
     private _objectShadowRow        : UIRow;
     private _objectVisibleRow       : UIRow;
     private _objectUserDataRow      : UIRow;
-    private _objectComponentRow     : UIRow;
     private _componentsRow          : UIRow;
 
     private _objectType             : UIText;
@@ -439,6 +443,16 @@ export class ObjectEditor extends UIPanel {
 
         if ( object !== undefined && object !== null ) {
 
+            // [ GameObject ]
+
+            let gameObject = <GameObject>GameObject.find( object.uuid );
+            if( gameObject !== undefined ) {
+
+                for( let componentEditor of this._componentEditors ) {
+                }
+            }
+
+            /*
             let newPosition = new GL.Vector3( this._objectPositionX.getValue(), this._objectPositionY.getValue(), this._objectPositionZ.getValue() );
             if ( object.position.distanceTo( newPosition ) >= 0.01 ) {
 
@@ -459,6 +473,7 @@ export class ObjectEditor extends UIPanel {
                 this._editor.execute( new SetScaleCommand( object, newScale ) );
 
             }
+            */
 
             // [ PerspectiveCamera ]
 
@@ -536,14 +551,6 @@ export class ObjectEditor extends UIPanel {
             }
         }
 
-        // [ GameObject ]
-
-        let gameObject = <GameObject>GameObject.find( object.uuid );
-        if( gameObject !== undefined ) {
-
-            for( let componentEditor of this._componentEditors ) {
-            }
-        }
     }
 
     private updateRows = ( object ) => {
@@ -597,9 +604,9 @@ export class ObjectEditor extends UIPanel {
 
             this._componentsRow.setDisplay('');
         }
-
     }
 
+    /*
     private updateTransformRows = ( object ) =>{
 
         if ( object instanceof GL.Light || ( object instanceof GL.Object3D && object.userData.targetInverse ) ) {
@@ -610,6 +617,7 @@ export class ObjectEditor extends UIPanel {
             this._objectScaleRow.setDisplay( '' );
         }
     }
+    */
 
     private updateUI = ( object ) => {
 
@@ -620,6 +628,7 @@ export class ObjectEditor extends UIPanel {
         this._objectUUID.setValue( object.uuid );
         this._objectName.setValue( object.name );
 
+        /*
         this._objectPositionX.setValue( object.position.x );
         this._objectPositionY.setValue( object.position.y );
         this._objectPositionZ.setValue( object.position.z );
@@ -631,6 +640,7 @@ export class ObjectEditor extends UIPanel {
         this._objectScaleX.setValue( object.scale.x );
         this._objectScaleY.setValue( object.scale.y );
         this._objectScaleZ.setValue( object.scale.z );
+        */
 
         if ( object.fov !== undefined ) {
             this._objectFov.setValue( object.fov );
@@ -684,12 +694,12 @@ export class ObjectEditor extends UIPanel {
         if( gameObject !== undefined ) {
 
             for( let componentEditor of this._componentEditors ) {
-                componentEditor.onInspectorGUI();
+                componentEditor.onUpdate();
             }
         }
 
         this._objectUserData.setBorderColor( 'transparent' );
         this._objectUserData.setBackgroundColor( '' );
-        this.updateTransformRows( object );
+        //this.updateTransformRows( object );
     }
 }
