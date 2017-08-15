@@ -50,7 +50,7 @@ export class AddObjectCommand extends Command {
     toJSON () : any {
 		let output = super.toJSON();
         output.object = this.object.toJSON();
-        output.gameObject = Ubject.toJSON(this.object);
+        output.gameObject = Ubject.toJSON(this.object.uuid);
 		return output;
     }
     /**
@@ -65,7 +65,7 @@ export class AddObjectCommand extends Command {
         if ( this.object === undefined ) {
             let loader = new GL.ObjectLoader();
             this.object = loader.parse( json.object );
-            Ubject.fromJSON( json.gameObject, SceneManager.getActiveScene().getObjects() );
+            Ubject.fromJSON( json.gameObject, SceneManager.getActiveScene().getAllObjects() );
         }
 	}
 
@@ -73,7 +73,7 @@ export class AddObjectCommand extends Command {
 
     /**
      * Creates an instance of AddObjectCommand.
-     * @param {GameObject} gameObject
+     * @param {GL.Object3D} object
      * @memberof AddObjectCommand
      */
     constructor( object:GL.Object3D ) {

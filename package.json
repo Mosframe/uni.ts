@@ -16,6 +16,7 @@
     "server": "ts-node source/server.ts",
     "watch": "watchify source/uni.ts -p tsify -o source/build/js/uni.js -dv",
     "build": "watchify source/uni.ts -p tsify -o build/index.js -dv",
+    "test01": "watchify source/Projects/Test01/TestComponent.ts -p tsify -o source/build/js/test01.js -dv",
     "install-test": "npm install -g build",
     "test": "ts-node tests.ts | faucet"
   },

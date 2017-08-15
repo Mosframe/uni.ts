@@ -20,6 +20,7 @@
         "allowJs": false,
         "declaration": true,
         "charset": "utf8",
+        "allowUnreachableCode":true,
         "typeRoots":[
             "./node_modules/@types",
             "./source/@types"

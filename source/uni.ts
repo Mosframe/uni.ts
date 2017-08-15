@@ -24,7 +24,9 @@ import { RemoveObjectCommand    }   from './Editor/Commands/RemoveObjectCommand'
 import { GameObject             }   from './Engine/GameObject';
 import { Util                   }   from './Engine/Util';
 
+import './Projects/Test01/source/';
 
+//console.log( TestComponent.name );
 
 /**
  * Units Editor

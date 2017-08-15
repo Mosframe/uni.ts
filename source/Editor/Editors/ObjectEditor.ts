@@ -30,6 +30,8 @@ import { UIOutliner             }   from '../UI/UIOutliner';
 import { ITool                  }   from '../Interfaces';
 import { ISignals               }   from '../Interfaces';
 
+import { AddComponentCommand    }   from '../Commands/AddComponentCommand';
+
 import { SetPositionCommand     }   from '../Commands/SetPositionCommand';
 import { SetRotationCommand     }   from '../Commands/SetRotationCommand';
 import { SetScaleCommand        }   from '../Commands/SetScaleCommand';
@@ -171,10 +173,12 @@ export class ObjectEditor extends UIPanel {
 
         // [ add component ]
 
+        let addComponentInput = new UIInput( 'TestComponent' ).setWidth('150px').setFontSize( '12px' );
         let addCompoentButton  = new UIButton( 'Add Component' ).setMarginLeft('50px').setWidth('150px').setStyle( 'text-align', ['center'] ).onClick( () => {
             if( tool.selected ) {
                 // Component 리소트 얻기 ( Component에서 상속한 모든 오브젝트들 얻기 )
-                //tool.execute( new AddCompnentCommand( tool.selected, 'TestComponent' ) );
+                let gameObject = <GameObject>GameObject.find( tool.selected.uuid );
+                tool.execute( new AddComponentCommand( gameObject, addComponentInput.getValue() ) );
             }
         });
         this.add( addCompoentButton );

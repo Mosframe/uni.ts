@@ -198,11 +198,57 @@ export class GameObject extends Ubject {
 
         return gameObject;
     }
+    //static Find	Finds a GameObject by name and returns it.
+    /**
+     * find
+     *
+     * @static
+     * @param {string} name
+     * @returns {Ubject}
+     * @memberof Ubject
+     */
+    static find ( name:string ) : GameObject {
+        return
+        //return <>SceneManager.getActiveScene().find(uuid);
+    }
     /*
-    static Find	Finds a GameObject by name and returns it.
     static FindGameObjectsWithTag	Returns a list of active GameObjects tagged tag. Returns empty array if no GameObject was found.
     static FindWithTag	Returns one active GameObject tagged tag. Returns null if no GameObject was found.
     */
+
+
+    /**
+     * serialize
+     *
+     * @static
+     * @param {string} uuid
+     * @returns {*}
+     * @memberof Ubject
+     */
+    toJSON ( uuid:string ) : any {
+        let output:any = {};
+        let ubject = this.__scene.findUbjectByUUID(uuid);
+        output = this.__scene._serialize( window['UNITS'], ubject, output );
+        return output;
+    }
+
+    /**
+     * deserialize
+     *
+     * @static
+     * @param {*} meta
+     * @param {{[uuid:string]:GL.Object3D}} objects
+     * @returns {*}
+     * @memberof Ubject
+     */
+    fromJSON ( meta:any, objects:{[uuid:string]:GL.Object3D} ) : any {
+       let output:any = {};
+        if( meta.uuid in this.__ubjects ) {
+            let ubject = this.__ubjects[meta.uuid];
+            output = this._deserialize( window['UNITS'], undefined, meta, objects );
+        }
+        return output;
+    }
 
     // [ Constructors ]
 
@@ -231,9 +277,6 @@ export class GameObject extends Ubject {
         // [ core ]
         this._core  = new GL.Object3D();
 
-        // [ scene ]
-        this._scene = SceneManager.getActiveScene();
-
         // [ transform ]
         this._transform = this.addComponent( Transform );
 
@@ -245,22 +288,8 @@ export class GameObject extends Ubject {
 
     // [ Protected Variables ]
 
-    //@Serializable
     protected _components       : Component[] = [];
-    //@Serializable
     protected _transform        : Transform;
-    //@Serializable
-    protected _scene            : Scene;
-    //@Serializable
     protected _core             : GL.Object3D;
 }
 window['UNITS'][GameObject.name] = GameObject;
-
-/*
-serializable[GameObject.name] = [
-    '_components',
-    '_transform',
-    '_scene',
-    '_core',
-];
-*/

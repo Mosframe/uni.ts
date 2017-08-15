@@ -65,35 +65,49 @@ export class GamePlayer {
 
 		let scriptWrapResult = JSON.stringify( scriptWrapResultObj ).replace( /\"/g, '' );
 
-		// [ Scripts ]
-		for ( let uuid in json.scripts ) {
-
-			let object = this._scene.getObjectByProperty( 'uuid', uuid, true );
-			if ( object === undefined ) {
-				console.warn( 'AppPlayer: Script without object.', uuid );
-				continue;
+		if( this._scene !== undefined ) {
+			// [ GameObject ]
+			for( let uuid in json.ubjects ) {
+				let object = this._scene.getObjectByProperty( 'uuid', uuid );
+				if ( object === undefined ) {
+					console.warn( 'AppPlayer: GameObject without object.', uuid );
+					continue;
+				}
+				let ubject = json.ubjects[ uuid ];
+				// 공사중...
 			}
 
-			let scripts = json.scripts[ uuid ];
-			for ( let i = 0; i < scripts.length; i ++ ) {
+			// [ Scripts ]
+			for ( let uuid in json.scripts ) {
 
-				let script = scripts[ i ];
+				let object = this._scene.getObjectByProperty( 'uuid', uuid );
+				if ( object === undefined ) {
+					console.warn( 'AppPlayer: Script without object.', uuid );
+					continue;
+				}
 
-				// [ Bind functions to object ]
-				let functions = ( new Function( scriptWrapParams, script.source + '\nreturn ' + scriptWrapResult + ';' ).bind( object ) )( this, this._renderer, this._scene, this._camera );
+				let scripts = json.scripts[ uuid ];
+				for ( let i = 0; i < scripts.length; i ++ ) {
 
-				for ( let name in functions ) {
+					let script = scripts[ i ];
 
-					if ( functions[ name ] === undefined ) continue;
-					if ( this._events[ name ] === undefined ) {
+					// [ Bind functions to object ]
+					let functions = ( new Function( scriptWrapParams, script.source + '\nreturn ' + scriptWrapResult + ';' ).bind( object ) )( this, this._renderer, this._scene, this._camera );
 
-						console.warn( 'AppPlayer: Event type not supported (', name, ')' );
-						continue;
+					for ( let name in functions ) {
+
+						if ( functions[ name ] === undefined ) continue;
+						if ( this._events[ name ] === undefined ) {
+
+							console.warn( 'AppPlayer: Event type not supported (', name, ')' );
+							continue;
+						}
+						this._events[ name ].push( functions[ name ].bind( object ) );
 					}
-					this._events[ name ].push( functions[ name ].bind( object ) );
 				}
 			}
 		}
+
 		this._dispatch( this._events.init, arguments );
 	}
 
@@ -209,7 +223,7 @@ export class GamePlayer {
 	private _height 	: number;
 	private _loader 	: GL.ObjectLoader;
 	private _camera 	: any;
-	private _scene 		: any;
+	private _scene 		: GL.Scene | undefined;
 	private _renderer 	: any;
 	private _controls 	: any;
 	private _effect 	: any;

@@ -4,29 +4,34 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                     }   from '../../Engine/Graphic';
-import { Component              }   from '../../Engine/Component';
+import { GL                         }   from '../../Engine/Graphic';
+import { Component                  }   from '../../Engine/Component';
+import { Transform                  }   from '../../Engine/Transform';
+import { GameObject                 }   from '../../Engine/GameObject';
 
-import { UNumber                }   from '../../Engine/UNumber';
-import { UIElement              }   from '../../Engine/UI/UIElement';
-import { UIPanel                }   from '../../Engine/UI/UIPanel';
-import { UIButton               }   from '../../Engine/UI/UIButton';
-import { UINumber               }   from '../../Engine/UI/UINumber';
-import { UIDiv                  }   from '../../Engine/UI/UIDiv';
-import { UISpan                 }   from '../../Engine/UI/UISpan';
-import { UIRow                  }   from '../../Engine/UI/UIRow';
-import { UIColor                }   from '../../Engine/UI/UIColor';
-import { UIText                 }   from '../../Engine/UI/UIText';
-import { UIBreak                }   from '../../Engine/UI/UIBreak';
-import { UISelect               }   from '../../Engine/UI/UISelect';
-import { UIBoolean              }   from '../../Engine/UI/UIBoolean';
-import { UIInput                }   from '../../Engine/UI/UIInput';
-import { UICheckbox             }   from '../../Engine/UI/UICheckbox';
-import { UITextArea             }   from '../../Engine/UI/UITextArea';
-import { UIInteger              }   from '../../Engine/UI/UIInteger';
-import { UIOutliner             }   from '../UI/UIOutliner';
-import { ITool                  }   from '../Interfaces';
-import { ISignals               }   from '../Interfaces';
+import { UNumber                    }   from '../../Engine/UNumber';
+import { UIElement                  }   from '../../Engine/UI/UIElement';
+import { UIPanel                    }   from '../../Engine/UI/UIPanel';
+import { UIButton                   }   from '../../Engine/UI/UIButton';
+import { UINumber                   }   from '../../Engine/UI/UINumber';
+import { UIDiv                      }   from '../../Engine/UI/UIDiv';
+import { UISpan                     }   from '../../Engine/UI/UISpan';
+import { UIRow                      }   from '../../Engine/UI/UIRow';
+import { UIColor                    }   from '../../Engine/UI/UIColor';
+import { UIText                     }   from '../../Engine/UI/UIText';
+import { UIBreak                    }   from '../../Engine/UI/UIBreak';
+import { UISelect                   }   from '../../Engine/UI/UISelect';
+import { UIBoolean                  }   from '../../Engine/UI/UIBoolean';
+import { UIInput                    }   from '../../Engine/UI/UIInput';
+import { UICheckbox                 }   from '../../Engine/UI/UICheckbox';
+import { UITextArea                 }   from '../../Engine/UI/UITextArea';
+import { UIInteger                  }   from '../../Engine/UI/UIInteger';
+import { UIOutliner                 }   from '../UI/UIOutliner';
+import { ITool                      }   from '../Interfaces';
+import { ISignals                   }   from '../Interfaces';
+
+import { RemoveComponentCommand     }   from '../Commands/RemoveComponentCommand';
+import { SetComponentValueCommand   }   from '../Commands/SetComponentValueCommand';
 
 /**
  * ComponentEditor
@@ -106,10 +111,21 @@ export class ComponentEditor extends UIPanel {
         // [ Title ]
 
         let titleRow     = new UIRow();
-        let titleText    = new UIText();
-
-        titleRow.add( new UIText( component.constructor.name ).setWidth( '200px' ).setFontWeight('bold') );
         this.add( titleRow );
+
+        let titleText    = new UIText();
+        titleRow.add( new UIText( component.constructor.name ).setWidth( '240px' ).setFontWeight('bold') );
+
+        // [ Remove Button ]
+
+        if( !(this._component instanceof Transform) ) {
+            let removeCompoentButton  = new UIButton( 'X' ).setWidth('10px').onClick( () => {
+                if( tool.selected ) {
+                    tool.execute( new RemoveComponentCommand( this._component.gameObject, this._component ) );
+                }
+            });
+            titleRow.add( removeCompoentButton );
+        }
 
         // [ Properties ]
 
@@ -176,9 +192,7 @@ export class ComponentEditor extends UIPanel {
                 let newValue = drawer.getValue();
                 if( newValue !== value ) {
 
-                    // TODO : 컴멘더로 실행해야 한다.
-                    //this._tool.execute( new SetComponentPropertyCommand( object, newValue ) );
-                    this._component[key] = newValue;
+                    this._tool.execute( new SetComponentValueCommand( this._component, key, newValue ) );
                 }
                 break;
             case 'string':
