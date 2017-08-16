@@ -4,6 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+import { UnitsEngine    }   from './UnitsEngine';
 import { GL             }   from './Graphic';
 import { Ubject         }   from './Ubject';
 import { Component      }   from './Component';
@@ -77,4 +78,4 @@ export class MeshFilter extends Component {
         }
     }
 }
-window['UNITS'][MeshFilter.name] = MeshFilter;
+UnitsEngine[MeshFilter.name] = MeshFilter;

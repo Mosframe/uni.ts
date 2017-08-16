@@ -1,4 +1,12 @@
 /**
+ * ShadowCastingMode.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+*/
+
+import { UnitsEngine    }   from './UnitsEngine';
+
+/**
  * How shadows are cast from this object.
  *
  * @author mosframe / https://github.com/mosframe
@@ -16,5 +24,5 @@ export enum ShadowCastingMode {
     /**	Object casts shadows, but is otherwise invisible in the scene. */
     shadowsOnly ,
 }
-window['UNITS']['ShadowCastingMode'] = ShadowCastingMode;
+UnitsEngine['ShadowCastingMode'] = ShadowCastingMode;
 

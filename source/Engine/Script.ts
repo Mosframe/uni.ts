@@ -7,11 +7,12 @@
  * @extends {Behaviour}
  */
 
-import { GL         }   from './Graphic';
-import { Behaviour  }   from './Behaviour';
-import { GameObject }   from './GameObject';
-import { Transform  }   from './Transform';
-import { Ubject     }   from './Ubject';
+import { UnitsEngine    }   from './UnitsEngine';
+import { GL             }   from './Graphic';
+import { Behaviour      }   from './Behaviour';
+import { GameObject     }   from './GameObject';
+import { Transform      }   from './Transform';
+import { Ubject         }   from './Ubject';
 
 /**
  * Script is the base class from which every Uni.ts script derives.
@@ -124,4 +125,4 @@ export class Script extends Behaviour {
     Update	Update is called every frame, if the MonoBehaviour is enabled.
     */
 }
-window['UNITS'][Script.name] = Script;
+UnitsEngine[Script.name] = Script;

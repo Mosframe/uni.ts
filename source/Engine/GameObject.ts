@@ -4,6 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+import { UnitsEngine            }   from './UnitsEngine';
 import { GL                     }   from './Graphic';
 import { ComponentType          }   from './Type';
 import { Component              }   from './Component';
@@ -55,7 +56,7 @@ export class GameObject extends Ubject {
     */
     get name () : string        { return this._name; }
     set name ( value:string )   { this._name = value; if(this.core!==undefined) this.core.name = this._name; }
-    get scene() : Scene         { return this._scene; }
+    get scene() : Scene         { return this.__scene; }
     /*
     tag	The tag of this game object.
     */
@@ -91,7 +92,7 @@ export class GameObject extends Ubject {
     addComponent2( componentName:string ) : Component {
 
         // [ instance ]
-        let instance = new window['UNITS'][componentName]();
+        let instance = new UnitsEngine[componentName]();
         instance.gameObject = this;
 
         // [ add components ]
@@ -198,57 +199,21 @@ export class GameObject extends Ubject {
 
         return gameObject;
     }
-    //static Find	Finds a GameObject by name and returns it.
     /**
-     * find
+     * Finds a GameObject by name and returns it.
      *
      * @static
      * @param {string} name
-     * @returns {Ubject}
-     * @memberof Ubject
+     * @returns {(GameObject|undefined)}
+     * @memberof GameObject
      */
-    static find ( name:string ) : GameObject {
-        return
-        //return <>SceneManager.getActiveScene().find(uuid);
+    static find ( name:string ) : GameObject|undefined {
+        return SceneManager.getActiveScene().findUbjectByName( GameObject, name );
     }
     /*
     static FindGameObjectsWithTag	Returns a list of active GameObjects tagged tag. Returns empty array if no GameObject was found.
     static FindWithTag	Returns one active GameObject tagged tag. Returns null if no GameObject was found.
     */
-
-
-    /**
-     * serialize
-     *
-     * @static
-     * @param {string} uuid
-     * @returns {*}
-     * @memberof Ubject
-     */
-    toJSON ( uuid:string ) : any {
-        let output:any = {};
-        let ubject = this.__scene.findUbjectByUUID(uuid);
-        output = this.__scene._serialize( window['UNITS'], ubject, output );
-        return output;
-    }
-
-    /**
-     * deserialize
-     *
-     * @static
-     * @param {*} meta
-     * @param {{[uuid:string]:GL.Object3D}} objects
-     * @returns {*}
-     * @memberof Ubject
-     */
-    fromJSON ( meta:any, objects:{[uuid:string]:GL.Object3D} ) : any {
-       let output:any = {};
-        if( meta.uuid in this.__ubjects ) {
-            let ubject = this.__ubjects[meta.uuid];
-            output = this._deserialize( window['UNITS'], undefined, meta, objects );
-        }
-        return output;
-    }
 
     // [ Constructors ]
 
@@ -292,4 +257,4 @@ export class GameObject extends Ubject {
     protected _transform        : Transform;
     protected _core             : GL.Object3D;
 }
-window['UNITS'][GameObject.name] = GameObject;
+UnitsEngine[GameObject.name] = GameObject;

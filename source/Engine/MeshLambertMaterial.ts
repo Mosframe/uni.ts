@@ -5,11 +5,12 @@
  *
  */
 
-import { GL         }   from './Graphic';
-import { Material   }   from './Material';
-import { Color      }   from './Color';
-import { ShaderType }   from './ShaderType';
-import { Ubject     }   from './Ubject';
+import { UnitsEngine    }   from './UnitsEngine';
+import { GL             }   from './Graphic';
+import { Material       }   from './Material';
+import { Color          }   from './Color';
+import { ShaderType     }   from './ShaderType';
+import { Ubject         }   from './Ubject';
 
 /**
  * The MeshLambertMaterial class.
@@ -59,4 +60,4 @@ export class MeshLambertMaterial extends Material {
 
     // [ Protected Static Functions ]
 }
-window['UNITS'][MeshLambertMaterial.name] = MeshLambertMaterial;
+UnitsEngine[MeshLambertMaterial.name] = MeshLambertMaterial;

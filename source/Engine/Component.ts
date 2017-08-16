@@ -4,6 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+import { UnitsEngine    }   from './UnitsEngine';
 import { GL             }   from './Graphic';
 import { ComponentType  }   from './Type';
 import { GameObject     }   from './GameObject';
@@ -75,4 +76,4 @@ export class Component extends Ubject {
 
     protected _onChanged () {}
 }
-window['UNITS'][Component.name] = Component;
+UnitsEngine[Component.name] = Component;

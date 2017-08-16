@@ -4,7 +4,23 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                     }   from './Engine/UnitsEngine';
+// [ Engine Sources ]
+
+import './Engine';
+import './Editor';
+
+// [ Project Sources ]
+import './Projects/Test01/source/';
+
+import { UnitsEngine            }   from './Engine';
+import { UnitsEditor            }   from './Editor';
+
+console.log( 'UnitsEngine', UnitsEngine );
+console.log( 'UnitsEditor', UnitsEditor );
+
+// [ Editor Sources ]
+
+import { GL                     }   from './Engine';
 
 import { UIModal                }   from './Engine/UI/UIModal';
 import { UIText                 }   from './Engine/UI/UIText';
@@ -24,9 +40,7 @@ import { RemoveObjectCommand    }   from './Editor/Commands/RemoveObjectCommand'
 import { GameObject             }   from './Engine/GameObject';
 import { Util                   }   from './Engine/Util';
 
-import './Projects/Test01/source/';
 
-//console.log( TestComponent.name );
 
 /**
  * Units Editor

@@ -4,9 +4,10 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL     }   from './Graphic';
-import { Scene  }   from './Scene';
-import { Ubject }   from './Ubject';
+import { UnitsEngine    }   from './UnitsEngine';
+import { GL             }   from './Graphic';
+import { Scene          }   from './Scene';
+import { Ubject         }   from './Ubject';
 
 /**
  * Scene management at run-time.
@@ -96,4 +97,4 @@ export class SceneManager {
 
     // [ Protected Static Functions ]
 }
-window['UNITS'][SceneManager.name] = SceneManager;
+UnitsEngine[SceneManager.name] = SceneManager;

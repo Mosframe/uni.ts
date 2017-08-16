@@ -4,11 +4,12 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                 }   from './Graphic';
-import { Material           }   from './Material';
-import { Color              }   from './Color';
-import { ShaderType         }   from './ShaderType';
-import { Ubject             }   from './Ubject';
+import { UnitsEngine    }   from './UnitsEngine';
+import { GL             }   from './Graphic';
+import { Material       }   from './Material';
+import { Color          }   from './Color';
+import { ShaderType     }   from './ShaderType';
+import { Ubject         }   from './Ubject';
 
 /**
  * The MeshStandardMaterial class.
@@ -56,4 +57,4 @@ export class MeshStandardMaterial extends Material {
         this._core = new GL.MeshStandardMaterial();
     }
 }
-window['UNITS'][MeshStandardMaterial.name] = MeshStandardMaterial;
+UnitsEngine[MeshStandardMaterial.name] = MeshStandardMaterial;

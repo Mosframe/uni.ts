@@ -4,9 +4,10 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from './Graphic';
-import { Transform  }   from './Transform';
-import { Component  }   from './Component';
+import { UnitsEngine    }   from './UnitsEngine';
+import { GL             }   from './Graphic';
+import { Transform      }   from './Transform';
+import { Component      }   from './Component';
 
 /**
  * Behaviours are Components that can be enabled or disabled.
@@ -34,4 +35,4 @@ export class Behaviour extends Component {
 
     // [ Constructors ]
 }
-window['UNITS'][Behaviour.name] = Behaviour;
+UnitsEngine[Behaviour.name] = Behaviour;

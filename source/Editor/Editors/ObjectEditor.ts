@@ -5,6 +5,8 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+import { UnitsEditor            }   from '../../Editor';
+
 import { GL                     }   from '../../Engine/Graphic';
 import { Component              }   from '../../Engine/Component';
 import { GameObject             }   from '../../Engine/GameObject';
@@ -595,8 +597,8 @@ export class ObjectEditor extends UIPanel {
 
             for( let component of gameObject['_components'] ) {
 
-                if( component.constructor.name in window['UNITS']['EDITOR'] ) {
-                    let componentEditor = new window['UNITS']['EDITOR'][component.constructor.name]( component, this._editor );
+                if( component.constructor.name in UnitsEditor ) {
+                    let componentEditor = new UnitsEditor[component.constructor.name]( component, this._editor );
                     this._componentEditors.push( componentEditor );
                     this._componentsRow.add( componentEditor );
                 } else {

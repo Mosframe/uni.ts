@@ -4,6 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+import { UnitsEngine    }   from './UnitsEngine';
 import { GL             }   from './Graphic';
 import { using          }   from './Using';
 import { IDisposable    }   from './Using';
@@ -142,4 +143,4 @@ export class Ubject extends Object implements IDisposable  {
 
     private static  __nextInstanceID: number = 1;
 }
-window['UNITS'][Ubject.name] = Ubject;
+UnitsEngine[Ubject.name] = Ubject;

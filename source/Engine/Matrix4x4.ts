@@ -4,8 +4,9 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL     }   from './Graphic';
-import { Ubject }   from './Ubject';
+import { UnitsEngine    }   from './UnitsEngine';
+import { GL             }   from './Graphic';
+import { Ubject         }   from './Ubject';
 
 /**
  * A standard 4x4 transformation matrix.
@@ -97,4 +98,4 @@ export class Matrix4x4 extends GL.Matrix4 {
 
     // [ Protected Static Functions ]
 }
-window['UNITS'][Matrix4x4.name] = Matrix4x4;
+UnitsEngine[Matrix4x4.name] = Matrix4x4;

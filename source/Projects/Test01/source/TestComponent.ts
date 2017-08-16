@@ -4,7 +4,8 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { Behaviour  } from '../../../Engine/UnitsEngine';
+import { UnitsEngine    } from '../../../Engine';
+import { Behaviour      } from '../../../Engine';
 
 export class TestComponent extends Behaviour {
 
@@ -13,4 +14,4 @@ export class TestComponent extends Behaviour {
     z : number = 30;
 
 }
-window['UNITS'][TestComponent.name]=TestComponent;
+UnitsEngine[TestComponent.name]=TestComponent;

@@ -4,7 +4,8 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL }   from './Graphic';
+import { UnitsEngine    }   from './UnitsEngine';
+import { GL             }   from './Graphic';
 
 /**
  * Representation of RGBA colors.
@@ -96,4 +97,4 @@ export class Color extends GL.Color{
     */
 
 }
-window['UNITS'][Color.name] = Color;
+UnitsEngine[Color.name] = Color;

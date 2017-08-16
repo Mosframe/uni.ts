@@ -7,9 +7,10 @@
  * @extends {Ubject}
  */
 
-import { GL         }   from './Graphic';
-import { ShaderType }   from './ShaderType';
-import { Ubject     }   from './Ubject';
+import { UnitsEngine    }   from './UnitsEngine';
+import { GL             }   from './Graphic';
+import { ShaderType     }   from './ShaderType';
+import { Ubject         }   from './Ubject';
 
 /**
  * Shader scripts used for all rendering.
@@ -108,4 +109,4 @@ export class Shader extends Ubject {
 
     // [ Protected Static Functions ]
 }
-window['UNITS'][Shader.name] = Shader;
+UnitsEngine[Shader.name] = Shader;

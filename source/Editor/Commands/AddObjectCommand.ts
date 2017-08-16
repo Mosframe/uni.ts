@@ -50,7 +50,10 @@ export class AddObjectCommand extends Command {
     toJSON () : any {
 		let output = super.toJSON();
         output.object = this.object.toJSON();
-        output.gameObject = Ubject.toJSON(this.object.uuid);
+
+        let scene = SceneManager.getActiveScene();
+        let gameObject = scene.findUbjectByUUID(this.object.uuid);
+        output.gameObject = scene.serialize( gameObject );
 		return output;
     }
     /**
@@ -65,7 +68,9 @@ export class AddObjectCommand extends Command {
         if ( this.object === undefined ) {
             let loader = new GL.ObjectLoader();
             this.object = loader.parse( json.object );
-            Ubject.fromJSON( json.gameObject, SceneManager.getActiveScene().getAllObjects() );
+
+            let scene = SceneManager.getActiveScene();
+            scene.deserialize( undefined, json.gameObject, scene.getAllObjects() );
         }
 	}
 

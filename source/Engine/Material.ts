@@ -4,6 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+import { UnitsEngine    }   from './UnitsEngine';
 import { GL             }   from './Graphic';
 import { Color          }   from './Color';
 import { ShaderType     }   from './ShaderType';
@@ -81,4 +82,4 @@ export class Material extends Ubject {
         this._core = new GL.Material();
     }
 }
-window['UNITS'][Material.name] = Material;
+UnitsEngine[Material.name] = Material;

@@ -4,6 +4,8 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+ import { UnitsEngine    }   from './UnitsEngine';
+
 /**
  * The type of a Light.
  *
@@ -24,4 +26,4 @@ export enum LightType {
     /*The light is an area light. It affects only lightmaps and lightprobes.*/
     Area        ,
 }
-window['UNITS']['LightType'] = LightType;
+UnitsEngine['LightType'] = LightType;

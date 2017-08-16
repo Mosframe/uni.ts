@@ -29,6 +29,8 @@ import { UIOutliner             }   from '../UI/UIOutliner';
 import { ITool                  }   from '../Interfaces';
 import { ISignals               }   from '../Interfaces';
 
+import { UnitsEditor            }   from '../../Editor';
+
 import { SetPositionCommand     }   from '../Commands/SetPositionCommand';
 import { SetRotationCommand     }   from '../Commands/SetRotationCommand';
 import { SetScaleCommand        }   from '../Commands/SetScaleCommand';
@@ -198,4 +200,4 @@ export class TransformEditor extends ComponentEditor {
     }
 }
 
-window['UNITS']['EDITOR'][Transform.name] = TransformEditor;
+UnitsEditor[Transform.name] = TransformEditor;

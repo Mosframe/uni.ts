@@ -4,9 +4,10 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL        }   from './Graphic';
-import { Behaviour }   from './Behaviour';
-import { Vector3   }   from './Vector3';
+import { UnitsEngine    }   from './UnitsEngine';
+import { GL             }   from './Graphic';
+import { Behaviour      }   from './Behaviour';
+import { Vector3        }   from './Vector3';
 
 
 /**
@@ -176,4 +177,4 @@ export class Camera extends Behaviour {
         this.gameObject.core = camera;
     }
 }
-window['UNITS'][Camera.name] = Camera;
+UnitsEngine[Camera.name] = Camera;

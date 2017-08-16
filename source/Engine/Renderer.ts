@@ -4,6 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+import { UnitsEngine            }   from './UnitsEngine';
 import { GL                     }   from './Graphic';
 import { Component              }   from './Component';
 import { GameObject             }   from './GameObject';
@@ -185,4 +186,4 @@ export class Renderer extends Component {
         }
     }
 }
-window['UNITS'][Renderer.name] = Renderer;
+UnitsEngine[Renderer.name] = Renderer;

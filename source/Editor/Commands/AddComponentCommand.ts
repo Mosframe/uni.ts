@@ -64,8 +64,8 @@ export class AddComponentCommand extends Command {
      */
 	fromJSON ( json:any ) {
 		super.fromJSON( json );
-        this._gameObject    = <GameObject>Ubject.find(json.gameObjectUuid);
-        this._component     = <Component>Ubject.find(json.componentUuid);
+        this._gameObject    = <GameObject>this._tool.scene.findUbjectByUUID(json.gameObjectUuid);
+        this._component     = <Component>this._tool.scene.findUbjectByUUID(json.componentUuid);
         this._componentName = json.componentName;
 	}
 

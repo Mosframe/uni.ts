@@ -4,6 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+import { UnitsEngine    }   from './UnitsEngine';
 import { GL             }   from './Graphic';
 import { Ubject         }   from './Ubject';
 import { Geometry       }   from './Geometry';
@@ -112,4 +113,4 @@ export class Mesh extends Ubject {
         this._core.geometry = this._geometry.core;
     }
 }
-window['UNITS'][Mesh.name] = Mesh;
+UnitsEngine[Mesh.name] = Mesh;

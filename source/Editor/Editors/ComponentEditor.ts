@@ -3,11 +3,11 @@
  *
  * @author mosframe / https://github.com/mosframe
  */
-
-import { GL                         }   from '../../Engine/Graphic';
-import { Component                  }   from '../../Engine/Component';
-import { Transform                  }   from '../../Engine/Transform';
-import { GameObject                 }   from '../../Engine/GameObject';
+import { UnitsEditor                }   from '../../Editor';
+import { GL                         }   from '../../Engine';
+import { Component                  }   from '../../Engine';
+import { Transform                  }   from '../../Engine';
+import { GameObject                 }   from '../../Engine';
 
 import { UNumber                    }   from '../../Engine/UNumber';
 import { UIElement                  }   from '../../Engine/UI/UIElement';
@@ -26,7 +26,9 @@ import { UIInput                    }   from '../../Engine/UI/UIInput';
 import { UICheckbox                 }   from '../../Engine/UI/UICheckbox';
 import { UITextArea                 }   from '../../Engine/UI/UITextArea';
 import { UIInteger                  }   from '../../Engine/UI/UIInteger';
+
 import { UIOutliner                 }   from '../UI/UIOutliner';
+
 import { ITool                      }   from '../Interfaces';
 import { ISignals                   }   from '../Interfaces';
 
@@ -203,4 +205,4 @@ export class ComponentEditor extends UIPanel {
         }
     }
 }
-window['UNITS']['EDITOR'][Component.name] = ComponentEditor;
+UnitsEditor[Component.name] = ComponentEditor;

@@ -4,8 +4,9 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL     }   from './Graphic';
-import { Ubject }   from './Ubject';
+import { UnitsEngine    }   from './UnitsEngine';
+import { GL             }   from './Graphic';
+import { Ubject         }   from './Ubject';
 
 /**
  * Vector3
@@ -112,4 +113,4 @@ export class Vector3 extends GL.Vector3 {
 
     // [ Protected Static Functions ]
 }
-window['UNITS'][Vector3.name] = Vector3;
+UnitsEngine[Vector3.name] = Vector3;

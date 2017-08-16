@@ -4,6 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+import { UnitsEngine    }   from './UnitsEngine';
 import { GL             }   from './Graphic';
 import { Component      }   from './Component';
 import { GameObject     }   from './GameObject';
@@ -112,4 +113,4 @@ export class Transform extends Component {
     Translate	Moves the transform in the direction and distance of translation.
     */
 }
-window['UNITS'][Transform.name] = Transform;
+UnitsEngine[Transform.name] = Transform;

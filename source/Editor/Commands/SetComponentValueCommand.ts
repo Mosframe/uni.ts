@@ -10,8 +10,10 @@
 import { GL   	        }   from '../../Engine/Graphic';
 import { Ubject         }   from '../../Engine/Ubject';
 import { GameObject     }   from '../../Engine/GameObject';
+import { Scene          }   from '../../Engine/Scene';
 import { SceneManager   }   from '../../Engine/SceneManager';
 import { Component      }   from '../../Engine/Component';
+
 import { Command        }   from './Command';
 
 /**
@@ -50,7 +52,8 @@ export class SetComponentValueCommand extends Command {
      * @memberof SetComponentValueCommand
      */
     toJSON () : any {
-		let output = super.toJSON();
+        let output = super.toJSON();
+        output.sceneUuid        = this._component['__scene'].core.uuid;
         output.componentUuid    = this._component.uuid;
 		output.attributeName    = this.attributeName;
 		output.oldValue         = this._oldValue;
@@ -68,7 +71,7 @@ export class SetComponentValueCommand extends Command {
 		this.attributeName  = json.attributeName;
 		this._oldValue      = json.oldValue;
         this._newValue      = json.newValue;
-        this._component     = <Component>Ubject.find(json.componentUuid);
+        this._component     = <Component>this._tool.scene.findUbjectByUUID(json.componentUuid);
 	}
 
     // [ Constructor ]

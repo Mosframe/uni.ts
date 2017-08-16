@@ -4,6 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+import { UnitsEngine    }   from './UnitsEngine';
 import { GL             }   from './Graphic';
 import { PrimitiveType  }   from './PrimitiveType';
 import { Serializable   }   from './Serializable';
@@ -132,4 +133,4 @@ export class Geometry extends Ubject {
 
     // [ Protected Static Functions ]
 }
-window['UNITS'][Geometry.name] = Geometry;
+UnitsEngine[Geometry.name] = Geometry;

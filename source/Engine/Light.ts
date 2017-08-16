@@ -4,6 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+import { UnitsEngine    }   from './UnitsEngine';
 import { GL             }   from './Graphic';
 import { Behaviour      }   from './Behaviour';
 import { GameObject     }   from './GameObject';
@@ -155,4 +156,4 @@ export class Light extends Behaviour {
         }
     }
 }
-window['UNITS'][Light.name] = Light;
+UnitsEngine[Light.name] = Light;

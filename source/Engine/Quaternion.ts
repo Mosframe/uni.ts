@@ -4,8 +4,9 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from './Graphic';
-import { Vector3    }   from './Vector3';
+import { UnitsEngine    }   from './UnitsEngine';
+import { GL             }   from './Graphic';
+import { Vector3        }   from './Vector3';
 
  /**
  * Quaternion
@@ -75,4 +76,4 @@ export class Quaternion extends GL.Quaternion {
     operator ==	Are two quaternions equal to each other?
     */
 }
-window['UNITS'][Quaternion.name] = Quaternion;
+UnitsEngine[Quaternion.name] = Quaternion;
