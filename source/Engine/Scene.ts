@@ -101,7 +101,7 @@ export class Scene {
         for( let uuid in object3Ds ) {
             let obj = this.__ubjects[uuid];
             if( obj !== undefined ) {
-                meta.ubjects[uuid] = this.serialize( obj, meta );
+                this.serialize( obj, meta );
             }
         }
 
@@ -130,7 +130,7 @@ export class Scene {
         let object3Ds = this.getAllObjects();
         this.clearUbjects();
         for( let uuid in meta.ubjects ) {
-            this.deserialize( undefined, meta.ubjects[uuid], object3Ds );
+            this.deserialize( meta.ubjects[uuid], meta, object3Ds );
         }
 
         console.log( "Scene.fromJSON.ubjects", this.__ubjects );
@@ -192,16 +192,16 @@ export class Scene {
                 // 3. class name
                 // 4. class valiables
 
-                output.module = 'UNITS';
-                output.uuid = target.uuid;
-
                 // [ register ]
                 if( meta.ubjects[target.uuid] === undefined ) {
-                    meta.ubjects[target.uuid] = output;
+                    let ubject:any ={};
+                    ubject.module = 'UNITS';
+                    ubject.uuid = target.uuid;
+                    meta.ubjects[target.uuid] = ubject;
 
                     // [ class ]
-                    if( target.constructor.name in module ) {
-                        output.class = target.constructor.name;
+                    if( target.constructor.name in UnitsEngine ) {
+                        ubject.class = target.constructor.name;
                         target['__avaliable'] = true;
                     }
 
@@ -210,26 +210,31 @@ export class Scene {
                         let value = target[key];
                         if( key[1] !== '_' ) { // __member
                             if ( typeof value === 'boolean' || typeof value === 'number' || typeof value === 'string' || typeof value === 'object' ) {
-                                output[key] = this.serialize( value, meta );
+                                meta.ubjects[target.uuid][key] = this.serialize( value, meta );
                             }
                         }
                     }
                 }
+
+                output.module = 'UNITS';
+                output.uuid = target.uuid;
             }
         }
         return output;
     }
+
     /**
      * deserialize
      *
-     * @static
-     * @param {*} target
      * @param {*} meta
-     * @param {[uuid:string]:GL.Object3D} object3Ds
+     * @param {*} metaRoot
+     * @param {{[uuid:string]:GL.Object3D}} objects
      * @returns
-     * @memberof Ubject
+     * @memberof Scene
      */
-    deserialize( target:any, meta:any, objects:{[uuid:string]:GL.Object3D} ) {
+    deserialize( meta:any, metaRoot:any, objects:{[uuid:string]:GL.Object3D} ) {
+
+        let target:any;
 
         // [ boolean | number | string ]
         if( typeof meta === 'boolean' || typeof meta === 'number' || typeof meta === 'string' ) {
@@ -240,7 +245,7 @@ export class Scene {
         if( meta instanceof Array ) {
             target = [];
             for( let key in meta ) {
-                target[key] = this.deserialize( target[key], meta[key], objects );
+                target[key] = this.deserialize( meta[key], metaRoot, objects );
             }
         }
         else
@@ -261,18 +266,22 @@ export class Scene {
                     target = this.__ubjects[meta.uuid];
                 } else {
 
-                    // [ instantiate ]
-                    target = new UnitsEngine[meta.class]();
-                    if( target === undefined ) {
-                        target = {};
-                    } else {
-                        this.__ubjects[meta.uuid] = target;
-                    }
+                    target = {};
 
-                    for( let key in meta ) {
-                        if( key !== 'module' && key !== 'class' ) {
-                            target[key] = this.deserialize( target[key], meta[key], objects );
-                        }
+                    if( meta.uuid in metaRoot.ubjects ) {
+                        let ubject = metaRoot.ubjects[meta.uuid];
+
+                        // [ instantiate ]
+                        if( ubject.class in UnitsEngine ) {
+                            target = new UnitsEngine[ubject.class]();
+                            this.__ubjects[meta.uuid] = target;
+
+                            for( let key in meta ) {
+                                if( key !== 'module' && key !== 'class' ) {
+                                    target[key] = this.deserialize( meta[key], metaRoot, objects );
+                                }
+                            }
+                       }
                     }
                 }
             }

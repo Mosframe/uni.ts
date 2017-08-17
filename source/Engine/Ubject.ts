@@ -43,12 +43,12 @@ export class Ubject extends Object implements IDisposable  {
      * @type {string}
      * @memberof Ubject
      */
-    get uuid () : string        { return this._uuid; }
+    get uuid () : string        { return this.__uuid; }
     set uuid ( value:string )   {
 
-        this.__scene.removeUbject( this._uuid );
-        this._uuid=value;
-        this.__scene.registerUbject( this._uuid, this );
+        this.__scene.removeUbject( this.__uuid );
+        this.__uuid=value;
+        this.__scene.registerUbject( this.__uuid, this );
     }
 
     // [ Constructors ]
@@ -62,10 +62,10 @@ export class Ubject extends Object implements IDisposable  {
         super();
         this.__avaliable = true;
         this.__instanceID = Ubject.__nextInstanceID++;
-        this._uuid = GL.Math.generateUUID();
+        this.__uuid = GL.Math.generateUUID();
         // [ scene ]
         this.__scene = SceneManager.getActiveScene();
-        this.__scene.registerUbject( this._uuid, this );
+        this.__scene.registerUbject( this.__uuid, this );
     }
 
 
@@ -77,7 +77,7 @@ export class Ubject extends Object implements IDisposable  {
      * @memberof Ubject
      */
     dispose() {
-        this.__scene.removeUbject(this._uuid);
+        this.__scene.removeUbject(this.__uuid);
     }
     /**
      * Returns the instance id of the object.
@@ -133,9 +133,9 @@ export class Ubject extends Object implements IDisposable  {
     // [ Protected Variables ]
 
     protected       _name           : string;
-    protected       _uuid           : string;
 
     protected       __avaliable     : boolean;
+    protected       __uuid          : string;
     protected       __scene         : Scene;
     protected       __instanceID    : number;
 

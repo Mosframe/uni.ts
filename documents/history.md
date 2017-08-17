@@ -46,6 +46,8 @@ ObjectEditor.ts
 
             Scene에 ubjects 구조만들어야 한다. ( 공사중 )
                 Ubject.__ubjects => Scene.__ubjects  ( 공사중 )
+                    - 로드할다음 다시 저장하면 몇가지자 빠져있음
+                    - TransformEditor가 나타나지 않음
 
             Ubject 생성시 GamePlayer씬과 에디터씬들과 구분 지어야 한다.  ( 고민중....)
                 현재는 액티브씬에 생성
