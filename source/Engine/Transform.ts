@@ -62,9 +62,12 @@ export class Transform extends Component {
 
     get localToWorldMatrix() : Matrix4x4    { return this.core.matrix; }
     get lossyScale() : Vector3              { return this.core.getWorldScale(); }
-    /*
-    parent	The parent of the transform.
-    */
+    //	The parent of the transform.
+    get parent () : Transform               {
+        let go = <GameObject>this.__scene.findUbjectByUUID( this.core.uuid );
+        return go.transform;
+    }
+    set parent ( value:Transform )          { this.setParent( value ); }
 
     get position() : Vector3                { return this.core.localToWorld(this.core.position); }
     set position( value:Vector3 )           { let localPos = this.core.worldToLocal(value); this.core.position.set( localPos.x, localPos.y, localPos.z ); }
@@ -104,7 +107,40 @@ export class Transform extends Component {
     RotateAround	Rotates the transform about axis passing through point in world coordinates by angle degrees.
     SetAsFirstSibling	Move the transform to the start of the local transform list.
     SetAsLastSibling	Move the transform to the end of the local transform list.
-    SetParent	Set the parent of the transform.
+    */
+    /**
+     * Set the parent of the transform.
+     *
+     * @param {(Transform|undefined)} [parent=undefined]
+     * @memberof Transform
+     */
+    setParent( parent:Transform|undefined=undefined ) {
+
+        console.log( 'scale', this.lossyScale );
+
+        // get parent
+        let nextParent:GL.Object3D;
+        if( parent ) {
+            nextParent = parent.core;
+        } else {
+            nextParent = this.__scene.core;
+        }
+
+        // detach
+        let currParent = this.core.parent;
+        if( currParent !== undefined ) {
+            this.core.applyMatrix( currParent.matrixWorld );
+            currParent.remove( this.core );
+        }
+
+        //this.core.updateMatrix();
+        // attach
+        this.core.applyMatrix( new GL.Matrix4().getInverse( nextParent.matrixWorld ) );
+        nextParent.add( this.core );
+
+        console.log( 'scale', this.lossyScale );
+    }
+    /*
     SetPositionAndRotation	Sets the world space position and rotation of the Transform component.
     SetSiblingIndex	Sets the sibling index.
     TransformDirection	Transforms direction from local space to world space.

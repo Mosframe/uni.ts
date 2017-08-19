@@ -72,7 +72,7 @@ export class UITexture  extends UIElement {
     }
 
 
-    constructor ( mapping?:THREE.Mapping ) {
+    constructor ( mapping?:GL.Mapping ) {
 
         super( document.createElement( 'span' ), 'texture' );
 

@@ -31,7 +31,6 @@ ObjectEditor.ts
             MeshRendererEditor,
 
 
-
     프로젝트 컴포넌트 추가 (완료)
 
     실행
@@ -44,10 +43,8 @@ ObjectEditor.ts
             종료하면 씬을 파괴한다.
 
 
-            Scene에 ubjects 구조만들어야 한다. ( 공사중 )
-                Ubject.__ubjects => Scene.__ubjects  ( 공사중 )
-                    - 로드할다음 다시 저장하면 몇가지가 빠져있음
-                    - TransformEditor가 나타나지 않음
+            Scene에 ubjects 구조만들어야 한다. ( 완료 )
+                Ubject.__ubjects => Scene.__ubjects  ( 완료 )
 
             Ubject 생성시 GamePlayer씬과 에디터씬들과 구분 지어야 한다.  ( 고민중....)
                 현재는 액티브씬에 생성
@@ -63,5 +60,13 @@ ObjectEditor.ts
                 새로운 글로벌 씬을 만들어 오브젝트를 이동시킨다.
                     이동이 어려우면 실행할때부터 씬로딩시에 오브젝트를 글로벌씬에 생성한다.
 
+
+
+
+
+오류 :
+    MoveObjectCommand.ts > execute
+    부모를 변경하면 트랜스폼이 트러진다. - 원본도 깨짐
+    새로운 부모가 스케일값을 가질때 문제가 생김
 
 

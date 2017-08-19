@@ -8,7 +8,8 @@
  */
 
 import { GL         }   from '../../Engine/Graphic';
-import { Command    }  from './Command';
+import { GameObject }   from '../../Engine/GameObject';
+import { Command    }   from './Command';
 
 /**
  * MoveObjectCommand
@@ -27,10 +28,30 @@ export class MoveObjectCommand extends Command {
      * @memberof MoveObjectCommand
      */
     execute () {
-		this._oldParent.remove( this.object );
-        let children = this._newParent.children;
-        children.splice( this._newIndex, 0, this.object );
-        this.object.parent = this._newParent;
+		//this._oldParent.remove( this.object );
+        //let children = this._newParent.children;
+        //children.splice( this._newIndex, 0, this.object );
+        //this.object.parent = this._newParent;
+
+        console.log( 'scale', this.object.getWorldScale() );
+
+        GL.SceneUtils.detach( this.object, this._oldParent, this._tool.scene.core );
+        GL.SceneUtils.attach( this.object, this._tool.scene.core, this._newParent );
+
+        console.log( 'scale', this.object.getWorldScale() );
+
+        /*
+        let gameObject = <GameObject>this._tool.scene.findUbjectByUUID(this.object.uuid);
+        if( gameObject !== undefined ) {
+            let newParent = <GameObject>this._tool.scene.findUbjectByUUID(this._newParent.uuid);
+            if( newParent !== undefined ) {
+                gameObject.transform.setParent( newParent.transform );
+            } else {
+                gameObject.transform.setParent( undefined );
+            }
+        }
+        */
+
         this._tool.signals.sceneGraphChanged.dispatch();
     }
     /**
@@ -39,10 +60,29 @@ export class MoveObjectCommand extends Command {
      * @memberof MoveObjectCommand
      */
 	undo () {
-        this._newParent.remove( this.object );
-        let children = this._oldParent.children;
-        children.splice( this._oldIndex, 0, this.object );
-        this.object.parent = this._oldParent;
+        //this._newParent.remove( this.object );
+        //let children = this._oldParent.children;
+        //children.splice( this._oldIndex, 0, this.object );
+        //this.object.parent = this._oldParent;
+
+        console.log( 'scale', this.object.getWorldScale() );
+
+        GL.SceneUtils.detach( this.object, this._newParent, this._tool.scene.core );
+        GL.SceneUtils.attach( this.object, this._tool.scene.core, this._oldParent );
+
+        console.log( 'scale', this.object.getWorldScale() );
+        /*
+        let gameObject = <GameObject>this._tool.scene.findUbjectByUUID(this.object.uuid);
+        if( gameObject !== undefined ) {
+            let oldParent = <GameObject>this._tool.scene.findUbjectByUUID(this._oldParent.uuid);
+            if( oldParent !== undefined ) {
+                gameObject.transform.setParent( oldParent.transform );
+            } else {
+                gameObject.transform.setParent( undefined );
+            }
+        }
+        */
+
 		this._tool.signals.sceneGraphChanged.dispatch();
 	}
     /**
@@ -107,17 +147,14 @@ export class MoveObjectCommand extends Command {
         }
 
         if ( this._oldParent === this._newParent && this._newIndex > this._oldIndex ) {
-            this._newIndex --;
+            --this._newIndex;
         }
-
-        if( newBefore ) this._newBefore = newBefore;
     }
 
     // [ Private Variables ]
 
      private _oldParent  : GL.Object3D;
      private _newParent  : GL.Object3D;
-     private _newBefore  : GL.Object3D;
      private _oldIndex   : number;
      private _newIndex   : number;
 }

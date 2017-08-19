@@ -915,12 +915,12 @@ export class MaterialEditor extends UIPanel {
 
                 }
 
-                if ( material.shading !== undefined ) {
+                if ( material.flatShading !== undefined ) {
 
-                    let shading = parseInt( materialShading.getValue() );
-                    if ( material.shading !== shading ) {
+                    let flatShading = parseInt( materialShading.getValue() );
+                    if ( material.flatShading !== flatShading ) {
 
-                        tool.execute( new SetMaterialValueCommand( currentObject, 'shading', shading ) );
+                        tool.execute( new SetMaterialValueCommand( currentObject, 'flatShading', flatShading ) );
 
                     }
 
@@ -1009,7 +1009,7 @@ export class MaterialEditor extends UIPanel {
                 'aoMap'                 : materialAOMapRow,
                 'emissiveMap'           : materialEmissiveMapRow,
                 'side'                  : materialSideRow,
-                'shading'               : materialShadingRow,
+                'flatShading'           : materialShadingRow,
                 'blending'              : materialBlendingRow,
                 'opacity'               : materialOpacityRow,
                 'transparent'           : materialTransparentRow,
@@ -1270,9 +1270,9 @@ export class MaterialEditor extends UIPanel {
 
             }
 
-            if ( material.shading !== undefined ) {
+            if ( material.flatShading !== undefined ) {
 
-                materialShading.setValue( material.shading );
+                materialShading.setValue( material.flatShading );
 
             }
 
