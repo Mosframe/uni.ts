@@ -269,11 +269,11 @@ export class Scene {
                     target = {};
 
                     if( meta.uuid in metaRoot.ubjects ) {
-                        let ubject = metaRoot.ubjects[meta.uuid];
+                        meta = metaRoot.ubjects[meta.uuid];
 
                         // [ instantiate ]
-                        if( ubject.class in UnitsEngine ) {
-                            target = new UnitsEngine[ubject.class]();
+                        if( meta.class in UnitsEngine ) {
+                            target = new UnitsEngine[meta.class]();
                             this.__ubjects[meta.uuid] = target;
 
                             for( let key in meta ) {

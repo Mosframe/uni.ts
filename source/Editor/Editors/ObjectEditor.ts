@@ -179,10 +179,11 @@ export class ObjectEditor extends UIPanel {
         let addCompoentButton  = new UIButton( 'Add Component' ).setMarginLeft('50px').setWidth('150px').setStyle( 'text-align', ['center'] ).onClick( () => {
             if( tool.selected ) {
                 // Component 리소트 얻기 ( Component에서 상속한 모든 오브젝트들 얻기 )
-                let gameObject = <GameObject>GameObject.find( tool.selected.uuid );
+                let gameObject = <GameObject>this._editor.scene.findUbjectByUUID( tool.selected.uuid );
                 tool.execute( new AddComponentCommand( gameObject, addComponentInput.getValue() ) );
             }
         });
+        this.add( addComponentInput );
         this.add( addCompoentButton );
         this.add( new UIBreak() );
 
@@ -451,7 +452,7 @@ export class ObjectEditor extends UIPanel {
 
             // [ GameObject ]
 
-            let gameObject = <GameObject>GameObject.find( object.uuid );
+            let gameObject = <GameObject>this._editor.scene.findUbjectByUUID( object.uuid );
             if( gameObject !== undefined ) {
 
                 for( let componentEditor of this._componentEditors ) {
@@ -587,7 +588,7 @@ export class ObjectEditor extends UIPanel {
         // [ gameObject ]
 
 
-        let gameObject = <GameObject>GameObject.find( object.uuid );
+        let gameObject = <GameObject>this._editor.scene.findUbjectByUUID( object.uuid );
         if( gameObject !== undefined ) {
 
             //this._objectComponentRow.clear();
@@ -696,7 +697,7 @@ export class ObjectEditor extends UIPanel {
 
         // [ GameObject ]
 
-        let gameObject = <GameObject>GameObject.find( object.uuid );
+        let gameObject = <GameObject>this._editor.scene.findUbjectByUUID( object.uuid );
         if( gameObject !== undefined ) {
 
             for( let componentEditor of this._componentEditors ) {
