@@ -56,7 +56,7 @@ export class Transform extends Component {
     get localPosition() : Vector3           { return this.core.position; }
     set localPosition( value:Vector3 )      { this.core.position.set( value.x, value.y, value.z ); }
     get localRotation() : Quaternion        { return <Quaternion>(new Quaternion().setFromEuler( this.core.rotation )); }
-    set localRotation( value:Quaternion )   { this.core.rotation = new GL.Euler().setFromQuaternion( value ); }
+    set localRotation( value:Quaternion )   { this.core.rotation.setFromQuaternion( <GL.Quaternion>value ); }
     get localScale() : Vector3              { return this.core.scale; }
     set localScale( value:Vector3 )         { this.core.scale.set( value.x, value.y, value.z ); }
 

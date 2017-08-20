@@ -398,7 +398,6 @@ export class Scene {
         delete this.__ubjects[uuid];
     }
 
-
     /*
     IsValid	Whether this is a valid scene. A scene may be invalid if, for example, you tried to open a scene that does not exist. In this case, the scene returned from EditorSceneManager.OpenScene would return False for IsValid.
     */
@@ -412,14 +411,74 @@ export class Scene {
 
     // [ Constructors ]
 
-    constructor() {
-        this._core = new GL.Scene();
+    constructor( core?:GL.Scene ) {
+        if( core === undefined ) {
+            this._core = new GL.Scene();
+        } else {
+            this._core = core;
+        }
     }
 
-    // [ Protected Functions ]
+    // [ Private Variables ]
 
-    protected _core     : GL.Scene;
-    protected __ubjects : {[uuid:string]:Ubject} = {};
+    private _core     : GL.Scene;
+    private __ubjects : {[uuid:string]:Ubject} = {};
+
+    // [ Private Functions ]
+
+    /**
+     * real time process
+     *
+     * @private
+     * @memberof Scene
+     */
+    private _rt() {
+
+        // [ Initialization ]
+        // awake : 인스턴스 생성 후 최초 gameObject가 활성화 될때 호출됨
+        // onEnable : gameObject가 활성화 되었을때 호출됨
+        // start : 인스턴스 된 후에 최초 한번만 호출됨
+
+        // [ Physics Cycles ]
+        // fixedUpdate : 물리 사이클에서 매 사이클마다 호출됨
+        // yield WaitForFixedUpdate
+        // internal physics update
+        // OnTriggerXXX
+        // OnCollisionXXX
+
+        // [ Input Events ]
+        // OnMouseXXX
+
+        // [ Game Logic ]
+        // update
+        // yield null
+        // yield waitForSeconds
+        // yield www
+        // yield startCoroutine
+        // internal animation update
+        // late update
+
+        // [ scene rendering ]
+
+        // [ Gizmo rendering ]
+
+        // [ GUI rendering ]
+
+        // [ End frame ]
+        // yield waitForEndOfFrame
+
+        // [ Pausing ]
+        // onApplicationPause
+
+        // [ Disable ]
+        // onDisable : 비활성화되어 있는동안에만 호출된다...
+
+        // [ Decommissioning ]
+        // onApplicationQuit
+        // onDisable
+        // onDestroy
+
+    }
 
 }
 UnitsEngine[Scene.name] = Scene;

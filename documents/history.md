@@ -6,6 +6,11 @@
 
 ----------------------------------------
 
+오류 :
+    스케일값을 변경하면 자식 오뷰젝트들이 모두 일그러진다.
+
+
+에디터에 컴포넌트 추가하기
 
 ObjectEditor.ts
     [ Add Component ] 공사중
@@ -25,7 +30,7 @@ ObjectEditor.ts
             dictionary
             component link
 
-        전용 컴폰넌트 UI를 만든다. ( 공사중 )
+        전용 컴포넌트 UI를 만든다. ( 공사중 )
             TransformEditor ( 완료 )
             MeshFilterEditor,
             MeshRendererEditor,
@@ -64,9 +69,5 @@ ObjectEditor.ts
 
 
 
-오류 :
-    MoveObjectCommand.ts > execute
-    부모를 변경하면 트랜스폼이 트러진다. - 원본도 깨짐
-    새로운 부모가 스케일값을 가질때 문제가 생김
 
 

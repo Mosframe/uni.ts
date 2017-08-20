@@ -6,7 +6,10 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL     		}   from '../Engine/Graphic';
+import { GL     		}   from './Graphic';
+import { Ubject    		}   from './Ubject';
+import { UnitsBehaviour	}  	from './UnitsBehaviour';
+import { Scene    		}   from './Scene';
 import { WebVR  		}   from './VR/WebVR';
 
 /**
@@ -17,7 +20,7 @@ import { WebVR  		}   from './VR/WebVR';
  */
 export class GamePlayer {
 
-    // [ Public Functions ]
+	// [ Public Functions ]
 
 	load = ( json ) => {
 
@@ -40,25 +43,48 @@ export class GamePlayer {
 		this.setScene( this._loader.parse( json.scene ) );
 		this.setCamera( this._loader.parse( json.camera ) );
 
-		this._events = {
-			init		: [],
-			start		: [],
-			stop		: [],
-			keydown		: [],
-			keyup		: [],
-			mousedown	: [],
-			mouseup		: [],
-			mousemove	: [],
-			touchstart	: [],
-			touchend	: [],
-			touchmove	: [],
-			update		: []
+		this._behaviourEvents = {
+			awake					: [],
+			start					: [],
+			onApplicationQuit		: [],
+
+			update					: [],
+
+			onKeyDown				: [],
+			onKeyUp					: [],
+
+			onMouseDown				: [],
+			onMouseUp				: [],
+			onMouseMove				: [],
+
+			onTouchStart			: [],
+			onTouchEnd				: [],
+			onTouchMove				: [],
+		};
+
+		this._scriptEvents = {
+			awake					: [],
+			start					: [],
+			onApplicationQuit		: [],
+
+			update					: [],
+
+			onKeyDown				: [],
+			onKeyUp					: [],
+
+			onMouseDown				: [],
+			onMouseUp				: [],
+			onMouseMove				: [],
+
+			onTouchStart			: [],
+			onTouchEnd				: [],
+			onTouchMove				: [],
 		};
 
 		let scriptWrapParams 	= 'player,renderer,scene,camera';
 		let scriptWrapResultObj = {};
 
-		for ( let eventKey in this._events ) {
+		for ( let eventKey in this._scriptEvents ) {
 
 			scriptWrapParams += ',' + eventKey;
 			scriptWrapResultObj[ eventKey ] = eventKey;
@@ -66,22 +92,29 @@ export class GamePlayer {
 
 		let scriptWrapResult = JSON.stringify( scriptWrapResultObj ).replace( /\"/g, '' );
 
-		if( this._scene !== undefined ) {
+		if( this._scene !== undefined && this._scene.core !== undefined ) {
+
+			// [ register events ]
+
 			// [ GameObject ]
-			for( let uuid in json.ubjects ) {
-				let object = this._scene.getObjectByProperty( 'uuid', uuid );
-				if ( object === undefined ) {
-					console.warn( 'AppPlayer: GameObject without object.', uuid );
-					continue;
+			this._scene.fromJSON( json );
+			let ubjects = this._scene['__ubjects'];
+			for( let key in ubjects ) {
+				let ubject = ubjects[key];
+				if( ubject instanceof UnitsBehaviour ) {
+					for( let name in this._behaviourEvents ) {
+						let method = ubject[name];
+						if( method !== undefined ) {
+							this._behaviourEvents[ name ].push( ubject );
+						}
+					}
 				}
-				let ubject = json.ubjects[ uuid ];
-				// 공사중...
 			}
 
 			// [ Scripts ]
 			for ( let uuid in json.scripts ) {
 
-				let object = this._scene.getObjectByProperty( 'uuid', uuid );
+				let object = this._scene.core.getObjectByProperty( 'uuid', uuid );
 				if ( object === undefined ) {
 					console.warn( 'AppPlayer: Script without object.', uuid );
 					continue;
@@ -98,18 +131,20 @@ export class GamePlayer {
 					for ( let name in functions ) {
 
 						if ( functions[ name ] === undefined ) continue;
-						if ( this._events[ name ] === undefined ) {
+						if ( this._scriptEvents[ name ] === undefined ) {
 
 							console.warn( 'AppPlayer: Event type not supported (', name, ')' );
 							continue;
 						}
-						this._events[ name ].push( functions[ name ].bind( object ) );
+						this._scriptEvents[ name ].push( functions[ name ].bind( object ) );
 					}
 				}
 			}
 		}
 
-		this._dispatch( this._events.init, arguments );
+		// [ dispatch awake event ]
+		this._dispatchBehaviour( 'awake', arguments );
+		this._dispatch( this._scriptEvents.awake, arguments );
 	}
 
 	setCamera = ( value ) => {
@@ -140,7 +175,7 @@ export class GamePlayer {
 	}
 
 	setScene = ( value ) => {
-		this._scene = value;
+		this._scene = new Scene( value );
 	}
 
 	setSize = ( width, height ) => {
@@ -160,32 +195,36 @@ export class GamePlayer {
 
 	play = () => {
 
-		document.addEventListener( 'keydown'	, this._onDocumentKeyDown 		);
-		document.addEventListener( 'keyup'		, this._onDocumentKeyUp 		);
-		document.addEventListener( 'mousedown'	, this._onDocumentMouseDown 	);
-		document.addEventListener( 'mouseup'	, this._onDocumentMouseUp 		);
-		document.addEventListener( 'mousemove'	, this._onDocumentMouseMove 	);
-		document.addEventListener( 'touchstart'	, this._onDocumentTouchStart 	);
-		document.addEventListener( 'touchend'	, this._onDocumentTouchEnd 		);
-		document.addEventListener( 'touchmove'	, this._onDocumentTouchMove 	);
+		document.addEventListener( 'keydown'	, this._onKeyDown 		);
+		document.addEventListener( 'keyup'		, this._onKeyUp 		);
+		document.addEventListener( 'mousedown'	, this._onMouseDown 	);
+		document.addEventListener( 'mouseup'	, this._onMouseUp 		);
+		document.addEventListener( 'mousemove'	, this._onMouseMove 	);
+		document.addEventListener( 'touchstart'	, this._onTouchStart 	);
+		document.addEventListener( 'touchend'	, this._onTouchEnd 		);
+		document.addEventListener( 'touchmove'	, this._onTouchMove 	);
 
-		this._dispatch( this._events.start, arguments );
+		// [ start ]
+		this._dispatchBehaviour( 'start', arguments );
+		this._dispatch( this._scriptEvents.start, arguments );
+
 		this._request = requestAnimationFrame( this._animate );
 		this._prevTime = performance.now();
 	}
 
 	stop = () => {
 
-		document.removeEventListener( 'keydown'		, this._onDocumentKeyDown 		);
-		document.removeEventListener( 'keyup'		, this._onDocumentKeyUp 		);
-		document.removeEventListener( 'mousedown'	, this._onDocumentMouseDown 	);
-		document.removeEventListener( 'mouseup'		, this._onDocumentMouseUp 		);
-		document.removeEventListener( 'mousemove'	, this._onDocumentMouseMove 	);
-		document.removeEventListener( 'touchstart'	, this._onDocumentTouchStart 	);
-		document.removeEventListener( 'touchend'	, this._onDocumentTouchEnd 		);
-		document.removeEventListener( 'touchmove'	, this._onDocumentTouchMove 	);
+		document.removeEventListener( 'keydown'		, this._onKeyDown 		);
+		document.removeEventListener( 'keyup'		, this._onKeyUp 		);
+		document.removeEventListener( 'mousedown'	, this._onMouseDown 	);
+		document.removeEventListener( 'mouseup'		, this._onMouseUp 		);
+		document.removeEventListener( 'mousemove'	, this._onMouseMove 	);
+		document.removeEventListener( 'touchstart'	, this._onTouchStart 	);
+		document.removeEventListener( 'touchend'	, this._onTouchEnd 		);
+		document.removeEventListener( 'touchmove'	, this._onTouchMove 	);
 
-		this._dispatch( this._events.stop, arguments );
+		this._dispatchBehaviour( 'onApplicationQuit', arguments );
+		this._dispatch( this._scriptEvents.onApplicationQuit, arguments );
 		cancelAnimationFrame( this._request );
 	}
 
@@ -200,47 +239,56 @@ export class GamePlayer {
 		this._renderer.dispose();
 
 		this._camera 	= undefined;
-		this._scene 	= undefined;
 		this._renderer 	= undefined;
+		delete this._scene;
 	}
 
 	// [ Constructor ]
 
 	constructor ( parent:HTMLDivElement ) {
 
-		this._loader 	= new GL.ObjectLoader();
-		this._events 	= {};
-		this._core 		= document.createElement( 'div' );
-		this._width 	= 500;
-		this._height 	= 500;
+		this._loader 			= new GL.ObjectLoader();
+		this._behaviourEvents 	= {};
+		this._scriptEvents 		= {};
+		this._core 				= document.createElement( 'div' );
+		this._width 			= 500;
+		this._height 			= 500;
 
         parent.appendChild( this._core );
 	}
 
 	// [ Private Variables ]
 
-	private _core 	    : HTMLDivElement;
-	private _width 	    : number;
-	private _height 	: number;
-	private _loader 	: GL.ObjectLoader;
-	private _camera 	: any;
-	private _scene 		: GL.Scene | undefined;
-	private _renderer 	: any;
-	private _controls 	: any;
-	private _effect 	: any;
-	private _cameraVR 	: any;
-	private _isVR		: any;
-	private _events 	: any;
-	private _prevTime	: any;
-	private _request	: any;
+	private _core 	    		: HTMLDivElement;
+	private _width 	    		: number;
+	private _height 			: number;
+	private _loader 			: GL.ObjectLoader;
+	private _camera 			: any;
+	private _scene 				: Scene;
+	private _renderer 			: any;
+	private _controls 			: any;
+	private _effect 			: any;
+	private _cameraVR 			: any;
+	private _isVR				: any;
+	private _behaviourEvents 	: any;
+	private _scriptEvents		: any;
+	private _prevTime			: any;
+	private _request			: any;
 
 
 	// [ Private Functions ]
 
 	private _dispatch = ( array, event ) => {
 
-		for ( let i = 0, l = array.length; i < l; i ++ ) {
+		for ( let i = 0, len = array.length; i < len; i ++ ) {
 			array[ i ]( event );
+		}
+	}
+	private _dispatchBehaviour = ( name:string, event:any ) => {
+
+		let array = this._behaviourEvents[name];
+		for( let o of array ) {
+			o[name]( event );
 		}
 	}
 
@@ -248,7 +296,8 @@ export class GamePlayer {
 
 		this._request = requestAnimationFrame( this._animate );
 		try {
-			this._dispatch( this._events.update, { time: time, delta: time - this._prevTime } );
+			this._dispatchBehaviour( 'update', { time: time, delta: time - this._prevTime } );
+			this._dispatch( this._scriptEvents.update, { time: time, delta: time - this._prevTime } );
 		} catch ( e ) {
 			console.error( ( e.message || e ), ( e.stack || "" ) );
 		}
@@ -257,11 +306,11 @@ export class GamePlayer {
 
 			this._camera.updateMatrixWorld();
 			this._controls.update();
-			this._effect.render( this._scene, this._cameraVR );
+			this._effect.render( this._scene.core, this._cameraVR );
 
 		} else {
 
-			this._renderer.render( this._scene, this._camera );
+			this._renderer.render( this._scene.core, this._camera );
 		}
 
 		this._prevTime = time;
@@ -269,43 +318,51 @@ export class GamePlayer {
 
 	// [ Private Events ]
 
-	private _onDocumentKeyDown = ( event ) => {
+	private _onKeyDown = ( event ) => {
 
-		this._dispatch( this._events.keydown, event );
+		this._dispatchBehaviour( 'onKeyDown', event );
+		this._dispatch( this._scriptEvents.onKeyDown, event );
 	}
 
-	private _onDocumentKeyUp = ( event ) => {
+	private _onKeyUp = ( event ) => {
 
-		this._dispatch( this._events.keyup, event );
+		this._dispatchBehaviour( 'onKeyUp', event );
+		this._dispatch( this._scriptEvents.onKeyUp, event );
 	}
 
-	private _onDocumentMouseDown = ( event ) => {
+	private _onMouseDown = ( event ) => {
 
-		this._dispatch( this._events.mousedown, event );
+		this._dispatchBehaviour( 'onMouseDown', event );
+		this._dispatch( this._scriptEvents.onMouseDown, event );
 	}
 
-	private _onDocumentMouseUp = ( event ) => {
+	private _onMouseUp = ( event ) => {
 
-		this._dispatch( this._events.mouseup, event );
+		this._dispatchBehaviour( 'onMouseUp', event );
+		this._dispatch( this._scriptEvents.onMouseUp, event );
 	}
 
-	private _onDocumentMouseMove = ( event ) => {
+	private _onMouseMove = ( event ) => {
 
-		this._dispatch( this._events.mousemove, event );
+		this._dispatchBehaviour( 'onMouseMove', event );
+		this._dispatch( this._scriptEvents.onMouseMove, event );
 	}
 
-	private _onDocumentTouchStart = ( event ) => {
+	private _onTouchStart = ( event ) => {
 
-		this._dispatch( this._events.touchstart, event );
+		this._dispatchBehaviour( 'onTouchStart', event );
+		this._dispatch( this._scriptEvents.onTouchStart, event );
 	}
 
-	private _onDocumentTouchEnd = ( event ) => {
+	private _onTouchEnd = ( event ) => {
 
-		this._dispatch( this._events.touchend, event );
+		this._dispatchBehaviour( 'onTouchEnd', event );
+		this._dispatch( this._scriptEvents.onTouchEnd, event );
 	}
 
-	private _onDocumentTouchMove = ( event ) => {
+	private _onTouchMove = ( event ) => {
 
-		this._dispatch( this._events.touchmove, event );
+		this._dispatchBehaviour( 'onTouchMove', event );
+		this._dispatch( this._scriptEvents.onTouchMove, event );
 	}
 }

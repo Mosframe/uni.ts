@@ -38,7 +38,7 @@ export class GameView extends UIPanel {
             this.setDisplay( '' );
             player.load( tool.toJSON() );
             player.setSize( this.core.clientWidth, this.core.clientHeight );
-            console.log("GameView.Size ", this.core.clientWidth, this.core.clientHeight );
+            console.log("GameView.Size ", this.core.clientWidth, ' x ', this.core.clientHeight );
             player.play();
         });
 

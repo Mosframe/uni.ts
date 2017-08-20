@@ -146,7 +146,7 @@ export class UITexture  extends UIElement {
                         let image = document.createElement( 'img' );
                         image.addEventListener( 'load', ( event ) => {
 
-                            let texture = new GL.Texture( this, mapping );
+                            let texture = new GL.Texture( image, mapping );
                             texture.sourceFile = file.name;
                             texture.needsUpdate = true;
 

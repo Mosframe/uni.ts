@@ -39,5 +39,6 @@ export { Shader                 }   from './Shader';
 export { ShadowCastingMode      }   from './ShadowCastingMode';
 export { Transform              }   from './Transform';
 export { Ubject                 }   from './Ubject';
+export { UnitsBehaviour         }   from './UnitsBehaviour';
 export { Vector3                }   from './Vector3';
 
