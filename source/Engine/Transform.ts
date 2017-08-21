@@ -10,6 +10,7 @@ import { Component      }   from './Component';
 import { GameObject     }   from './GameObject';
 import { Matrix4x4      }   from './Matrix4x4';
 import { Quaternion     }   from './Quaternion';
+import { Space          }   from './Space';
 import { Vector3        }   from './Vector3';
 
 /**
@@ -102,8 +103,17 @@ export class Transform extends Component {
         this.core.lookAt(traget);
     }
 
+    /**
+     * Applies a rotation of eulerAngles.z degrees around the z axis, eulerAngles.x degrees around the x axis, and eulerAngles.y degrees around the y axis (in that order).
+     *
+     * @param {Vector3} eulerAngles Rotation to apply.
+     * @param {Space} [relativeTo=Space.Self] Rotation is local to object or World.
+     * @memberof Transform
+     */
+    rotate ( eulerAngles:Vector3, relativeTo:Space=Space.Self ) {
+        this.core.setRotationFromEuler(  new GL.Euler().setFromVector3( eulerAngles ) );
+    }
     /*
-    Rotate	Applies a rotation of eulerAngles.z degrees around the z axis, eulerAngles.x degrees around the x axis, and eulerAngles.y degrees around the y axis (in that order).
     RotateAround	Rotates the transform about axis passing through point in world coordinates by angle degrees.
     SetAsFirstSibling	Move the transform to the start of the local transform list.
     SetAsLastSibling	Move the transform to the end of the local transform list.

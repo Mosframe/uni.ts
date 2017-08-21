@@ -37,6 +37,7 @@ export { Script                 }   from './Script';
 export { Serializable           }   from './Serializable';
 export { Shader                 }   from './Shader';
 export { ShadowCastingMode      }   from './ShadowCastingMode';
+export { Space                  }   from './Space';
 export { Transform              }   from './Transform';
 export { Ubject                 }   from './Ubject';
 export { UnitsBehaviour         }   from './UnitsBehaviour';

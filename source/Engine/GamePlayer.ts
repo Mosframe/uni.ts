@@ -10,6 +10,7 @@ import { GL     		}   from './Graphic';
 import { Ubject    		}   from './Ubject';
 import { UnitsBehaviour	}  	from './UnitsBehaviour';
 import { Scene    		}   from './Scene';
+import { Time    		}   from './Time';
 import { WebVR  		}   from './VR/WebVR';
 
 /**
@@ -292,11 +293,12 @@ export class GamePlayer {
 		}
 	}
 
-	private _animate = ( time ) => {
+	private _animate = ( time:number ) => {
 
 		this._request = requestAnimationFrame( this._animate );
 		try {
-			this._dispatchBehaviour( 'update', { time: time, delta: time - this._prevTime } );
+			Time['_update']( time );
+			this._dispatchBehaviour( 'update', undefined );
 			this._dispatch( this._scriptEvents.update, { time: time, delta: time - this._prevTime } );
 		} catch ( e ) {
 			console.error( ( e.message || e ), ( e.stack || "" ) );

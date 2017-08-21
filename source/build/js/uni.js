@@ -1,1 +1,1 @@
-console.error("TypeScript error: source/projects/test01/source/testcomponent.ts(37,24): Error TS2339: Property 'Rotate' does not exist on type 'Transform'.");
+console.error("TypeScript error: source/projects/test01/source/testcomponent.ts(13,14): Error TS2415: Class 'TestComponent' incorrectly extends base class 'UnitsBehaviour'.\r\n  Types of property 'update' are incompatible.\r\n    Type '(time: any, deltaTime: any) => void' is not assignable to type '() => void'.");
