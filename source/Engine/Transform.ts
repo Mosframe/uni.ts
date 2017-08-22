@@ -111,7 +111,7 @@ export class Transform extends Component {
      * @memberof Transform
      */
     rotate ( eulerAngles:Vector3, relativeTo:Space=Space.Self ) {
-        this.core.setRotationFromEuler(  new GL.Euler().setFromVector3( eulerAngles ) );
+        this.core.setRotationFromEuler( new GL.Euler( eulerAngles.x * GL.Math.DEG2RAD, eulerAngles.y * GL.Math.DEG2RAD, eulerAngles.z * GL.Math.DEG2RAD, 'XYZ' ) );
     }
     /*
     RotateAround	Rotates the transform about axis passing through point in world coordinates by angle degrees.

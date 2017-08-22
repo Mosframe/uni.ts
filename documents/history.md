@@ -64,7 +64,7 @@ ObjectEditor.ts
                 이동이 어려우면 실행할때부터 씬로딩시에 오브젝트를 글로벌씬에 생성한다.
 
 
-    Time 클래스 수정중....
+    Transform.rotate 수정중....
 
 
 

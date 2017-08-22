@@ -60,22 +60,34 @@ export class Time {
     static get time() : number { return this._time; }
 
     /*
-    static timeScale	The scale at which the time is passing. This can be used for slow motion effects.
+    The scale at which the time is passing. This can be used for slow motion effects.
+    */
+
+    static timeScale : number = 1;
+    /*
     static timeSinceLevelLoad	The time this frame has started (Read Only). This is the time in seconds since the last level has been loaded.
     static unscaledDeltaTime	The timeScale-independent interval in seconds from the last frame to the current one (Read Only).
     static unscaledTime	The timeScale-independant time for this frame (Read Only). This is the time in seconds since the start of the game.
     */
 
+    static reset() {
+        this._time      = 0;
+        this._startTime = performance.now()*0.01;
+        this._prevTime  = 0;
+        this._deltaTime = 0;
+    }
+
     // [ Private Static Variables ]
 
-    private static _time        : number;
-    private static _deltaTime   : number;
-    private static _prevTime    : number;
+    private static _time        : number = 0;
+    private static _startTime   : number = 0;
+    private static _prevTime    : number = 0;
+    private static _deltaTime   : number = 0;
 
-    private static _update( time:number ) {
-        this._time = time;
-        this._deltaTime = this._time - this._prevTime;
-        this._prevTime = time;
+    private static _update() {
+        this._prevTime = this._time;
+        this._time = (performance.now()*0.01)-this._startTime;
+        this._deltaTime = (this._time - this._prevTime)*this.timeScale;
     }
 }
 UnitsEngine[Time.name] = Time;

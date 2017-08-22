@@ -8,6 +8,7 @@ import { UnitsEngine        } from '../../../Engine';
 import { GL                 } from '../../../Engine';
 import { UnitsBehaviour     } from '../../../Engine';
 import { Quaternion         } from '../../../Engine';
+import { Time               } from '../../../Engine';
 import { Vector3            } from '../../../Engine';
 
 export class TestComponent extends UnitsBehaviour {
@@ -18,6 +19,7 @@ export class TestComponent extends UnitsBehaviour {
 
     protected awake () {
          console.log( this.constructor.name+'.'+this.awake.name );
+         console.log('time',Time.time);
     }
     protected onEnable () {
          console.log( this.constructor.name+'.'+this.onEnable.name );
@@ -27,17 +29,19 @@ export class TestComponent extends UnitsBehaviour {
     }
     protected start () {
         console.log( this.constructor.name+'.'+this.start.name );
+        console.log('time',Time.time);
     }
 
-    protected update (time,deltaTime) {
+    protected update () {
 
         //let rotation = this.transform.localRotation;
 
-        let eulerAngles = this.transform.eulerAngles;
-        eulerAngles.x += GL.Math.DEG2RAD * 1 * deltaTime;
+        //console.log('deltaTime',Time.deltaTime);
+
+        let eulerAngles = new Vector3( 0.1 * Time.deltaTime, 0, 0 );
         this.transform.rotate( eulerAngles );
 
-        //this.transform.localRotation = rotation;
+        console.log( this.transform.localEulerAngles.x );
     }
 
 

@@ -38,6 +38,7 @@ export { Serializable           }   from './Serializable';
 export { Shader                 }   from './Shader';
 export { ShadowCastingMode      }   from './ShadowCastingMode';
 export { Space                  }   from './Space';
+export { Time                   }   from './Time';
 export { Transform              }   from './Transform';
 export { Ubject                 }   from './Ubject';
 export { UnitsBehaviour         }   from './UnitsBehaviour';

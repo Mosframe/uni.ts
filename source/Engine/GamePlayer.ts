@@ -209,8 +209,9 @@ export class GamePlayer {
 		this._dispatchBehaviour( 'start', arguments );
 		this._dispatch( this._scriptEvents.start, arguments );
 
+		// [ tick ]
+		Time.reset();
 		this._request = requestAnimationFrame( this._animate );
-		this._prevTime = performance.now();
 	}
 
 	stop = () => {
@@ -273,7 +274,6 @@ export class GamePlayer {
 	private _isVR				: any;
 	private _behaviourEvents 	: any;
 	private _scriptEvents		: any;
-	private _prevTime			: any;
 	private _request			: any;
 
 
@@ -297,9 +297,9 @@ export class GamePlayer {
 
 		this._request = requestAnimationFrame( this._animate );
 		try {
-			Time['_update']( time );
+			Time['_update']();
 			this._dispatchBehaviour( 'update', undefined );
-			this._dispatch( this._scriptEvents.update, { time: time, delta: time - this._prevTime } );
+			this._dispatch( this._scriptEvents.update, { time:Time.time, delta:Time.deltaTime } );
 		} catch ( e ) {
 			console.error( ( e.message || e ), ( e.stack || "" ) );
 		}
@@ -314,8 +314,6 @@ export class GamePlayer {
 
 			this._renderer.render( this._scene.core, this._camera );
 		}
-
-		this._prevTime = time;
 	}
 
 	// [ Private Events ]
