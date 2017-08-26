@@ -34,14 +34,14 @@ export class TestComponent extends UnitsBehaviour {
 
     protected update () {
 
-        //let rotation = this.transform.localRotation;
+        let rotation = this.transform.localRotation;
 
         //console.log('deltaTime',Time.deltaTime);
 
-        let eulerAngles = new Vector3( 0.1 * Time.deltaTime, 0, 0 );
+        let eulerAngles = new Vector3( 1 * Time.deltaTime, 0, 0 );
         this.transform.rotate( eulerAngles );
 
-        console.log( this.transform.localEulerAngles.x );
+        console.log( this.transform.localEulerAngles );
     }
 
 

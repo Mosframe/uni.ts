@@ -111,7 +111,50 @@ export class Transform extends Component {
      * @memberof Transform
      */
     rotate ( eulerAngles:Vector3, relativeTo:Space=Space.Self ) {
-        this.core.setRotationFromEuler( new GL.Euler( eulerAngles.x * GL.Math.DEG2RAD, eulerAngles.y * GL.Math.DEG2RAD, eulerAngles.z * GL.Math.DEG2RAD, 'XYZ' ) );
+        if( relativeTo == Space.Self ) {
+
+            let x = this.core.rotation.x * GL.Math.RAD2DEG + eulerAngles.x;
+            let y = this.core.rotation.y * GL.Math.RAD2DEG + eulerAngles.y;
+            let z = this.core.rotation.z * GL.Math.RAD2DEG + eulerAngles.z;
+
+            x += 180;
+            y += 180;
+            z += 180;
+
+            x -= (360*Math.floor(x/360));
+            y -= (360*Math.floor(y/360));
+            z -= (360*Math.floor(z/360));
+
+            x -= 180;
+            y -= 180;
+            z -= 180;
+
+            this.core.rotation.x = x * GL.Math.DEG2RAD;
+            this.core.rotation.y = y * GL.Math.DEG2RAD;
+            this.core.rotation.z = z * GL.Math.DEG2RAD;
+
+        } else {
+
+            let x = this.core.rotation.x * GL.Math.RAD2DEG + eulerAngles.x;
+            let y = this.core.rotation.y * GL.Math.RAD2DEG + eulerAngles.y;
+            let z = this.core.rotation.z * GL.Math.RAD2DEG + eulerAngles.z;
+
+            x += 180;
+            y += 180;
+            z += 180;
+
+            x -= (360*Math.floor(x/360));
+            y -= (360*Math.floor(y/360));
+            z -= (360*Math.floor(z/360));
+
+            x -= 180;
+            y -= 180;
+            z -= 180;
+
+            this.core.rotation.x = x * GL.Math.DEG2RAD;
+            this.core.rotation.y = y * GL.Math.DEG2RAD;
+            this.core.rotation.z = z * GL.Math.DEG2RAD;
+        }
     }
     /*
     RotateAround	Rotates the transform about axis passing through point in world coordinates by angle degrees.
