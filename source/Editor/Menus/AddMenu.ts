@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                         }   from '../../Engine/Graphic';
+import { THREE                      }   from '../../Engine/Core';
 import { UIPanel                    }   from '../../Engine/UI/UIPanel';
 import { UIRow                      }   from '../../Engine/UI/UIRow';
 import { UIButton                   }   from '../../Engine/UI/UIButton';
@@ -209,7 +209,7 @@ export class AddMenu extends Menu {
             option.setTextContent( 'Sprite' );
             option.onClick( () => {
 
-                let sprite = new GL.Sprite( new GL.SpriteMaterial() );
+                let sprite = new THREE.Sprite( new THREE.SpriteMaterial() );
                 sprite.name = 'Sprite ' + ( ++ meshCount );
 
                 let gameObject = new GameObject( sprite.name );

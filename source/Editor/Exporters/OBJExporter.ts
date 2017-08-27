@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL }   from '../../Engine/Graphic';
+import { THREE }   from '../../Engine/Core';
 
 /**
  * OBJ Exporter
@@ -23,9 +23,9 @@ export class OBJExporter {
 		var indexVertexUvs = 0;
 		var indexNormals = 0;
 
-		var vertex = new GL.Vector3();
-		var normal = new GL.Vector3();
-		var uv = new GL.Vector2();
+		var vertex = new THREE.Vector3();
+		var normal = new THREE.Vector3();
+		var uv = new THREE.Vector2();
 
 		var i, j, k, l, m;
 		var face:any = [];
@@ -38,15 +38,15 @@ export class OBJExporter {
 
 			var geometry = mesh.geometry;
 
-			var normalMatrixWorld = new GL.Matrix3();
+			var normalMatrixWorld = new THREE.Matrix3();
 
-			if ( geometry instanceof GL.Geometry ) {
+			if ( geometry instanceof THREE.Geometry ) {
 
-				geometry = new GL.BufferGeometry().setFromObject( mesh );
+				geometry = new THREE.BufferGeometry().setFromObject( mesh );
 
 			}
 
-			if ( geometry instanceof GL.BufferGeometry ) {
+			if ( geometry instanceof THREE.BufferGeometry ) {
 
 				// shortcuts
 				var vertices = geometry.getAttribute( 'position' );
@@ -178,13 +178,13 @@ export class OBJExporter {
 			var geometry = line.geometry;
 			var type = line.type;
 
-			if ( geometry instanceof GL.Geometry ) {
+			if ( geometry instanceof THREE.Geometry ) {
 
-				geometry = new GL.BufferGeometry().setFromObject( line );
+				geometry = new THREE.BufferGeometry().setFromObject( line );
 
 			}
 
-			if ( geometry instanceof GL.BufferGeometry ) {
+			if ( geometry instanceof THREE.BufferGeometry ) {
 
 				// shortcuts
 				var vertices = geometry.getAttribute( 'position' );
@@ -248,13 +248,13 @@ export class OBJExporter {
 
 		object.traverse( function ( child ) {
 
-			if ( child instanceof GL.Mesh ) {
+			if ( child instanceof THREE.Mesh ) {
 
 				parseMesh( child );
 
 			}
 
-			if ( child instanceof GL.Line ) {
+			if ( child instanceof THREE.Line ) {
 
 				parseLine( child );
 

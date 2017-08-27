@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { Command    }   from './Command';
 
 /**
@@ -48,13 +48,13 @@ export class SetRotationCommand extends Command {
 	fromJSON ( json:any ) {
         super.fromJSON( json );
 		this.object         = this._tool.objectByUuid( json.objectUuid );
-		this._oldRotation   = new GL.Euler().fromArray( json.oldRotation );
-		this._newRotation   = new GL.Euler().fromArray( json.newRotation );
+		this._oldRotation   = new THREE.Euler().fromArray( json.oldRotation );
+		this._newRotation   = new THREE.Euler().fromArray( json.newRotation );
 	}
 
     // [ Constructor ]
 
-    constructor( object:GL.Object3D, newRotation:GL.Euler, optionalOldRotation?:GL.Euler ) {
+    constructor( object:THREE.Object3D, newRotation:THREE.Euler, optionalOldRotation?:THREE.Euler ) {
         super();
 
         this.type       = 'SetRotationCommand';
@@ -74,6 +74,6 @@ export class SetRotationCommand extends Command {
 
     // [ Private Variables ]
 
-    private _oldRotation    : GL.Euler;
-    private _newRotation    : GL.Euler;
+    private _oldRotation    : THREE.Euler;
+    private _newRotation    : THREE.Euler;
 }

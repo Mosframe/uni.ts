@@ -7,7 +7,7 @@
 
 import { UnitsEditor            }   from '../../Editor';
 
-import { GL                     }   from '../../Engine/Graphic';
+import { THREE                  }   from '../../Engine/Core';
 import { Component              }   from '../../Engine/Component';
 import { GameObject             }   from '../../Engine/GameObject';
 
@@ -82,15 +82,15 @@ export class ObjectEditor extends UIPanel {
                 switch ( this._objectActions.getValue() ) {
 
                 case 'Reset Position':
-                    tool.execute( new SetPositionCommand( object, new GL.Vector3( 0, 0, 0 ) ) );
+                    tool.execute( new SetPositionCommand( object, new THREE.Vector3( 0, 0, 0 ) ) );
                     break;
 
                 case 'Reset Rotation':
-                    tool.execute( new SetRotationCommand( object, new GL.Euler( 0, 0, 0 ) ) );
+                    tool.execute( new SetRotationCommand( object, new THREE.Euler( 0, 0, 0 ) ) );
                     break;
 
                 case 'Reset Scale':
-                    tool.execute( new SetScaleCommand( object, new GL.Vector3( 1, 1, 1 ) ) );
+                    tool.execute( new SetScaleCommand( object, new THREE.Vector3( 1, 1, 1 ) ) );
                     break;
                 }
 
@@ -113,7 +113,7 @@ export class ObjectEditor extends UIPanel {
         this._objectUUID        = new UIInput().setWidth( '102px' ).setFontSize( '12px' ).setDisabled( true );
         let objectUUIDRenew     = new UIButton( 'New' ).setMarginLeft( '7px' ).onClick( () => {
             if( tool.selected ) {
-                this._objectUUID.setValue( GL.Math.generateUUID() );
+                this._objectUUID.setValue( THREE.Math.generateUUID() );
                 tool.execute( new SetUuidCommand( tool.selected, this._objectUUID.getValue() ) );
             }
         });

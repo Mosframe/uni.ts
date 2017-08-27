@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL             }   from '../../Engine/Graphic';
+import { THREE          }   from '../../Engine/Core';
 import { UIPanel        }   from '../../Engine/UI/UIPanel';
 import { UIButton       }   from '../../Engine/UI/UIButton';
 import { UINumber       }   from '../../Engine/UI/UINumber';
@@ -165,13 +165,13 @@ export class SceneEditor extends UIPanel {
 
             this._fogColor.setHexValue( scene.core.fog.color.getHex() );
 
-            if ( scene.core.fog instanceof GL.Fog ) {
+            if ( scene.core.fog instanceof THREE.Fog ) {
 
                 this._fogType.setValue( "Fog" );
                 this._fogNear.setValue( scene.core.fog.near );
                 this._fogFar.setValue( scene.core.fog.far );
 
-            } else if ( scene.core.fog instanceof GL.FogExp2 ) {
+            } else if ( scene.core.fog instanceof THREE.FogExp2 ) {
 
                 this._fogType.setValue( "FogExp2" );
                 this._fogDensity.setValue( scene.core.fog.density );

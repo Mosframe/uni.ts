@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL }   from '../Graphic';
+import { THREE }   from '../Core';
 
 /**
  * HTML Group
@@ -14,7 +14,7 @@ import { GL }   from '../Graphic';
  * @class HTMLGroup
  * @extends {GL.Group}
  */
-export class HTMLGroup extends GL.Group {
+export class HTMLGroup extends THREE.Group {
 
     constructor ( dom:HTMLElement ) {
         super();

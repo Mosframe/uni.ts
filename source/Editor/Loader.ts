@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                         }   from '../Engine/Graphic';
+import { THREE                      }   from '../Engine/Core';
 import { UNumber	                }   from '../Engine/UNumber';
 import { ILoader                    }   from './Interfaces';
 import { ITool                      }   from './Interfaces';
@@ -485,9 +485,9 @@ export class Loader implements ILoader {
 
         case 'buffergeometry':
             {
-                let loader  = new GL.BufferGeometryLoader();
+                let loader  = new THREE.BufferGeometryLoader();
                 let result  = loader.parse( data );
-                let mesh    = new GL.Mesh( result );
+                let mesh    = new THREE.Mesh( result );
 
                 this._tool.execute( new AddObjectCommand( mesh ) );
             }
@@ -495,7 +495,7 @@ export class Loader implements ILoader {
 
         case 'geometry':
             {
-                let loader = new GL.JSONLoader();
+                let loader = new THREE.JSONLoader();
                 loader.setTexturePath( this._texturePath );
 
                 let result : any = loader.parse( data );
@@ -504,12 +504,12 @@ export class Loader implements ILoader {
 
                 if ( result.materials !== undefined ) {
                     if ( result.materials.length > 1 ) {
-                        material = new GL.MultiMaterial( result.materials );
+                        material = new THREE.MultiMaterial( result.materials );
                     } else {
                         material = result.materials[ 0 ];
                     }
                 } else {
-                    material = new GL.MeshStandardMaterial();
+                    material = new THREE.MeshStandardMaterial();
                 }
 
                 geometry.sourceType = "ascii";
@@ -517,9 +517,9 @@ export class Loader implements ILoader {
 
                 let mesh;
                 if ( geometry.animation && geometry.animation.hierarchy ) {
-                    mesh = new GL.SkinnedMesh( geometry, material );
+                    mesh = new THREE.SkinnedMesh( geometry, material );
                 } else {
-                    mesh = new GL.Mesh( geometry, material );
+                    mesh = new THREE.Mesh( geometry, material );
                 }
                 mesh.name = filename;
 
@@ -529,12 +529,12 @@ export class Loader implements ILoader {
 
         case 'object':
             {
-                let loader = new GL.ObjectLoader();
+                let loader = new THREE.ObjectLoader();
                 loader.setTexturePath( this._texturePath );
 
                 let result = loader.parse( data );
 
-                if ( result instanceof GL.Scene ) {
+                if ( result instanceof THREE.Scene ) {
                     this._tool.execute( new SetSceneCommand( result ) );
                 } else {
                     this._tool.execute( new AddObjectCommand( result ) );

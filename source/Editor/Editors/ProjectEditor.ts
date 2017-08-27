@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL             }   from '../../Engine/Graphic';
+import { THREE          }   from '../../Engine/Core';
 import { System         }   from '../../Engine/System';
 import { UIPanel        }   from '../../Engine/UI/UIPanel';
 import { UIButton       }   from '../../Engine/UI/UIButton';
@@ -43,8 +43,8 @@ export class ProjectEditor extends UIPanel {
         let signals    = tool.signals;
 
         let rendererTypes = {
-            'WebGLRenderer': GL.WebGLRenderer,
-            'CanvasRenderer': GL.CanvasRenderer,
+            'WebGLRenderer': THREE.WebGLRenderer,
+            'CanvasRenderer': THREE.CanvasRenderer,
             //'SVGRenderer': GL.SVGRenderer,
             //'SoftwareRenderer': GL.SoftwareRenderer,
             //'RaytracingRenderer': GL.RaytracingRenderer

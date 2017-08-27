@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                     }   from '../../Engine/Graphic';
+import { THREE                  }   from '../../Engine/Core';
 import { UIPanel                }   from '../../Engine/UI/UIPanel';
 import { UIButton               }   from '../../Engine/UI/UIButton';
 import { UINumber               }   from '../../Engine/UI/UINumber';
@@ -94,7 +94,7 @@ export class BoxGeometryDrawer extends UIRow {
 
         function update () {
 
-            tool.execute( new SetGeometryCommand( object, new GL[ geometry.type ](
+            tool.execute( new SetGeometryCommand( object, new THREE[ geometry.type ](
                 width.getValue(),
                 height.getValue(),
                 depth.getValue(),

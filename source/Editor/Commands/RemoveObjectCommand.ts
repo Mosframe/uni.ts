@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { GameObject }   from '../../Engine/GameObject';
 import { Ubject     }   from '../../Engine/Ubject';
 import { Command    }   from './Command';
@@ -30,7 +30,7 @@ export class RemoveObjectCommand extends Command {
      * @memberof RemoveObjectCommand
      */
     execute () {
-		this.object.traverse( ( child:GL.Object3D ) => {
+		this.object.traverse( ( child:THREE.Object3D ) => {
 			this._tool.removeHelper( child );
 		});
 
@@ -48,7 +48,7 @@ export class RemoveObjectCommand extends Command {
      * @memberof RemoveObjectCommand
      */
 	undo () {
-		this.object.traverse( ( child:GL.Object3D ) => {
+		this.object.traverse( ( child:THREE.Object3D ) => {
             if( 'geometry' in child ) this._tool.addGeometry( child['geometry'] );
             if( 'material' in child ) this._tool.addMaterial( child['material'] );
 			this._tool.addHelper( child );
@@ -89,7 +89,7 @@ export class RemoveObjectCommand extends Command {
 		this._index = json.index;
 		this.object = this._tool.objectByUuid( json.object.object.uuid );
 		if ( this.object === undefined ) {
-			let loader = new GL.ObjectLoader();
+			let loader = new THREE.ObjectLoader();
 			this.object = loader.parse( json.object );
 		}
 	}
@@ -101,7 +101,7 @@ export class RemoveObjectCommand extends Command {
      * @param {GameObject} gameObject
      * @memberof RemoveObjectCommand
      */
-    constructor( object:GL.Object3D ) {
+    constructor( object:THREE.Object3D ) {
         super();
 
         this.type           = 'RemoveObjectCommand';
@@ -115,6 +115,6 @@ export class RemoveObjectCommand extends Command {
 
 	// [ Private Variables ]
 
-    private _parent	    : GL.Object3D;
+    private _parent	    : THREE.Object3D;
     private _index 	    : number;
 }

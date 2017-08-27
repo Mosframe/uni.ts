@@ -10,7 +10,7 @@
  * @extends {Command}
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { Command	}   from './Command';
 
 /**
@@ -79,11 +79,11 @@ export class AddScriptCommand extends Command {
 
 	/**
 	 * Creates an instance of AddScriptCommand.
-	 * @param {GL.Object3D} object
+	 * @param {THREE.Object3D} object
 	 * @param {object} script
 	 * @memberof AddScriptCommand
 	 */
-    constructor( object:GL.Object3D, script:object ) {
+    constructor( object:THREE.Object3D, script:object ) {
         super();
 
         this.type   = 'AddScriptCommand';

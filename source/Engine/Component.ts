@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { ComponentType  }   from './Type';
 import { GameObject     }   from './GameObject';
 import { Serializable   }   from './Serializable';

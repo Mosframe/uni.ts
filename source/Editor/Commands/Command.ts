@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL   	    }   from '../../Engine/Graphic';
+import { THREE   	}   from '../../Engine/Core';
 import { GameObject }   from '../../Engine/GameObject';
 import { ITool      }   from '../Interfaces';
 import { ICommand   }   from '../Interfaces';
@@ -33,7 +33,7 @@ export class Command implements ICommand {
 	name            : string;
 	inMemory        : boolean;
 	updatable       : boolean;
-    object          : GL.Object3D;
+    object          : THREE.Object3D;
     script          : any;
     attributeName   : string;
     json            : any;

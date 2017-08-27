@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Ubject         }   from './Ubject';
 
 /**
@@ -15,7 +15,7 @@ import { Ubject         }   from './Ubject';
  * @class Vector3
  * @extends {GL.Vector3}
  */
-export class Vector3 extends GL.Vector3 {
+export class Vector3 extends THREE.Vector3 {
 
     // [ Public Delegates ]
 

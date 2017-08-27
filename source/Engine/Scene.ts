@@ -8,7 +8,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Type           }   from './Type';
 import { Ubject         }   from './Ubject';
 import { GameObject     }   from './GameObject';
@@ -53,29 +53,29 @@ export class Scene {
      * get GL.Scene
      *
      * @readonly
-     * @type {GL.Scene}
+     * @type {THREE.Scene}
      * @memberof Scene
      */
-    get core() : GL.Scene { return this._core; }
+    get core() : THREE.Scene { return this._core; }
 
     // [ Public Functions ]
 
     /**
      * add Object
      *
-     * @param {GL.Object3D} object
+     * @param {THREE.Object3D} object
      * @memberof Scene
      */
-    add( object:GL.Object3D ) {
+    add( object:THREE.Object3D ) {
         this._core.add( object );
     }
     /**
      * remove object
      *
-     * @param {GL.Object3D} object
+     * @param {THREE.Object3D} object
      * @memberof Scene
      */
-    remove ( object:GL.Object3D ) {
+    remove ( object:THREE.Object3D ) {
         object.parent.remove( object );
     }
     /**
@@ -122,8 +122,8 @@ export class Scene {
 
         // [ Object3Ds ]
 
-        let loader = new GL.ObjectLoader();
-        this._core = <GL.Scene>loader.parse( meta.scene );
+        let loader = new THREE.ObjectLoader();
+        this._core = <THREE.Scene>loader.parse( meta.scene );
 
         // [ Ubjects ]
 
@@ -166,19 +166,19 @@ export class Scene {
             }
             else
             // [ GL.Object3D ]
-            if( target instanceof GL.Object3D ) {
+            if( target instanceof THREE.Object3D ) {
                 output.module = 'GL';
                 output.uuid = target.uuid;
             }
             else
             // [ GL.Material ]
-            if( target instanceof GL.Material ) {
+            if( target instanceof THREE.Material ) {
                 output.module = 'GL';
                 output.uuid = target.uuid;
             }
             else
             // [ GL.Geometry ]
-            if( target instanceof GL.Geometry ) {
+            if( target instanceof THREE.Geometry ) {
                 output.module = 'GL';
                 output.uuid = target.uuid;
             }
@@ -228,11 +228,11 @@ export class Scene {
      *
      * @param {*} meta
      * @param {*} metaRoot
-     * @param {{[uuid:string]:GL.Object3D}} objects
+     * @param {{[uuid:string]:THREE.Object3D}} objects
      * @returns
      * @memberof Scene
      */
-    deserialize( meta:any, metaRoot:any, objects:{[uuid:string]:GL.Object3D} ) {
+    deserialize( meta:any, metaRoot:any, objects:{[uuid:string]:THREE.Object3D} ) {
 
         let target:any;
 
@@ -326,11 +326,11 @@ export class Scene {
     /**
      * Returns all the root objects in the scene.
      *
-     * @returns {GL.Object3D[]}
+     * @returns {THREE.Object3D[]}
      * @memberof Scene
      */
-    getRootObjects () : GL.Object3D[] {
-        let objects : GL.Object3D[] = [];
+    getRootObjects () : THREE.Object3D[] {
+        let objects : THREE.Object3D[] = [];
         for (let child of this._core.children) {
             objects.push( child );
         }
@@ -339,12 +339,12 @@ export class Scene {
     /**
      * Resutns all objects in the scene.
      *
-     * @returns {{[uuid:string]:GL.Object3D}}
+     * @returns {{[uuid:string]:THREE.Object3D}}
      * @memberof Scene
      */
-    getAllObjects () : {[uuid:string]:GL.Object3D} {
+    getAllObjects () : {[uuid:string]:THREE.Object3D} {
 
-        let objects : {[uuid:string]:GL.Object3D}  = {};
+        let objects : {[uuid:string]:THREE.Object3D}  = {};
         this.core.traverse( object => {
             objects[object.uuid]=object;
             if( 'material' in object ) {
@@ -379,7 +379,7 @@ export class Scene {
      */
     findUbjectByName<T extends Ubject > ( type:Type<T>, name:string ) : T|undefined {
 
-        let objects : GL.Object3D[] = [];
+        let objects : THREE.Object3D[] = [];
         for (let key in this.__ubjects) {
             let ubject = this.__ubjects[key];
             if( ubject instanceof type ) {
@@ -411,9 +411,9 @@ export class Scene {
 
     // [ Constructors ]
 
-    constructor( core?:GL.Scene ) {
+    constructor( core?:THREE.Scene ) {
         if( core === undefined ) {
-            this._core = new GL.Scene();
+            this._core = new THREE.Scene();
         } else {
             this._core = core;
         }
@@ -421,7 +421,7 @@ export class Scene {
 
     // [ Private Variables ]
 
-    private _core     : GL.Scene;
+    private _core     : THREE.Scene;
     private __ubjects : {[uuid:string]:Ubject} = {};
 
     // [ Private Functions ]

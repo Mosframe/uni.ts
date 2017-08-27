@@ -4,6 +4,10 @@
  * @author mosframe / https://github.com/mosframe
  */
 
+/**
+ * UNumber
+ *
+ */
 export class UNumber {
 
     /**

@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Component      }   from './Component';
 import { GameObject     }   from './GameObject';
 import { Matrix4x4      }   from './Matrix4x4';
@@ -36,10 +36,10 @@ export class Transform extends Component {
      * get Object3D
      *
      * @readonly
-     * @type {GL.Object3D}
+     * @type {THREE.Object3D}
      * @memberof Transform
      */
-    get core() : GL.Object3D                { return this.gameObject.core; }
+    get core() : THREE.Object3D                { return this.gameObject.core; }
 
     /*
     childCount	The number of children the Transform has.
@@ -52,12 +52,12 @@ export class Transform extends Component {
     hierarchyCapacity	The transform capacity of the transform's hierarchy data structure.
     hierarchyCount	The number of transforms in the transform's hierarchy data structure.
     */
-    get localEulerAngles() : Vector3        { return new Vector3(this.core.rotation.x*GL.Math.RAD2DEG,this.core.rotation.y*GL.Math.RAD2DEG,this.core.rotation.z*GL.Math.RAD2DEG); }
-    set localEulerAngles( value:Vector3 )   { this.core.rotation.x = value.x*GL.Math.DEG2RAD; this.core.rotation.y = value.y*GL.Math.DEG2RAD; this.core.rotation.z = value.z*GL.Math.DEG2RAD; }
+    get localEulerAngles() : Vector3        { return new Vector3(this.core.rotation.x*THREE.Math.RAD2DEG,this.core.rotation.y*THREE.Math.RAD2DEG,this.core.rotation.z*THREE.Math.RAD2DEG); }
+    set localEulerAngles( value:Vector3 )   { this.core.rotation.x = value.x*THREE.Math.DEG2RAD; this.core.rotation.y = value.y*THREE.Math.DEG2RAD; this.core.rotation.z = value.z*THREE.Math.DEG2RAD; }
     get localPosition() : Vector3           { return this.core.position; }
     set localPosition( value:Vector3 )      { this.core.position.set( value.x, value.y, value.z ); }
     get localRotation() : Quaternion        { return <Quaternion>(new Quaternion().setFromEuler( this.core.rotation )); }
-    set localRotation( value:Quaternion )   { this.core.rotation.setFromQuaternion( <GL.Quaternion>value ); }
+    set localRotation( value:Quaternion )   { this.core.rotation.setFromQuaternion( <THREE.Quaternion>value ); }
     get localScale() : Vector3              { return this.core.scale; }
     set localScale( value:Vector3 )         { this.core.scale.set( value.x, value.y, value.z ); }
 
@@ -110,50 +110,33 @@ export class Transform extends Component {
      * @param {Space} [relativeTo=Space.Self] Rotation is local to object or World.
      * @memberof Transform
      */
-    rotate ( eulerAngles:Vector3, relativeTo:Space=Space.Self ) {
+    Rotate ( eulerAngles:Vector3, relativeTo:Space=Space.Self ) {
+
+        let q = new Quaternion();
+
         if( relativeTo == Space.Self ) {
 
-            let x = this.core.rotation.x * GL.Math.RAD2DEG + eulerAngles.x;
-            let y = this.core.rotation.y * GL.Math.RAD2DEG + eulerAngles.y;
-            let z = this.core.rotation.z * GL.Math.RAD2DEG + eulerAngles.z;
+            //q.setFromAxisAngle( new Vector3(1,0,0), eulerAngles.x*THREE.Math.DEG2RAD );
+            //this.core.quaternion.multiply( q );
+            //q.setFromAxisAngle( new Vector3(0,1,0), eulerAngles.y*THREE.Math.DEG2RAD );
+            //this.core.quaternion.multiply( q );
+            //q.setFromAxisAngle( new Vector3(0,0,1), eulerAngles.z*THREE.Math.DEG2RAD );
+            //this.core.quaternion.multiply( q );
 
-            x += 180;
-            y += 180;
-            z += 180;
-
-            x -= (360*Math.floor(x/360));
-            y -= (360*Math.floor(y/360));
-            z -= (360*Math.floor(z/360));
-
-            x -= 180;
-            y -= 180;
-            z -= 180;
-
-            this.core.rotation.x = x * GL.Math.DEG2RAD;
-            this.core.rotation.y = y * GL.Math.DEG2RAD;
-            this.core.rotation.z = z * GL.Math.DEG2RAD;
+            q.setFromEuler( new THREE.Euler(eulerAngles.x*THREE.Math.DEG2RAD,eulerAngles.y*THREE.Math.DEG2RAD,eulerAngles.z*THREE.Math.DEG2RAD) );
+            this.core.quaternion.multiply( q );
 
         } else {
+            // 공사중....
+            //this.core.getWorldQuaternion();
 
-            let x = this.core.rotation.x * GL.Math.RAD2DEG + eulerAngles.x;
-            let y = this.core.rotation.y * GL.Math.RAD2DEG + eulerAngles.y;
-            let z = this.core.rotation.z * GL.Math.RAD2DEG + eulerAngles.z;
+            let position    = new THREE.Vector3();
+            let quaternion  = new THREE.Quaternion();
+            let scale       = new THREE.Vector3();
 
-            x += 180;
-            y += 180;
-            z += 180;
+            this.core.matrixWorld.decompose( position, quaternion, scale );
 
-            x -= (360*Math.floor(x/360));
-            y -= (360*Math.floor(y/360));
-            z -= (360*Math.floor(z/360));
-
-            x -= 180;
-            y -= 180;
-            z -= 180;
-
-            this.core.rotation.x = x * GL.Math.DEG2RAD;
-            this.core.rotation.y = y * GL.Math.DEG2RAD;
-            this.core.rotation.z = z * GL.Math.DEG2RAD;
+            this.core.rotateOnAxis( new Vector3(1,0,0), eulerAngles.x*THREE.Math.DEG2RAD );
         }
     }
     /*
@@ -172,7 +155,7 @@ export class Transform extends Component {
         console.log( 'scale', this.lossyScale );
 
         // get parent
-        let nextParent:GL.Object3D;
+        let nextParent:THREE.Object3D;
         if( parent ) {
             nextParent = parent.core;
         } else {
@@ -188,7 +171,7 @@ export class Transform extends Component {
 
         //this.core.updateMatrix();
         // attach
-        this.core.applyMatrix( new GL.Matrix4().getInverse( nextParent.matrixWorld ) );
+        this.core.applyMatrix( new THREE.Matrix4().getInverse( nextParent.matrixWorld ) );
         nextParent.add( this.core );
 
         console.log( 'scale', this.lossyScale );

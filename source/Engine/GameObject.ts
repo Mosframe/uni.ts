@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine            }   from './UnitsEngine';
-import { GL                     }   from './Graphic';
+import { THREE                  }   from './Core';
 import { ComponentType          }   from './Type';
 import { Component              }   from './Component';
 import { Scene                  }   from './Scene';
@@ -43,8 +43,8 @@ export class GameObject extends Ubject {
     activeSelf	The local active state of this GameObject. (Read Only)
     */
 
-    get core () : GL.Object3D        { return this._core; }
-    set core ( value : GL.Object3D ) {
+    get core () : THREE.Object3D        { return this._core; }
+    set core ( value : THREE.Object3D ) {
         this._core = value;
         this._core.name = this._name;
         this.uuid = value.uuid;
@@ -240,7 +240,7 @@ export class GameObject extends Ubject {
         this._name = name;
 
         // [ core ]
-        this._core  = new GL.Object3D();
+        this._core  = new THREE.Object3D();
 
         // [ transform ]
         this._transform = this.addComponent( Transform );
@@ -255,6 +255,6 @@ export class GameObject extends Ubject {
 
     protected _components       : Component[] = [];
     protected _transform        : Transform;
-    protected _core             : GL.Object3D;
+    protected _core             : THREE.Object3D;
 }
 UnitsEngine[GameObject.name] = GameObject;

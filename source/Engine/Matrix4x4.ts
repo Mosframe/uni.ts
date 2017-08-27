@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Ubject         }   from './Ubject';
 
 /**
@@ -26,7 +26,7 @@ import { Ubject         }   from './Ubject';
  * @class Matrix4x4
  * @extends {GL.Matrix4}
  */
-export class Matrix4x4 extends GL.Matrix4 {
+export class Matrix4x4 extends THREE.Matrix4 {
 
     // [ Public Delegates ]
 

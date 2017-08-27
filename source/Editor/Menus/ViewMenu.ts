@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                         }   from '../../Engine/Graphic'                 ;
+import { THREE                         }   from '../../Engine/Core'                 ;
 import { WebVR                      }   from '../../Engine/VR/WebVR'                ;
 import { UIPanel                    }   from '../../Engine/UI/UIPanel'              ;
 import { UIRow                      }   from '../../Engine/UI/UIRow'                ;

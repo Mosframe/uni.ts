@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Scene          }   from './Scene';
 import { Ubject         }   from './Ubject';
 

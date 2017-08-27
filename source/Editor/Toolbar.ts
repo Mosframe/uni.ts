@@ -10,7 +10,7 @@ import { UIButton   }   from '../Engine/UI/UIButton';
 import { UINumber   }   from '../Engine/UI/UINumber';
 import { UIText     }   from '../Engine/UI/UIText';
 import { UIBoolean  }   from '../Engine/UI/UIBoolean';
-import { ITool    }   from './Interfaces';
+import { ITool      }   from './Interfaces';
 
 /**
  * Toolbar

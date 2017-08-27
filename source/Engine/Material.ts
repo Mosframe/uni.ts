@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Color          }   from './Color';
 import { ShaderType     }   from './ShaderType';
 import { Serializable   }   from './Serializable';
@@ -36,7 +36,7 @@ export class Material extends Ubject {
      *
      * @memberof Material
      */
-    get core() : GL.Material { return this._core; }
+    get core() : THREE.Material { return this._core; }
 
     /**
      * The main material's color.
@@ -74,12 +74,12 @@ export class Material extends Ubject {
     // [ Protected Variables ]
 
     //@Serializable
-    protected _core : GL.Material;
+    protected _core : THREE.Material;
 
     // [ Protected Functions ]
 
     protected create() {
-        this._core = new GL.Material();
+        this._core = new THREE.Material();
     }
 }
 UnitsEngine[Material.name] = Material;

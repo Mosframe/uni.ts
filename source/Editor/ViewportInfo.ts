@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../Engine/Graphic';
+import { THREE      }   from '../Engine/Core';
 import { UNumber	}   from '../Engine/UNumber';
 import { UIPanel    }   from '../Engine/UI/UIPanel';
 import { UIText     }   from '../Engine/UI/UIText';
@@ -59,16 +59,16 @@ export class ViewportInfo extends UIPanel {
 
                     objects++;
 
-                    if ( object instanceof GL.Mesh ) {
+                    if ( object instanceof THREE.Mesh ) {
 
                         let geometry = object.geometry;
-                        if ( geometry instanceof GL.Geometry ) {
+                        if ( geometry instanceof THREE.Geometry ) {
 
                             vertices    += geometry.vertices.length;
                             triangles   += geometry.faces.length;
                         }
                         else
-                        if ( geometry instanceof GL.BufferGeometry ) {
+                        if ( geometry instanceof THREE.BufferGeometry ) {
 
                             if ( geometry.index !== null ) {
                                 vertices    += geometry.index.count * 3;

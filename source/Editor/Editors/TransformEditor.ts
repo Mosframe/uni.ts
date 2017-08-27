@@ -4,7 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                     }   from '../../Engine/Graphic';
+import { THREE                  }   from '../../Engine/Core';
 import { Component              }   from '../../Engine/Component';
 import { Transform              }   from '../../Engine/Transform';
 
@@ -123,7 +123,7 @@ export class TransformEditor extends ComponentEditor {
         let posY = <UINumber>this._drawers['localPosition.y'];
         let posZ = <UINumber>this._drawers['localPosition.z'];
 
-        let newPosition = new GL.Vector3( posX.getValue(), posY.getValue(), posZ.getValue() );
+        let newPosition = new THREE.Vector3( posX.getValue(), posY.getValue(), posZ.getValue() );
         if ( localPosition.distanceTo( newPosition ) >= 0.01 ) {
 
             this._tool.execute( new SetPositionCommand( object, newPosition ) );
@@ -136,7 +136,7 @@ export class TransformEditor extends ComponentEditor {
         let rotY = <UINumber>this._drawers['localRotation.y'];
         let rotZ = <UINumber>this._drawers['localRotation.z'];
 
-        let newRotation = new GL.Euler( rotX.getValue() * GL.Math.DEG2RAD, rotY.getValue() * GL.Math.DEG2RAD, rotZ.getValue() * GL.Math.DEG2RAD );
+        let newRotation = new THREE.Euler( rotX.getValue() * THREE.Math.DEG2RAD, rotY.getValue() * THREE.Math.DEG2RAD, rotZ.getValue() * THREE.Math.DEG2RAD );
         if ( localRotation.eulerAngles.distanceTo( newRotation.toVector3() ) >= 0.01 ) {
 
             this._tool.execute( new SetRotationCommand( object, newRotation ) );
@@ -149,7 +149,7 @@ export class TransformEditor extends ComponentEditor {
         let scaleY = <UINumber>this._drawers['localScale.y'];
         let scaleZ = <UINumber>this._drawers['localScale.z'];
 
-        let newScale = new GL.Vector3( scaleX.getValue(), scaleY.getValue(), scaleZ.getValue() );
+        let newScale = new THREE.Vector3( scaleX.getValue(), scaleY.getValue(), scaleZ.getValue() );
         if ( localScale.distanceTo( newScale ) >= 0.01 ) {
 
             this._tool.execute( new SetScaleCommand( object, newScale ) );

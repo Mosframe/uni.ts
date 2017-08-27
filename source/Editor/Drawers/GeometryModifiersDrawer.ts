@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                     }   from '../../Engine/Graphic';
+import { THREE                  }   from '../../Engine/Core';
 import { UNumber                }   from '../../Engine/UNumber';
 import { UIPanel                }   from '../../Engine/UI/UIPanel';
 import { UIButton               }   from '../../Engine/UI/UIButton';
@@ -53,7 +53,7 @@ export class GeometryModifiersDrawer extends UIRow {
 
             geometry.computeVertexNormals();
 
-            if ( geometry instanceof GL.BufferGeometry ) {
+            if ( geometry instanceof THREE.BufferGeometry ) {
                 let attributes:any = geometry.attributes;
                 attributes.normal.needsUpdate = true;
 

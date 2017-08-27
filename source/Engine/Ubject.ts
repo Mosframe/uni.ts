@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { using          }   from './Using';
 import { IDisposable    }   from './Using';
 import { Type           }   from './Type';
@@ -62,7 +62,7 @@ export class Ubject extends Object implements IDisposable  {
         super();
         this.__avaliable = true;
         this.__instanceID = Ubject.__nextInstanceID++;
-        this.__uuid = GL.Math.generateUUID();
+        this.__uuid = THREE.Math.generateUUID();
         // [ scene ]
         this.__scene = SceneManager.getActiveScene();
         this.__scene.registerUbject( this.__uuid, this );

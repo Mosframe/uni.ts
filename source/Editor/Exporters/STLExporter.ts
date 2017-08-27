@@ -6,7 +6,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL }   from '../../Engine/Graphic';
+import { THREE }   from '../../Engine/Core';
 
 /**
  * STL Exporter
@@ -18,8 +18,8 @@ export class STLExporter {
 
 	parse ( scene ) {
 
-		var vector = new GL.Vector3();
-		var normalMatrixWorld = new GL.Matrix3();
+		var vector = new THREE.Vector3();
+		var normalMatrixWorld = new THREE.Matrix3();
 
 		return function parse( scene ) {
 
@@ -29,18 +29,18 @@ export class STLExporter {
 
 			scene.traverse( function ( object ) {
 
-				if ( object instanceof GL.Mesh ) {
+				if ( object instanceof THREE.Mesh ) {
 
 					var geometry = object.geometry;
 					var matrixWorld = object.matrixWorld;
 
-					if( geometry instanceof GL.BufferGeometry ) {
+					if( geometry instanceof THREE.BufferGeometry ) {
 
-						geometry = new GL.Geometry().fromBufferGeometry( geometry );
+						geometry = new THREE.Geometry().fromBufferGeometry( geometry );
 
 					}
 
-					if ( geometry instanceof GL.Geometry ) {
+					if ( geometry instanceof THREE.Geometry ) {
 
 						var vertices = geometry.vertices;
 						var faces = geometry.faces;

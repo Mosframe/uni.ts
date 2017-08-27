@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL }   from '../../../Engine/Graphic';
+import { THREE }   from '../../../Engine/Core';
 
 /**
  * GizmoLineMaterial
@@ -14,7 +14,7 @@ import { GL }   from '../../../Engine/Graphic';
  * @class GizmoLineMaterial
  * @extends {GL.LineBasicMaterial}
  */
-export class GizmoLineMaterial extends GL.LineBasicMaterial {
+export class GizmoLineMaterial extends THREE.LineBasicMaterial {
 
     // [ Public Functions ]
 
@@ -30,7 +30,7 @@ export class GizmoLineMaterial extends GL.LineBasicMaterial {
 
     // [ Constructor ]
 
-    constructor(parameters?: GL.LineBasicMaterialParameters) {
+    constructor(parameters?: THREE.LineBasicMaterialParameters) {
         super(parameters);
 
 		this.depthTest      = false;
@@ -45,7 +45,7 @@ export class GizmoLineMaterial extends GL.LineBasicMaterial {
 
     // [ Private Veriables ]
 
-    private _oldColor    : GL.Color;
+    private _oldColor    : THREE.Color;
     private _oldOpacity  : number;
 }
 

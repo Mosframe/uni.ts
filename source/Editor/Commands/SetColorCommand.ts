@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { Command    }   from './Command';
 
 /**
@@ -80,12 +80,12 @@ export class SetColorCommand extends Command {
 
     /**
      * Creates an instance of SetColorCommand.
-     * @param {GL.Object3D} object
+     * @param {THREE.Object3D} object
      * @param {string} attributeName
      * @param {number} newValue
      * @memberof SetColorCommand
      */
-    constructor( object:GL.Object3D, attributeName:string, newValue:number ) {
+    constructor( object:THREE.Object3D, attributeName:string, newValue:number ) {
         super();
 
         this.type = 'SetColorCommand';

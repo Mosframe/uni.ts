@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { GameObject }   from '../../Engine/GameObject';
 import { Command    }   from './Command';
 
@@ -35,8 +35,8 @@ export class MoveObjectCommand extends Command {
 
         console.log( 'scale', this.object.getWorldScale() );
 
-        GL.SceneUtils.detach( this.object, this._oldParent, this._tool.scene.core );
-        GL.SceneUtils.attach( this.object, this._tool.scene.core, this._newParent );
+        THREE.SceneUtils.detach( this.object, this._oldParent, this._tool.scene.core );
+        THREE.SceneUtils.attach( this.object, this._tool.scene.core, this._newParent );
 
         console.log( 'scale', this.object.getWorldScale() );
 
@@ -67,8 +67,8 @@ export class MoveObjectCommand extends Command {
 
         console.log( 'scale', this.object.getWorldScale() );
 
-        GL.SceneUtils.detach( this.object, this._newParent, this._tool.scene.core );
-        GL.SceneUtils.attach( this.object, this._tool.scene.core, this._oldParent );
+        THREE.SceneUtils.detach( this.object, this._newParent, this._tool.scene.core );
+        THREE.SceneUtils.attach( this.object, this._tool.scene.core, this._oldParent );
 
         console.log( 'scale', this.object.getWorldScale() );
         /*
@@ -125,12 +125,12 @@ export class MoveObjectCommand extends Command {
 
     /**
      * Creates an instance of MoveObjectCommand.
-     * @param {GL.Object3D} object
-     * @param {GL.Object3D} [newParent]
-     * @param {GL.Object3D} [newBefore]
+     * @param {THREE.Object3D} object
+     * @param {THREE.Object3D} [newParent]
+     * @param {THREE.Object3D} [newBefore]
      * @memberof MoveObjectCommand
      */
-    constructor( object:GL.Object3D, newParent:GL.Object3D, newBefore:GL.Object3D ) {
+    constructor( object:THREE.Object3D, newParent:THREE.Object3D, newBefore:THREE.Object3D ) {
         super();
 
         this.type       = 'MoveObjectCommand';
@@ -153,8 +153,8 @@ export class MoveObjectCommand extends Command {
 
     // [ Private Variables ]
 
-     private _oldParent  : GL.Object3D;
-     private _newParent  : GL.Object3D;
+     private _oldParent  : THREE.Object3D;
+     private _newParent  : THREE.Object3D;
      private _oldIndex   : number;
      private _newIndex   : number;
 }

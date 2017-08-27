@@ -9,7 +9,7 @@ export { UnitsEngine            }   from './UnitsEngine';
 import * as uuid                    from 'uuid';
 export { uuid                   };
 export { deprecated             }   from 'deprecated-decorator';
-export { GL                     }   from './Graphic'
+export { THREE                  }   from './Core'
 export { Type                   }   from './Type'
 export { ComponentType          }   from './Type'
 export { using                  }   from './Using';

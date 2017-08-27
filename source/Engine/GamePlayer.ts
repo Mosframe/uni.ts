@@ -6,7 +6,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL     		}   from './Graphic';
+import { THREE     		}   from './Core';
 import { Ubject    		}   from './Ubject';
 import { UnitsBehaviour	}  	from './UnitsBehaviour';
 import { Scene    		}   from './Scene';
@@ -26,7 +26,7 @@ export class GamePlayer {
 	load = ( json ) => {
 
 		this._isVR = json.project.vr;
-		this._renderer = new GL.WebGLRenderer( { antialias: true } );
+		this._renderer = new THREE.WebGLRenderer( { antialias: true } );
 		this._renderer.setClearColor( 0x000000 );
 		this._renderer.setPixelRatio( window.devicePixelRatio );
 
@@ -156,12 +156,12 @@ export class GamePlayer {
 
 		if ( this._isVR === true ) {
 
-			this._cameraVR = new GL.PerspectiveCamera();
+			this._cameraVR = new THREE.PerspectiveCamera();
 			this._cameraVR.projectionMatrix = this._camera.projectionMatrix;
 			this._camera.add( this._cameraVR );
 
-			this._controls = new GL.VRControls( this._cameraVR );
-			this._effect = new GL.VREffect( this._renderer );
+			this._controls = new THREE.VRControls( this._cameraVR );
+			this._effect = new THREE.VREffect( this._renderer );
 
 			if ( WebVR.isAvailable() === true ) {
 
@@ -249,7 +249,7 @@ export class GamePlayer {
 
 	constructor ( parent:HTMLDivElement ) {
 
-		this._loader 			= new GL.ObjectLoader();
+		this._loader 			= new THREE.ObjectLoader();
 		this._behaviourEvents 	= {};
 		this._scriptEvents 		= {};
 		this._core 				= document.createElement( 'div' );
@@ -264,7 +264,7 @@ export class GamePlayer {
 	private _core 	    		: HTMLDivElement;
 	private _width 	    		: number;
 	private _height 			: number;
-	private _loader 			: GL.ObjectLoader;
+	private _loader 			: THREE.ObjectLoader;
 	private _camera 			: any;
 	private _scene 				: Scene;
 	private _renderer 			: any;

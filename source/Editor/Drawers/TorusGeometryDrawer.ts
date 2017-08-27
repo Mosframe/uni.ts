@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                     }   from '../../Engine/Graphic';
+import { THREE                  }   from '../../Engine/Core';
 import { UNumber                }   from '../../Engine/UNumber';
 import { UIPanel                }   from '../../Engine/UI/UIPanel';
 import { UIButton               }   from '../../Engine/UI/UIButton';
@@ -102,7 +102,7 @@ export class TorusGeometryDrawer extends UIRow {
 
         function update() {
 
-            tool.execute( new SetGeometryCommand( object, new GL[ geometry.type ](
+            tool.execute( new SetGeometryCommand( object, new THREE[ geometry.type ](
                 radius.getValue(),
                 tube.getValue(),
                 radialSegments.getValue(),

@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine            }   from './UnitsEngine';
-import { GL                     }   from './Graphic';
+import { THREE                  }   from './Core';
 import { Component              }   from './Component';
 import { GameObject             }   from './GameObject';
 import { Material               }   from './Material';
@@ -31,7 +31,7 @@ export class Renderer extends Component {
 
     // [ Public Variables ]
 
-    get core() : GL.Mesh { return <GL.Mesh>this.gameObject.core; }
+    get core() : THREE.Mesh { return <THREE.Mesh>this.gameObject.core; }
 
     /*
     bounds	The bounding volume of the renderer (Read Only).

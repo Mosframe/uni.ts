@@ -72,7 +72,7 @@ export class Time {
 
     static reset() {
         this._time      = 0;
-        this._startTime = performance.now()*0.01;
+        this._startTime = performance.now()*0.001;
         this._prevTime  = 0;
         this._deltaTime = 0;
     }
@@ -86,7 +86,7 @@ export class Time {
 
     private static _update() {
         this._prevTime = this._time;
-        this._time = (performance.now()*0.01)-this._startTime;
+        this._time = (performance.now()*0.001)-this._startTime;
         this._deltaTime = (this._time - this._prevTime)*this.timeScale;
     }
 }

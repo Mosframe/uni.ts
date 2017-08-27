@@ -6,7 +6,7 @@
  * @author Mosframe / https://github.com/Mosframe
  */
 
-import { GL     }   from '../Graphic';
+import { THREE  }   from '../Core';
 import { WebVR  }   from './WebVR';
 
 /**
@@ -33,7 +33,7 @@ export class VRControls {
         this._vrDisplay = value;
     }
 
-    getStandingMatrix () : GL.Matrix4 {
+    getStandingMatrix () : THREE.Matrix4 {
         return this._standingMatrix;
     }
 
@@ -81,11 +81,11 @@ export class VRControls {
 
     // [ Constructor ]
 
-    constructor ( object:GL.Object3D, onError?:Function ) {
+    constructor ( object:THREE.Object3D, onError?:Function ) {
 
         this._object            = object;
         this._onError           = onError;
-        this._standingMatrix    = new GL.Matrix4();
+        this._standingMatrix    = new THREE.Matrix4();
 
 		if ( 'VRFrameData' in window ) {
 			this._frameData = new window['VRFrameData'];
@@ -120,11 +120,11 @@ export class VRControls {
 
     // [ Private Variables ]
 
-    private _object         : GL.Object3D;
+    private _object         : THREE.Object3D;
     private _onError        ?: Function;
 	private _vrDisplay      : VRDisplay|null;
     private _vrDisplays     : VRDisplay[];
-    private _standingMatrix : GL.Matrix4;
+    private _standingMatrix : THREE.Matrix4;
     private _frameData      : VRFrameData|null;
     private _scale          : number;
     private _standing       : boolean;

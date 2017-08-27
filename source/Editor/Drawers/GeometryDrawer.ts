@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                     }   from '../../Engine/Graphic';
+import { THREE                  }   from '../../Engine/Core';
 import { UNumber                }   from '../../Engine/UNumber';
 import { UIPanel                }   from '../../Engine/UI/UIPanel';
 import { UIButton               }   from '../../Engine/UI/UIButton';
@@ -71,7 +71,7 @@ export class GeometryDrawer extends UIRow {
 
             let geometry = object.geometry;
 
-            if ( geometry instanceof GL.Geometry ) {
+            if ( geometry instanceof THREE.Geometry ) {
 
                 this.setDisplay( 'block' );
 

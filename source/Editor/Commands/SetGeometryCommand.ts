@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { Command    }   from './Command';
 
 /**
@@ -95,10 +95,10 @@ export class SetGeometryCommand extends Command {
     /**
      * Creates an instance of SetGeometryCommand.
      * @param {*} object
-     * @param {(GL.Geometry|GL.BufferGeometry)} newGeometry
+     * @param {(THREE.Geometry|THREE.BufferGeometry)} newGeometry
      * @memberof SetGeometryCommand
      */
-    constructor( object:any, newGeometry:GL.Geometry|GL.BufferGeometry ) {
+    constructor( object:any, newGeometry:THREE.Geometry|THREE.BufferGeometry ) {
         super();
         this.type           = 'SetGeometryCommand';
         this.name           = 'Set Geometry';
@@ -110,13 +110,13 @@ export class SetGeometryCommand extends Command {
 
     // [ Private Variables ]
 
-    private _oldGeometry : GL.Geometry | GL.BufferGeometry;
-    private _newGeometry : GL.Geometry | GL.BufferGeometry;
+    private _oldGeometry : THREE.Geometry | THREE.BufferGeometry;
+    private _newGeometry : THREE.Geometry | THREE.BufferGeometry;
 
     // [ Private Functions ]
 
-    private _parseGeometry ( data:GL.Geometry ) : any {
-        let loader = new GL.ObjectLoader();
+    private _parseGeometry ( data:THREE.Geometry ) : any {
+        let loader = new THREE.ObjectLoader();
         return loader.parseGeometries( [ data ] )[ data.uuid ];
     }
 }

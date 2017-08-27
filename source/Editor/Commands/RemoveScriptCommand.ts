@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { Command    }   from './Command';
 
 /**
@@ -76,11 +76,11 @@ export class RemoveScriptCommand extends Command {
 
     /**
      * Creates an instance of RemoveScriptCommand.
-     * @param {GL.Object3D} object
+     * @param {THREE.Object3D} object
      * @param {*} script
      * @memberof RemoveScriptCommand
      */
-    constructor( object:GL.Object3D, script:any ) {
+    constructor( object:THREE.Object3D, script:any ) {
         super();
 
         this.type   = 'RemoveScriptCommand';

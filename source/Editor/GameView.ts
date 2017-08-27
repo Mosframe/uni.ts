@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../Engine/Graphic';
+import { THREE      }   from '../Engine/Core';
 import { UIPanel    }   from '../Engine/UI/UIPanel';
 import { GamePlayer }   from '../Engine/GamePlayer';
 import { ITool      }   from './Interfaces';

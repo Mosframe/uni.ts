@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { Command    }   from './Command';
 
 /**
@@ -48,13 +48,13 @@ export class SetScaleCommand extends Command {
 	fromJSON ( json:any ) {
         super.fromJSON( json );
 		this.object     = this._tool.objectByUuid( json.objectUuid );
-		this._oldScale  = new GL.Vector3().fromArray( json.oldScale );
-		this._newScale  = new GL.Vector3().fromArray( json.newScale );
+		this._oldScale  = new THREE.Vector3().fromArray( json.oldScale );
+		this._newScale  = new THREE.Vector3().fromArray( json.newScale );
 	}
 
     // [ Constructor ]
 
-    constructor( object:GL.Object3D, newScale:GL.Vector3, optionalOldScale?:GL.Vector3 ) {
+    constructor( object:THREE.Object3D, newScale:THREE.Vector3, optionalOldScale?:THREE.Vector3 ) {
         super();
 
         this.type       = 'SetScaleCommand';
@@ -74,6 +74,6 @@ export class SetScaleCommand extends Command {
 
     // [ Private Variables ]
 
-    private _oldScale    : GL.Vector3;
-    private _newScale    : GL.Vector3;
+    private _oldScale    : THREE.Vector3;
+    private _newScale    : THREE.Vector3;
 }

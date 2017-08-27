@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Material       }   from './Material';
 import { Color          }   from './Color';
 import { ShaderType     }   from './ShaderType';
@@ -29,7 +29,7 @@ export class MeshStandardMaterial extends Material {
      *
      * @memberof Material
      */
-    get core() : GL.MeshStandardMaterial { return <GL.MeshStandardMaterial>this._core; }
+    get core() : THREE.MeshStandardMaterial { return <THREE.MeshStandardMaterial>this._core; }
 
     /**
      * The main material's color.
@@ -54,7 +54,7 @@ export class MeshStandardMaterial extends Material {
 
     // [ Protected Functions ]
     protected create() {
-        this._core = new GL.MeshStandardMaterial();
+        this._core = new THREE.MeshStandardMaterial();
     }
 }
 UnitsEngine[MeshStandardMaterial.name] = MeshStandardMaterial;

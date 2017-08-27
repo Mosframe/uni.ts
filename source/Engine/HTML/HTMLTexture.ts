@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL             } from '../Graphic';
+import { THREE             } from '../Core';
 import { HTML2Canvas    }   from './HTML2Canvas';
 
 /**
@@ -15,7 +15,7 @@ import { HTML2Canvas    }   from './HTML2Canvas';
  * @class HTMLTexture
  * @extends {GL.CanvasTexture}
  */
-export class HTMLTexture extends GL.CanvasTexture {
+export class HTMLTexture extends THREE.CanvasTexture {
 
  	update () {
 

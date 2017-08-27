@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL             }   from '../../Engine/Graphic';
+import { THREE          }   from '../../Engine/Core';
 import { UIPanel        }   from '../../Engine/UI/UIPanel';
 import { UIButton       }   from '../../Engine/UI/UIButton';
 import { UINumber       }   from '../../Engine/UI/UINumber';
@@ -61,7 +61,7 @@ export class HierarchyEditor extends UIPanel {
 
         this._signals.editorCleared.add( this._refreshUI );
         this._signals.sceneGraphChanged.add( this._refreshUI );
-        this._signals.objectChanged.add( ( object:GL.Object3D ) => {
+        this._signals.objectChanged.add( ( object:THREE.Object3D ) => {
 
             let options = this._outliner.options;
 
@@ -74,7 +74,7 @@ export class HierarchyEditor extends UIPanel {
             }
         });
 
-        this._signals.objectSelected.add( ( object:GL.Object3D ) => {
+        this._signals.objectSelected.add( ( object:THREE.Object3D ) => {
             if ( ignoreObjectSelectedSignal === true ) return;
             this._outliner.setValue( object !== null ? object.id : 0 );
         });
@@ -112,7 +112,7 @@ export class HierarchyEditor extends UIPanel {
         }
     }
 
-    private _buildOption = ( object:GL.Object3D, draggable:boolean ) : HTMLDivElement => {
+    private _buildOption = ( object:THREE.Object3D, draggable:boolean ) : HTMLDivElement => {
 
         let option = document.createElement( 'div' );
         option.draggable = draggable;
@@ -122,7 +122,7 @@ export class HierarchyEditor extends UIPanel {
         return option;
     }
 
-    private _getMaterialName = ( material:GL.Material ) => {
+    private _getMaterialName = ( material:THREE.Material ) => {
 
         if ( Array.isArray( material ) ) {
             let array:any = [];
@@ -134,11 +134,11 @@ export class HierarchyEditor extends UIPanel {
         return material.name;
     }
 
-    private _buildHTML = ( object:GL.Object3D ) => {
+    private _buildHTML = ( object:THREE.Object3D ) => {
 
         let html = '<span class="type ' + object.type + '"></span> ' + object.name;
 
-        if ( object instanceof GL.Mesh ) {
+        if ( object instanceof THREE.Mesh ) {
 
             let geometry = object.geometry;
             let material = object.material;
@@ -162,7 +162,7 @@ export class HierarchyEditor extends UIPanel {
         return '';
     }
 
-    private _addObjects = ( options:HTMLDivElement[], objects:GL.Object3D[], pad:number ) => {
+    private _addObjects = ( options:HTMLDivElement[], objects:THREE.Object3D[], pad:number ) => {
 
         for ( let i = 0, l = objects.length; i < l; i ++ ) {
 

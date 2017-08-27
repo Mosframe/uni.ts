@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL }   from '../../Engine/Graphic';
+import { THREE }   from '../../Engine/Core';
 
 // TGA Constants
 const	TGA_TYPE_NO_DATA = 0;
@@ -35,11 +35,11 @@ export class TGALoader {
 
 	// [ Public Functions ]
 
-	load ( url:any, onLoad:any, onProgress:any, onError:any ) : GL.Texture {
+	load ( url:any, onLoad:any, onProgress:any, onError:any ) : THREE.Texture {
 
-		let texture = new GL.Texture();
+		let texture = new THREE.Texture();
 
-		let loader = new GL.FileLoader( this._manager );
+		let loader = new THREE.FileLoader( this._manager );
 		loader.setResponseType( 'arraybuffer' );
 
 		loader.load( url, ( buffer ) => {
@@ -521,7 +521,7 @@ export class TGALoader {
 
 	constructor( manager?:any ) {
 
-		this._manager = ( manager !== undefined ) ? manager : GL.DefaultLoadingManager;
+		this._manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
 	}
 
     // [ Private Variables ]

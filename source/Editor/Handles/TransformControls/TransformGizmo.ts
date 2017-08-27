@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         		}   from '../../../Engine/Graphic';
+import { THREE         		}   from '../../../Engine/Core';
 import { GizmoMaterial      }   from './GizmoMaterial';
 import { GizmoLineMaterial  }   from './GizmoLineMaterial';
 
@@ -16,16 +16,16 @@ import { GizmoLineMaterial  }   from './GizmoLineMaterial';
  * @class TransformGizmo
  * @extends {GL.Object3D}
  */
-export class TransformGizmo extends GL.Object3D {
+export class TransformGizmo extends THREE.Object3D {
 
     // [ Public Variables ]
 
-    get pickers       ()  : GL.Object3D { return this._pickers; }
-    get activePlane   ()  : GL.Mesh     { return this._activePlane; }
+    get pickers       ()  : THREE.Object3D { return this._pickers; }
+    get activePlane   ()  : THREE.Mesh     { return this._activePlane; }
 
     // [ Public Functions ]
 
-    setupGizmos ( gizmoMap:any, parent:GL.Object3D ) {
+    setupGizmos ( gizmoMap:any, parent:THREE.Object3D ) {
 
         for ( let name in gizmoMap ) {
 
@@ -47,8 +47,8 @@ export class TransformGizmo extends GL.Object3D {
 
     highlight ( axis:string ) {
 
-        this.traverse( ( child:GL.Object3D ) => {
-            if( child instanceof GL.Mesh || child instanceof GL.Line ) {
+        this.traverse( ( child:THREE.Object3D ) => {
+            if( child instanceof THREE.Mesh || child instanceof THREE.Line ) {
                 if ( child.material ) {
                     if( child.material instanceof GizmoMaterial || child.material instanceof GizmoLineMaterial ) {
                         if( child.material.highlight ) {
@@ -64,13 +64,13 @@ export class TransformGizmo extends GL.Object3D {
         });
     }
 
-	update ( rotation:GL.Euler, eye:GL.Vector3 ) {
+	update ( rotation:THREE.Euler, eye:THREE.Vector3 ) {
 
-		let vec1 = new GL.Vector3( 0, 0, 0 );
-		let vec2 = new GL.Vector3( 0, 1, 0 );
-		let lookAtMatrix = new GL.Matrix4();
+		let vec1 = new THREE.Vector3( 0, 0, 0 );
+		let vec2 = new THREE.Vector3( 0, 1, 0 );
+		let lookAtMatrix = new THREE.Matrix4();
 
-		this.traverse( ( child:GL.Object3D ) => {
+		this.traverse( ( child:THREE.Object3D ) => {
 
 			if( child.name.search( "E" ) !== - 1 ) {
 
@@ -86,10 +86,10 @@ export class TransformGizmo extends GL.Object3D {
 
     // [ Protected Veriables ]
 
-    protected _handles          : GL.Object3D;
-    protected _pickers          : GL.Object3D;
-    protected _planes           : GL.Object3D;
-    protected _activePlane      : GL.Mesh;
+    protected _handles          : THREE.Object3D;
+    protected _pickers          : THREE.Object3D;
+    protected _planes           : THREE.Object3D;
+    protected _activePlane      : THREE.Mesh;
     protected _handleGizmos     : any;
     protected _pickerGizmos     : any;
 
@@ -97,9 +97,9 @@ export class TransformGizmo extends GL.Object3D {
 
     protected _init () {
 
-        this._handles    = new GL.Object3D();
-        this._pickers    = new GL.Object3D();
-        this._planes     = new GL.Object3D();
+        this._handles    = new THREE.Object3D();
+        this._pickers    = new THREE.Object3D();
+        this._planes     = new THREE.Object3D();
 
         this.add( this._handles );
         this.add( this._pickers );
@@ -107,14 +107,14 @@ export class TransformGizmo extends GL.Object3D {
 
         // [ planes ]
 
-        let planeGeometry = new GL.PlaneBufferGeometry( 50, 50, 2, 2 );
-        let planeMaterial = new GL.MeshBasicMaterial( { visible:false, side:GL.DoubleSide } );
+        let planeGeometry = new THREE.PlaneBufferGeometry( 50, 50, 2, 2 );
+        let planeMaterial = new THREE.MeshBasicMaterial( { visible:false, side:THREE.DoubleSide } );
 
         let planes = {
-            "XY":   new GL.Mesh( planeGeometry, planeMaterial ),
-            "YZ":   new GL.Mesh( planeGeometry, planeMaterial ),
-            "XZ":   new GL.Mesh( planeGeometry, planeMaterial ),
-            "XYZE": new GL.Mesh( planeGeometry, planeMaterial )
+            "XY":   new THREE.Mesh( planeGeometry, planeMaterial ),
+            "YZ":   new THREE.Mesh( planeGeometry, planeMaterial ),
+            "XZ":   new THREE.Mesh( planeGeometry, planeMaterial ),
+            "XYZE": new THREE.Mesh( planeGeometry, planeMaterial )
         };
         this._activePlane = planes[ "XYZE" ];
 
@@ -134,9 +134,9 @@ export class TransformGizmo extends GL.Object3D {
 
         // [ reset Transformations ]
 
-        this.traverse( ( child:GL.Object3D ) => {
+        this.traverse( ( child:THREE.Object3D ) => {
 
-            if ( child instanceof GL.Mesh ) {
+            if ( child instanceof THREE.Mesh ) {
 
                 child.updateMatrix();
 

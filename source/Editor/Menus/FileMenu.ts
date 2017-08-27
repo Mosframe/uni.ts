@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                         }   from '../../Engine/Graphic'                 ;
+import { THREE                         }   from '../../Engine/Core'                 ;
 import { UIPanel                    }   from '../../Engine/UI/UIPanel'              ;
 import { UIRow                      }   from '../../Engine/UI/UIRow'                ;
 import { UIButton                   }   from '../../Engine/UI/UIButton'             ;
@@ -95,7 +95,7 @@ export class FileMenu extends Menu {
                 return;
             }
 
-            if( ! (object instanceof GL.Mesh) ) {
+            if( ! (object instanceof THREE.Mesh) ) {
                 alert( 'No mesh selected.' );
                 return;
             }
@@ -249,13 +249,13 @@ export class FileMenu extends Menu {
 
             //
 
-            let manager = new GL.LoadingManager( () => {
+            let manager = new THREE.LoadingManager( () => {
 
                 save( zip.generate( { type: 'blob' } ), 'download.zip' );
 
             } );
 
-            let loader = new GL.FileLoader( manager );
+            let loader = new THREE.FileLoader( manager );
             loader.load( 'js/libs/app/index.html', ( content ) => {
 
                 let includes:any = [];

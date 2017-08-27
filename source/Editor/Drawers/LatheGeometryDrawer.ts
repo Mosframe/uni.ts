@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                     }   from '../../Engine/Graphic';
+import { THREE                  }   from '../../Engine/Core';
 import { UNumber                }   from '../../Engine/UNumber';
 import { UIPanel                }   from '../../Engine/UI/UIPanel';
 import { UIButton               }   from '../../Engine/UI/UIButton';
@@ -163,12 +163,12 @@ export class LatheGeometryDrawer extends UIRow {
 
                 if ( ! pointUI ) continue;
 
-                points.push( new GL.Vector2( pointUI.x.getValue(), pointUI.y.getValue() ) );
+                points.push( new THREE.Vector2( pointUI.x.getValue(), pointUI.y.getValue() ) );
                 count ++;
                 pointUI.lbl.setValue( count );
             }
 
-            tool.execute( new SetGeometryCommand( object, new GL[ geometry.type ](
+            tool.execute( new SetGeometryCommand( object, new THREE[ geometry.type ](
                 points,
                 segments.getValue(),
                 phiStart.getValue() / 180 * Math.PI,

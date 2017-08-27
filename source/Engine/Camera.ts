@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Behaviour      }   from './Behaviour';
 import { Vector3        }   from './Vector3';
 
@@ -64,10 +64,10 @@ export class Camera extends Behaviour {
      * get GL.Camera
      *
      * @readonly
-     * @type {GL.Camera}
+     * @type {THREE.Camera}
      * @memberof Camera
      */
-    get core() : GL.Camera { return <GL.Camera>this.gameObject.core; }
+    get core() : THREE.Camera { return <THREE.Camera>this.gameObject.core; }
     /*
     cullingMask	This is used to render parts of the scene selectively.
     cullingMatrix	Sets a custom matrix for the camera to use for all culling queries.
@@ -171,7 +171,7 @@ export class Camera extends Behaviour {
     constructor() {
         super();
 
-        let camera = new GL.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000 );
         camera.position.set( 40, 40, 40);
         camera.lookAt( Vector3.zero );
         this.gameObject.core = camera;

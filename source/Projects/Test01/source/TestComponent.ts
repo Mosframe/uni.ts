@@ -5,9 +5,10 @@
  */
 
 import { UnitsEngine        } from '../../../Engine';
-import { GL                 } from '../../../Engine';
+import { THREE              } from '../../../Engine';
 import { UnitsBehaviour     } from '../../../Engine';
 import { Quaternion         } from '../../../Engine';
+import { Space              } from '../../../Engine';
 import { Time               } from '../../../Engine';
 import { Vector3            } from '../../../Engine';
 
@@ -34,14 +35,19 @@ export class TestComponent extends UnitsBehaviour {
 
     protected update () {
 
-        let rotation = this.transform.localRotation;
+        this.testRotate();
+    }
 
-        //console.log('deltaTime',Time.deltaTime);
+    private testRotate() {
 
-        let eulerAngles = new Vector3( 1 * Time.deltaTime, 0, 0 );
-        this.transform.rotate( eulerAngles );
+        let eulerAngles = new Vector3( 360 * Time.deltaTime, 0, 0 );
+        //let eulerAngles = new Vector3( 0, 360 * Time.deltaTime, 0 );
+        //let eulerAngles = new Vector3( 0, 0, 360 * Time.deltaTime );
 
-        console.log( this.transform.localEulerAngles );
+        //this.transform.Rotate( eulerAngles, Space.Self );
+        this.transform.Rotate( eulerAngles, Space.World );
+
+        console.log( Time.deltaTime, this.transform.core.getWorldRotation().x*THREE.Math.RAD2DEG );
     }
 
 

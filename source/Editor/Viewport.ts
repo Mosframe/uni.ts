@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                 	}   from '../Engine/Graphic';
+import { THREE                 	}   from '../Engine/Core';
 import { Signal  			    }   from 'signals';
 import { WebVR				    }   from '../Engine/VR/WebVR';
 import { VREffect			    }   from '../Engine/VR/VREffect';
@@ -19,7 +19,6 @@ import { TransformControls	    }   from '../Editor/Handles/TransformControls';
 import { ITool			    	}   from './Interfaces';
 import { ViewportInfo		    }   from './ViewportInfo';
 
-
 /**
  * Viewport
  *
@@ -31,7 +30,7 @@ export class Viewport extends UIPanel {
 
     // [ Public ]
 
-	getIntersects ( point:GL.Vector2, objects:GL.Object3D[] ) : GL.Intersection[] {
+	getIntersects ( point:THREE.Vector2, objects:THREE.Object3D[] ) : THREE.Intersection[] {
 		this._mouse.set( ( point.x * 2 ) - 1, - ( point.y * 2 ) + 1 );
 		this._raycaster.setFromCamera( this._mouse, this.camera );
 		return this._raycaster.intersectObjects( objects );
@@ -63,21 +62,21 @@ export class Viewport extends UIPanel {
 
 		// [ Web VR ]
 		if( WebVR.isAvailable() ) {
-			this.vrCamera = new GL.PerspectiveCamera();
+			this.vrCamera = new THREE.PerspectiveCamera();
 			this.vrCamera.projectionMatrix = this.camera.projectionMatrix;
 			this.camera.add( this.vrCamera );
 		}
 
 		// [ Helper - Grid  ]
 
-		let grid = new GL.GridHelper( 60, 60 );
+		let grid = new THREE.GridHelper( 60, 60 );
 		this.sceneHelpers.add( grid );
 
 		// [ Helper - Box ]
 
-		let box = new GL.Box3();
+		let box = new THREE.Box3();
 
-		this.selectionBox = new GL.BoxHelper();
+		this.selectionBox = new THREE.BoxHelper();
 		this.selectionBox.material.depthTest = false;
 		this.selectionBox.material.transparent = true;
 		this.selectionBox.visible = false;
@@ -148,8 +147,8 @@ export class Viewport extends UIPanel {
 
 		// [ object picking ]
 
-		this._raycaster = new GL.Raycaster();
-		this._mouse 	= new GL.Vector2();
+		this._raycaster = new THREE.Raycaster();
+		this._mouse 	= new THREE.Vector2();
 
 		// [ events ]
 
@@ -179,12 +178,12 @@ export class Viewport extends UIPanel {
 			switch ( value ) {
 			case 'css/light.css':
 				this.sceneHelpers.remove( grid );
-				grid = new GL.GridHelper( 60, 60, 0x444444, 0x888888 );
+				grid = new THREE.GridHelper( 60, 60, 0x444444, 0x888888 );
 				this.sceneHelpers.add( grid );
 				break;
 			case 'css/dark.css':
 				this.sceneHelpers.remove( grid );
-				grid = new GL.GridHelper( 60, 60, 0xbbbbbb, 0x888888 );
+				grid = new THREE.GridHelper( 60, 60, 0xbbbbbb, 0x888888 );
 				this.sceneHelpers.add( grid );
 				break;
 			}
@@ -203,7 +202,7 @@ export class Viewport extends UIPanel {
 			this.transformControls.setSpace( space );
 		});
 
-		this.tool.signals.rendererChanged.add( ( newRenderer:GL.WebGLRenderer ) => {
+		this.tool.signals.rendererChanged.add( ( newRenderer:THREE.WebGLRenderer ) => {
 
 			if ( this.renderer !== null ) {
 				this.core.removeChild( this.renderer.domElement );
@@ -241,7 +240,7 @@ export class Viewport extends UIPanel {
 			this.render();
 		});
 
-		this.tool.signals.objectSelected.add( ( object:GL.Object3D ) => {
+		this.tool.signals.objectSelected.add( ( object:THREE.Object3D ) => {
 
 			this.selectionBox.visible = false;
 			this.transformControls.detach();
@@ -262,25 +261,25 @@ export class Viewport extends UIPanel {
 			this.render();
 		});
 
-		this.tool.signals.objectFocused.add( ( object:GL.Object3D ) => {
+		this.tool.signals.objectFocused.add( ( object:THREE.Object3D ) => {
 			this.controls.focus( object );
 		});
 
-		this.tool.signals.geometryChanged.add( ( object:GL.Object3D ) => {
+		this.tool.signals.geometryChanged.add( ( object:THREE.Object3D ) => {
 			if( object !== undefined ) {
 				this.selectionBox.update( object );
 			}
 			this.render();
 		});
 
-		this.tool.signals.objectAdded.add( ( object:GL.Object3D ) => {
+		this.tool.signals.objectAdded.add( ( object:THREE.Object3D ) => {
 
-			object.traverse( ( child:GL.Object3D ) => {
+			object.traverse( ( child:THREE.Object3D ) => {
 				this.objects.push( child );
 			});
 		});
 
-		this.tool.signals.objectChanged.add( ( object:GL.Object3D ) => {
+		this.tool.signals.objectChanged.add( ( object:THREE.Object3D ) => {
 
 			if ( tool.selected === object ) {
 
@@ -289,7 +288,7 @@ export class Viewport extends UIPanel {
 				this.transformControls.update();
 			}
 
-			if ( object instanceof GL.PerspectiveCamera ) {
+			if ( object instanceof THREE.PerspectiveCamera ) {
 
 				object.updateProjectionMatrix();
 
@@ -304,20 +303,20 @@ export class Viewport extends UIPanel {
 
 		this.tool.signals.objectRemoved.add( ( object ) => {
 
-			object.traverse( ( child:GL.Object3D ) => {
+			object.traverse( ( child:THREE.Object3D ) => {
 				this.objects.splice( this.objects.indexOf( child ), 1 );
 			});
 		});
 
-		this.tool.signals.helperAdded.add( ( object:GL.Object3D ) => {
+		this.tool.signals.helperAdded.add( ( object:THREE.Object3D ) => {
 			this.objects.push( object.getObjectByName( 'picker' ) );
 		});
 
-		this.tool.signals.helperRemoved.add( ( object:GL.Object3D ) => {
+		this.tool.signals.helperRemoved.add( ( object:THREE.Object3D ) => {
 			this.objects.splice( this.objects.indexOf( object.getObjectByName( 'picker' ) ), 1 );
 		});
 
-		this.tool.signals.materialChanged.add( ( material:GL.Material ) => {
+		this.tool.signals.materialChanged.add( ( material:THREE.Material ) => {
 			this.render();
 		});
 
@@ -338,21 +337,21 @@ export class Viewport extends UIPanel {
 					(<any>this.scene).fog = null;
 					break;
 				case 'Fog':
-					this.scene.fog = new GL.Fog(fogColor);
+					this.scene.fog = new THREE.Fog(fogColor);
 					break;
 				case 'FogExp2':
-					this.scene.fog = new GL.FogExp2(fogColor);
+					this.scene.fog = new THREE.FogExp2(fogColor);
 					break;
 
 				}
 				this._currentFogType = fogType;
 			}
 
-			if ( this.scene.fog instanceof GL.Fog ) {
+			if ( this.scene.fog instanceof THREE.Fog ) {
 				this.scene.fog.color.setHex( fogColor );
 				this.scene.fog.near = fogNear;
 				this.scene.fog.far = fogFar;
-			} else if ( this.scene.fog instanceof GL.FogExp2 ) {
+			} else if ( this.scene.fog instanceof THREE.FogExp2 ) {
 				this.scene.fog.color.setHex( fogColor );
 				this.scene.fog.density = fogDensity;
 			}
@@ -367,7 +366,7 @@ export class Viewport extends UIPanel {
 			tool.DEFAULT_CAMERA.aspect = this.core.offsetWidth / this.core.offsetHeight;
 			tool.DEFAULT_CAMERA.updateProjectionMatrix();
 
-			if( this.camera instanceof GL.PerspectiveCamera ) {
+			if( this.camera instanceof THREE.PerspectiveCamera ) {
 				this.camera.aspect = this.core.offsetWidth / this.core.offsetHeight;
 				this.camera.updateProjectionMatrix();
 			}
@@ -393,27 +392,27 @@ export class Viewport extends UIPanel {
 	// [ Protected ]
 
 	private tool 					: ITool;
-	private renderer 				: GL.WebGLRenderer | null;
-	private camera 					: GL.Camera;
-	private scene 					: GL.Scene;
-	private sceneHelpers 			: GL.Scene;
-	private objects 				: GL.Object3D[];
+	private renderer 				: THREE.WebGLRenderer | null;
+	private camera 					: THREE.Camera;
+	private scene 					: THREE.Scene;
+	private sceneHelpers 			: THREE.Scene;
+	private objects 				: THREE.Object3D[];
 	private controls 				: EditorControls;
 	private transformControls 		: TransformControls;
-	private selectionBox 			: GL.BoxHelper;
+	private selectionBox 			: THREE.BoxHelper;
 	private vrEffect				: VREffect;
 	private vrControls				: VRControls;
-	private vrCamera				: GL.PerspectiveCamera;
+	private vrCamera				: THREE.PerspectiveCamera;
 
 	private objectPositionOnDown 	: any;
 	private objectRotationOnDown 	: any;
 	private objectScaleOnDown 		: any;
 
-	private _raycaster 				: GL.Raycaster 	= new GL.Raycaster();
-	private _mouse 					: GL.Vector2 	= new GL.Vector2();
-	private _onDownPosition 		: GL.Vector2 	= new GL.Vector2();
-	private _onUpPosition 			: GL.Vector2 	= new GL.Vector2();
-	private _onDoubleClickPosition 	: GL.Vector2 	= new GL.Vector2();
+	private _raycaster 				: THREE.Raycaster 	= new THREE.Raycaster();
+	private _mouse 					: THREE.Vector2 	= new THREE.Vector2();
+	private _onDownPosition 		: THREE.Vector2 	= new THREE.Vector2();
+	private _onUpPosition 			: THREE.Vector2 	= new THREE.Vector2();
+	private _onDoubleClickPosition 	: THREE.Vector2 	= new THREE.Vector2();
 	private _currentFogType 		: string;
 
 	private _animate = () => {

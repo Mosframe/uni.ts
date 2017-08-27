@@ -8,7 +8,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { ShaderType     }   from './ShaderType';
 import { Ubject         }   from './Ubject';
 

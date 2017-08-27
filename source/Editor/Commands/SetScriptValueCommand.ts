@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { Command    }   from './Command';
 
 /**
@@ -56,7 +56,7 @@ export class SetScriptValueCommand extends Command {
 
     // [ Constructor ]
 
-    constructor( object:GL.Object3D, script:object, attributeName:string, newValue:any ) {
+    constructor( object:THREE.Object3D, script:object, attributeName:string, newValue:any ) {
         super();
 
         this.type           = 'SetScriptValueCommand';

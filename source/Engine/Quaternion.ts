@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Vector3        }   from './Vector3';
 
  /**
@@ -15,7 +15,7 @@ import { Vector3        }   from './Vector3';
  * @class Quaternion
  * @extends {GL.Quaternion}
  */
-export class Quaternion extends GL.Quaternion {
+export class Quaternion extends THREE.Quaternion {
 
     // [ Public Delegates ]
 
@@ -34,8 +34,8 @@ export class Quaternion extends GL.Quaternion {
     // [ Public Variables ]
 
     //Returns the euler angle representation of the rotation.
-    get eulerAngles () : Vector3        { return new GL.Euler().setFromQuaternion( this ).toVector3(); }
-    set eulerAngles ( value:Vector3 )   { let q = this.setFromEuler( new GL.Euler().setFromVector3(value) ); this.x = q.x; this.y = q.y; this.z = q.z; this.w = q.w; }
+    get eulerAngles () : Vector3        { return new THREE.Euler().setFromQuaternion( this ).toVector3(); }
+    set eulerAngles ( value:Vector3 )   { let q = this.setFromEuler( new THREE.Euler().setFromVector3(value) ); this.x = q.x; this.y = q.y; this.z = q.z; this.w = q.w; }
     /*
     this[int]	Access the x, y, z, w components using [0], [1], [2], [3] respectively.
     */

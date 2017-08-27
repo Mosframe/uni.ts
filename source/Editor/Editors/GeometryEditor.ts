@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                                 }   from '../../Engine/Graphic';
+import { THREE                              }   from '../../Engine/Core';
 import { UIPanel                            }   from '../../Engine/UI/UIPanel';
 import { UIButton                           }   from '../../Engine/UI/UIButton';
 import { UINumber                           }   from '../../Engine/UI/UINumber';
@@ -83,7 +83,7 @@ export class GeometryEditor extends UIPanel {
         let geometryUUID = new UIInput().setWidth( '102px' ).setFontSize( '12px' ).setDisabled( true );
         let geometryUUIDRenew = new UIButton( 'New' ).setMarginLeft( '7px' ).onClick( () => {
 
-            geometryUUID.setValue( GL.Math.generateUUID() );
+            geometryUUID.setValue( THREE.Math.generateUUID() );
             tool.execute( new SetGeometryValueCommand( tool.selected, 'uuid', geometryUUID.getValue() ) );
         });
 
@@ -125,7 +125,7 @@ export class GeometryEditor extends UIPanel {
             let object = <any>tool.selected;
             if ( object && object.geometry ) {
 
-                let geometry:GL.Geometry = object.geometry;
+                let geometry:THREE.Geometry = object.geometry;
 
                 this.setDisplay( 'block' );
 

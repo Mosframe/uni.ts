@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL   	        }   from '../../Engine/Graphic';
+import { THREE   	    }   from '../../Engine/Core';
 import { Ubject         }   from '../../Engine/Ubject';
 import { GameObject     }   from '../../Engine/GameObject';
 import { SceneManager   }   from '../../Engine/SceneManager';
@@ -66,7 +66,7 @@ export class AddObjectCommand extends Command {
 		super.fromJSON( json );
         this.object = this._tool.objectByUuid( json.object.object.uuid );
         if ( this.object === undefined ) {
-            let loader = new GL.ObjectLoader();
+            let loader = new THREE.ObjectLoader();
             this.object = loader.parse( json.object );
 
             let scene = SceneManager.getActiveScene();
@@ -78,10 +78,10 @@ export class AddObjectCommand extends Command {
 
     /**
      * Creates an instance of AddObjectCommand.
-     * @param {GL.Object3D} object
+     * @param {THREE.Object3D} object
      * @memberof AddObjectCommand
      */
-    constructor( object:GL.Object3D ) {
+    constructor( object:THREE.Object3D ) {
         super();
 
         this.type   = 'AddObjectCommand';

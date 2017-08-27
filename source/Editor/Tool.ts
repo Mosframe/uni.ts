@@ -6,7 +6,7 @@
  */
 
 import * as signals       	from 'signals';
-import { GL             }   from '../Engine/Graphic';
+import { THREE          }   from '../Engine/Core';
 import { Signal      	} 	from 'signals';
 import { 				} 	from './date';
 import { ICommand    	} 	from './interfaces';
@@ -36,19 +36,19 @@ export class Tool implements ITool {
 
     config          : Config;
     signals         : ISignals;
-    DEFAULT_CAMERA  : GL.PerspectiveCamera;
+    DEFAULT_CAMERA  : THREE.PerspectiveCamera;
 	history         : History;
     storage         : Storage;
 	loader          : Loader;
-	camera          : GL.Camera;
+	camera          : THREE.Camera;
 	scene           : Scene;
-	sceneHelpers    : GL.Scene;
-	geometries      : {[uuid:string]:GL.Geometry|GL.BufferGeometry};
-	materials       : {[uuid:string]:GL.Material};
-	textures        : {[uuid:string]:GL.Texture};
+	sceneHelpers    : THREE.Scene;
+	geometries      : {[uuid:string]:THREE.Geometry|THREE.BufferGeometry};
+	materials       : {[uuid:string]:THREE.Material};
+	textures        : {[uuid:string]:THREE.Texture};
 	scripts         : {[uuid:string]:any[]};
-	selected        : GL.Object3D | null;
-	helpers         : {[uuid:string]:GL.Object3D};
+	selected        : THREE.Object3D | null;
+	helpers         : {[uuid:string]:THREE.Object3D};
 
     // [ Public Functions ]
 
@@ -82,11 +82,11 @@ export class Tool implements ITool {
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-	addObject ( object:GL.Object3D ) {
+	addObject ( object:THREE.Object3D ) {
 
-		object.traverse( ( child:GL.Object3D ) => {
+		object.traverse( ( child:THREE.Object3D ) => {
 
-			if( child instanceof GL.Mesh ){
+			if( child instanceof THREE.Mesh ){
                 this.addGeometry( child.geometry );
                 this.addMaterial( child.material );
             }
@@ -100,7 +100,7 @@ export class Tool implements ITool {
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-	moveObject ( object:GL.Object3D, parent:GL.Object3D, before:GL.Object3D ) {
+	moveObject ( object:THREE.Object3D, parent:THREE.Object3D, before:THREE.Object3D ) {
 
 		if( parent === undefined ) {
 			parent = this.scene.core;
@@ -119,16 +119,16 @@ export class Tool implements ITool {
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-	nameObject ( object:GL.Object3D, name:string ) {
+	nameObject ( object:THREE.Object3D, name:string ) {
 		object.name = name;
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-    removeObject ( object:GL.Object3D ) {
+    removeObject ( object:THREE.Object3D ) {
 
 		if( object.parent === null ) return; // avoid deleting the camera or scene
 
-		object.traverse( ( child:GL.Object3D ) => {
+		object.traverse( ( child:THREE.Object3D ) => {
 			this.removeHelper( child );
 		});
 
@@ -138,65 +138,65 @@ export class Tool implements ITool {
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-	addGeometry ( geometry:GL.Geometry|GL.BufferGeometry ) {
+	addGeometry ( geometry:THREE.Geometry|THREE.BufferGeometry ) {
 		this.geometries[ geometry.uuid ] = geometry;
 	}
 
-	setGeometryName ( geometry:GL.Geometry|GL.BufferGeometry, name:string ) {
+	setGeometryName ( geometry:THREE.Geometry|THREE.BufferGeometry, name:string ) {
 		geometry.name = name;
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-	addMaterial ( material:GL.Material ) {
+	addMaterial ( material:THREE.Material ) {
 		this.materials[ material.uuid ] = material;
 	}
 
-	setMaterialName ( material:GL.Material, name:string ) {
+	setMaterialName ( material:THREE.Material, name:string ) {
 		material.name = name;
 		this.signals.sceneGraphChanged.dispatch();
 	}
 
-	addTexture ( texture:GL.Texture ) {
+	addTexture ( texture:THREE.Texture ) {
 		this.textures[ texture.uuid ] = texture;
 	}
 
-	addHelper ( object:GL.Object3D ) {
+	addHelper ( object:THREE.Object3D ) {
 
-        let helper : GL.Object3D;
+        let helper : THREE.Object3D;
 
-        if( object instanceof GL.Camera ) {
+        if( object instanceof THREE.Camera ) {
 
-            helper = new GL.CameraHelper( object );
+            helper = new THREE.CameraHelper( object );
 
-        } else if ( object instanceof GL.PointLight ) {
+        } else if ( object instanceof THREE.PointLight ) {
 
-            helper = new GL.PointLightHelper( object, 1 );
+            helper = new THREE.PointLightHelper( object, 1 );
 
-        } else if ( object instanceof GL.DirectionalLight ) {
+        } else if ( object instanceof THREE.DirectionalLight ) {
 
-            helper = new GL.DirectionalLightHelper( object, 1 );
+            helper = new THREE.DirectionalLightHelper( object, 1 );
 
-        } else if ( object instanceof GL.SpotLight ) {
+        } else if ( object instanceof THREE.SpotLight ) {
 
-            helper = new GL.SpotLightHelper( object );
+            helper = new THREE.SpotLightHelper( object );
 
-        } else if ( object instanceof GL.HemisphereLight ) {
+        } else if ( object instanceof THREE.HemisphereLight ) {
 
-            helper = new GL.HemisphereLightHelper( object, 1 );
+            helper = new THREE.HemisphereLightHelper( object, 1 );
 
-        } else if ( object instanceof GL.SkinnedMesh ) {
+        } else if ( object instanceof THREE.SkinnedMesh ) {
 
-            helper = new GL.SkeletonHelper( object );
+            helper = new THREE.SkeletonHelper( object );
 
         } else {
             // no helper for this object type
             return;
         }
 
-		let geometry = new GL.SphereBufferGeometry( 2, 4, 2 );
-		let material = new GL.MeshBasicMaterial( { color:0xff0000, visible:false } );
+		let geometry = new THREE.SphereBufferGeometry( 2, 4, 2 );
+		let material = new THREE.MeshBasicMaterial( { color:0xff0000, visible:false } );
 
-        let picker = new GL.Mesh( geometry, material );
+        let picker = new THREE.Mesh( geometry, material );
         picker.name = 'picker';
         picker.userData.object = object;
         helper.add( picker );
@@ -207,7 +207,7 @@ export class Tool implements ITool {
         this.signals.helperAdded.dispatch( helper );
 	}
 
-	removeHelper ( object:GL.Object3D ) {
+	removeHelper ( object:THREE.Object3D ) {
 
 		if( this.helpers[ object.id ] !== undefined ) {
 
@@ -220,7 +220,7 @@ export class Tool implements ITool {
 		}
 	}
 
-	addScript ( object:GL.Object3D, script:object ) {
+	addScript ( object:THREE.Object3D, script:object ) {
 
 		if( this.scripts[ object.uuid ] === undefined ) {
 			this.scripts[ object.uuid ] = [];
@@ -230,7 +230,7 @@ export class Tool implements ITool {
 		this.signals.scriptAdded.dispatch( script );
 	}
 
-	removeScript ( object:GL.Object3D, script:object ) {
+	removeScript ( object:THREE.Object3D, script:object ) {
 
 		if( this.scripts[ object.uuid ] === undefined ) return;
 
@@ -243,7 +243,7 @@ export class Tool implements ITool {
 		this.signals.scriptRemoved.dispatch( script );
 	}
 
-	select ( object:GL.Object3D|null ) {
+	select ( object:THREE.Object3D|null ) {
 
 		if( this.selected === object ) return;
 
@@ -279,7 +279,7 @@ export class Tool implements ITool {
 		this.select( null );
 	}
 
-	focus ( object:GL.Object3D ) {
+	focus ( object:THREE.Object3D ) {
 
 		this.signals.objectFocused.dispatch( object );
 	}
@@ -296,7 +296,7 @@ export class Tool implements ITool {
 
 		this.camera.copy( this.DEFAULT_CAMERA );
 		this.scene.core.background.setHex( 0xaaaaaa );
-		this.scene.core.fog = new GL.Fog(0);
+		this.scene.core.fog = new THREE.Fog(0);
 
 		let gameObjects = this.scene.getRootObjects();
 		for (let c=0; c<gameObjects.length; ++c) {
@@ -318,11 +318,11 @@ export class Tool implements ITool {
 
 		console.log(meta);
 
-		let loader = new GL.ObjectLoader();
-		let camera = <GL.Camera>loader.parse( meta.camera );
+		let loader = new THREE.ObjectLoader();
+		let camera = <THREE.Camera>loader.parse( meta.camera );
 
 		this.camera.copy( camera );
-        if( this.camera instanceof GL.PerspectiveCamera ) {
+        if( this.camera instanceof THREE.PerspectiveCamera ) {
             this.camera.aspect = this.DEFAULT_CAMERA.aspect;
             this.camera.updateProjectionMatrix();
         }
@@ -372,7 +372,7 @@ export class Tool implements ITool {
 		return meta;
 	}
 
-	objectByUuid ( uuid:string ) : GL.Object3D {
+	objectByUuid ( uuid:string ) : THREE.Object3D {
 		return this.scene.core.getObjectByProperty( 'uuid', uuid );
 	}
 
@@ -431,10 +431,10 @@ export class Tool implements ITool {
             historyChanged          : new Signal(),
         };
 
-		this.DEFAULT_CAMERA         = new GL.PerspectiveCamera( 50, 1, 0.1, 10000 );
+		this.DEFAULT_CAMERA         = new THREE.PerspectiveCamera( 50, 1, 0.1, 10000 );
         this.DEFAULT_CAMERA.name    = 'Camera';
         this.DEFAULT_CAMERA.position.set( 20, 10, 20 );
-        this.DEFAULT_CAMERA.lookAt( new GL.Vector3() );
+        this.DEFAULT_CAMERA.lookAt( new THREE.Vector3() );
 
         this.camera                 = this.DEFAULT_CAMERA.clone();
         this.config                 = new Config( 'uni.ts' );
@@ -445,8 +445,8 @@ export class Tool implements ITool {
 		SceneManager.loadScene( 'Scene' );
         this.scene                  = SceneManager.getActiveScene();
         this.scene.name             = 'Scene';
-        this.scene.core.background  = new GL.Color( 0xaaaaaa );
-        this.sceneHelpers           = new GL.Scene();
+        this.scene.core.background  = new THREE.Color( 0xaaaaaa );
+        this.sceneHelpers           = new THREE.Scene();
 
         this.geometries             = {};
         this.materials              = {};

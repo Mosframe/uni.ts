@@ -20,7 +20,7 @@ console.log( 'UnitsEditor', UnitsEditor );
 
 // [ Editor Sources ]
 
-import { GL                     }   from './Engine';
+import { THREE                  }   from './Engine';
 
 import { UIModal                }   from './Engine/UI/UIModal';
 import { UIText                 }   from './Engine/UI/UIText';
@@ -202,7 +202,7 @@ export class Units {
 
             if ( confirm( 'Any unsaved data will be lost. Are you sure?' ) ) {
 
-                let loader = new GL.FileLoader();
+                let loader = new THREE.FileLoader();
                 if( 'crossOrigin' in loader ) loader['crossOrigin'] = '';
                 loader.load( file, ( text ) => {
                     this._tool.clear();

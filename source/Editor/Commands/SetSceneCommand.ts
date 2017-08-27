@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                 }   from '../../Engine/Graphic';
+import { THREE              }   from '../../Engine/Core';
 import { GameObject         }   from '../../Engine/GameObject';
 import { ICommand           }   from '../Interfaces';
 import { Command            }   from './Command';
@@ -70,7 +70,7 @@ export class SetSceneCommand extends Command {
 
     // [ Constructor ]
 
-    constructor( object:GL.Object3D, scene?:GL.Scene ) {
+    constructor( object:THREE.Object3D, scene?:THREE.Scene ) {
         super();
 
         this.type   = 'SetSceneCommand';

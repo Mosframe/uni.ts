@@ -11,7 +11,7 @@
  * Chromium: https://webvr.info/get-chrome
  */
 
-import { GL   	} from '../Graphic';
+import { THREE  } from '../Core';
 import { WebVR	} from './WebVR';
 
 /**
@@ -107,7 +107,7 @@ export class VREffect {
 		}
 	}
 
-	render ( scene:GL.Scene, camera:GL.PerspectiveCamera, renderTarget?:any, forceClear?:any ) {
+	render ( scene:THREE.Scene, camera:THREE.PerspectiveCamera, renderTarget?:any, forceClear?:any ) {
 
 		if ( this._vrDisplay && this._isPresenting ) {
 
@@ -268,13 +268,13 @@ export class VREffect {
 
     // [ Constructor ]
 
-	constructor ( renderer:GL.WebGLRenderer, onError?:Function ) {
+	constructor ( renderer:THREE.WebGLRenderer, onError?:Function ) {
 
 		this._renderer = renderer;
 		this._onError = onError;
 
-		this._eyeTranslationL = new GL.Vector3();
-		this._eyeTranslationR = new GL.Vector3();
+		this._eyeTranslationL = new THREE.Vector3();
+		this._eyeTranslationR = new THREE.Vector3();
 
 		if ( 'VRFrameData' in window ) {
 			this._frameData = new window['VRFrameData'];
@@ -313,10 +313,10 @@ export class VREffect {
 
 		// render
 
-		this._cameraL = new GL.PerspectiveCamera();
+		this._cameraL = new THREE.PerspectiveCamera();
 		this._cameraL.layers.enable( 1 );
 
-		this._cameraR = new GL.PerspectiveCamera();
+		this._cameraR = new THREE.PerspectiveCamera();
 		this._cameraR.layers.enable( 2 );
 	}
 
@@ -330,13 +330,13 @@ export class VREffect {
 	private _rendererUpdateStyle 	: boolean;
 	private _rendererPixelRatio  	: number;
 	private _canvas              	: HTMLCanvasElement;
-	private _renderer            	: GL.WebGLRenderer;
+	private _renderer            	: THREE.WebGLRenderer;
 	private _onError             	?: Function;
-	private _cameraL             	: GL.Camera;
-	private _cameraR             	: GL.Camera;
+	private _cameraL             	: THREE.Camera;
+	private _cameraR             	: THREE.Camera;
 	private _autoSubmitFrame     	: boolean;
-	private _eyeTranslationL     	: GL.Vector3;
-	private _eyeTranslationR     	: GL.Vector3;
+	private _eyeTranslationL     	: THREE.Vector3;
+	private _eyeTranslationR     	: THREE.Vector3;
 	private _renderRectL         	: {x:number,y:number,width:number,height:number};
 	private _renderRectR         	: {x:number,y:number,width:number,height:number};
 	private _frameData           	: VRFrameData|null;
@@ -364,7 +364,7 @@ export class VREffect {
 		let handednessScale = rightHanded ? - 1.0 : 1.0;
 
 		// start with an identity matrix
-		let mobj = new GL.Matrix4();
+		let mobj = new THREE.Matrix4();
 		let m = mobj.elements;
 
 		// and with scale/offset info for normalized device coords

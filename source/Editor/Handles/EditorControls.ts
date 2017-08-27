@@ -8,7 +8,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL }   from '../../Engine/Graphic';
+import { THREE }   from '../../Engine/Core';
 
 /**
  * editor control state
@@ -30,24 +30,24 @@ enum STATE {
  * @class EditorControls
  * @extends {GL.EventDispatcher}
  */
-export class EditorControls extends GL.EventDispatcher {
+export class EditorControls extends THREE.EventDispatcher {
 
     // [ Public Variables ]
 
     get enabled ()  : boolean       { return this._enabled; }
     set enabled ( value:boolean )   { this._enabled = value; }
 
-	get center ()   : GL.Vector3    { return this._center; }
+	get center ()   : THREE.Vector3    { return this._center; }
 
     // [ Public Functions ]
 
-	focus ( target:GL.Object3D ) {
-		let box = new GL.Box3().setFromObject( target );
+	focus ( target:THREE.Object3D ) {
+		let box = new THREE.Box3().setFromObject( target );
 		this._object.lookAt( this._center.copy( box.getCenter() ) );
 		this.dispatchEvent( this._changeEvent );
 	}
 
-	pan ( delta:GL.Vector3 ) {
+	pan ( delta:THREE.Vector3 ) {
 
 		let distance = this._object.position.distanceTo( this._center );
 		delta.multiplyScalar( distance * this._panSpeed );
@@ -57,7 +57,7 @@ export class EditorControls extends GL.EventDispatcher {
 		this.dispatchEvent( this._changeEvent );
 	}
 
-	zoom ( delta:GL.Vector3 ) {
+	zoom ( delta:THREE.Vector3 ) {
 
 		let distance = this._object.position.distanceTo( this._center );
 		delta.multiplyScalar( distance * this._zoomSpeed );
@@ -67,7 +67,7 @@ export class EditorControls extends GL.EventDispatcher {
 		this.dispatchEvent( this._changeEvent );
 	}
 
-	rotate ( delta:GL.Vector3 ) {
+	rotate ( delta:THREE.Vector3 ) {
 
 		this._vector.copy( this._object.position ).sub( this._center );
 		this._spherical.setFromVector3( this._vector );
@@ -96,7 +96,7 @@ export class EditorControls extends GL.EventDispatcher {
 
     // [ Constructors ]
 
-    constructor( object:GL.Object3D, domElement:Element ) {
+    constructor( object:THREE.Object3D, domElement:Element ) {
         super();
 
         this._object     = object;
@@ -112,24 +112,24 @@ export class EditorControls extends GL.EventDispatcher {
     // [ Private Variables ]
 
     private _enabled            : boolean    = true;
-	private _center             : GL.Vector3 = new GL.Vector3();
-    private _object             : GL.Object3D;
+	private _center             : THREE.Vector3 = new THREE.Vector3();
+    private _object             : THREE.Object3D;
     private _domElement         : Element;
 	private _panSpeed           = 0.001;
 	private _zoomSpeed          = 0.001;
 	private _rotationSpeed      = 0.005;
 
 	private _state              = STATE.NONE;
-	private _vector             = new GL.Vector3();
-	private _normalMatrix       = new GL.Matrix3();
-	private _pointer            = new GL.Vector2();
-	private _pointerOld         = new GL.Vector2();
-	private _spherical          = new GL.Spherical();
+	private _vector             = new THREE.Vector3();
+	private _normalMatrix       = new THREE.Matrix3();
+	private _pointer            = new THREE.Vector2();
+	private _pointerOld         = new THREE.Vector2();
+	private _spherical          = new THREE.Spherical();
 	private _changeEvent        = { type:'change' };
 
-	private _touch              = new GL.Vector3();
-	private _touches            = [ new GL.Vector3(), new GL.Vector3(), new GL.Vector3() ];
-	private _prevTouches        = [ new GL.Vector3(), new GL.Vector3(), new GL.Vector3() ];
+	private _touch              = new THREE.Vector3();
+	private _touches            = [ new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3() ];
+	private _prevTouches        = [ new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3() ];
 	private _prevDistance       = 0;
 
     // [ Private Events ]
@@ -171,15 +171,15 @@ export class EditorControls extends GL.EventDispatcher {
 
 		if ( this._state === STATE.ROTATE ) {
 
-			this.rotate( new GL.Vector3( - movementX * this._rotationSpeed, - movementY * this._rotationSpeed, 0 ) );
+			this.rotate( new THREE.Vector3( - movementX * this._rotationSpeed, - movementY * this._rotationSpeed, 0 ) );
 
 		} else if ( this._state === STATE.ZOOM ) {
 
-			this.zoom( new GL.Vector3( 0, 0, movementY ) );
+			this.zoom( new THREE.Vector3( 0, 0, movementY ) );
 
 		} else if ( this._state === STATE.PAN ) {
 
-			this.pan( new GL.Vector3( - movementX, movementY, 0 ) );
+			this.pan( new THREE.Vector3( - movementX, movementY, 0 ) );
 
 		}
 
@@ -202,7 +202,7 @@ export class EditorControls extends GL.EventDispatcher {
 
 		// if ( this.enabled === false ) return;
 
-		this.zoom( new GL.Vector3( 0, 0, event.deltaY ) );
+		this.zoom( new THREE.Vector3( 0, 0, event.deltaY ) );
 
 	}
 
@@ -247,7 +247,7 @@ export class EditorControls extends GL.EventDispatcher {
             this._touches[ 0 ].set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY, 0 );
             this._touches[ 1 ].set( event.touches[ 1 ].pageX, event.touches[ 1 ].pageY, 0 );
             let distance = this._touches[ 0 ].distanceTo( this._touches[ 1 ] );
-            this.zoom( new GL.Vector3( 0, 0, this._prevDistance - distance ) );
+            this.zoom( new THREE.Vector3( 0, 0, this._prevDistance - distance ) );
             this._prevDistance = distance;
 
             let offset0 = this._touches[ 0 ].clone().sub( this._getClosest( this._touches[ 0 ], this._prevTouches ) );
@@ -268,7 +268,7 @@ export class EditorControls extends GL.EventDispatcher {
 		event.preventDefault();
 	}
 
-    private _getClosest = ( touch:GL.Vector3, touches:GL.Vector3[] ) => {
+    private _getClosest = ( touch:THREE.Vector3, touches:THREE.Vector3[] ) => {
 
         let closest = touches[ 0 ];
 

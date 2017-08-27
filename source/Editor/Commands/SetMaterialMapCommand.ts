@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { Command    }   from './Command';
 
 /**
@@ -56,7 +56,7 @@ export class SetMaterialMapCommand extends Command {
 
     // [ Constructor ]
 
-    constructor( object:any, mapName:string, newMap:GL.Texture ) {
+    constructor( object:any, mapName:string, newMap:THREE.Texture ) {
         super();
 
         this.type       = 'SetMaterialMapCommand';
@@ -70,8 +70,8 @@ export class SetMaterialMapCommand extends Command {
     // [ Private Variables ]
 
     private _mapName    : string;
-    private _oldMap     : GL.Texture;
-    private _newMap     : GL.Texture;
+    private _oldMap     : THREE.Texture;
+    private _newMap     : THREE.Texture;
 
     // [ Private Functions ]
 
@@ -110,7 +110,7 @@ export class SetMaterialMapCommand extends Command {
 
         let map : any = null;
         if ( json !== null ) {
-            let loader      = new GL.ObjectLoader();
+            let loader      = new THREE.ObjectLoader();
             let images      = loader.parseImages( json.images, ()=>{} );
             let textures    = loader.parseTextures( [ json ], images );
             map = textures[ json.uuid ];

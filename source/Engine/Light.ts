@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Behaviour      }   from './Behaviour';
 import { GameObject     }   from './GameObject';
 import { LightType      }   from './LightType';
@@ -38,10 +38,10 @@ export class Light extends Behaviour {
      * get GL.Light
      *
      * @readonly
-     * @type {GL.Light}
+     * @type {THREE.Light}
      * @memberof Light
      */
-    get core() : GL.Light { return <GL.Light>this.gameObject.core; }
+    get core() : THREE.Light { return <THREE.Light>this.gameObject.core; }
     /*
     cullingMask	This is used to light certain objects in the scene selectively.
     flare	The flare asset to use for this light.
@@ -108,7 +108,7 @@ export class Light extends Behaviour {
                     let distance    = 0.0;
                     let angle       = Math.PI * 0.1;
                     let exponent    = 10.0;
-                    let light = new GL.SpotLight ( color, intensity, distance, angle, exponent );
+                    let light = new THREE.SpotLight ( color, intensity, distance, angle, exponent );
                     light.target.name = light.name + ' Target';
                     light.position.set(5, 10, 7.5);
                     light.castShadow = true;
@@ -118,7 +118,7 @@ export class Light extends Behaviour {
             case LightType.Directional: {
                     let color       = 0xffffff;
                     let intensity   = 1.0;
-                    let light = new GL.DirectionalLight ( color, intensity );
+                    let light = new THREE.DirectionalLight ( color, intensity );
                     light.target.name = light.name + ' Target';
                     light.position.set(5, 10, 7.5);
                     light.castShadow = true;
@@ -131,7 +131,7 @@ export class Light extends Behaviour {
                     let color       = 0xffffff;
                     let intensity   = 1.0;
                     let distance    = 0.0;
-                    let light = new GL.PointLight ( color, intensity, distance );
+                    let light = new THREE.PointLight ( color, intensity, distance );
                     light.castShadow = true;
                     this._gameObject.core = light;
                 }
@@ -140,14 +140,14 @@ export class Light extends Behaviour {
                     let skyColor    = 0x00aaff;
                     let groundColor = 0xffaa00;
                     let intensity   = 1.0;
-                    let light = new GL.HemisphereLight ( skyColor, groundColor, intensity );
+                    let light = new THREE.HemisphereLight ( skyColor, groundColor, intensity );
                     light.position.set( 0, 10, 0 );
                     this._gameObject.core = light;
                 }
                 break;
             case LightType.Ambient: {
                     let color = 0x222222;
-                    let light = new GL.AmbientLight ( color );
+                    let light = new THREE.AmbientLight ( color );
                     light.position.set( 0, 20, 0 );
                     this._gameObject.core = light;
                 }

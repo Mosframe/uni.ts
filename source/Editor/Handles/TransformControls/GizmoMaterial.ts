@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL }   from '../../../Engine/Graphic';
+import { THREE }   from '../../../Engine/Core';
 
 /**
  * GizmoMaterial
@@ -14,7 +14,7 @@ import { GL }   from '../../../Engine/Graphic';
  * @class GizmoMaterial
  * @extends {GL.MeshBasicMaterial}
  */
-export class GizmoMaterial extends GL.MeshBasicMaterial {
+export class GizmoMaterial extends THREE.MeshBasicMaterial {
 
     // [ Public Functions ]
 
@@ -30,12 +30,12 @@ export class GizmoMaterial extends GL.MeshBasicMaterial {
 
     // [ Constructor ]
 
-    constructor ( parameters?:GL.MeshBasicMaterialParameters ) {
+    constructor ( parameters?:THREE.MeshBasicMaterialParameters ) {
         super(parameters);
 
 		this.depthTest      = false;
 		this.depthWrite     = false;
-		this.side           = GL.FrontSide;
+		this.side           = THREE.FrontSide;
 		this.transparent    = true;
         if( parameters ) this.setValues( parameters );
 		this._oldColor      = this.color.clone();
@@ -44,7 +44,7 @@ export class GizmoMaterial extends GL.MeshBasicMaterial {
 
     // [ Private Veriables ]
 
-    private _oldColor    : GL.Color;
+    private _oldColor    : THREE.Color;
     private _oldOpacity  : number;
 }
 

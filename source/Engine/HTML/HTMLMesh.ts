@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL          } from '../Graphic';
+import { THREE          } from '../Core';
 import { HTMLTexture } from './HTMLTexture';
 
 /**
@@ -15,13 +15,13 @@ import { HTMLTexture } from './HTMLTexture';
  * @class HTMLMesh
  * @extends {GL.Mesh}
  */
-export class HTMLMesh extends GL.Mesh {
+export class HTMLMesh extends THREE.Mesh {
 
     constructor ( dom:HTMLElement ) {
 
         let texture = new HTMLTexture( dom );
-        let geometry = new GL.PlaneGeometry( texture.image.width * 0.05, texture.image.height * 0.05 );
-        let material = new GL.MeshBasicMaterial( { map: texture } );
+        let geometry = new THREE.PlaneGeometry( texture.image.width * 0.05, texture.image.height * 0.05 );
+        let material = new THREE.MeshBasicMaterial( { map: texture } );
 
         super( geometry, material );
 

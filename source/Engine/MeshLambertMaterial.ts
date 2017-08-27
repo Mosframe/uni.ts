@@ -6,7 +6,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Material       }   from './Material';
 import { Color          }   from './Color';
 import { ShaderType     }   from './ShaderType';
@@ -30,7 +30,7 @@ export class MeshLambertMaterial extends Material {
      *
      * @memberof Material
      */
-    get core() : GL.MeshLambertMaterial { return <GL.MeshLambertMaterial>this._core; }
+    get core() : THREE.MeshLambertMaterial { return <THREE.MeshLambertMaterial>this._core; }
 
     /**
      * The main material's color.
@@ -55,7 +55,7 @@ export class MeshLambertMaterial extends Material {
 
     // [ Protected Functions ]
     protected create() {
-        this._core = new GL.MeshLambertMaterial({color:0xffffff});
+        this._core = new THREE.MeshLambertMaterial({color:0xffffff});
     }
 
     // [ Protected Static Functions ]

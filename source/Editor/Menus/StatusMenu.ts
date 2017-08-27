@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                         }   from '../../Engine/Graphic'                 ;
+import { THREE                         }   from '../../Engine/Core'                 ;
 import { UIPanel                    }   from '../../Engine/UI/UIPanel'              ;
 import { UIRow                      }   from '../../Engine/UI/UIRow'                ;
 import { UIButton                   }   from '../../Engine/UI/UIButton'             ;
@@ -51,7 +51,7 @@ export class StatusMenu extends Menu {
             autosave.text.setTextDecoration( 'none' );
         });
 
-        let version = new UIText( 'r' + GL.REVISION );
+        let version = new UIText( 'r' + THREE.REVISION );
         version.setClass( 'title' );
         version.setOpacity( '0.5' );
         this.add( version );

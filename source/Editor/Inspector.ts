@@ -1,9 +1,13 @@
-import * as THREE          from 'three';
+/**
+ * Inspector.ts
+ *
+ * @author mosframe / https://github.com/mosframe
+ */
+import {THREE           }  from '../Engine/Core';
 import {EditorWindow    }  from './EditorWindow';
 /**
  * Inspector
  *
- * @author mosframe / https://github.com/mosframe
  * @export
  * @class Inspector
  * @extends {EditorWindow}

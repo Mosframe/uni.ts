@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { GameObject     }   from './GameObject';
 import { Geometry       }   from './Geometry';
 import { Material       }   from './Material';
@@ -26,7 +26,7 @@ export class MeshRenderer extends Renderer {
 
     // [ Public Variables ]
 
-    get core() : GL.Mesh { return <GL.Mesh>this.gameObject.core; }
+    get core() : THREE.Mesh { return <THREE.Mesh>this.gameObject.core; }
 
     /*
     additionalVertexStreams	Vertex attributes in this mesh will override or add attributes of the primary mesh in the MeshRenderer.

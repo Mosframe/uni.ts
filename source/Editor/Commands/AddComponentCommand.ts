@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL   	        }   from '../../Engine/Graphic';
+import { THREE   	    }   from '../../Engine/Core';
 import { Ubject         }   from '../../Engine/Ubject';
 import { GameObject     }   from '../../Engine/GameObject';
 import { SceneManager   }   from '../../Engine/SceneManager';

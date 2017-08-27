@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Ubject         }   from './Ubject';
 import { Geometry       }   from './Geometry';
 import { Serializable   }   from './Serializable';
@@ -30,7 +30,7 @@ export class Mesh extends Ubject {
     colors	Vertex colors of the Mesh.
     colors32	Vertex colors of the Mesh.
     */
-    get core        () : GL.Mesh        { return this._core; }
+    get core        () : THREE.Mesh        { return this._core; }
     get geometry    () : Geometry       { return this._geometry; }
     set geometry    ( value:Geometry )  { this._geometry=value; this._onChanged(); }
     /*
@@ -97,13 +97,13 @@ export class Mesh extends Ubject {
      */
     constructor() {
         super();
-        this._core = new GL.Mesh();
+        this._core = new THREE.Mesh();
     }
 
     // [ Protected Variables ]
 
     //@Serializable
-    protected _core     : GL.Mesh;
+    protected _core     : THREE.Mesh;
     //@Serializable
     protected _geometry : Geometry;
 

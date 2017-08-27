@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL             }   from '../../Engine/Graphic';
+import { THREE          }   from '../../Engine/Core';
 import { System         }   from '../../Engine/System';
 import { UIPanel        }   from '../../Engine/UI/UIPanel';
 import { UIButton       }   from '../../Engine/UI/UIButton';
@@ -60,7 +60,7 @@ export class MaterialEditor extends UIPanel {
         managerRow.add( new UIText( '' ).setWidth( '90px' ) );
         managerRow.add( new UIButton( 'New' ).onClick( () => {
 
-            let material = new GL[ materialClass.getValue() ]();
+            let material = new THREE[ materialClass.getValue() ]();
             tool.execute( new SetMaterialCommand( currentObject, material ), 'New Material: ' + materialClass.getValue() );
             update();
 
@@ -115,7 +115,7 @@ export class MaterialEditor extends UIPanel {
         let materialUUID = new UIInput().setWidth( '102px' ).setFontSize( '12px' ).setDisabled( true );
         let materialUUIDRenew = new UIButton( 'New' ).setMarginLeft( '7px' ).onClick( () => {
 
-            materialUUID.setValue( GL.Math.generateUUID() );
+            materialUUID.setValue( THREE.Math.generateUUID() );
             update();
 
         } );
@@ -384,7 +384,7 @@ export class MaterialEditor extends UIPanel {
 
         let materialEnvMapRow = new UIRow();
         let materialEnvMapEnabled = new UICheckbox( false ).onChange( update );
-        let materialEnvMap = new UITexture( GL.SphericalReflectionMapping ).onChange( update );
+        let materialEnvMap = new UITexture( THREE.SphericalReflectionMapping ).onChange( update );
         let materialReflectivity = new UINumber( 1 ).setWidth( '30px' ).onChange( update );
 
         materialEnvMapRow.add( new UIText( 'Env Map' ).setWidth( '90px' ) );
@@ -537,9 +537,9 @@ export class MaterialEditor extends UIPanel {
             let textureWarning = false;
             let objectHasUvs = false;
 
-            if ( object instanceof GL.Sprite ) objectHasUvs = true;
-            if ( geometry instanceof GL.Geometry && geometry.faceVertexUvs[ 0 ].length > 0 ) objectHasUvs = true;
-            if ( geometry instanceof GL.BufferGeometry && (<any>geometry.attributes).uv !== undefined ) objectHasUvs = true;
+            if ( object instanceof THREE.Sprite ) objectHasUvs = true;
+            if ( geometry instanceof THREE.Geometry && geometry.faceVertexUvs[ 0 ].length > 0 ) objectHasUvs = true;
+            if ( geometry instanceof THREE.BufferGeometry && (<any>geometry.attributes).uv !== undefined ) objectHasUvs = true;
 
             if ( material ) {
 
@@ -549,9 +549,9 @@ export class MaterialEditor extends UIPanel {
 
                 }
 
-                if ( material instanceof GL[ materialClass.getValue() ] === false ) {
+                if ( material instanceof THREE[ materialClass.getValue() ] === false ) {
 
-                    material = new GL[ materialClass.getValue() ]();
+                    material = new THREE[ materialClass.getValue() ]();
 
                     tool.execute( new SetMaterialCommand( currentObject, material ), 'New Material: ' + materialClass.getValue() );
                     // TODO Copy other references in the scene graph

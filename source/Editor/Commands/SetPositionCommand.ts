@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { Command    }   from './Command';
 
 /**
@@ -48,13 +48,13 @@ export class SetPositionCommand extends Command {
 	fromJSON ( json:any ) {
         super.fromJSON( json );
 		this.object         = this._tool.objectByUuid( json.objectUuid );
-		this._oldPosition   = new GL.Vector3().fromArray( json.oldPosition );
-		this._newPosition   = new GL.Vector3().fromArray( json.newPosition );
+		this._oldPosition   = new THREE.Vector3().fromArray( json.oldPosition );
+		this._newPosition   = new THREE.Vector3().fromArray( json.newPosition );
 	}
 
     // [ Constructor ]
 
-    constructor( object:GL.Object3D, newPosition:GL.Vector3, optionalOldPosition?:GL.Vector3 ) {
+    constructor( object:THREE.Object3D, newPosition:THREE.Vector3, optionalOldPosition?:THREE.Vector3 ) {
         super();
 
         this.type       = 'SetPositionCommand';
@@ -74,6 +74,6 @@ export class SetPositionCommand extends Command {
 
     // [ Private Variables ]
 
-    private _oldPosition    : GL.Vector3;
-    private _newPosition    : GL.Vector3;
+    private _oldPosition    : THREE.Vector3;
+    private _newPosition    : THREE.Vector3;
 }

@@ -4,7 +4,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 import { UnitsEditor                }   from '../../Editor';
-import { GL                         }   from '../../Engine';
+import { THREE                      }   from '../../Engine';
 import { Component                  }   from '../../Engine';
 import { Transform                  }   from '../../Engine';
 import { GameObject                 }   from '../../Engine';

@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 
 /**
  * Representation of RGBA colors.
@@ -18,7 +18,7 @@ import { GL             }   from './Graphic';
  * @class Color
  * @extends {Ubject}
  */
-export class Color extends GL.Color{
+export class Color extends THREE.Color{
 
     // [ Public Delegates ]
 

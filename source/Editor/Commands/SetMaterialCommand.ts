@@ -7,7 +7,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL         }   from '../../Engine/Graphic';
+import { THREE      }   from '../../Engine/Core';
 import { Command    }   from './Command';
 
 /**
@@ -53,7 +53,7 @@ export class SetMaterialCommand extends Command {
 
     // [ Constructor ]
 
-    constructor( object:any, newMaterial:GL.Material ) {
+    constructor( object:any, newMaterial:THREE.Material ) {
         super();
 
         this.type           = 'SetMaterialCommand';
@@ -65,14 +65,14 @@ export class SetMaterialCommand extends Command {
 
     // [ Private Variables ]
 
-    private _oldMaterial : GL.Material;
-    private _newMaterial : GL.Material;
+    private _oldMaterial : THREE.Material;
+    private _newMaterial : THREE.Material;
 
     // [ Private Functions ]
 
     private _parseMaterial ( json:any ) {
 
-        let loader      = new GL.ObjectLoader();
+        let loader      = new THREE.ObjectLoader();
         let images      = loader.parseImages( json.images, () => {} );
         let textures    = loader.parseTextures( json.textures, images );
         let materials   = loader.parseMaterials( [ json ], textures );

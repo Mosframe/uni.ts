@@ -5,7 +5,7 @@
  * @author mosframe / https://github.com/mosframe
  */
 
-import { GL                 }   from '../../Engine/Graphic';
+import { THREE                 }   from '../../Engine/Core';
 import { MoveObjectCommand  }   from '../Commands/MoveObjectCommand';
 import { TGALoader          }   from '../Loaders/TGAloader';
 import { UIElement          }   from '../../Engine/UI/UIElement';
@@ -72,7 +72,7 @@ export class UITexture  extends UIElement {
     }
 
 
-    constructor ( mapping?:GL.Mapping ) {
+    constructor ( mapping?:THREE.Mapping ) {
 
         super( document.createElement( 'span' ), 'texture' );
 
@@ -128,7 +128,7 @@ export class UITexture  extends UIElement {
 
                         let canvas = new TGALoader().parse( event.target.result );
 
-                        let texture = new GL.CanvasTexture( canvas, mapping );
+                        let texture = new THREE.CanvasTexture( canvas, mapping );
                         texture.sourceFile = file.name;
 
                         scope.setValue( texture );
@@ -146,7 +146,7 @@ export class UITexture  extends UIElement {
                         let image = document.createElement( 'img' );
                         image.addEventListener( 'load', ( event ) => {
 
-                            let texture = new GL.Texture( image, mapping );
+                            let texture = new THREE.Texture( image, mapping );
                             texture.sourceFile = file.name;
                             texture.needsUpdate = true;
 

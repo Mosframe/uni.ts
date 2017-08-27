@@ -8,7 +8,7 @@
  * @author Mosframe / https://github.com/Mosframe
  */
 
-import { GL }   from '../Graphic';
+import { THREE }   from '../Core';
 
 /**
  * Web VR
@@ -145,7 +145,7 @@ export class WebVR {
 
 	static getButton ( display, canvas?:any ) {
 
-		if ( 'VREffect' in GL && display instanceof GL.VREffect ) {
+		if ( 'VREffect' in THREE && display instanceof THREE.VREffect ) {
 
 			console.error( 'WebVR.getButton() now expects a VRDisplay.' );
 			return document.createElement( 'button' );

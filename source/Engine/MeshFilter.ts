@@ -5,7 +5,7 @@
  */
 
 import { UnitsEngine    }   from './UnitsEngine';
-import { GL             }   from './Graphic';
+import { THREE          }   from './Core';
 import { Ubject         }   from './Ubject';
 import { Component      }   from './Component';
 import { GameObject     }   from './GameObject';
@@ -30,10 +30,10 @@ export class MeshFilter extends Component {
      * get GL.Mesh
      *
      * @readonly
-     * @type {GL.Mesh}
+     * @type {THREE.Mesh}
      * @memberof MeshFilter
      */
-    get core () : GL.Mesh { return <GL.Mesh>this.gameObject.core; }
+    get core () : THREE.Mesh { return <THREE.Mesh>this.gameObject.core; }
 
     /**
      * Returns the instantiated Mesh assigned to the mesh filter.
