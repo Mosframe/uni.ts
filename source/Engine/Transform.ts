@@ -112,7 +112,7 @@ export class Transform extends Component {
      */
     Rotate ( eulerAngles:Vector3, relativeTo:Space=Space.Self ) {
 
-        let q = new Quaternion();
+        let q = new THREE.Quaternion();
 
         if( relativeTo == Space.Self ) {
 
@@ -127,16 +127,34 @@ export class Transform extends Component {
             this.core.quaternion.multiply( q );
 
         } else {
-            // 공사중....
-            //this.core.getWorldQuaternion();
 
-            let position    = new THREE.Vector3();
-            let quaternion  = new THREE.Quaternion();
-            let scale       = new THREE.Vector3();
+            // 공사중...
 
-            this.core.matrixWorld.decompose( position, quaternion, scale );
+            this.core.updateMatrixWorld(true);
 
-            this.core.rotateOnAxis( new Vector3(1,0,0), eulerAngles.x*THREE.Math.DEG2RAD );
+            let prm = new THREE.Matrix4();
+            prm.extractRotation( this.core.parent.matrixWorld );
+            let iprm = new THREE.Matrix4();
+
+
+            let rm = new THREE.Matrix4();
+            rm.extractRotation( this.core.matrixWorld );
+            let qw = new THREE.Quaternion();
+            qw.setFromRotationMatrix( rm );
+
+            let qxyz = new THREE.Quaternion();
+            qxyz.setFromEuler( new THREE.Euler(eulerAngles.x*THREE.Math.DEG2RAD,eulerAngles.y*THREE.Math.DEG2RAD,eulerAngles.z*THREE.Math.DEG2RAD) );
+
+            // 회전값 = ~부모회전값 * 추가회전값 * 현재회전값
+
+            q.setFromRotationMatrix( iprm.getInverse( prm ) );
+
+            q.multiplyQuaternions( q, qxyz );
+
+            q.multiplyQuaternions( q, qw );
+
+
+            this.core.quaternion.copy( q );
         }
     }
     /*

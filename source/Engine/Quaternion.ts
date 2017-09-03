@@ -65,7 +65,39 @@ export class Quaternion extends THREE.Quaternion {
     Set	Set x, y, z and w components of an existing Quaternion.
     SetFromToRotation	Creates a rotation which rotates from fromDirection to toDirection.
     SetLookRotation	Creates a rotation with the specified forward and upwards directions.
-    ToAngleAxis	Converts a rotation to angle-axis representation (angles in degrees).
+    */
+    /**
+     * Converts a rotation to angle-axis representation (angles in degrees).
+     *
+     * @returns {{axis:Vector3,angle:number}}
+     * @memberof Quaternion
+     */
+    ToAngleAxis () : {axis:Vector3,angle:number} {
+
+        let angle   = 0;
+        let axis    = new Vector3();
+
+        let q1 = this.x;
+        let q2 = this.y;
+        let q3 = this.z;
+
+        let sin_squared = q1 * q1 + q2 * q2 + q3 * q3;
+
+        if (sin_squared > 0.0) {
+            let sin_theta = Math.sqrt(sin_squared);
+            let k = 2.0 * Math.atan2(sin_theta, this.w) / sin_theta;
+            axis.x = q1 * k;
+            axis.y = q2 * k;
+            axis.z = q3 * k;
+        } else {
+            let k = 2.0;
+            axis.x = q1 * k;
+            axis.y = q2 * k;
+            axis.z = q3 * k;
+        }
+        return {axis,angle};
+    }
+    /*
     ToString	Returns a nicely formatted string of the Quaternion.
     */
 
